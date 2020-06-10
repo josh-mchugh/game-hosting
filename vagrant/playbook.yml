@@ -1,0 +1,49 @@
+---
+
+- name: Minecraft Playbook
+  hosts: all
+  tasks: 
+
+  - name: Install Dependencies
+    apt: 
+      name:
+        - openjdk-8-jre-headless
+        - screen
+        - python-pip
+      state: present
+      install_recommends: no
+    become: yes      
+
+  - name: Create server directory
+    file:
+      path: ~/server
+      state: directory
+
+  - name: Get Minecraft server jar
+    get_url:
+      url: https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
+      dest: ~/server
+
+  - name: Initialize Minecraft server
+    command: 
+      cmd: java -jar -Xms1G -Xmx1G server.jar --initSettings --nogui
+      chdir: ~/server
+
+  - name: Set Minecraft server-ip
+    lineinfile: 
+      path: ~/server/server.properties
+      regex: 'server-ip='
+      line: server-ip={{ ansible_default_ipv4.address }}
+
+  - name: Approve Minecraft Eula terms
+    lineinfile: 
+      path: ~/server/eula.txt
+      regex: 'eula=false'
+      line: eula=true
+
+  - name: Install Bottle
+    pip:
+      name: 
+        - bottle
+        - gevent<=1.2.x
+        - gevent-websocket
