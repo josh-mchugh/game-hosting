@@ -9,7 +9,9 @@
       name:
         - openjdk-8-jre-headless
         - screen
+        - gcc
         - python-pip
+        - python-dev
       state: present
       install_recommends: no
     become: yes      
@@ -41,9 +43,8 @@
       regex: 'eula=false'
       line: eula=true
 
-  - name: Install Bottle
+  - name: Install Flask
     pip:
       name: 
-        - bottle
-        - gevent<=1.2.x
-        - gevent-websocket
+        - flask
+        - psutil

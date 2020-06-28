@@ -1,51 +1,33 @@
 #!/usr/bin/python
 
-import os
-import sys
-import subprocess
-import select
-
+from subprocess import PIPE
+import psutil
 
 def server_command(cmd):
-  os.system('screen -S minecraft -X stuff "{}\015"'.format(cmd))
+  p = psutil.Popen(["screen", "-S", "minecraft", "-X", "stuff", "{}\015".format(cmd)], stdout=PIPE, stderr=PIPE)
 
-def tailLogs(ws, endLog, message):
-  f = subprocess.Popen(['tail','-F', "-n +1", "/home/vagrant/server/logs/latest.log"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-  p = select.poll()
-  p.register(f.stdout)
-
-  while True:
-    if p.poll(1):
-      log = f.stdout.readline().strip()
-      ws.send(log)
-      if endLog in log:
-        ws.send(message)
-        break 
-
-def start(ws):
+def start():
   if not status():
-    subprocess.Popen(["screen", "-dmS", 'minecraft', "java", "-jar", "-Xms3g", "-Xmx4g", "server.jar", "--nogui"], cwd="/home/vagrant/server", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    tailLogs(ws, "Done", "Server Started")
-  else:
-    ws.send("Server already started.")
+    p = psutil.Popen(["screen", "-dmS", "minecraft", "java", "-jar", "-Xms3g", "-Xmx4g", "server.jar", "--nogui"], cwd="/home/vagrant/server", stdout=PIPE, stderr=PIPE)
+    return "Server started"
+  
+  return "Server already started"
 
-def stop(ws):
+def stop():
   if status():
-      server_command('stop')
-      tailLogs(ws, "(world): All chunks are saved", "Server stopped.")
-  else:
-      ws.send("Server not started")
+      server_command("stop")
+      return "Server stoppped"
+  
+  return "Server not started"
 
 def status():
-  output = os.popen('screen -ls').read()
-  if '.minecraft' in output:
+  p = psutil.Popen(["screen", '-ls'], stdout=PIPE, stderr=PIPE)
+  output = p.communicate()[0]
+  if ".minecraft" in output:
       return True
-  else:
-      return False
+  
+  return False
 
-def serverMsg(ws, msg):
+def tell(msg):
   server_command("/tell @a " + msg)
-  ws.send("Message sent")
-
-def serverStatus(ws):
-  ws.send("Server is running.") if status() else ws.send("Server is not running.")
+  return "Message sent"
