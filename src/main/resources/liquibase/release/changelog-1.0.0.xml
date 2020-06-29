@@ -6,4 +6,31 @@
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
            http://www.liquibase.org/xml/ns/dbchangelog
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet id="1" author="jmchugh">
+        <createTable tableName="users">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__users" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="email" type="nvarchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invalid_login_attempts" type="bigint"/>
+            <column name="last_login_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
