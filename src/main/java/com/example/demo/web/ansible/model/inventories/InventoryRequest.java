@@ -1,4 +1,4 @@
-package com.example.demo.controller.ansible.model.inventories;
+package com.example.demo.web.ansible.model.inventories;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

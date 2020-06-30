@@ -1,15 +1,15 @@
-package com.example.demo.controller.ansible;
+package com.example.demo.web.ansible;
 
-import com.example.demo.controller.ansible.model.ListResponse;
-import com.example.demo.controller.ansible.model.Ping;
-import com.example.demo.controller.ansible.model.inventories.Inventory;
-import com.example.demo.controller.ansible.model.inventories.InventoryRequest;
-import com.example.demo.controller.ansible.model.jobs.Job;
-import com.example.demo.controller.ansible.model.jobs.JobRelaunchRequest;
-import com.example.demo.controller.ansible.model.organizations.Organization;
-import com.example.demo.controller.ansible.model.organizations.OrganizationRequest;
-import com.example.demo.controller.ansible.model.projects.Project;
-import com.example.demo.controller.ansible.model.projects.ProjectRequest;
+import com.example.demo.web.ansible.model.ListResponse;
+import com.example.demo.web.ansible.model.Ping;
+import com.example.demo.web.ansible.model.inventories.Inventory;
+import com.example.demo.web.ansible.model.inventories.InventoryRequest;
+import com.example.demo.web.ansible.model.jobs.Job;
+import com.example.demo.web.ansible.model.jobs.JobRelaunchRequest;
+import com.example.demo.web.ansible.model.organizations.Organization;
+import com.example.demo.web.ansible.model.organizations.OrganizationRequest;
+import com.example.demo.web.ansible.model.projects.Project;
+import com.example.demo.web.ansible.model.projects.ProjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
