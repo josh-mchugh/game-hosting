@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Game Server</title>
+        <link type="text/css" rel="stylesheet" th:href="@{/resources/bundle.css}" />
+        <script type="text/javascript" th:src="@{/resources/main.js}"></script>
+    </head>
+    <body>
+        <div class="container">
+            <main>
+                <div layout:fragment="content"></div>
+            </main>
+        </div>
+    </body>
+</html>

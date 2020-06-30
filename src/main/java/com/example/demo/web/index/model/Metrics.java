@@ -1,4 +1,4 @@
-package com.example.demo.controller.index.model;
+package com.example.demo.web.index.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

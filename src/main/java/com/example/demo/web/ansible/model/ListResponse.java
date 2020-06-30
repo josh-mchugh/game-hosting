@@ -1,4 +1,4 @@
-package com.example.demo.controller.ansible.model;
+package com.example.demo.web.ansible.model;
 
 import lombok.Data;
 
