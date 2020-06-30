@@ -1,6 +1,6 @@
-package com.example.demo.controller.ansible.model.organizations;
+package com.example.demo.web.ansible.model.organizations;
 
-import com.example.demo.controller.ansible.model.base.AbstractBase;
+import com.example.demo.web.ansible.model.base.AbstractBase;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.demo.controller.ansible.model.organizations;
+package com.example.demo.web.ansible.model.organizations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

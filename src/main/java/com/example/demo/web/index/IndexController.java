@@ -1,7 +1,7 @@
-package com.example.demo.controller.index;
+package com.example.demo.web.index;
 
-import com.example.demo.controller.index.model.Metrics;
-import com.example.demo.controller.index.model.Status;
+import com.example.demo.web.index.model.Metrics;
+import com.example.demo.web.index.model.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;

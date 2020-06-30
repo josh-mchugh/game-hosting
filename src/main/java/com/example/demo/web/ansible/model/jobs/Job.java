@@ -1,12 +1,10 @@
-package com.example.demo.controller.ansible.model.jobs;
+package com.example.demo.web.ansible.model.jobs;
 
-import com.example.demo.controller.ansible.model.base.AbstractBase;
+import com.example.demo.web.ansible.model.base.AbstractBase;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import java.util.List;
 
