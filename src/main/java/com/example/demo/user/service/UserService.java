@@ -1,11 +1,13 @@
 package com.example.demo.user.service;
 
+import com.example.demo.user.entity.QUserEntity;
 import com.example.demo.user.entity.UserEntity;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
+import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class UserService implements IUserService{
 
+    private final JPQLQueryFactory queryFactory;
     private final EntityManager entityManager;
 
     @Override
@@ -25,12 +28,64 @@ public class UserService implements IUserService{
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(request.getEmail());
         userEntity.setPassword(request.getPassword());
-        userEntity.setState(UserState.ACTIVE);
-        userEntity.setType(UserType.REGULAR);
+        userEntity.setState(request.getState());
+        userEntity.setType(request.getType());
         userEntity.setInvalidLoginAttempts(0L);
 
         entityManager.persist(userEntity);
 
         return UserMapper.map(userEntity);
+    }
+
+    @Override
+    public Boolean existUserByEmail(String email) {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        long count = queryFactory.select(qUser.id)
+                .from(qUser)
+                .where(qUser.email.eq(email))
+                .fetchCount();
+
+        return count >= 1;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+
+        UserEntity userEntity = findUserByEmail(email);
+
+        return UserMapper.map(userEntity);
+    }
+
+    @Override
+    public User handleIncrementInvalidLogin(String email) {
+
+        UserEntity userEntity = findUserByEmail(email);
+        userEntity.setInvalidLoginAttempts(userEntity.getInvalidLoginAttempts() + 1);
+
+        entityManager.persist(userEntity);
+
+        return UserMapper.map(userEntity);
+    }
+
+    @Override
+    public User handleResetInvalidLogin(String email) {
+
+        UserEntity userEntity = findUserByEmail(email);
+        userEntity.setInvalidLoginAttempts(0L);
+
+        entityManager.persist(userEntity);
+
+        return UserMapper.map(userEntity);
+    }
+
+    private UserEntity findUserByEmail(String email) {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        return queryFactory.selectFrom(qUser)
+                .where(qUser.email.eq(email))
+                .fetchOne();
     }
 }
