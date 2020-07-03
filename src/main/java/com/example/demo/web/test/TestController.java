@@ -1,7 +1,7 @@
-package com.example.demo.web.index;
+package com.example.demo.web.test;
 
-import com.example.demo.web.index.model.Metrics;
-import com.example.demo.web.index.model.Status;
+import com.example.demo.web.test.model.Metrics;
+import com.example.demo.web.test.model.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ import java.time.Duration;
 
 @Slf4j
 @Controller
-@RequestMapping("")
-public class IndexController {
+@RequestMapping("/test")
+public class TestController {
 
     @GetMapping("")
     public String getDefault() {

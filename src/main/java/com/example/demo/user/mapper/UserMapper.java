@@ -7,9 +7,15 @@ public class UserMapper {
 
     public static User map(UserEntity entity) {
 
+        if (entity == null) {
+
+            return null;
+        }
+
         return User.builder()
                 .id(entity.getId())
                 .email(entity.getEmail())
+                .password(entity.getPassword())
                 .state(entity.getState())
                 .type(entity.getType())
                 .invalidLoginAttempts(entity.getInvalidLoginAttempts())

@@ -2,6 +2,7 @@ package com.example.demo.user.model;
 
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Value;
 
@@ -13,6 +14,8 @@ public class User {
 
     String id;
     String email;
+    @JsonIgnore
+    String password;
     UserState state;
     UserType type;
     Long invalidLoginAttempts;
