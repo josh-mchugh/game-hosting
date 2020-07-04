@@ -33,4 +33,28 @@
             <column name="last_login_date" type="timestamp"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="jmchugh">
+        <createTable tableName="email">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__email" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="template" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_address" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="context" type="nvarchar(MAX)"/>
+            <column name="mailing_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
