@@ -1,5 +1,8 @@
 package com.example.demo.framework;
 
+import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.service.IEmailService;
+import com.example.demo.email.service.model.EmailCreateRequest;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.service.IUserService;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class SeedDataRunner implements ApplicationRunner {
 
     private final IUserService userService;
+    private final IEmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -30,6 +34,12 @@ public class SeedDataRunner implements ApplicationRunner {
             userService.handleCreateUser(createAdminUser());
         }
 
+        if(!emailService.existsPendingEmails()) {
+
+            log.info("Creating pending emails");
+            createPendingEmails();
+        }
+
         log.info("Initialization of seed data complete.");
     }
 
@@ -41,5 +51,19 @@ public class SeedDataRunner implements ApplicationRunner {
                 .state(UserState.ACTIVE)
                 .type(UserType.ADMIN)
                 .build();
+    }
+
+    private void createPendingEmails() {
+
+        for(int i = 0; i < 40; i++) {
+
+            EmailCreateRequest request = EmailCreateRequest.builder()
+                    .template(EmailTemplate.TEST)
+                    .toAddress(String.format("test%s@test%s.com", i, i))
+                    .context("name", String.format("name%s", i))
+                    .build();
+
+            emailService.handleCreateEmail(request);
+        }
     }
 }
