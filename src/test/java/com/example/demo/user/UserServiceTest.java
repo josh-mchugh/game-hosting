@@ -32,11 +32,11 @@ public class UserServiceTest {
         User user = userService.handleCreateUser(request);
 
         Assertions.assertTrue(StringUtils.isNotEmpty(user.getId()));
-        Assertions.assertEquals(user.getEmail(), request.getEmail());
+        Assertions.assertEquals(request.getEmail(), user.getEmail());
         Assertions.assertTrue(StringUtils.isNotEmpty(user.getPassword()));
-        Assertions.assertEquals(user.getState(), request.getState());
-        Assertions.assertEquals(user.getType(), UserType.ADMIN);
-        Assertions.assertEquals(user.getInvalidLoginAttempts(), 0L);
+        Assertions.assertEquals(request.getState() ,user.getState());
+        Assertions.assertEquals(UserType.ADMIN, user.getType());
+        Assertions.assertEquals(0L, user.getInvalidLoginAttempts());
         Assertions.assertNull(user.getLastLoginDate());
     }
 
@@ -53,11 +53,11 @@ public class UserServiceTest {
         User user = userService.handleCreateUser(request);
 
         Assertions.assertTrue(StringUtils.isNotEmpty(user.getId()));
-        Assertions.assertEquals(user.getEmail(), request.getEmail());
+        Assertions.assertEquals(request.getEmail(), user.getEmail());
         Assertions.assertTrue(StringUtils.isNotEmpty(user.getPassword()));
-        Assertions.assertEquals(user.getState(), request.getState());
-        Assertions.assertEquals(user.getType(), UserType.REGULAR);
-        Assertions.assertEquals(user.getInvalidLoginAttempts(), 0L);
+        Assertions.assertEquals(request.getState(), user.getState());
+        Assertions.assertEquals(UserType.REGULAR, user.getType());
+        Assertions.assertEquals(0L, user.getInvalidLoginAttempts());
         Assertions.assertNull(user.getLastLoginDate());
     }
 
@@ -100,7 +100,7 @@ public class UserServiceTest {
 
         User user = userService.getUserByEmail(request.getEmail());
 
-        Assertions.assertEquals(user.getEmail(), request.getEmail());
+        Assertions.assertEquals(request.getEmail(), user.getEmail());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class UserServiceTest {
                 .build();
 
         User user = userService.handleCreateUser(request);
-        Assertions.assertEquals(user.getInvalidLoginAttempts(), 0L);
+        Assertions.assertEquals(0L, user.getInvalidLoginAttempts());
 
         user = userService.handleIncrementInvalidLogin(request.getEmail());
         Assertions.assertTrue(user.getInvalidLoginAttempts() > 0);
