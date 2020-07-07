@@ -1,0 +1,9 @@
+.form-group {
+    .required {
+        &:after {
+            content: "*";
+            color: var(--red);
+            padding-left: 3px;
+        }
+    }
+}
