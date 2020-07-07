@@ -2,13 +2,12 @@ package com.example.demo.user.service;
 
 import com.example.demo.user.entity.QUserEntity;
 import com.example.demo.user.entity.UserEntity;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
 import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -21,13 +20,14 @@ public class UserService implements IUserService{
 
     private final JPQLQueryFactory queryFactory;
     private final EntityManager entityManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User handleCreateUser(UserCreateRequest request) {
 
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(request.getEmail());
-        userEntity.setPassword(request.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
         userEntity.setState(request.getState());
         userEntity.setType(request.getType());
         userEntity.setInvalidLoginAttempts(0L);

@@ -20,8 +20,8 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.UUID;
 
-@SpringBootTest
 @ActiveProfiles("test")
+@SpringBootTest
 public class EmailSenderServiceTest {
 
     @Autowired
