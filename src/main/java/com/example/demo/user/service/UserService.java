@@ -5,6 +5,7 @@ import com.example.demo.user.entity.UserEntity;
 import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.service.model.UserPasswordResetRequest;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -87,5 +88,21 @@ public class UserService implements IUserService{
         return queryFactory.selectFrom(qUser)
                 .where(qUser.email.eq(email))
                 .fetchOne();
+    }
+
+    @Override
+    public User handlePasswordReset(UserPasswordResetRequest request) {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        UserEntity userEntity = queryFactory.selectFrom(qUser)
+                .where(qUser.recoveryTokenEntity.id.eq(request.getRecoveryTokenId()))
+                .fetchOne();
+
+        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        entityManager.persist(userEntity);
+
+        return UserMapper.map(userEntity);
     }
 }

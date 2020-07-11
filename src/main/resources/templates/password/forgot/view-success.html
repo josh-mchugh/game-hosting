@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/single-column}">
+    <head>
+        <title>Forgot Password Success</title>
+    </head>
+    <body layout:fragment="content">
+        <div class="forgot-password">
+            <div class="text-center">
+                <h1 class="h3 font-weight-normal">Recovery Email Sent</h1>
+            </div>
+            <div class="mt-3">
+               Please check your email within the next hour for the next steps to reset your password.
+            </div>
+            <div class="mt-2">
+                If you can't see the mail, it might be in your spam folder or your account might be under a different email address.
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-primary btn-block" href="/login">Back to Login</a>.
+            </div>
+        </div>
+    </body>
+</html>

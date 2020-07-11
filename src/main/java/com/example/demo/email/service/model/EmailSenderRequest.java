@@ -14,6 +14,7 @@ public class EmailSenderRequest {
     String id;
     EmailTemplate template;
     String toAddress;
+    String fromAddress;
 
     @Singular("context")
     Map<String, Object> context;
