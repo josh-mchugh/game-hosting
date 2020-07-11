@@ -1,5 +1,7 @@
 package com.example.demo.web.registration;
 
+import com.example.demo.user.service.IUserService;
+import com.example.demo.util.PasswordUtil;
 import com.example.demo.web.registration.model.RegistrationForm;
 import com.example.demo.web.registration.service.IRegistrationService;
 import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
 
+    private final IUserService userService;
     private final IRegistrationService registrationService;
 
     @GetMapping("")
@@ -32,13 +35,13 @@ public class RegistrationController {
     @PostMapping("")
     public String postDefault(Model model, @Valid @ModelAttribute("form") RegistrationForm form, BindingResult results) {
 
-        if(registrationService.existsEmailAddress(form.getEmail())) {
+        if(userService.existUserByEmail(form.getEmail())) {
 
             results.rejectValue("email", "", "Email address already exists");
         }
 
         ValidatePasswordRequest validatePasswordRequest = new ValidatePasswordRequest(form.getPassword(), form.getConfirmPassword());
-        ValidatePasswordResponse validatePasswordResponse = registrationService.handleValidatePassword(validatePasswordRequest);
+        ValidatePasswordResponse validatePasswordResponse = PasswordUtil.validatePassword(validatePasswordRequest);
 
         if(!validatePasswordResponse.isValid()) {
 
@@ -63,6 +66,6 @@ public class RegistrationController {
     @GetMapping("/success")
     public String getRegistrationSuccess() {
 
-        return "registration/view-registration-success";
+        return "registration/view-success";
     }
 }

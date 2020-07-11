@@ -35,7 +35,8 @@ public class EmailSenderService implements IEmailSenderService{
 
             MimeMessageHelper helper = new MimeMessageHelper(emailSender.createMimeMessage(), StandardCharsets.UTF_8.name());
             helper.setTo(request.getToAddress());
-            helper.setFrom(appConfig.getEmail().getFromAddress());
+            //TODO: Fix so the from is persisted on email creation
+            helper.setFrom(appConfig.getEmail().getNoReplyAddress());
             helper.setSubject(request.getTemplate().getSubject());
             helper.setText(html, true);
 

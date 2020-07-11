@@ -29,7 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         String[] publicResources = new String[] {
             "/resources/**",
-            "/registration/**"
+            "/registration/**",
+            "/forgot-password/**",
+            "/reset-password/**"
         };
 
         http
