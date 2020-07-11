@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.service.model.UserPasswordResetRequest;
 
 public interface IUserService {
 
@@ -14,4 +15,6 @@ public interface IUserService {
     User handleIncrementInvalidLogin(String email);
 
     User handleResetInvalidLogin(String email);
+
+    User handlePasswordReset(UserPasswordResetRequest request);
 }

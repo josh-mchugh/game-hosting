@@ -1,5 +1,6 @@
 package com.example.demo.user.mapper;
 
+import com.example.demo.recovery.mapper.RecoveryTokenMapper;
 import com.example.demo.user.entity.UserEntity;
 import com.example.demo.user.model.User;
 
@@ -20,6 +21,7 @@ public class UserMapper {
                 .type(entity.getType())
                 .invalidLoginAttempts(entity.getInvalidLoginAttempts())
                 .lastLoginDate(entity.getLastLoginDate())
+                .recoveryToken(RecoveryTokenMapper.map(entity.getRecoveryTokenEntity()))
                 .build();
     }
 }
