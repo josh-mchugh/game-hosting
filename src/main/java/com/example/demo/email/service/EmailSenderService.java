@@ -3,7 +3,7 @@ package com.example.demo.email.service;
 import com.example.demo.email.entity.EmailStatus;
 import com.example.demo.email.service.model.EmailSenderRequest;
 import com.example.demo.email.service.model.EmailSenderResponse;
-import com.example.demo.framework.config.AppConfig;
+import com.example.demo.framework.properties.AppConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
