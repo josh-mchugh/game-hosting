@@ -1,5 +1,6 @@
 package com.example.demo.framework.config;
 
+import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.util.AppUrlUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
