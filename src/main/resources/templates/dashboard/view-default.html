@@ -5,7 +5,22 @@
     </head>
     <body layout:fragment="content">
         <div>
-            <h1>Hello Dashboard</h1>
+            <th:block th:if="${!details.emailVerified}">
+                <div class="alert alert-warning" role="alert">
+                    Verify your email address to begin hosting servers! <a class="email-resend-link" id="resendEmailVerification">Resend Email</a>
+                </div>
+            </th:block>
+            <div>
+                <h1>Hello Dashboard</h1>
+            </div>
         </div>
+        <script type="text/javascript">
+            $("#resendEmailVerification").on("click", function() {
+                $.post("/verify/resend")
+                    .done(function() {
+                        alert("Email Verification Sent");
+                    });
+            });
+        </script>
     </body>
 </html>

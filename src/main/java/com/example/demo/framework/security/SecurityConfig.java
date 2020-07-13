@@ -31,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/resources/**",
             "/registration/**",
             "/forgot-password/**",
-            "/reset-password/**"
+            "/reset-password/**",
+            "/verify/**"
         };
 
         http

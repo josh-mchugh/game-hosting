@@ -5,6 +5,7 @@ import com.example.demo.recovery.entity.RecoveryTokenEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,6 +40,9 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "last_login_date")
     private LocalDateTime lastLoginDate;
 
-    @OneToOne(orphanRemoval = true, mappedBy = "userEntity")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userEntity")
     private RecoveryTokenEntity recoveryTokenEntity;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userEntity")
+    private VerificationEntity verificationEntity;
 }

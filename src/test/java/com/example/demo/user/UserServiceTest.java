@@ -73,7 +73,7 @@ public class UserServiceTest {
 
         userService.handleCreateUser(request);
 
-        Boolean exists = userService.existUserByEmail(request.getEmail());
+        boolean exists = userService.existsUserByEmail(request.getEmail());
 
         Assertions.assertTrue(exists);
     }
@@ -81,7 +81,7 @@ public class UserServiceTest {
     @Test
     public void testNotExistsUser() {
 
-        Boolean exists = userService.existUserByEmail("notExistUser@notExistUser.com");
+        boolean exists = userService.existsUserByEmail("notExistUser@notExistUser.com");
 
         Assertions.assertFalse(exists);
     }
@@ -112,22 +112,35 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testIncrementUserInvalidLogin() {
+    public void testHandleAuthenticationSuccess() {
 
         UserCreateRequest request = UserCreateRequest.builder()
-                .email("increment.invalid@test.com")
+                .email("authentication-success@user-service.com")
                 .password("password")
                 .type(UserType.REGULAR)
                 .state(UserState.ACTIVE)
                 .build();
 
         User user = userService.handleCreateUser(request);
-        Assertions.assertEquals(0L, user.getInvalidLoginAttempts());
 
-        user = userService.handleIncrementInvalidLogin(request.getEmail());
+        user = userService.handleAuthenticationSuccess(user.getEmail());
+        Assertions.assertEquals(0L, user.getInvalidLoginAttempts());
+        Assertions.assertNotNull(user.getLastLoginDate());
+    }
+
+    @Test
+    public void testHandleAuthenticationFailure() {
+
+        UserCreateRequest request = UserCreateRequest.builder()
+                .email("authentication-failure@user-service.com")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .build();
+
+        User user = userService.handleCreateUser(request);
+
+        user = userService.handleAuthenticationFailure(user.getEmail());
         Assertions.assertTrue(user.getInvalidLoginAttempts() > 0);
-
-        user = userService.handleResetInvalidLogin(request.getEmail());
-        Assertions.assertEquals(0L, user.getInvalidLoginAttempts());
     }
 }

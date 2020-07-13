@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{email/layout/default}">
     <body layout:fragment="content">
-        <div>We would like to quickly verify your email account with us</div>
+        <div>
+            <p>You are nearly there!</p>
+            <p>We just need to verify your email address and then you will be on your way to setting up game servers!</p>
+        </div>
+        <div>
+            <a class="button" th:href="${verificationUrl}">Verify This Email</a>
+        </div>
+        <div>
+            Copyable link: <a th:href="${verificationUrl}">[[${verificationUrl}]]</a>
+        </div>
     </body>
 </html>
