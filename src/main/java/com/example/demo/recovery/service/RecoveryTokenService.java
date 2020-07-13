@@ -1,6 +1,6 @@
 package com.example.demo.recovery.service;
 
-import com.example.demo.framework.config.AppConfig;
+import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.recovery.entity.QRecoveryTokenEntity;
 import com.example.demo.recovery.entity.RecoveryTokenEntity;
 import com.example.demo.recovery.mapper.RecoveryTokenMapper;
