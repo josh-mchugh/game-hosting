@@ -35,7 +35,7 @@ public class RegistrationController {
     @PostMapping("")
     public String postDefault(Model model, @Valid @ModelAttribute("form") RegistrationForm form, BindingResult results) {
 
-        if(userService.existUserByEmail(form.getEmail())) {
+        if(userService.existsUserByEmail(form.getEmail())) {
 
             results.rejectValue("email", "", "Email address already exists");
         }

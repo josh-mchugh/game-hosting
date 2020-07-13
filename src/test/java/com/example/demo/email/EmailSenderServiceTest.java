@@ -63,7 +63,7 @@ public class EmailSenderServiceTest {
         MimeMessage[] messages = smtpServer.getReceivedMessages();
 
         // Assert received messages contains the correct information
-        Assertions.assertEquals(1, messages.length);
+        Assertions.assertTrue(messages.length >= 1);
         Assertions.assertEquals(request.getToAddress(), messages[0].getAllRecipients()[0].toString());
         Assertions.assertEquals(EmailTemplate.TEST.getSubject(), messages[0].getSubject());
         Assertions.assertTrue(String.valueOf(messages[0].getContent()).contains("tester"));

@@ -8,13 +8,19 @@ public interface IUserService {
 
     User handleCreateUser(UserCreateRequest request);
 
-    Boolean existUserByEmail(String email);
+    boolean existsUserByEmail(String email);
+
+    boolean existsByVerificationToken(String token);
 
     User getUserByEmail(String email);
 
-    User handleIncrementInvalidLogin(String email);
+    User handleAuthenticationFailure(String email);
 
-    User handleResetInvalidLogin(String email);
+    User handleAuthenticationSuccess(String email);
 
     User handlePasswordReset(UserPasswordResetRequest request);
+
+    User handleEmailVerification(String token);
+
+    User handleResetEmailVerification(String id);
 }

@@ -22,4 +22,5 @@ public class User {
     Long invalidLoginAttempts;
     LocalDateTime lastLoginDate;
     RecoveryToken recoveryToken;
+    Verification verification;
 }
