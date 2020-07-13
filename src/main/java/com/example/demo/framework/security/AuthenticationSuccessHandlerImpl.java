@@ -20,7 +20,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        userService.handleResetInvalidLogin(authentication.getName());
+        userService.handleAuthenticationSuccess(authentication.getName());
 
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> "ROLE_ADMIN".equals(auth.getAuthority()));

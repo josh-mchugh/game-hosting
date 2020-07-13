@@ -8,6 +8,7 @@ import com.example.demo.user.entity.UserType;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.util.AppUrlUtil;
 import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RegistrationService implements IRegistrationService{
 
+    private final AppUrlUtil appUrlUtil;
     private final IUserService userService;
     private final IEmailService emailService;
 
@@ -41,6 +43,7 @@ public class RegistrationService implements IRegistrationService{
         EmailCreateRequest verificationEmail = EmailCreateRequest.builder()
                 .toAddress(user.getEmail())
                 .template(EmailTemplate.EMAIL_VERIFICATION)
+                .context("verificationUrl", appUrlUtil.getAppUrl(String.format("/verify/%s", user.getVerification().getToken())))
                 .build();
 
         emailService.handleCreateEmail(verificationEmail);

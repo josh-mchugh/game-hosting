@@ -15,9 +15,9 @@ public class AuthenticationFailureHandlerImpl {
     @EventListener
     public void handleAuthenticationFailed(AuthenticationFailureBadCredentialsEvent event) {
 
-        if(userService.existUserByEmail(event.getAuthentication().getName())) {
+        if(userService.existsUserByEmail(event.getAuthentication().getName())) {
 
-            userService.handleIncrementInvalidLogin(event.getAuthentication().getName());
+            userService.handleAuthenticationFailure(event.getAuthentication().getName());
         }
     }
 }
