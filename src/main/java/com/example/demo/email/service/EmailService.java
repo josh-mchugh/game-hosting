@@ -7,7 +7,7 @@ import com.example.demo.email.mapper.EmailMapper;
 import com.example.demo.email.model.Email;
 import com.example.demo.email.service.model.EmailCreateRequest;
 import com.example.demo.email.service.model.EmailProcessedRequest;
-import com.example.demo.framework.config.AppConfig;
+import com.example.demo.framework.properties.AppConfig;
 import com.google.common.collect.ImmutableList;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
