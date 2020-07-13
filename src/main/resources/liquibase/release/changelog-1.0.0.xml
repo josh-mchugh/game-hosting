@@ -83,4 +83,30 @@
         </createTable>
         <addForeignKeyConstraint baseTableName="user_recovery_token" baseColumnNames="user_id" constraintName="user_recovery_token_user_id_users_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet id="4" author="jmchugh">
+        <createTable tableName="user_verification">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__user_verification" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="user_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sent_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verification_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

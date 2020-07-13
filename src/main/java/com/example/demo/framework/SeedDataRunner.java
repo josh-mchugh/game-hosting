@@ -22,7 +22,7 @@ public class SeedDataRunner implements ApplicationRunner {
 
         log.info("Initializing seed data...");
 
-        if(!userService.existUserByEmail("admin@admin.com")) {
+        if(!userService.existsUserByEmail("admin@admin.com")) {
 
             log.info("Creating admin user: {}", "admin@admin.com");
             userService.handleCreateUser(createAdminUser());

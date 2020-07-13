@@ -22,6 +22,7 @@ public class UserMapper {
                 .invalidLoginAttempts(entity.getInvalidLoginAttempts())
                 .lastLoginDate(entity.getLastLoginDate())
                 .recoveryToken(RecoveryTokenMapper.map(entity.getRecoveryTokenEntity()))
+                .verification(VerificationMapper.map(entity.getVerificationEntity()))
                 .build();
     }
 }

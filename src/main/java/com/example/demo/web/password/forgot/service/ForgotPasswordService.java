@@ -23,7 +23,7 @@ public class ForgotPasswordService implements IForgotPasswordService {
     @Override
     public ForgotPasswordResponse handleForgotPassword(String emailAddress) {
 
-        if(userService.existUserByEmail(emailAddress)) {
+        if(userService.existsUserByEmail(emailAddress)) {
 
             RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(emailAddress);
 
