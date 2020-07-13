@@ -2,8 +2,9 @@ package com.example.demo.user.entity;
 
 import com.example.demo.framework.database.AbstractEntity;
 import com.example.demo.recovery.entity.RecoveryTokenEntity;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = true)
