@@ -28,10 +28,10 @@ public class EmailSenderService implements IEmailSenderService{
     @Override
     public EmailSenderResponse handleEmailSend(EmailSenderRequest request) {
 
-        Context context = new Context(Locale.getDefault(), request.getContext());
-        String html = templateEngine.process(request.getTemplate().getTemplate(), context);
-
         try {
+
+            Context context = new Context(Locale.getDefault(), request.getContext());
+            String html = templateEngine.process(request.getTemplate().getTemplate(), context);
 
             MimeMessageHelper helper = new MimeMessageHelper(emailSender.createMimeMessage(), StandardCharsets.UTF_8.name());
             helper.setTo(request.getToAddress());
@@ -42,7 +42,7 @@ public class EmailSenderService implements IEmailSenderService{
 
             emailSender.send(helper.getMimeMessage());
 
-        } catch (MessagingException e) {
+        } catch (Exception e) {
 
             log.error(String.format("Unable to send email for id: %s", request.getId()), e);
 

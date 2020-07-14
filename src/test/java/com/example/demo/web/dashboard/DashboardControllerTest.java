@@ -1,7 +1,6 @@
 package com.example.demo.web.dashboard;
 
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
+import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -32,13 +31,7 @@ public class DashboardControllerTest {
     @Test
     public void testAuthenticatedDashboard() throws Exception {
 
-        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
-                .email("test-dashboard@dashboard-controller.com")
-                .password("Password1!")
-                .state(UserState.ACTIVE)
-                .type(UserType.REGULAR)
-                .build();
-
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("test-dashboard@dashboard-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/dashboard")
@@ -64,13 +57,7 @@ public class DashboardControllerTest {
     @Test
     public void testNonVerifiedUserDashboard() throws Exception {
 
-        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
-                .email("non-verified-user@dahboard-controller.com")
-                .password("Password1")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .build();
-
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("non-verified-user@dahboard-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/dashboard")
@@ -90,13 +77,7 @@ public class DashboardControllerTest {
     @Test
     public void testVerifiedUserDashboard() throws Exception {
 
-        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
-                .email("verified-user@dahboard-controller.com")
-                .password("Password1")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .build();
-
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("verified-user@dahboard-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleEmailVerification(user.getVerification().getToken());

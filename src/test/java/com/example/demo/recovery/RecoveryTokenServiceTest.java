@@ -2,8 +2,7 @@ package com.example.demo.recovery;
 
 import com.example.demo.recovery.model.RecoveryToken;
 import com.example.demo.recovery.service.IRecoveryTokenService;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
+import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -28,7 +27,7 @@ public class RecoveryTokenServiceTest {
     @Test
     public void testCreateRecoveryToken() {
 
-        UserCreateRequest userCreateRequest = buildCreateUserRequest("user1@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@recovery-token-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
@@ -43,7 +42,7 @@ public class RecoveryTokenServiceTest {
     @Test
     public void testExistsExpiredRecoveryToken() throws Exception {
 
-        UserCreateRequest userCreateRequest = buildCreateUserRequest("user2@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user2@recovery-token-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
@@ -58,7 +57,7 @@ public class RecoveryTokenServiceTest {
     @Test
     public void testGetExpiredRecoveryTokens() throws Exception {
 
-        UserCreateRequest userCreateRequest = buildCreateUserRequest("user3@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user3@recovery-token-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
@@ -73,7 +72,7 @@ public class RecoveryTokenServiceTest {
     @Test
     public void testExistsRecoveryToken() {
 
-        UserCreateRequest userCreateRequest = buildCreateUserRequest("user4@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user4@recovery-token-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
@@ -81,15 +80,5 @@ public class RecoveryTokenServiceTest {
         boolean exists = recoveryTokenService.existsRecoveryToken(recoveryToken.getId());
 
         Assertions.assertTrue(exists);
-    }
-
-    private UserCreateRequest buildCreateUserRequest(String email) {
-
-        return UserCreateRequest.builder()
-                .email(email)
-                .password("Password1")
-                .state(UserState.ACTIVE)
-                .type(UserType.REGULAR)
-                .build();
     }
 }

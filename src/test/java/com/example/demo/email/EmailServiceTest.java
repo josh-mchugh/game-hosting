@@ -26,6 +26,8 @@ public class EmailServiceTest {
         EmailCreateRequest request = createEmailRequest();
         Email email = emailService.handleCreateEmail(request);
 
+        Assertions.assertNotNull(email.getId());
+        Assertions.assertNotNull(email.getCreatedDate());
         Assertions.assertEquals(request.getTemplate(), email.getTemplate());
         Assertions.assertEquals(EmailStatus.PENDING, email.getStatus());
         Assertions.assertEquals(request.getToAddress(), email.getToAddress());

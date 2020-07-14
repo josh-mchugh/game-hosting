@@ -16,7 +16,7 @@ public class VerificationMapper {
                 .id(entity.getId())
                 .status(entity.getStatus())
                 .token(entity.getToken())
-                .sendDate(entity.getSentDate())
+                .sentDate(entity.getSentDate())
                 .verificationDate(entity.getVerificationDate())
                 .build();
     }

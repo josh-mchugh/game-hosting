@@ -2,8 +2,7 @@ package com.example.demo.web.password.reset;
 
 import com.example.demo.recovery.model.RecoveryToken;
 import com.example.demo.recovery.service.IRecoveryTokenService;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
+import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -35,7 +35,7 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordWithValidId() throws Exception {
 
-        UserCreateRequest userCreateRequest = buildUserCreateRequest("user1@reset-password-controller.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@reset-password-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
@@ -61,13 +61,93 @@ public class ResetPasswordControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("hasValidToken", false));
     }
 
-    private UserCreateRequest buildUserCreateRequest(String email) {
+    @Test
+    public void testResetPasswordEmptyPasswords() throws Exception {
 
-        return UserCreateRequest.builder()
-                .email(email)
-                .password("Password1")
-                .state(UserState.ACTIVE)
-                .type(UserType.REGULAR)
-                .build();
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("empty-passwords@reset-password-controller.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .param("password", "")
+                .param("confirmPassword", "");
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-default"))
+                .andExpect(MockMvcResultMatchers.model().hasErrors());
+    }
+
+    @Test
+    public void testResetPasswordMismatchPassword() throws Exception {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("mismatch-passwords@reset-password-controller.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .param("password", "Password1!")
+                .param("confirmPassword", "Password2!");
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-default"))
+                .andExpect(MockMvcResultMatchers.model().hasErrors());
+    }
+
+    @Test
+    public void testResetPasswordWeakPassword() throws Exception {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("weak-passwords@reset-password-controller.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .param("password", "password")
+                .param("confirmPassword", "password");
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-default"))
+                .andExpect(MockMvcResultMatchers.model().hasErrors());
+    }
+
+    @Test
+    public void testResetPasswordSubmissionValid() throws Exception {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("valid-submission@reset-password-controller.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .param("password", "Password1!")
+                .param("confirmPassword", "Password1!");
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/reset-password/success"));
+    }
+
+    @Test
+    public void testResetPasswordSuccessDefault() throws Exception {
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/success");
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-success"));
     }
 }
