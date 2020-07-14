@@ -2,8 +2,7 @@ package com.example.demo.web.password.reset;
 
 import com.example.demo.recovery.model.RecoveryToken;
 import com.example.demo.recovery.service.IRecoveryTokenService;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
+import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -31,7 +30,7 @@ public class ResetPasswordServiceTest {
     @Test
     public void testHandleResetPassword() {
 
-        UserCreateRequest userCreateRequest = buildUserCreateRequest("user1@reset-password-service.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@reset-password-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
@@ -45,15 +44,5 @@ public class ResetPasswordServiceTest {
 
         Assertions.assertNotEquals(user.getPassword(), updatedUser.getPassword());
         Assertions.assertNotEquals(user.getRecoveryToken(), updatedUser.getRecoveryToken());
-    }
-
-    private UserCreateRequest buildUserCreateRequest(String email) {
-
-        return UserCreateRequest.builder()
-                .email(email)
-                .password("Password1")
-                .state(UserState.ACTIVE)
-                .type(UserType.REGULAR)
-                .build();
     }
 }

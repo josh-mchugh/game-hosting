@@ -38,7 +38,7 @@ public class RegistrationServiceTest {
         Assertions.assertNotNull(user.getVerification().getId());
         Assertions.assertNotNull(user.getVerification().getToken());
         Assertions.assertEquals(VerificationStatus.UNVERIFIED, user.getVerification().getStatus());
-        Assertions.assertNotNull(user.getVerification().getSendDate());
+        Assertions.assertNotNull(user.getVerification().getSentDate());
         Assertions.assertNull(user.getVerification().getVerificationDate());
     }
 }
