@@ -8,6 +8,7 @@ import com.example.demo.web.registration.service.model.RegistrationCreateUserReq
 import com.example.demo.web.registration.service.model.ValidatePasswordRequest;
 import com.example.demo.web.registration.service.model.ValidatePasswordResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,9 +36,12 @@ public class RegistrationController {
     @PostMapping("")
     public String postDefault(Model model, @Valid @ModelAttribute("form") RegistrationForm form, BindingResult results) {
 
-        if(userService.existsUserByEmail(form.getEmail())) {
+        if(StringUtils.isNotEmpty(form.getEmail())) {
 
-            results.rejectValue("email", "", "Email address already exists");
+            if (userService.existsUserByEmail(form.getEmail())) {
+
+                results.rejectValue("email", "", "Email address already exists");
+            }
         }
 
         ValidatePasswordRequest validatePasswordRequest = new ValidatePasswordRequest(form.getPassword(), form.getConfirmPassword());

@@ -13,7 +13,7 @@ public class Verification {
     String id;
     VerificationStatus status;
     String token;
-    LocalDateTime sendDate;
+    LocalDateTime sentDate;
     LocalDateTime verificationDate;
 
     public boolean isVerified() {

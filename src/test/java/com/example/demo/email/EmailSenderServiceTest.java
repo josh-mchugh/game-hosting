@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.UUID;
 
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "test-email"})
 @SpringBootTest
 public class EmailSenderServiceTest {
 
@@ -49,7 +49,7 @@ public class EmailSenderServiceTest {
         EmailSenderRequest request = EmailSenderRequest.builder()
                 .id(UUID.randomUUID().toString())
                 .template(EmailTemplate.TEST)
-                .toAddress("tester@test.com")
+                .toAddress("email-send@email-sender.com")
                 .context("name", "tester")
                 .build();
 
@@ -61,11 +61,33 @@ public class EmailSenderServiceTest {
 
         // Retrieve the email on the test stmp server
         MimeMessage[] messages = smtpServer.getReceivedMessages();
+        MimeMessage lastMessage = messages[messages.length - 1];
 
         // Assert received messages contains the correct information
-        Assertions.assertTrue(messages.length >= 1);
-        Assertions.assertEquals(request.getToAddress(), messages[0].getAllRecipients()[0].toString());
-        Assertions.assertEquals(EmailTemplate.TEST.getSubject(), messages[0].getSubject());
-        Assertions.assertTrue(String.valueOf(messages[0].getContent()).contains("tester"));
+        Assertions.assertEquals(1, messages.length);
+        Assertions.assertEquals(request.getToAddress(), lastMessage.getAllRecipients()[0].toString());
+        Assertions.assertEquals(EmailTemplate.TEST.getSubject(), lastMessage.getSubject());
+        Assertions.assertTrue(String.valueOf(lastMessage.getContent()).contains("tester"));
+    }
+
+    @Test
+    public void testSendEmailFailMissingTemplate() {
+
+        EmailSenderRequest request = EmailSenderRequest.builder().build();
+        EmailSenderResponse response = emailSenderService.handleEmailSend(request);
+
+        Assertions.assertEquals(EmailStatus.FAILED, response.getStatus());
+    }
+
+    @Test
+    public void testSendEmailFailMissingSendToAddress() {
+
+        EmailSenderRequest request = EmailSenderRequest.builder()
+                .template(EmailTemplate.TEST)
+                .build();
+
+        EmailSenderResponse response = emailSenderService.handleEmailSend(request);
+
+        Assertions.assertEquals(EmailStatus.FAILED, response.getStatus());
     }
 }

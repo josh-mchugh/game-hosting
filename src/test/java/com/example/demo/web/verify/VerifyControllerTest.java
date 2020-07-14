@@ -1,7 +1,6 @@
 package com.example.demo.web.verify;
 
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
+import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -31,13 +30,7 @@ public class VerifyControllerTest {
     @Test
     public void testVerifyEmail() throws Exception {
 
-        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
-                .email("valid-verify@verify-controller.com")
-                .password("Password1")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .build();
-
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("valid-verify@verify-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/verify/%s", user.getVerification().getToken()));
@@ -66,8 +59,12 @@ public class VerifyControllerTest {
     @Test
     public void testVerifyResendEmail() throws Exception {
 
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("verify-email-resend@verify-controller.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/verify/resend")
-                .with(SecurityMockMvcRequestPostProcessors.csrf());
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .with(SecurityMockMvcRequestPostProcessors.user(user.getEmail()));
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
