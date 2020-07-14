@@ -6,6 +6,7 @@ import com.example.demo.email.service.model.EmailCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.util.AppUrlUtil;
+import com.example.demo.web.verification.service.model.VerificationResendResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ public class VerifyService implements IVerifyService {
     private final IEmailService emailService;
 
     @Override
-    public void handleResendVerificationEmail(String userId) {
+    public VerificationResendResponse handleResendVerificationEmail(String userId) {
 
         User user = userService.handleResetEmailVerification(userId);
 
@@ -29,5 +30,10 @@ public class VerifyService implements IVerifyService {
                 .build();
 
         emailService.handleCreateEmail(emailCreateRequest);
+
+        return VerificationResendResponse.builder()
+                .success(true)
+                .user(user)
+                .build();
     }
 }

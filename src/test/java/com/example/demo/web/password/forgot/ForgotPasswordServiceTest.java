@@ -1,7 +1,6 @@
 package com.example.demo.web.password.forgot;
 
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
+import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -26,13 +25,7 @@ public class ForgotPasswordServiceTest {
     @Test
     public void testForgotPasswordExistingUser() {
 
-        UserCreateRequest userCreateRequest = UserCreateRequest.builder()
-                .email("user1@forgot-password-service.com")
-                .password("Password1")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .build();
-
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@forgot-password-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         ForgotPasswordResponse response = forgotPasswordService.handleForgotPassword(user.getEmail());
