@@ -25,7 +25,7 @@ public class VerifyService implements IVerifyService {
 
         EmailCreateRequest emailCreateRequest = EmailCreateRequest.builder()
                 .toAddress(user.getEmail())
-                .template(EmailTemplate.EMAIL_VERIFICATION)
+                .template(EmailTemplate.USER_VERIFICATION)
                 .context("verificationUrl", appUrlUtil.getAppUrl(String.format("/verify/%s", user.getVerification().getToken())))
                 .build();
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{email/layout/default}">
     <body layout:fragment="content">
-        <div>Welcome to Game Hosting Services! Your account is now active and we look forward to working with you!</div>
+        <div>[[#{email.welcome.body.message}]]</div>
     </body>
 </html>
