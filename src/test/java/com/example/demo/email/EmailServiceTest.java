@@ -31,8 +31,10 @@ public class EmailServiceTest {
         Assertions.assertEquals(request.getTemplate(), email.getTemplate());
         Assertions.assertEquals(EmailStatus.PENDING, email.getStatus());
         Assertions.assertEquals(request.getToAddress(), email.getToAddress());
-        Assertions.assertEquals(1, email.getContext().size());
-        Assertions.assertEquals(request.getContext().get("name"), email.getContext().get("name"));
+        Assertions.assertEquals(3, email.getContext().size());
+        Assertions.assertEquals(request.getContext().get("loginUrl"), email.getContext().get("loginUrl"));
+        Assertions.assertEquals(request.getContext().get("forgotPasswordUrl"), email.getContext().get("forgotPasswordUrl"));
+        Assertions.assertEquals(request.getContext().get("email"), email.getContext().get("email"));
         Assertions.assertNull(email.getMailingDate());
     }
 
@@ -101,9 +103,11 @@ public class EmailServiceTest {
     private EmailCreateRequest createEmailRequest() {
 
         return EmailCreateRequest.builder()
-                .template(EmailTemplate.TEST)
+                .template(EmailTemplate.PASSWORD_RESET)
                 .toAddress("test@test.com")
-                .context("name", "tester")
+                .context("loginUrl", "http://localhost:8080/login")
+                .context("forgotPasswordUrl", "http://localhost:8080/forgot-password")
+                .context("email", "test@test.com")
                 .build();
     }
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{email/layout/default}">
+    <body layout:fragment="content">
+        <div>
+            <p>[[#{email.user.verification.body.header}]]</p>
+            <p>[[#{email.user.verification.body.content}]]</p>
+        </div>
+        <div>
+            <a class="button" th:href="${verificationUrl}">[[#{email.user.verification.body.verify.btn}]]</a>
+        </div>
+        <div>
+            [[#{message.copyable.link}]] <a th:href="${verificationUrl}">[[${verificationUrl}]]</a>
+        </div>
+    </body>
+</html>

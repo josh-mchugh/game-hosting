@@ -40,7 +40,7 @@ public class EmailScheduler {
                 .id(email.getId())
                 .toAddress(email.getToAddress())
                 .template(email.getTemplate())
-                .context(email.getContext())
+                .bodyContext(email.getContext())
                 .build();
     }
 

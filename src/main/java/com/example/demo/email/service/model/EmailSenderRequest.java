@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
 
+import java.util.List;
 import java.util.Map;
 
 @Value
@@ -14,8 +15,10 @@ public class EmailSenderRequest {
     String id;
     EmailTemplate template;
     String toAddress;
-    String fromAddress;
 
-    @Singular("context")
-    Map<String, Object> context;
+    @Singular("bodyContext")
+    Map<String, Object> bodyContext;
+
+    @Singular("subjectContext")
+    List<Object> subjectContext;
 }
