@@ -1,9 +1,11 @@
 package com.example.demo.email.service;
 
 import com.example.demo.email.entity.EmailStatus;
+import com.example.demo.email.entity.EmailTemplate;
 import com.example.demo.email.service.model.EmailSenderRequest;
 import com.example.demo.email.service.model.EmailSenderResponse;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.email.templates.IEmailTemplate;
+import com.example.demo.util.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,35 +14,45 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.mail.MessagingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
+import java.util.Map;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class EmailSenderService implements IEmailSenderService{
 
-    private final AppConfig appConfig;
+    private final MessageUtil messageUtil;
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
+    private final Map<EmailTemplate, IEmailTemplate> emailTemplates;
 
     @Override
     public EmailSenderResponse handleEmailSend(EmailSenderRequest request) {
 
         try {
 
-            Context context = new Context(Locale.getDefault(), request.getContext());
-            String html = templateEngine.process(request.getTemplate().getTemplate(), context);
+            IEmailTemplate emailTemplate = emailTemplates.get(request.getTemplate());
+
+            String subject = messageUtil.getMessage(emailTemplate.subject(), request.getSubjectContext());
+
+            Context context = new Context(Locale.getDefault(), request.getBodyContext());
+            String body = templateEngine.process(emailTemplate.path(), context);
 
             MimeMessageHelper helper = new MimeMessageHelper(emailSender.createMimeMessage(), StandardCharsets.UTF_8.name());
             helper.setTo(request.getToAddress());
-            //TODO: Fix so the from is persisted on email creation
-            helper.setFrom(appConfig.getEmail().getNoReplyAddress());
-            helper.setSubject(request.getTemplate().getSubject());
-            helper.setText(html, true);
+            helper.setFrom(emailTemplate.fromAddress());
+            helper.setSubject(subject);
+            helper.setText(body, true);
 
             emailSender.send(helper.getMimeMessage());
+
+            return EmailSenderResponse.builder()
+                    .id(request.getId())
+                    .status(EmailStatus.SENT)
+                    .build();
+
 
         } catch (Exception e) {
 
@@ -51,10 +63,5 @@ public class EmailSenderService implements IEmailSenderService{
                     .status(EmailStatus.FAILED)
                     .build();
         }
-
-        return EmailSenderResponse.builder()
-                .id(request.getId())
-                .status(EmailStatus.SENT)
-                .build();
     }
 }
