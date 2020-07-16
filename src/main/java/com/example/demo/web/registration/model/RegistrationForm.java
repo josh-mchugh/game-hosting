@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class RegistrationForm {
 
-    @Email
-    @NotBlank
+    @Email(message = "{error.valid.email}")
+    @NotBlank(message = "{error.not.blank}")
     private String email;
 
     private String password;

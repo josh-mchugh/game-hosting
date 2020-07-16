@@ -8,5 +8,6 @@ import lombok.Value;
 public class ValidatePasswordResponse {
 
     boolean valid;
-    String errorMessage;
+    String errorMessageKey;
+    String errorDefaultMessage;
 }

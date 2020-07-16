@@ -14,7 +14,8 @@ public class PasswordUtilTest {
         ValidatePasswordResponse response = PasswordUtil.validatePassword(request);
 
         Assertions.assertFalse(response.isValid());
-        Assertions.assertEquals("Password is invalid", response.getErrorMessage());
+        Assertions.assertEquals("Password is invalid", response.getErrorDefaultMessage());
+        Assertions.assertEquals("error.password.invalid", response.getErrorMessageKey());
     }
 
     @Test
@@ -24,7 +25,8 @@ public class PasswordUtilTest {
         ValidatePasswordResponse response = PasswordUtil.validatePassword(request);
 
         Assertions.assertFalse(response.isValid());
-        Assertions.assertEquals("Passwords must match", response.getErrorMessage());
+        Assertions.assertEquals("Passwords must match", response.getErrorDefaultMessage());
+        Assertions.assertEquals("error.password.mismatch", response.getErrorMessageKey());
     }
 
     @Test
@@ -34,7 +36,8 @@ public class PasswordUtilTest {
         ValidatePasswordResponse response = PasswordUtil.validatePassword(request);
 
         Assertions.assertFalse(response.isValid());
-        Assertions.assertEquals("Password is invalid", response.getErrorMessage());
+        Assertions.assertEquals("Password is invalid", response.getErrorDefaultMessage());
+        Assertions.assertEquals("error.password.invalid", response.getErrorMessageKey());
     }
 
     @Test
