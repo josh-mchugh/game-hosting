@@ -18,7 +18,8 @@ public class EmailMapper {
                 .template(entity.getTemplate())
                 .status(entity.getStatus())
                 .toAddress(entity.getToAddress())
-                .context(entity.getContext())
+                .bodyContext(entity.getBodyContext())
+                .subjectContext(entity.getSubjectContext())
                 .mailingDate(entity.getMailingDate())
                 .build();
     }
