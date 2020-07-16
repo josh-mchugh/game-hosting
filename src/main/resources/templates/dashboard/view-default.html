@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/single-column}">
     <head>
-        <title>Dashboard</title>
+        <title>[[#{message.dashboard}]]</title>
     </head>
     <body layout:fragment="content">
         <div>
             <th:block th:if="${!details.emailVerified}">
                 <div class="alert alert-warning" role="alert">
-                    Verify your email address to begin hosting servers! <a class="email-resend-link" id="resendEmailVerification">Resend Email</a>
+                    [[#{message.verify.email}]] <a class="email-resend-link" id="resendEmailVerification">[[#{message.resend.email}]]</a>
                 </div>
             </th:block>
             <div>

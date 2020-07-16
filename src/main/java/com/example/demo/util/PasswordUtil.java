@@ -19,7 +19,8 @@ public class PasswordUtil {
 
             return ValidatePasswordResponse.builder()
                     .valid(false)
-                    .errorMessage("Password is invalid")
+                    .errorMessageKey("error.password.invalid")
+                    .errorDefaultMessage("Password is invalid")
                     .build();
         }
 
@@ -27,7 +28,8 @@ public class PasswordUtil {
 
             return ValidatePasswordResponse.builder()
                     .valid(false)
-                    .errorMessage("Passwords must match")
+                    .errorMessageKey("error.password.mismatch")
+                    .errorDefaultMessage("Passwords must match")
                     .build();
         }
 
@@ -35,7 +37,8 @@ public class PasswordUtil {
 
             return ValidatePasswordResponse.builder()
                     .valid(false)
-                    .errorMessage("Password is invalid")
+                    .errorMessageKey("error.password.invalid")
+                    .errorDefaultMessage("Password is invalid")
                     .build();
         }
 

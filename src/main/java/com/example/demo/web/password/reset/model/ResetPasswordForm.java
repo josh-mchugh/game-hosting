@@ -7,9 +7,9 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ResetPasswordForm {
 
-    @NotBlank
+    @NotBlank(message = "{error.not.blank}")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "{error.not.blank}")
     private String confirmPassword;
 }
