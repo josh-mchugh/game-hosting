@@ -109,4 +109,11 @@
             <column name="verification_date" type="timestamp"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="5" author="jmchugh">
+        <renameColumn tableName="email" oldColumnName="context" newColumnName="body_context"/>
+        <addColumn tableName="email">
+            <column name="subject_context" type="nvarchar(MAX)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

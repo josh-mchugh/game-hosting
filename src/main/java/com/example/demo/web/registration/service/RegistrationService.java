@@ -43,7 +43,7 @@ public class RegistrationService implements IRegistrationService{
         EmailCreateRequest verificationEmail = EmailCreateRequest.builder()
                 .toAddress(user.getEmail())
                 .template(EmailTemplate.USER_VERIFICATION)
-                .context("verificationUrl", appUrlUtil.getAppUrl(String.format("/verify/%s", user.getVerification().getToken())))
+                .bodyContext("verificationUrl", appUrlUtil.getAppUrl(String.format("/verify/%s", user.getVerification().getToken())))
                 .build();
 
         emailService.handleCreateEmail(verificationEmail);

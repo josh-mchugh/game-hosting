@@ -30,8 +30,8 @@ public class ForgotPasswordService implements IForgotPasswordService {
             EmailCreateRequest emailCreateRequest = EmailCreateRequest.builder()
                     .toAddress(emailAddress)
                     .template(EmailTemplate.PASSWORD_RECOVERY)
-                    .context("email", emailAddress)
-                    .context("resetPasswordUrl", appUrlUtil.getAppUrl(String.format("%s/%s", "/reset-password/", recoveryToken.getId())))
+                    .bodyContext("email", emailAddress)
+                    .bodyContext("resetPasswordUrl", appUrlUtil.getAppUrl(String.format("%s/%s", "/reset-password/", recoveryToken.getId())))
                     .build();
 
             emailService.handleCreateEmail(emailCreateRequest);

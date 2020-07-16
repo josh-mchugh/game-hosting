@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Value
@@ -17,6 +18,7 @@ public class Email {
     EmailTemplate template;
     EmailStatus status;
     String toAddress;
-    Map<String, Object> context;
+    Map<String, Object> bodyContext;
+    List<Object> subjectContext;
     LocalDateTime mailingDate;
 }
