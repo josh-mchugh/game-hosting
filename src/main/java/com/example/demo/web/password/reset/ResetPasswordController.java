@@ -1,6 +1,6 @@
 package com.example.demo.web.password.reset;
 
-import com.example.demo.recovery.service.IRecoveryTokenService;
+import com.example.demo.user.service.IUserService;
 import com.example.demo.util.PasswordUtil;
 import com.example.demo.web.password.reset.model.ResetPasswordForm;
 import com.example.demo.web.password.reset.service.IResetPasswordService;
@@ -25,12 +25,12 @@ import javax.validation.Valid;
 public class ResetPasswordController {
 
     private final IResetPasswordService resetPasswordService;
-    private final IRecoveryTokenService recoveryTokenService;
+    private final IUserService userService;
 
-    @GetMapping("/{id}")
-    public String getResetPassword(@PathVariable("id") String id, Model model) {
+    @GetMapping("/{token}")
+    public String getResetPassword(@PathVariable("token") String token, Model model) {
 
-        if (!recoveryTokenService.existsRecoveryToken(id)) {
+        if (!userService.existsByRecoveryToken(token)) {
 
             model.addAttribute("hasValidToken", false);
 
@@ -43,8 +43,8 @@ public class ResetPasswordController {
         return "password/reset/view-default";
     }
 
-    @PostMapping("/{id}")
-    public String postResetPassword(@PathVariable("id") String id, Model model, @Valid @ModelAttribute("form") ResetPasswordForm form, BindingResult results) {
+    @PostMapping("/{token}")
+    public String postResetPassword(@PathVariable("token") String token, Model model, @Valid @ModelAttribute("form") ResetPasswordForm form, BindingResult results) {
 
         ValidatePasswordRequest validatePasswordRequest = new ValidatePasswordRequest(form.getPassword(), form.getConfirmPassword());
         ValidatePasswordResponse validatePasswordResponse = PasswordUtil.validatePassword(validatePasswordRequest);
@@ -62,7 +62,7 @@ public class ResetPasswordController {
         }
 
         PasswordResetRequest passwordResetRequest = PasswordResetRequest.builder()
-                .recoveryTokenId(id)
+                .token(token)
                 .password(form.getPassword())
                 .build();
 

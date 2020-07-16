@@ -1,7 +1,5 @@
 package com.example.demo.web.password.reset;
 
-import com.example.demo.recovery.model.RecoveryToken;
-import com.example.demo.recovery.service.IRecoveryTokenService;
 import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
@@ -27,9 +25,6 @@ public class ResetPasswordControllerTest {
     private IUserService userService;
 
     @Autowired
-    private IRecoveryTokenService recoveryTokenService;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Test
@@ -38,9 +33,9 @@ public class ResetPasswordControllerTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@reset-password-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/reset-password/%s", recoveryToken.getId()));
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/reset-password/%s", user.getRecoveryToken().getToken()));
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
@@ -67,9 +62,9 @@ public class ResetPasswordControllerTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("empty-passwords@reset-password-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("password", "")
                 .param("confirmPassword", "");
@@ -87,9 +82,9 @@ public class ResetPasswordControllerTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("mismatch-passwords@reset-password-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("password", "Password1!")
                 .param("confirmPassword", "Password2!");
@@ -107,9 +102,9 @@ public class ResetPasswordControllerTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("weak-passwords@reset-password-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("password", "password")
                 .param("confirmPassword", "password");
@@ -127,9 +122,9 @@ public class ResetPasswordControllerTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("valid-submission@reset-password-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", recoveryToken.getId()))
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .param("password", "Password1!")
                 .param("confirmPassword", "Password1!");

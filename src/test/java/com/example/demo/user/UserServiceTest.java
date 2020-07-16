@@ -1,7 +1,5 @@
 package com.example.demo.user;
 
-import com.example.demo.recovery.model.RecoveryToken;
-import com.example.demo.recovery.service.IRecoveryTokenService;
 import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.VerificationStatus;
@@ -16,15 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 @ActiveProfiles("test")
 @SpringBootTest
 public class UserServiceTest {
 
     @Autowired
     private IUserService userService;
-
-    @Autowired
-    private IRecoveryTokenService recoveryTokenService;
 
     @Test
     public void testCreateAdminUser() {
@@ -140,10 +137,10 @@ public class UserServiceTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("password-reset@user-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
         UserPasswordResetRequest passwordResetRequest = UserPasswordResetRequest.builder()
-                .recoveryTokenId(recoveryToken.getId())
+                .token(user.getRecoveryToken().getToken())
                 .password("Password2!")
                 .build();
 
@@ -151,6 +148,8 @@ public class UserServiceTest {
 
         Assertions.assertEquals(user.getId(), updatedUser.getId());
         Assertions.assertNotEquals(user.getPassword(), updatedUser.getPassword());
+        Assertions.assertNotNull(user.getRecoveryToken());
+        Assertions.assertNull(updatedUser.getRecoveryToken());
     }
 
     @Test
@@ -182,5 +181,78 @@ public class UserServiceTest {
         Assertions.assertEquals(VerificationStatus.UNVERIFIED, updatedUser.getVerification().getStatus());
         Assertions.assertNull(updatedUser.getVerification().getVerificationDate());
         Assertions.assertFalse(user.getVerification().isVerified());
+    }
+
+    @Test
+    public void testHandleDeleteRecoveryTokenById() {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("delete-recovery-token-by-id@user-service.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        user = userService.handleCreateRecoveryToken(user.getEmail());
+
+        User updatedUser = userService.handleDeleteRecoveryTokenById(user.getRecoveryToken().getId());
+
+        Assertions.assertEquals(user.getId(), updatedUser.getId());
+        Assertions.assertNotNull(user.getRecoveryToken());
+        Assertions.assertNull(updatedUser.getRecoveryToken());
+    }
+
+    @Test
+    public void testHandleCreateRecoveryToken() {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@recovery-token-service.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        user = userService.handleCreateRecoveryToken(user.getEmail());
+
+        Assertions.assertNotNull(user.getRecoveryToken().getId());
+        Assertions.assertNotNull(user.getRecoveryToken().getToken());
+        Assertions.assertNotNull(user.getRecoveryToken().getSentDate());
+        Assertions.assertNotNull(user.getRecoveryToken().getExpirationDate());
+        Assertions.assertTrue(user.getRecoveryToken().getExpirationDate().isAfter(user.getRecoveryToken().getSentDate()));
+    }
+
+    @Test
+    public void testExistsByRecoveryTokensExpired() throws Exception {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user2@recovery-token-service.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        userService.handleCreateRecoveryToken(user.getEmail());
+
+        Thread.sleep(201);
+
+        boolean existsExpired = userService.existsByRecoveryTokensExpired();
+
+        Assertions.assertTrue(existsExpired);
+    }
+
+    @Test
+    public void testGetByRecoveryTokenExpired() throws Exception {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user3@recovery-token-service.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        userService.handleCreateRecoveryToken(user.getEmail());
+
+        Thread.sleep(201);
+
+        List<User> expiredRecoveryTokens = userService.getByRecoveryTokensExpired();
+
+        Assertions.assertTrue(expiredRecoveryTokens.size() >= 1);
+    }
+
+    @Test
+    public void testExistsByRecoveryToken() {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user4@recovery-token-service.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        user = userService.handleCreateRecoveryToken(user.getEmail());
+
+        boolean exists = userService.existsByRecoveryToken(user.getRecoveryToken().getToken());
+
+        Assertions.assertTrue(exists);
     }
 }
