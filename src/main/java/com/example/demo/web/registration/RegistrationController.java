@@ -49,7 +49,7 @@ public class RegistrationController {
 
         if(!validatePasswordResponse.isValid()) {
 
-            results.rejectValue("password", "", validatePasswordResponse.getErrorMessage());
+            results.rejectValue("password", validatePasswordResponse.getErrorMessageKey(), validatePasswordResponse.getErrorDefaultMessage());
         }
 
         if(results.hasErrors()) {
