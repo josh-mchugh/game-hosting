@@ -1,13 +1,15 @@
 package com.example.demo.user.service;
 
+import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.user.entity.QUserEntity;
+import com.example.demo.user.entity.RecoveryTokenEntity;
 import com.example.demo.user.entity.UserEntity;
+import com.example.demo.user.entity.VerificationEntity;
+import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
 import com.example.demo.user.service.model.UserPasswordResetRequest;
-import com.example.demo.user.entity.VerificationEntity;
-import com.example.demo.user.entity.VerificationStatus;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,13 +18,17 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
 @RequiredArgsConstructor
 public class UserService implements IUserService{
 
+    private final AppConfig appConfig;
     private final JPQLQueryFactory queryFactory;
     private final EntityManager entityManager;
     private final PasswordEncoder passwordEncoder;
@@ -113,10 +119,11 @@ public class UserService implements IUserService{
         QUserEntity qUser = QUserEntity.userEntity;
 
         UserEntity userEntity = queryFactory.selectFrom(qUser)
-                .where(qUser.recoveryTokenEntity.id.eq(request.getRecoveryTokenId()))
+                .where(qUser.recoveryTokenEntity.token.eq(request.getToken()))
                 .fetchOne();
 
         userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        userEntity.setRecoveryTokenEntity(null);
 
         entityManager.persist(userEntity);
 
@@ -152,6 +159,82 @@ public class UserService implements IUserService{
         entityManager.persist(userEntity);
 
         return UserMapper.map(userEntity);
+    }
+
+    @Override
+    public User handleCreateRecoveryToken(String email) {
+
+        UserEntity userEntity = findUserByEmail(email);
+
+        RecoveryTokenEntity recoveryTokenEntity = new RecoveryTokenEntity();
+        recoveryTokenEntity.setUserEntity(userEntity);
+        recoveryTokenEntity.setToken(UUID.randomUUID().toString());
+
+        LocalDateTime now = LocalDateTime.now();
+        recoveryTokenEntity.setSentDate(now);
+        recoveryTokenEntity.setExpirationDate(now.plus(appConfig.getPassword().getRecoveryExpirationOffset(), ChronoUnit.MILLIS));
+
+        userEntity.setRecoveryTokenEntity(recoveryTokenEntity);
+
+        entityManager.persist(userEntity);
+
+        return UserMapper.map(userEntity);
+    }
+
+    @Override
+    public User handleDeleteRecoveryTokenById(String id) {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        UserEntity entity = queryFactory.selectFrom(qUser)
+                .where(qUser.recoveryTokenEntity.id.eq(id))
+                .fetchOne();
+
+        entity.setRecoveryTokenEntity(null);
+
+        entityManager.persist(entity);
+
+        return UserMapper.map(entity);
+    }
+
+    @Override
+    public boolean existsByRecoveryToken(String token) {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        long count = queryFactory.select(qUser.id)
+                .from(qUser)
+                .where(qUser.recoveryTokenEntity.token.eq(token))
+                .fetchCount();
+
+        return count >= 1;
+    }
+
+    @Override
+    public boolean existsByRecoveryTokensExpired() {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        long count = queryFactory.select(qUser.id)
+                .from(qUser)
+                .where(qUser.recoveryTokenEntity.expirationDate.before(LocalDateTime.now()))
+                .fetchCount();
+
+        return count >= 1;
+    }
+
+    @Override
+    public List<User> getByRecoveryTokensExpired() {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+
+        return queryFactory.selectFrom(qUser)
+                .where(qUser.recoveryTokenEntity.expirationDate.before(LocalDateTime.now()))
+                .limit(20)
+                .fetch()
+                .stream()
+                .map(UserMapper::map)
+                .collect(Collectors.toList());
     }
 
     private UserEntity findUserByEmail(String email) {

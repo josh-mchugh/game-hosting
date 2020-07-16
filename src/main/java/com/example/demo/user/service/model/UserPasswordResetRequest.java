@@ -8,5 +8,5 @@ import lombok.Value;
 public class UserPasswordResetRequest {
 
     String password;
-    String recoveryTokenId;
+    String token;
 }

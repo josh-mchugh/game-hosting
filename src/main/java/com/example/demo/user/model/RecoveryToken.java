@@ -1,4 +1,4 @@
-package com.example.demo.recovery.model;
+package com.example.demo.user.model;
 
 import lombok.Builder;
 import lombok.Value;

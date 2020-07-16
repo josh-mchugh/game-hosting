@@ -1,8 +1,6 @@
 package com.example.demo.user.entity;
 
 import com.example.demo.framework.database.AbstractEntity;
-import com.example.demo.recovery.entity.RecoveryTokenEntity;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "users")
-@EqualsAndHashCode(callSuper = true)
 public class UserEntity extends AbstractEntity {
 
     @Column(name = "email", nullable = false, unique = true)
