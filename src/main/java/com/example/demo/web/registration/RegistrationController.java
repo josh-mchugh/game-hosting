@@ -40,7 +40,7 @@ public class RegistrationController {
 
             if (userService.existsUserByEmail(form.getEmail())) {
 
-                results.rejectValue("email", "", "Email address already exists");
+                results.rejectValue("email", "error.email.exists", "Email address already exists");
             }
         }
 

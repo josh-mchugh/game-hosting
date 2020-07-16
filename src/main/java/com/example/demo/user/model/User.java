@@ -1,6 +1,5 @@
 package com.example.demo.user.model;
 
-import com.example.demo.recovery.model.RecoveryToken;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;

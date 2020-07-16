@@ -4,6 +4,8 @@ import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
 import com.example.demo.user.service.model.UserPasswordResetRequest;
 
+import java.util.List;
+
 public interface IUserService {
 
     User handleCreateUser(UserCreateRequest request);
@@ -23,4 +25,14 @@ public interface IUserService {
     User handleEmailVerification(String token);
 
     User handleResetEmailVerification(String id);
+
+    User handleCreateRecoveryToken(String email);
+
+    User handleDeleteRecoveryTokenById(String id);
+
+    boolean existsByRecoveryToken(String token);
+
+    boolean existsByRecoveryTokensExpired();
+
+    List<User> getByRecoveryTokensExpired();
 }

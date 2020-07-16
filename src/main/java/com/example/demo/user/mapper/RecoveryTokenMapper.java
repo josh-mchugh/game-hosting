@@ -1,7 +1,7 @@
-package com.example.demo.recovery.mapper;
+package com.example.demo.user.mapper;
 
-import com.example.demo.recovery.entity.RecoveryTokenEntity;
-import com.example.demo.recovery.model.RecoveryToken;
+import com.example.demo.user.entity.RecoveryTokenEntity;
+import com.example.demo.user.model.RecoveryToken;
 
 public class RecoveryTokenMapper {
 
