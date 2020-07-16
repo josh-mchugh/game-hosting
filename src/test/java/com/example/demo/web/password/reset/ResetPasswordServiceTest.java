@@ -1,7 +1,5 @@
 package com.example.demo.web.password.reset;
 
-import com.example.demo.recovery.model.RecoveryToken;
-import com.example.demo.recovery.service.IRecoveryTokenService;
 import com.example.demo.test.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
@@ -22,9 +20,6 @@ public class ResetPasswordServiceTest {
     private IUserService userService;
 
     @Autowired
-    private IRecoveryTokenService recoveryTokenService;
-
-    @Autowired
     private IResetPasswordService resetPasswordService;
 
     @Test
@@ -33,11 +28,11 @@ public class ResetPasswordServiceTest {
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@reset-password-service.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
-        RecoveryToken recoveryToken = recoveryTokenService.handleCreateRecoveryToken(user.getEmail());
+        user = userService.handleCreateRecoveryToken(user.getEmail());
 
         PasswordResetRequest resetRequest = PasswordResetRequest.builder()
                 .password("newPassword1!")
-                .recoveryTokenId(recoveryToken.getId())
+                .token(user.getRecoveryToken().getToken())
                 .build();
 
         User updatedUser = resetPasswordService.handlePasswordReset(resetRequest);

@@ -7,6 +7,6 @@ import lombok.Value;
 @Builder(builderClassName = "Builder")
 public class PasswordResetRequest {
 
-    String recoveryTokenId;
+    String token;
     String password;
 }
