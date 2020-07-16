@@ -1,7 +1,6 @@
 package com.example.demo.recovery.service;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.recovery.entity.QRecoveryTokenEntity;
 import com.example.demo.recovery.entity.RecoveryTokenEntity;
 import com.example.demo.recovery.mapper.RecoveryTokenMapper;
 import com.example.demo.recovery.model.RecoveryToken;
@@ -54,11 +53,11 @@ public class RecoveryTokenService implements IRecoveryTokenService {
     @Override
     public boolean existsRecoveryToken(String id) {
 
-        QRecoveryTokenEntity qRecoveryToken = QRecoveryTokenEntity.recoveryTokenEntity;
+        QUserEntity qUser = QUserEntity.userEntity;
 
-        long count = queryFactory.select(qRecoveryToken.id)
-                .from(qRecoveryToken)
-                .where(qRecoveryToken.id.eq(id))
+        long count = queryFactory.select(qUser.id)
+                .from(qUser)
+                .where(qUser.recoveryTokenEntity.id.eq(id))
                 .fetchCount();
 
         return count >= 1;
@@ -67,11 +66,11 @@ public class RecoveryTokenService implements IRecoveryTokenService {
     @Override
     public boolean existsExpiredRecoveryTokens() {
 
-        QRecoveryTokenEntity qRecoveryToken = QRecoveryTokenEntity.recoveryTokenEntity;
+        QUserEntity qUser = QUserEntity.userEntity;
 
-        long count = queryFactory.select(qRecoveryToken.id)
-                .from(qRecoveryToken)
-                .where(qRecoveryToken.expirationDate.before(LocalDateTime.now()))
+        long count = queryFactory.select(qUser.id)
+                .from(qUser)
+                .where(qUser.recoveryTokenEntity.expirationDate.before(LocalDateTime.now()))
                 .fetchCount();
 
         return count >= 1;
@@ -80,10 +79,11 @@ public class RecoveryTokenService implements IRecoveryTokenService {
     @Override
     public List<RecoveryToken> getExpiredRecoveryTokens() {
 
-        QRecoveryTokenEntity qRecoveryToken = QRecoveryTokenEntity.recoveryTokenEntity;
+        QUserEntity qUser = QUserEntity.userEntity;
 
-        return queryFactory.selectFrom(qRecoveryToken)
-                .where(qRecoveryToken.expirationDate.before(LocalDateTime.now()))
+        return queryFactory.select(qUser.recoveryTokenEntity)
+                .from(qUser)
+                .where(qUser.recoveryTokenEntity.expirationDate.before(LocalDateTime.now()))
                 .limit(20)
                 .fetch()
                 .stream()
@@ -94,12 +94,15 @@ public class RecoveryTokenService implements IRecoveryTokenService {
     @Override
     public void handleDeleteRecoveryToken(String id) {
 
-        QRecoveryTokenEntity qRecoveryToken = QRecoveryTokenEntity.recoveryTokenEntity;
+        QUserEntity qUser = QUserEntity.userEntity;
 
-        RecoveryTokenEntity entity = queryFactory.selectFrom(qRecoveryToken)
-                .where(qRecoveryToken.id.eq(id))
+        UserEntity entity = queryFactory.select(qUser)
+                .from(qUser)
+                .where(qUser.recoveryTokenEntity.id.eq(id))
                 .fetchOne();
 
-        entityManager.remove(entity);
+        entity.setRecoveryTokenEntity(null);
+
+        entityManager.persist(entity);
     }
 }
