@@ -31,10 +31,12 @@ public class EmailServiceTest {
         Assertions.assertEquals(request.getTemplate(), email.getTemplate());
         Assertions.assertEquals(EmailStatus.PENDING, email.getStatus());
         Assertions.assertEquals(request.getToAddress(), email.getToAddress());
-        Assertions.assertEquals(3, email.getContext().size());
-        Assertions.assertEquals(request.getContext().get("loginUrl"), email.getContext().get("loginUrl"));
-        Assertions.assertEquals(request.getContext().get("forgotPasswordUrl"), email.getContext().get("forgotPasswordUrl"));
-        Assertions.assertEquals(request.getContext().get("email"), email.getContext().get("email"));
+        Assertions.assertEquals(3, email.getBodyContext().size());
+        Assertions.assertEquals(request.getBodyContext().get("loginUrl"), email.getBodyContext().get("loginUrl"));
+        Assertions.assertEquals(request.getBodyContext().get("forgotPasswordUrl"), email.getBodyContext().get("forgotPasswordUrl"));
+        Assertions.assertEquals(request.getBodyContext().get("email"), email.getBodyContext().get("email"));
+        Assertions.assertEquals(2, request.getSubjectContext().size());
+        Assertions.assertEquals("test1", request.getSubjectContext().get(0));
         Assertions.assertNull(email.getMailingDate());
     }
 
@@ -105,9 +107,11 @@ public class EmailServiceTest {
         return EmailCreateRequest.builder()
                 .template(EmailTemplate.PASSWORD_RESET)
                 .toAddress("test@test.com")
-                .context("loginUrl", "http://localhost:8080/login")
-                .context("forgotPasswordUrl", "http://localhost:8080/forgot-password")
-                .context("email", "test@test.com")
+                .bodyContext("loginUrl", "http://localhost:8080/login")
+                .bodyContext("forgotPasswordUrl", "http://localhost:8080/forgot-password")
+                .bodyContext("email", "test@test.com")
+                .subjectContext("test1")
+                .subjectContext("test2")
                 .build();
     }
 }

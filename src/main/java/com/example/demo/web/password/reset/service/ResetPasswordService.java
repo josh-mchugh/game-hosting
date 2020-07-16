@@ -37,9 +37,9 @@ public class ResetPasswordService implements IResetPasswordService {
         EmailCreateRequest emailRequest = EmailCreateRequest.builder()
                 .toAddress(user.getEmail())
                 .template(EmailTemplate.PASSWORD_RESET)
-                .context("email", user.getEmail())
-                .context("loginUrl", appUrlUtil.getAppUrl("/login"))
-                .context("forgotPasswordUrl", appUrlUtil.getAppUrl("/forgot-password", new ImmutablePair<>("email", user.getEmail())))
+                .bodyContext("email", user.getEmail())
+                .bodyContext("loginUrl", appUrlUtil.getAppUrl("/login"))
+                .bodyContext("forgotPasswordUrl", appUrlUtil.getAppUrl("/forgot-password", new ImmutablePair<>("email", user.getEmail())))
                 .build();
 
         emailService.handleCreateEmail(emailRequest);

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
 
+import java.util.List;
 import java.util.Map;
 
 @Value
@@ -14,6 +15,9 @@ public class EmailCreateRequest {
     EmailTemplate template;
     String toAddress;
 
-    @Singular("context")
-    Map<String, Object> context;
+    @Singular("bodyContext")
+    Map<String, Object> bodyContext;
+
+    @Singular("subjectContext")
+    List<Object> subjectContext;
 }

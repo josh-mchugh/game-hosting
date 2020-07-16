@@ -33,7 +33,8 @@ public class EmailService implements IEmailService {
         entity.setTemplate(request.getTemplate());
         entity.setStatus(EmailStatus.PENDING);
         entity.setToAddress(request.getToAddress());
-        entity.setContext(request.getContext());
+        entity.setBodyContext(request.getBodyContext());
+        entity.setSubjectContext(request.getSubjectContext());
 
         entityManager.persist(entity);
 
