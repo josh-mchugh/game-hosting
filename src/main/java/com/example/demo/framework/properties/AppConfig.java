@@ -12,6 +12,7 @@ public class AppConfig {
     private String url;
     private Email email;
     private Password password;
+    private Ovh ovh;
 
     @Data
     public static class Email {
@@ -27,5 +28,15 @@ public class AppConfig {
 
         private Long recoverySchedulerDelay;
         private Long recoveryExpirationOffset;
+    }
+
+    @Data
+    public static class Ovh {
+
+        private String baseUrl;
+        private String appKey;
+        private String appSecret;
+        private String customerKey;
+        private String projectId;
     }
 }
