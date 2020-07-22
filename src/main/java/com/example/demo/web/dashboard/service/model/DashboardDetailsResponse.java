@@ -8,4 +8,5 @@ import lombok.Value;
 public class DashboardDetailsResponse {
 
     boolean emailVerified;
+    boolean hasProjects;
 }

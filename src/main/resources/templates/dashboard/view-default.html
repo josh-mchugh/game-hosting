@@ -1,26 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/single-column}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
     <head>
         <title>[[#{message.dashboard}]]</title>
     </head>
     <body layout:fragment="content">
         <div>
-            <th:block th:if="${!details.emailVerified}">
-                <div class="alert alert-warning" role="alert">
-                    [[#{message.verify.email}]] <a class="email-resend-link" id="resendEmailVerification">[[#{message.resend.email}]]</a>
-                </div>
-            </th:block>
-            <div>
-                <h1>Hello Dashboard</h1>
-            </div>
+            <div data-content-id="dashboardContent" th:data-content-url="@{/dashboard/content}"></div>
         </div>
-        <script type="text/javascript">
-            $("#resendEmailVerification").on("click", function() {
-                $.post("/verify/resend")
-                    .done(function() {
-                        alert("Email Verification Sent");
-                    });
-            });
-        </script>
     </body>
 </html>
