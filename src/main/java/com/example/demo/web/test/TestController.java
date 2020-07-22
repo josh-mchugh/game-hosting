@@ -141,7 +141,7 @@ public class TestController {
         return new ResponseEntity<>(ovhClient.getSshKeys(appConfig.getOvh().getProjectId()), HttpStatus.OK);
     }
 
-    @GetMapping("/ovh/project/sshkeys")
+    @GetMapping("/ovh/project/sshkey")
     public ResponseEntity<?> getSshKey() {
 
         return new ResponseEntity<>(ovhClient.getSshKeyById(appConfig.getOvh().getProjectId(), "5455553d"), HttpStatus.OK);
