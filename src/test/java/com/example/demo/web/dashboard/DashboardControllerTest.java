@@ -55,44 +55,61 @@ public class DashboardControllerTest {
     }
 
     @Test
-    public void testNonVerifiedUserDashboard() throws Exception {
+    public void testDefaultDashboardView() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("non-verified-user@dahboard-controller.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("default-dashboard-view@dashboard-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/dashboard")
                 .with(SecurityMockMvcRequestPostProcessors.user(user.getEmail()));
 
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("dashboard/view-default"));
+    }
+
+    @Test
+    public void testDashboardContentNotVerified() throws Exception {
+
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("dashboard-content-verified@dahboard-controller.com");
+        User user = userService.handleCreateUser(userCreateRequest);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/dashboard/content")
+                .with(SecurityMockMvcRequestPostProcessors.user(user.getEmail()));
+
         DashboardDetailsResponse detailsResponse = DashboardDetailsResponse.builder()
                 .emailVerified(user.getVerification().isVerified())
+                .hasProjects(false)
                 .build();
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("dashboard/view-default"))
+                .andExpect(MockMvcResultMatchers.view().name("dashboard/partial-content"))
                 .andExpect(MockMvcResultMatchers.model().attribute("details", detailsResponse));
     }
 
     @Test
-    public void testVerifiedUserDashboard() throws Exception {
+    public void testDashboardContentVerified() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("verified-user@dahboard-controller.com");
+        UserCreateRequest userCreateRequest = TestUserUtil.createUser("dashboard-content-not-verified@dahboard-controller.com");
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleEmailVerification(user.getVerification().getToken());
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/dashboard")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/dashboard/content")
                 .with(SecurityMockMvcRequestPostProcessors.user(user.getEmail()));
 
         DashboardDetailsResponse detailsResponse = DashboardDetailsResponse.builder()
                 .emailVerified(user.getVerification().isVerified())
+                .hasProjects(true)
                 .build();
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("dashboard/view-default"))
+                .andExpect(MockMvcResultMatchers.view().name("dashboard/partial-content"))
                 .andExpect(MockMvcResultMatchers.model().attribute("details", detailsResponse));
     }
 }

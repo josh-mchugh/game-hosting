@@ -17,8 +17,14 @@ public class DashboardController {
     @GetMapping("")
     public String getDefault(Model model) {
 
+        return "dashboard/view-default";
+    }
+
+    @GetMapping("/content")
+    public String getContent(Model model) {
+
         model.addAttribute("details", dashboardService.getDashboardDetails());
 
-        return "dashboard/view-default";
+        return "dashboard/partial-content";
     }
 }
