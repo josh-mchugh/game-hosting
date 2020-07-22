@@ -19,6 +19,7 @@ public class DashboardService implements IDashboardService {
 
         return DashboardDetailsResponse.builder()
                 .emailVerified(user.getVerification().isVerified())
+                .hasProjects(user.getVerification().isVerified() && true)
                 .build();
     }
 }
