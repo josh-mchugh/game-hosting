@@ -1,6 +1,6 @@
 package com.example.demo.ovh.region.mapper;
 
-import com.example.demo.ovh.feign.model.OvhRegionApiResponse;
+import com.example.demo.ovh.feign.region.model.RegionApi;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.service.mapper.RegionCreateRequestMapper;
 import com.example.demo.ovh.region.service.model.RegionCreateRequest;
@@ -15,7 +15,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasNameThenCreateRequestHasName() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setName("test-name");
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -26,7 +26,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseNameNullThenCreateRequestNameNull() {
 
-        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new OvhRegionApiResponse());
+        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionCreateRequest.getName());
     }
@@ -34,7 +34,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasContinentCodeThenCreateRequestHasContinentCode() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setContinentCode("US");
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -45,7 +45,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseContinentCodeNullThenCreateRequestContinentCodeNull() {
 
-        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new OvhRegionApiResponse());
+        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionCreateRequest.getContinentCode());
     }
@@ -53,7 +53,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasDatacenterLocationThenCreateRequestHasDatacenterLocation() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setDataCenterLocation("US");
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -64,7 +64,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasNullDatacenterLocationThenCreateRequestHasNullDatacenterLocation() {
 
-        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new OvhRegionApiResponse());
+        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionCreateRequest.getDataCenterLocation());
     }
@@ -72,7 +72,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseStatusHasUpThenCreateRequestHasStatusUp() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setStatus(RegionStatus.UP);
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -83,7 +83,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasStatusDownThenCreateRequestHasStatusDown() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setStatus(RegionStatus.DOWN);
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -94,7 +94,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasStatusMaintenanceThenCreateStatusHasStatusMaintenance() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setStatus(RegionStatus.MAINTENANCE);
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -105,7 +105,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasStatusNullThenCreateStatusHasStatusNull() {
 
-        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new OvhRegionApiResponse());
+        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionCreateRequest.getStatus());
     }
@@ -113,7 +113,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasCountryIdThenCreateRequestConcatCountryCodes() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setIpCountries(Arrays.asList("us", "uk", "ca", "es"));
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);
@@ -124,7 +124,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasNullCountryIdThenCreateRequestCountryCodesNull() {
 
-        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new OvhRegionApiResponse());
+        RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionCreateRequest.getCountryCodes());
     }
@@ -132,7 +132,7 @@ public class RegionCreateRequestMapperTest {
     @Test
     public void whenRegionResponseHasEmptyCountryIdsThenCreateRequestCountryCodesNull() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setIpCountries(new ArrayList<>());
 
         RegionCreateRequest regionCreateRequest = RegionCreateRequestMapper.map(regionResponse);

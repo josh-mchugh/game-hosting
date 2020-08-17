@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.model;
+package com.example.demo.ovh.feign.region.model;
 
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OvhRegionApiResponse {
+public class RegionApi {
 
     private String name;
     private String continentCode;

@@ -1,8 +1,8 @@
 package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhImageApiResponse;
+import com.example.demo.ovh.feign.image.ImageClient;
+import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.image.model.Image;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.image.service.IImageService;
@@ -18,21 +18,21 @@ import org.springframework.stereotype.Component;
 public class ImageSchedulerService implements IImageSchedulerService {
 
     private final AppConfig appConfig;
-    private final OvhClient ovhClient;
+    private final ImageClient imageClient;
     private final IImageService imageService;
 
     @Override
-    public ImmutableList<OvhImageApiResponse> getImageResponses() {
+    public ImmutableList<ImageApi> getImageResponses() {
 
-        return ImmutableList.copyOf(ovhClient.getImages(appConfig.getOvh().getProjectId()));
+        return ImmutableList.copyOf(imageClient.getImages(appConfig.getOvh().getProjectId()));
     }
 
     @Override
-    public ProcessedImagesResponse processScheduledImages(ImmutableList<OvhImageApiResponse> imageResponses) {
+    public ProcessedImagesResponse processScheduledImages(ImmutableList<ImageApi> imageResponses) {
 
         ProcessedImagesResponse.Builder builder = ProcessedImagesResponse.builder();
 
-        for (OvhImageApiResponse response : imageResponses) {
+        for (ImageApi response : imageResponses) {
 
             if(imageService.existsByImageId(response.getImageId())) {
 
@@ -47,14 +47,14 @@ public class ImageSchedulerService implements IImageSchedulerService {
         return builder.build();
     }
 
-    private Image processImageUpdate(OvhImageApiResponse imageResponse) {
+    private Image processImageUpdate(ImageApi imageResponse) {
 
         ImageUpdateRequest imageUpdateRequest = buildImageUpdateRequest(imageResponse);
 
         return imageService.handleImageUpdate(imageUpdateRequest);
     }
 
-    private ImageUpdateRequest buildImageUpdateRequest(OvhImageApiResponse imageResponse) {
+    private ImageUpdateRequest buildImageUpdateRequest(ImageApi imageResponse) {
 
         String hourly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getHourly() : null;
         String monthly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getMonthly() : null;
@@ -79,14 +79,14 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .build();
     }
 
-    private Image processImageCreate(OvhImageApiResponse imageResponse) {
+    private Image processImageCreate(ImageApi imageResponse) {
 
         ImageCreateRequest imageCreateRequest = buildImageCreateRequest(imageResponse);
 
         return imageService.handleImageCreate(imageCreateRequest);
     }
 
-    private ImageCreateRequest buildImageCreateRequest(OvhImageApiResponse imageResponse) {
+    private ImageCreateRequest buildImageCreateRequest(ImageApi imageResponse) {
 
         String hourly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getHourly() : null;
         String monthly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getMonthly() : null;

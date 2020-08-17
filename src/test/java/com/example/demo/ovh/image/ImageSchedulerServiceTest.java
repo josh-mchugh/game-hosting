@@ -1,7 +1,7 @@
 package com.example.demo.ovh.image;
 
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhImageApiResponse;
+import com.example.demo.ovh.feign.image.ImageClient;
+import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.image.model.Image;
 import com.example.demo.ovh.image.scheduler.service.IImageSchedulerService;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
@@ -39,17 +39,17 @@ public class ImageSchedulerServiceTest {
     private IImageSchedulerService imageSchedulerService;
 
     @MockBean
-    private OvhClient ovhClient;
+    private ImageClient imageClient;
 
     @Test
     public void testGetImageResponsesCreated() {
 
-        OvhImageApiResponse imageResponse = new OvhImageApiResponse();
+        ImageApi imageResponse = new ImageApi();
         imageResponse.setImageId("get-image-responses");
 
-        Mockito.when(ovhClient.getImages(Mockito.anyString())).thenReturn(ImmutableList.of(imageResponse));
+        Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(ImmutableList.of(imageResponse));
 
-        ImmutableList<OvhImageApiResponse> imageResponses = imageSchedulerService.getImageResponses();
+        ImmutableList<ImageApi> imageResponses = imageSchedulerService.getImageResponses();
 
         Assertions.assertEquals(1, imageResponses.size());
         Assertions.assertEquals(imageResponse.getImageId(), imageResponses.get(0).getImageId());
@@ -67,7 +67,7 @@ public class ImageSchedulerServiceTest {
                 .build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
 
-        OvhImageApiResponse imageResponse = new OvhImageApiResponse();
+        ImageApi imageResponse = new ImageApi();
         imageResponse.setImageId(image.getImageId());
         imageResponse.setRegionName(region.getName());
         imageResponse.setName("new-name");
@@ -88,7 +88,7 @@ public class ImageSchedulerServiceTest {
         RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("process-scheduled-image-created");
         Region region = regionService.handleRegionCreate(regionCreateRequest);
 
-        OvhImageApiResponse imageResponse = new OvhImageApiResponse();
+        ImageApi imageResponse = new ImageApi();
         imageResponse.setImageId("process-scheduled-image-created");
         imageResponse.setRegionName(region.getName());
 

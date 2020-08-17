@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.model;
+package com.example.demo.ovh.feign.instance.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @Builder(builderClassName = "builder")
-public class OvhInstanceCreateApiRequest {
+public class InstanceCreateApi {
 
     String name;
     String flavorId;

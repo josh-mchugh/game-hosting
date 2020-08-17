@@ -1,9 +1,9 @@
-package com.example.demo.ovh.feign.model;
+package com.example.demo.ovh.feign.common;
 
 import lombok.Data;
 
 @Data
-public class OvhIpAddressApi {
+public class IpAddressApi {
 
     private String gatewayIp;
     private String ip;

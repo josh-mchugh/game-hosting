@@ -8,11 +8,14 @@ import com.example.demo.game.service.model.GameCreateRequest;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhFlavorApiResponse;
-import com.example.demo.ovh.feign.model.OvhImageApiResponse;
-import com.example.demo.ovh.feign.model.OvhSshKeyApiResponse;
-import com.example.demo.ovh.feign.model.OvhSshKeyCreateApiRequest;
+import com.example.demo.ovh.feign.flavor.FlavorClient;
+import com.example.demo.ovh.feign.flavor.model.FlavorApi;
+import com.example.demo.ovh.feign.image.ImageClient;
+import com.example.demo.ovh.feign.image.model.ImageApi;
+import com.example.demo.ovh.feign.region.RegionClient;
+import com.example.demo.ovh.feign.ssh.SshKeyClient;
+import com.example.demo.ovh.feign.ssh.model.SshKeyApi;
+import com.example.demo.ovh.feign.ssh.model.SshKeyCreateApi;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
@@ -46,7 +49,10 @@ public class SeedDataRunner {
 
     private final AppConfig appConfig;
     private final IUserService userService;
-    private final OvhClient ovhClient;
+    private final RegionClient regionClient;
+    private final ImageClient imageClient;
+    private final FlavorClient flavorClient;
+    private final SshKeyClient sshKeyClient;
     private final IRegionService regionService;
     private final IFlavorService flavorService;
     private final IImageService imageService;
@@ -117,8 +123,8 @@ public class SeedDataRunner {
 
     private ImmutableList<Region> createRegions() {
 
-        return ovhClient.getRegions(appConfig.getOvh().getProjectId()).stream()
-                .map(name -> ovhClient.getRegion(appConfig.getOvh().getProjectId(), name))
+        return regionClient.getRegions(appConfig.getOvh().getProjectId()).stream()
+                .map(name -> regionClient.getRegion(appConfig.getOvh().getProjectId(), name))
                 .map(RegionCreateRequestMapper::map)
                 .map(regionService::handleRegionCreate)
                 .collect(ImmutableList.toImmutableList());
@@ -126,13 +132,13 @@ public class SeedDataRunner {
 
     private ImmutableList<Flavor> createFlavors() {
 
-        return ovhClient.getFlavors(appConfig.getOvh().getProjectId()).stream()
+        return flavorClient.getFlavors(appConfig.getOvh().getProjectId()).stream()
                 .map(this::buildFlavorCreateRequest)
                 .map(flavorService::handleFlavorCreate)
                 .collect(ImmutableList.toImmutableList());
     }
 
-    private FlavorCreateRequest buildFlavorCreateRequest(OvhFlavorApiResponse flavor) {
+    private FlavorCreateRequest buildFlavorCreateRequest(FlavorApi flavor) {
 
         return FlavorCreateRequest.builder()
                 .flavorId(flavor.getFlavorId())
@@ -154,13 +160,13 @@ public class SeedDataRunner {
 
     private ImmutableList<Image> createImages() {
 
-        return ovhClient.getImages(appConfig.getOvh().getProjectId()).stream()
+        return imageClient.getImages(appConfig.getOvh().getProjectId()).stream()
                 .map(this::buildImageCreateRequest)
                 .map(imageService::handleImageCreate)
                 .collect(ImmutableList.toImmutableList());
     }
 
-    private ImageCreateRequest buildImageCreateRequest(OvhImageApiResponse response) {
+    private ImageCreateRequest buildImageCreateRequest(ImageApi response) {
 
         String hourly = response.getPlanCode() != null ? response.getPlanCode().getHourly() : null;
         String monthly = response.getPlanCode() != null ? response.getPlanCode().getHourly() : null;
@@ -193,17 +199,17 @@ public class SeedDataRunner {
                 .collect(ImmutableList.toImmutableList());
     }
 
-    private OvhSshKeyApiResponse createSshKeyResponse(AppConfig.Ovh.SshKeyConfig config) {
+    private SshKeyApi createSshKeyResponse(AppConfig.Ovh.SshKeyConfig config) {
 
-        OvhSshKeyCreateApiRequest apiRequest = OvhSshKeyCreateApiRequest.builder()
+        SshKeyCreateApi apiRequest = SshKeyCreateApi.builder()
                 .name(config.getName())
                 .publicKey(config.getPublicKey())
                 .build();
 
-        return ovhClient.createSshKey(appConfig.getOvh().getProjectId(), apiRequest);
+        return sshKeyClient.createSshKey(appConfig.getOvh().getProjectId(), apiRequest);
     }
 
-    private Credential createCredential(AppConfig.Ovh.SshKeyConfig config, OvhSshKeyApiResponse apiResponse) {
+    private Credential createCredential(AppConfig.Ovh.SshKeyConfig config, SshKeyApi apiResponse) {
 
         CredentialCreateRequest request = CredentialCreateRequest.builder()
                 .sshKeyId(apiResponse.getId())
@@ -220,11 +226,11 @@ public class SeedDataRunner {
 
         List<Credential> credentials = new ArrayList<>();
 
-        List<OvhSshKeyApiResponse> apiResponses = ovhClient.getSshKeys(appConfig.getOvh().getProjectId());
+        List<SshKeyApi> apiResponses = sshKeyClient.getSshKeys(appConfig.getOvh().getProjectId());
 
         for(AppConfig.Ovh.SshKeyConfig config : appConfig.getOvh().getSshKeyConfigs()) {
 
-            Optional<OvhSshKeyApiResponse> apiResponse = apiResponses.stream()
+            Optional<SshKeyApi> apiResponse = apiResponses.stream()
                     .filter(response -> response.getPublicKey().equals(config.getPublicKey()))
                     .findFirst();
 
