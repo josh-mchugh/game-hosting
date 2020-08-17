@@ -3,7 +3,7 @@ package com.example.demo.sample;
 import com.example.demo.ovh.credential.entity.CredentialType;
 import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
 
-public class TestCredential {
+public class TestCredentialUtil {
 
     public enum Type {
         ANSIBLE

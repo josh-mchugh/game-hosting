@@ -2,6 +2,10 @@ package com.example.demo.user.mapper;
 
 import com.example.demo.user.entity.UserEntity;
 import com.example.demo.user.model.User;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.Collection;
 
 public class UserMapper {
 
@@ -23,5 +27,17 @@ public class UserMapper {
                 .recoveryToken(RecoveryTokenMapper.map(entity.getRecoveryTokenEntity()))
                 .verification(VerificationMapper.map(entity.getVerificationEntity()))
                 .build();
+    }
+
+    public static ImmutableList<User> map(Collection<UserEntity> entities) {
+
+        if(CollectionUtils.isEmpty(entities)) {
+
+            return ImmutableList.of();
+        }
+
+        return entities.stream()
+                .map(UserMapper::map)
+                .collect(ImmutableList.toImmutableList());
     }
 }
