@@ -1,6 +1,7 @@
 package com.example.demo.user.entity;
 
 import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.project.entity.ProjectMembershipEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +10,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,4 +47,7 @@ public class UserEntity extends AbstractEntity {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userEntity")
     private VerificationEntity verificationEntity;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userEntity")
+    private List<ProjectMembershipEntity> projectMemberEntities;
 }
