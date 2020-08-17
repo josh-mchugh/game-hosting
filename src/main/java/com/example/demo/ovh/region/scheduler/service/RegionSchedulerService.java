@@ -1,8 +1,8 @@
 package com.example.demo.ovh.region.scheduler.service;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhRegionApiResponse;
+import com.example.demo.ovh.feign.region.RegionClient;
+import com.example.demo.ovh.feign.region.model.RegionApi;
 import com.example.demo.ovh.region.model.Region;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.example.demo.ovh.region.service.IRegionService;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 public class RegionSchedulerService implements IRegionSchedulerService {
 
     private final AppConfig appConfig;
-    private final OvhClient ovhClient;
+    private final RegionClient regionClient;
     private final IRegionService regionService;
 
     @Override
     public ImmutableList<String> getRegionNames() {
 
-        return ImmutableList.copyOf(ovhClient.getRegions(appConfig.getOvh().getProjectId()));
+        return ImmutableList.copyOf(regionClient.getRegions(appConfig.getOvh().getProjectId()));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
         for(String name : regionNames) {
 
-            OvhRegionApiResponse regionResponse = ovhClient.getRegion(appConfig.getOvh().getProjectId(), name);
+            RegionApi regionResponse = regionClient.getRegion(appConfig.getOvh().getProjectId(), name);
 
             if(regionService.existsByName(name)) {
 
@@ -48,12 +48,12 @@ public class RegionSchedulerService implements IRegionSchedulerService {
         return builder.build();
     }
 
-    private Region handleUpdateRegion(OvhRegionApiResponse region) {
+    private Region handleUpdateRegion(RegionApi region) {
 
         return regionService.handleRegionUpdate(RegionUpdateRequestMapper.map(region));
     }
 
-    private Region handleCreateRegion(OvhRegionApiResponse region) {
+    private Region handleCreateRegion(RegionApi region) {
 
         return regionService.handleRegionCreate(RegionCreateRequestMapper.map(region));
     }

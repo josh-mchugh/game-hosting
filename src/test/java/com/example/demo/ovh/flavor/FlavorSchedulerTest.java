@@ -1,7 +1,7 @@
 package com.example.demo.ovh.flavor;
 
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhFlavorApiResponse;
+import com.example.demo.ovh.feign.flavor.FlavorClient;
+import com.example.demo.ovh.feign.flavor.model.FlavorApi;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.scheduler.service.IFlavorSchedulerService;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
@@ -40,17 +40,17 @@ public class FlavorSchedulerTest {
     private IFlavorSchedulerService flavorSchedulerService;
 
     @MockBean
-    private OvhClient ovhClient;
+    private FlavorClient flavorClient;
 
     @Test
     public void testGetFlavorResponses() {
 
-        OvhFlavorApiResponse flavorResponse = new OvhFlavorApiResponse();
+        FlavorApi flavorResponse = new FlavorApi();
         flavorResponse.setFlavorId("get-flavor-responses");
 
-        Mockito.when(ovhClient.getFlavors(Mockito.anyString())).thenReturn(Collections.singletonList(flavorResponse));
+        Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenReturn(Collections.singletonList(flavorResponse));
 
-        ImmutableList<OvhFlavorApiResponse> flavorResponses = flavorSchedulerService.getFlavorResponses();
+        ImmutableList<FlavorApi> flavorResponses = flavorSchedulerService.getFlavorResponses();
 
         Assertions.assertEquals(1, flavorResponses.size());
         Assertions.assertEquals(flavorResponse.getFlavorId(), flavorResponses.get(0).getFlavorId());
@@ -62,7 +62,7 @@ public class FlavorSchedulerTest {
         RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("processor-flavors-created");
         Region region = regionService.handleRegionCreate(regionCreateRequest);
 
-        OvhFlavorApiResponse flavorResponse = new OvhFlavorApiResponse();
+        FlavorApi flavorResponse = new FlavorApi();
         flavorResponse.setFlavorId("processor-flavors-created");
         flavorResponse.setRegionName(region.getName());
 
@@ -83,7 +83,7 @@ public class FlavorSchedulerTest {
         FlavorCreateRequest flavorCreateRequest = TestFlavorUtil.createFlavor("processor-flavors-updated", region.getName());
         Flavor flavor = flavorService.handleFlavorCreate(flavorCreateRequest);
 
-        OvhFlavorApiResponse flavorResponse = new OvhFlavorApiResponse();
+        FlavorApi flavorResponse = new FlavorApi();
         flavorResponse.setFlavorId(flavor.getFlavorId());
         flavorResponse.setRegionName(region.getName());
 

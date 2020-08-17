@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.model;
+package com.example.demo.ovh.feign.instance.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OvhInstanceGroupApiResponse {
+public class InstanceGroupApi {
 
     private String id;
     private String name;

@@ -1,9 +1,9 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhInstanceApiResponse;
-import com.example.demo.ovh.feign.model.OvhIpAddressApi;
+import com.example.demo.ovh.feign.instance.InstanceClient;
+import com.example.demo.ovh.feign.instance.model.InstanceApi;
+import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.ovh.instance.mapper.InstanceMapper;
@@ -30,14 +30,14 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
     private final AppConfig appConfig;
     private final JPQLQueryFactory queryFactory;
     private final IInstanceService instanceService;
-    private final OvhClient ovhClient;
+    private final InstanceClient instanceClient;
 
     @Override
     public ImmutableList<Instance> handleInstanceUpdates() {
 
         List<Instance> updatedInstances = new ArrayList<>();
 
-        for(List<OvhInstanceApiResponse> apiResponses : getPartitionedApiList()) {
+        for(List<InstanceApi> apiResponses : getPartitionedApiList()) {
 
             List<String> instanceIds = getInstanceIds(apiResponses);
 
@@ -45,7 +45,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
             if(CollectionUtils.isNotEmpty(instances)) {
 
-                for(OvhInstanceApiResponse apiResponse : apiResponses) {
+                for(InstanceApi apiResponse : apiResponses) {
 
                     for (Instance instance : instances) {
 
@@ -64,9 +64,9 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         return ImmutableList.copyOf(updatedInstances);
     }
 
-    public List<List<OvhInstanceApiResponse>> getPartitionedApiList() {
+    public List<List<InstanceApi>> getPartitionedApiList() {
 
-        return Lists.partition(ovhClient.getInstances(appConfig.getOvh().getProjectId()), 20);
+        return Lists.partition(instanceClient.getInstances(appConfig.getOvh().getProjectId()), 20);
     }
 
     public ImmutableList<Instance> getInstances(Collection<String> ids) {
@@ -81,14 +81,14 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         return InstanceMapper.map(entities);
     }
 
-    private List<String> getInstanceIds(List<OvhInstanceApiResponse> apiResponses) {
+    private List<String> getInstanceIds(List<InstanceApi> apiResponses) {
 
         return apiResponses.stream()
-                .map(OvhInstanceApiResponse::getId)
+                .map(InstanceApi::getId)
                 .collect(Collectors.toList());
     }
 
-    private boolean isEqual(Instance instance, OvhInstanceApiResponse apiResponse) {
+    private boolean isEqual(Instance instance, InstanceApi apiResponse) {
 
         if(!Objects.equals(instance.getName(), apiResponse.getName())) return false;
         if(!Objects.equals(instance.getStatus(), apiResponse.getStatus())) return false;
@@ -101,17 +101,17 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         return Objects.equals(instance.getIp6Address(), ip6Address);
     }
 
-    private String getIp4Address(List<OvhIpAddressApi> ipAddresses) {
+    private String getIp4Address(List<IpAddressApi> ipAddresses) {
 
         return getIpAddress(ipAddresses, 4);
     }
 
-    private String getIp6Address(List<OvhIpAddressApi> ipAddresses) {
+    private String getIp6Address(List<IpAddressApi> ipAddresses) {
 
         return getIpAddress(ipAddresses, 6);
     }
 
-    private String getIpAddress(List<OvhIpAddressApi> ipAddresses, Integer version) {
+    private String getIpAddress(List<IpAddressApi> ipAddresses, Integer version) {
 
         if(ipAddresses == null) {
 
@@ -120,12 +120,12 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
         return ipAddresses.stream()
                 .filter(ipAddress -> ipAddress.getVersion().equals(version))
-                .map(OvhIpAddressApi::getIp)
+                .map(IpAddressApi::getIp)
                 .findFirst()
                 .orElse(null);
     }
 
-    private Instance handleInstanceUpdate(String id, OvhInstanceApiResponse apiResponse) {
+    private Instance handleInstanceUpdate(String id, InstanceApi apiResponse) {
 
         InstanceUpdateRequest request = InstanceUpdateRequest.builder()
                 .id(id)

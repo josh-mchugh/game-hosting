@@ -6,9 +6,9 @@ import com.example.demo.game.service.model.GameCreateRequest;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhInstanceApiResponse;
-import com.example.demo.ovh.feign.model.OvhIpAddressApi;
+import com.example.demo.ovh.feign.common.IpAddressApi;
+import com.example.demo.ovh.feign.instance.InstanceClient;
+import com.example.demo.ovh.feign.instance.model.InstanceApi;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
@@ -93,7 +93,7 @@ public class InstanceSchedulerServiceTest {
     private ICredentialService credentialService;
 
     @MockBean
-    private OvhClient ovhClient;
+    private InstanceClient instanceClient;
 
     private Instance instance;
 
@@ -143,7 +143,7 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponsesIsEmptyThenReturnEmptyArray() {
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(new ArrayList<>());
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(new ArrayList<>());
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -153,14 +153,14 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseIsEqualThenReturnEmptyArray() {
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
         apiResponse.setName(instance.getName());
         apiResponse.setStatus(instance.getStatus());
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(instance.getInstanceCreatedDate());
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -171,10 +171,10 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseInstanceIdIsValidThenEqualUpdatedInstanceId() {
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> instances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -184,14 +184,14 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseNameIsDifferentThenReturnUpdatedName() {
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
         apiResponse.setName("new-name");
         apiResponse.setStatus(instance.getStatus());
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(instance.getInstanceCreatedDate());
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -201,14 +201,14 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseStatusIsDifferentThenReturnUpdatedStatus() {
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
         apiResponse.setName(instance.getName());
         apiResponse.setStatus(InstanceStatus.STOPPED);
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(instance.getInstanceCreatedDate());
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -220,14 +220,14 @@ public class InstanceSchedulerServiceTest {
 
         LocalDateTime createdDate = LocalDateTime.now();
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
         apiResponse.setName(instance.getName());
         apiResponse.setStatus(instance.getStatus());
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(createdDate);
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -237,14 +237,14 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseIp4AddressIdDifferentThenReturnUpdatedIp4Address() {
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
         apiResponse.setName(instance.getName());
         apiResponse.setStatus(instance.getStatus());
         apiResponse.setIpAddresses(buildIpAddresses("1.1.1.1.1", "0.0.0.0.0.0"));
         apiResponse.setCreatedDate(instance.getInstanceCreatedDate());
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -254,32 +254,32 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseIp6AddressIdDifferentThenReturnUpdatedIp6Address() {
 
-        OvhInstanceApiResponse apiResponse = new OvhInstanceApiResponse();
+        InstanceApi apiResponse = new InstanceApi();
         apiResponse.setId(instance.getInstanceId());
         apiResponse.setName(instance.getName());
         apiResponse.setStatus(instance.getStatus());
         apiResponse.setIpAddresses(buildIpAddresses("0.0.0.0.0.0", "1.1.1.1.1"));
         apiResponse.setCreatedDate(instance.getInstanceCreatedDate());
 
-        Mockito.when(ovhClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
 
         ImmutableList<Instance> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
         Assertions.assertEquals("1.1.1.1.1", updatedInstances.get(0).getIp6Address());
     }
 
-    private List<OvhIpAddressApi> buildIpAddresses() {
+    private List<IpAddressApi> buildIpAddresses() {
 
         return buildIpAddresses("0.0.0.0.0.0", "0.0.0.0.0.0");
     }
 
-    private List<OvhIpAddressApi> buildIpAddresses(String ip4Address, String ip6Address) {
+    private List<IpAddressApi> buildIpAddresses(String ip4Address, String ip6Address) {
 
-        OvhIpAddressApi ip4 = new OvhIpAddressApi();
+        IpAddressApi ip4 = new IpAddressApi();
         ip4.setVersion(4);
         ip4.setIp(ip4Address);
 
-        OvhIpAddressApi ip6 = new OvhIpAddressApi();
+        IpAddressApi ip6 = new IpAddressApi();
         ip6.setVersion(6);
         ip6.setIp(ip6Address);
 

@@ -1,6 +1,6 @@
 package com.example.demo.ovh.region.mapper;
 
-import com.example.demo.ovh.feign.model.OvhRegionApiResponse;
+import com.example.demo.ovh.feign.region.model.RegionApi;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.service.mapper.RegionUpdateRequestMapper;
 import com.example.demo.ovh.region.service.model.RegionUpdateRequest;
@@ -15,7 +15,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasNameThenUpdateRequestHasName() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setName("test-name");
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -26,7 +26,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseNameNullThenUpdateRequestNameNull() {
 
-        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new OvhRegionApiResponse());
+        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionUpdateRequest.getName());
     }
@@ -34,7 +34,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasContinentCodeThenUpdateRequestHasContinentCode() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setContinentCode("US");
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -45,7 +45,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseContinentCodeNullThenUpdateRequestContinentCodeNull() {
 
-        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new OvhRegionApiResponse());
+        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionUpdateRequest.getContinentCode());
     }
@@ -53,7 +53,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasDatacenterLocationThenUpdateRequestHasDatacenterLocation() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setDataCenterLocation("US");
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -64,7 +64,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasNullDatacenterLocationThenUpdateRequestHasNullDatacenterLocation() {
 
-        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new OvhRegionApiResponse());
+        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionUpdateRequest.getDataCenterLocation());
     }
@@ -72,7 +72,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseStatusHasUpThenUpdateRequestHasStatusUp() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setStatus(RegionStatus.UP);
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -83,7 +83,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasStatusDownThenUpdateRequestHasStatusDown() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setStatus(RegionStatus.DOWN);
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -94,7 +94,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasStatusMaintenanceThenUpdateRequestStatusHasStatusMaintenance() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setStatus(RegionStatus.MAINTENANCE);
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -105,7 +105,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasStatusNullThenUpdateRequestStatusHasStatusNull() {
 
-        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new OvhRegionApiResponse());
+        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionUpdateRequest.getStatus());
     }
@@ -113,7 +113,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasCountryIdThenUpdateRequestConcatCountryCodes() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setIpCountries(Arrays.asList("us", "uk", "ca", "es"));
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
@@ -124,7 +124,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasNullCountryIdThenUpdateRequestCountryCodesNull() {
 
-        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new OvhRegionApiResponse());
+        RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(new RegionApi());
 
         Assertions.assertNull(regionUpdateRequest.getCountryCodes());
     }
@@ -132,7 +132,7 @@ public class RegionUpdateRequestMapperTest {
     @Test
     public void whenRegionResponseHasEmptyCountryIdsThenUpdateRequestCountryCodesNull() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setIpCountries(new ArrayList<>());
 
         RegionUpdateRequest regionUpdateRequest = RegionUpdateRequestMapper.map(regionResponse);
