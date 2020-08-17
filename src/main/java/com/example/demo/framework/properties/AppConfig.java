@@ -1,8 +1,11 @@
 package com.example.demo.framework.properties;
 
+import com.example.demo.ovh.credential.entity.CredentialType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Data
 @Configuration
@@ -10,9 +13,17 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     private String url;
+    private boolean enableSeedData;
+    private AdminUser adminUser;
     private Email email;
     private Password password;
     private Ovh ovh;
+
+    @Data
+    public static class AdminUser {
+        private String username;
+        private String password;
+    }
 
     @Data
     public static class Email {
@@ -38,5 +49,21 @@ public class AppConfig {
         private String appSecret;
         private String customerKey;
         private String projectId;
+        private String regionSchedulerDelay;
+        private String regionSchedulerInitialDelay;
+        private String flavorSchedulerDelay;
+        private String flavorSchedulerInitialDelay;
+        private String imageSchedulerDelay;
+        private String imageSchedulerInitialDelay;
+        private List<SshKeyConfig> sshKeyConfigs;
+
+        @Data
+        public static class SshKeyConfig {
+
+            private String name;
+            private CredentialType type;
+            private String publicKey;
+            private String privateKey;
+        }
     }
 }

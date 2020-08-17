@@ -6,5 +6,7 @@ public interface ISessionUtil {
 
     boolean isAuthenticated();
 
+    String getCurrentUserEmail();
+
     User getCurrentUser();
 }

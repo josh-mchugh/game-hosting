@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
+    <head>
+        <title>[[${details.name}]]</title>
+    </head>
+    <body layout:fragment="content">
+        <div>
+            <h1>[[${details.name}]]</h1>
+        </div>
+        <ul>
+            <li>Game: [[${details.gameType}]]</li>
+            <li>Ip Address: [[${details.ip4Address}]]</li>
+            <li>Status: [[${details.instanceStatus}]]</li>
+            <li>CPU usage</li>
+            <li>Memory usage</li>
+            <li>
+                <a class="btn btn-success" id="instanceStart">Start</a>
+            </li>
+            <li>
+                <a class="btn btn-danger" id="instanceStop">Stop</a>
+            </li>
+        </ul>
+        <script type="text/javascript">
+            $(function() {
+
+                $("#instanceStart").on("click", function(event) {
+                   event.preventDefault();
+
+                   $.post("/project/[(${id})]/instance/[(${details.instanceId})]/start")
+                        .done(function() {
+                            console.log("start called");
+                        });
+
+                   return false;
+                });
+
+                $("#instanceStop").on("click", function(event) {
+                   event.preventDefault();
+
+                   $.post("/project/[(${id})]/instance/[(${details.instanceId})]/stop")
+                        .done(function() {
+                            console.log("stop called");
+                        });
+
+                   return false;
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <script type="text/javascript" th:inline="javascript">
+
+        [# th:if="${redirectUrl != null}"]
+            // Redirect
+            window.location.href = "[(${redirectUrl})]";
+        [/]
+
+        // Hide modal if is show and remove modal content
+        var modal = $("#pageModal");
+        if ($(modal).is(":visible")) {
+            $(modal).modal("hide");
+            $(modal).find(".modal-content").html("");
+        }
+
+        [# th:if="${!#strings.isEmpty(type)}"]
+            // Display Toaster
+            switch([[${type}]]) {
+                case "SUCCESS":
+                    toastr.success([[${message}]]);
+                    break;
+                case "INFO":
+                    toastr.info([[${message}]]);
+                    break;
+                case "WARNING":
+                    toastr.warning([[${message}]]);
+                    break;
+                case "ERROR":
+                    toastr.error([[${message}]]);
+                    break;
+                default:
+                    toastr.info([[${message}]]);
+                    break;
+            }
+        [/]
+
+        [# th:if="${event != null}"]
+            // Reload content
+            $("[data-content-id='[(${event.id})]']").trigger([[${event.name}]]);
+        [/]
+    </script>
+</html>
