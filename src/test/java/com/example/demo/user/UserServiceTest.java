@@ -1,6 +1,6 @@
 package com.example.demo.user;
 
-import com.example.demo.test.TestUserUtil;
+import com.example.demo.sample.TestUserUtil;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.user.model.User;

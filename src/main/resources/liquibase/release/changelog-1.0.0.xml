@@ -108,6 +108,7 @@
             </column>
             <column name="verification_date" type="timestamp"/>
         </createTable>
+        <addForeignKeyConstraint baseTableName="user_verification" baseColumnNames="user_id" constraintName="user_verification_user_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="5" author="jmchugh">
@@ -116,4 +117,234 @@
             <column name="subject_context" type="nvarchar(MAX)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="6" author="jmchugh">
+        <createTable tableName="region">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__region" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="name" type="nvarchar(255)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="continent_code" type="nvarchar(255)"/>
+            <column name="country_codes" type="nvarchar(255)"/>
+            <column name="data_center_location" type="nvarchar(255)"/>
+            <column name="status" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="7" author="jmchugh">
+        <createTable tableName="flavor">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__flavor" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="flavor_id" type="nvarchar(255)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="region_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)"/>
+            <column name="type" type="nvarchar(255)"/>
+            <column name="available" type="boolean"/>
+            <column name="hourly" type="nvarchar(255)"/>
+            <column name="monthly" type="nvarchar(255)"/>
+            <column name="quota" type="int"/>
+            <column name="os_type" type="nvarchar(255)"/>
+            <column name="vcpus" type="int"/>
+            <column name="ram" type="int"/>
+            <column name="disk" type="int"/>
+            <column name="inbound_bandwidth" type="int"/>
+            <column name="outbound_bandwidth" type="int"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="flavor" baseColumnNames="region_id" constraintName="flavor_region_id__region_id"  referencedTableName="region" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="8" author="jmchugh">
+        <createTable tableName="image">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__image" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="image_id" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="region_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="nvarchar(255)"/>
+            <column name="name" type="nvarchar(255)"/>
+            <column name="image_created_date" type="datetime"/>
+            <column name="flavor_type" type="nvarchar(255)"/>
+            <column name="hourly" type="nvarchar(255)"/>
+            <column name="monthly" type="nvarchar(255)"/>
+            <column name="size" type="double"/>
+            <column name="min_ram" type="int"/>
+            <column name="min_disk" type="int"/>
+            <column name="username" type="nvarchar(255)"/>
+            <column name="status" type="nvarchar(255)"/>
+            <column name="visibility" type="nvarchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="image" baseColumnNames="region_id" constraintName="image_region_id__region_id" referencedTableName="region" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="9" author="jmchugh">
+        <createTable tableName="game">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__game" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="type" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10" author="jmchugh">
+        <createTable tableName="project">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__project" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="name" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="game_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="project" baseColumnNames="game_id" constraintName="project_game_id__game_id" referencedTableName="game" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="11" author="jmchugh">
+        <createTable tableName="project_membership">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__project_membership" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="project_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="project_membership" baseColumnNames="project_id" constraintName="project_membership_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="project_membership" baseColumnNames="user_id" constraintName="project_membership_user_id__users_id" referencedTableName="users" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="12" author="jmchugh">
+        <createTable tableName="instance_group">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__instance_group" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="group_id" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)"/>
+            <column name="type" type="nvarchar(255)"/>
+            <column name="project_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="instance_group" baseColumnNames="project_id" constraintName="instance_group_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="13" author="jmchugh">
+        <createTable tableName="credential">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__credential" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="ssh_key_id" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)"/>
+            <column name="public_key" type="nvarchar(MAX)"/>
+            <column name="private_key" type="nvarchar(MAX)"/>
+            <column name="type" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="14" author="jmchugh">
+        <createTable tableName="instance">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__instance" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="flavor_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instance_group_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credential_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instance_id" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)"/>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instance_created_date" type="datetime"/>
+            <column name="ip4_address" type="nvarchar(255)"/>
+            <column name="ip6_address" type="nvarchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="flavor_id" constraintName="instance_flavor_id__flavor_id" referencedTableName="flavor" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="image_id" constraintName="instance_image_id__image_id" referencedTableName="image" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="instance_group_id" constraintName="instance_instance_group_id__instance_group_id" referencedTableName="instance_group" referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="credential_id" constraintName="instance_credential_id__credential_id" referencedTableName="credential" referencedColumnNames="id"/>
+    </changeSet>
+
 </databaseChangeLog>

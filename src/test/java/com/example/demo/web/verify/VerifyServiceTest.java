@@ -1,6 +1,6 @@
 package com.example.demo.web.verify;
 
-import com.example.demo.test.TestUserUtil;
+import com.example.demo.sample.TestUserUtil;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
