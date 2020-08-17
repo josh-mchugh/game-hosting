@@ -1,24 +1,28 @@
 package com.example.demo.user.scheduler;
 
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.model.User;
+import com.example.demo.user.scheduler.service.IRecoveryTokenSchedulerService;
+import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RecoveryTokenScheduler {
 
-    private final IUserService userService;
+    private IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
 
     @Scheduled(fixedDelayString = "${app.password.recovery-scheduler-delay}", initialDelayString = "${app.password.recovery-scheduler-initial-delay}")
     public void scheduledExpiredRecoveryTokenProcessor() {
 
-        while(userService.existsByRecoveryTokensExpired()) {
+        log.info("Processing Expired RecoveryTokens");
 
-            userService.getByRecoveryTokensExpired().stream()
-                    .map(user -> user.getRecoveryToken().getId())
-                    .forEach(userService::handleDeleteRecoveryTokenById);
-        }
+        ImmutableList<User> users = recoveryTokenSchedulerService.processExpiredRecoveryTokens();
+
+        log.info("Processed Expired Tokens: {}", users.size());
+        log.info("FinishedProcessing Expired Recovery Tokens");
     }
 }

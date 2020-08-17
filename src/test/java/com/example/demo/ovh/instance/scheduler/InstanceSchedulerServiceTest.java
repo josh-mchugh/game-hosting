@@ -29,7 +29,7 @@ import com.example.demo.ovh.region.service.model.RegionCreateRequest;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.TestCredential;
+import com.example.demo.sample.TestCredentialUtil;
 import com.example.demo.sample.TestFlavorUtil;
 import com.example.demo.sample.TestGameUtil;
 import com.example.demo.sample.TestImageUtil;
@@ -115,7 +115,7 @@ public class InstanceSchedulerServiceTest {
         ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.UBUNTU_20_4).build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
 
-        CredentialCreateRequest credentialCreateRequest = TestCredential.createDefault();
+        CredentialCreateRequest credentialCreateRequest = TestCredentialUtil.createDefault();
         Credential credential = credentialService.handleSshKeyCreate(credentialCreateRequest);
 
         ProjectCreateRequest projectCreateRequest = TestProjectUtil.builder()

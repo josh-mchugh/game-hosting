@@ -10,8 +10,12 @@ import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
 import com.example.demo.user.service.model.UserPasswordResetRequest;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -211,30 +215,20 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public boolean existsByRecoveryTokensExpired() {
+    public Page<User> getByRecoveryTokensExpired(Pageable pageable) {
 
         QUserEntity qUser = QUserEntity.userEntity;
 
-        long count = queryFactory.select(qUser.id)
+        JPQLQuery<UserEntity> query = queryFactory.select(qUser)
                 .from(qUser)
                 .where(qUser.recoveryTokenEntity.expirationDate.before(LocalDateTime.now()))
-                .fetchCount();
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset());
 
-        return count >= 1;
-    }
+        List<UserEntity> entities = query.fetch();
 
-    @Override
-    public List<User> getByRecoveryTokensExpired() {
 
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        return queryFactory.selectFrom(qUser)
-                .where(qUser.recoveryTokenEntity.expirationDate.before(LocalDateTime.now()))
-                .limit(20)
-                .fetch()
-                .stream()
-                .map(UserMapper::map)
-                .collect(Collectors.toList());
+        return new PageImpl<>(UserMapper.map(entities), pageable, query.fetchCount());
     }
 
     private UserEntity findUserByEmail(String email) {
