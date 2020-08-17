@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -214,21 +214,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testExistsByRecoveryTokensExpired() throws Exception {
-
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user2@recovery-token-service.com");
-        User user = userService.handleCreateUser(userCreateRequest);
-
-        userService.handleCreateRecoveryToken(user.getEmail());
-
-        Thread.sleep(201);
-
-        boolean existsExpired = userService.existsByRecoveryTokensExpired();
-
-        Assertions.assertTrue(existsExpired);
-    }
-
-    @Test
     public void testGetByRecoveryTokenExpired() throws Exception {
 
         UserCreateRequest userCreateRequest = TestUserUtil.createUser("user3@recovery-token-service.com");
@@ -238,9 +223,9 @@ public class UserServiceTest {
 
         Thread.sleep(201);
 
-        List<User> expiredRecoveryTokens = userService.getByRecoveryTokensExpired();
+        Page<User> expiredRecoveryTokens = userService.getByRecoveryTokensExpired(PageRequest.of(0, 20));
 
-        Assertions.assertTrue(expiredRecoveryTokens.size() >= 1);
+        Assertions.assertTrue(expiredRecoveryTokens.getContent().size() >= 1);
     }
 
     @Test
