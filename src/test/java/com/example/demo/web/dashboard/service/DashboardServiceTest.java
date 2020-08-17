@@ -8,12 +8,13 @@ import com.example.demo.game.service.model.GameCreateRequest;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhFlavorApiResponse;
-import com.example.demo.ovh.feign.model.OvhImageApiResponse;
-import com.example.demo.ovh.feign.model.OvhInstanceApiResponse;
-import com.example.demo.ovh.feign.model.OvhInstanceGroupApiResponse;
-import com.example.demo.ovh.feign.model.OvhSshKeyDetail;
+import com.example.demo.ovh.feign.common.SshKeyDetailApi;
+import com.example.demo.ovh.feign.flavor.model.FlavorApi;
+import com.example.demo.ovh.feign.image.model.ImageApi;
+import com.example.demo.ovh.feign.instance.InstanceClient;
+import com.example.demo.ovh.feign.instance.InstanceGroupClient;
+import com.example.demo.ovh.feign.instance.model.InstanceApi;
+import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
@@ -86,7 +87,10 @@ public class DashboardServiceTest {
     private ISessionUtil sessionUtil;
 
     @MockBean
-    private OvhClient ovhClient;
+    private InstanceClient instanceClient;
+
+    @MockBean
+    private InstanceGroupClient instanceGroupClient;
 
     private User user;
 
@@ -204,27 +208,27 @@ public class DashboardServiceTest {
 
         Mockito.when(sessionUtil.getCurrentUser()).thenReturn(user);
 
-        OvhInstanceGroupApiResponse instanceGroupApiResponse = new OvhInstanceGroupApiResponse();
+        InstanceGroupApi instanceGroupApiResponse = new InstanceGroupApi();
         instanceGroupApiResponse.setId("5eeb0772-7658-46e2-ad95-b2566ccdd394");
         instanceGroupApiResponse.setName("d4afbaa3-0b2a-47a1-9c76-6dd2eab75042");
         instanceGroupApiResponse.setRegion("US-EAST-VA-1");
         instanceGroupApiResponse.setType("affinity");
 
-        Mockito.when(ovhClient.createGroup(Mockito.anyString(), Mockito.any())).thenReturn(instanceGroupApiResponse);
+        Mockito.when(instanceGroupClient.createInstanceGroup(Mockito.anyString(), Mockito.any())).thenReturn(instanceGroupApiResponse);
 
-        OvhInstanceApiResponse instanceApiResponse = new OvhInstanceApiResponse();
+        InstanceApi instanceApiResponse = new InstanceApi();
         instanceApiResponse.setId("b6625973-469d-42b4-8e4e-9ede2b3305bd");
         instanceApiResponse.setName("Test Project Name");
         instanceApiResponse.setStatus(InstanceStatus.BUILD);
         instanceApiResponse.setCreatedDate(LocalDateTime.now());
         instanceApiResponse.setRegion("US-EAST-VA-1");
 
-        OvhSshKeyDetail sshKeyDetail = new OvhSshKeyDetail();
+        SshKeyDetailApi sshKeyDetail = new SshKeyDetailApi();
         sshKeyDetail.setId("ssh key id");
 
         instanceApiResponse.setSshKey(sshKeyDetail);
 
-        OvhFlavorApiResponse flavorApiResponse = new OvhFlavorApiResponse();
+        FlavorApi flavorApiResponse = new FlavorApi();
         flavorApiResponse.setFlavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e");
         flavorApiResponse.setName("s1-2");
         flavorApiResponse.setAvailable(true);
@@ -240,7 +244,7 @@ public class DashboardServiceTest {
 
         instanceApiResponse.setFlavor(flavorApiResponse);
 
-        OvhImageApiResponse imageApiResponse = new OvhImageApiResponse();
+        ImageApi imageApiResponse = new ImageApi();
         imageApiResponse.setImageId("cefc8220-ba0a-4327-b13d-591abaf4be0c");
         imageApiResponse.setName("Ubuntu 20.04");
         imageApiResponse.setCreationDate(LocalDateTime.now());
@@ -254,7 +258,7 @@ public class DashboardServiceTest {
 
         instanceApiResponse.setImage(imageApiResponse);
 
-        Mockito.when(ovhClient.createInstance(Mockito.anyString(), Mockito.any())).thenReturn(instanceApiResponse);
+        Mockito.when(instanceClient.createInstance(Mockito.anyString(), Mockito.any())).thenReturn(instanceApiResponse);
 
         DashboardProjectCreateRequest createRequest = DashboardProjectCreateRequest.builder()
                 .name("test-project")

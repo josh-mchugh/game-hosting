@@ -1,8 +1,8 @@
 package com.example.demo.ovh.flavor.scheduler.service;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhFlavorApiResponse;
+import com.example.demo.ovh.feign.flavor.FlavorClient;
+import com.example.demo.ovh.feign.flavor.model.FlavorApi;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.flavor.service.IFlavorService;
@@ -17,21 +17,21 @@ import org.springframework.stereotype.Component;
 public class FlavorSchedulerService implements IFlavorSchedulerService {
 
     private final AppConfig appConfig;
-    private final OvhClient ovhClient;
+    private final FlavorClient flavorClient;
     private final IFlavorService flavorService;
 
     @Override
-    public ImmutableList<OvhFlavorApiResponse> getFlavorResponses() {
+    public ImmutableList<FlavorApi> getFlavorResponses() {
 
-        return ImmutableList.copyOf(ovhClient.getFlavors(appConfig.getOvh().getProjectId()));
+        return ImmutableList.copyOf(flavorClient.getFlavors(appConfig.getOvh().getProjectId()));
     }
 
     @Override
-    public ProcessedFlavorsResponse processFlavors(ImmutableList<OvhFlavorApiResponse> flavorResponses) {
+    public ProcessedFlavorsResponse processFlavors(ImmutableList<FlavorApi> flavorResponses) {
 
         ProcessedFlavorsResponse.Builder builder = ProcessedFlavorsResponse.builder();
 
-        for(OvhFlavorApiResponse flavorResponse : flavorResponses) {
+        for(FlavorApi flavorResponse : flavorResponses) {
 
             if (flavorService.existsByFlavorId(flavorResponse.getFlavorId())) {
 
@@ -47,7 +47,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return builder.build();
     }
 
-    private Flavor handleFlavorUpdate(OvhFlavorApiResponse flavorResponse) {
+    private Flavor handleFlavorUpdate(FlavorApi flavorResponse) {
 
         String hourly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getHourly() : null;
         String monthly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getMonthly() : null;
@@ -72,7 +72,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return flavorService.handleFlavorUpdate(request);
     }
 
-    private Flavor handleFlavorCreate(OvhFlavorApiResponse flavorResponse) {
+    private Flavor handleFlavorCreate(FlavorApi flavorResponse) {
 
         String hourly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getHourly() : null;
         String monthly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getMonthly() : null;

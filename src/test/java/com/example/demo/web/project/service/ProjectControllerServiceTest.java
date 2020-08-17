@@ -6,7 +6,7 @@ import com.example.demo.game.service.model.GameCreateRequest;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.ovh.feign.OvhClient;
+import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
@@ -88,7 +88,7 @@ public class ProjectControllerServiceTest {
     private ICredentialService credentialService;
 
     @MockBean
-    private OvhClient ovhClient;
+    private InstanceClient instanceClient;
 
     private Project project;
     private Instance instance;
@@ -163,7 +163,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStartHasValidIdThenThrowNoException() {
 
-        Mockito.doNothing().when(ovhClient).startInstance(project.getId(), instance.getInstanceId());
+        Mockito.doNothing().when(instanceClient).startInstance(project.getId(), instance.getInstanceId());
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId(project.getId())
@@ -176,7 +176,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStartHasValidIdThenThrowException() {
 
-        Mockito.doThrow(FeignException.FeignClientException.class).when(ovhClient).startInstance(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(FeignException.FeignClientException.class).when(instanceClient).startInstance(Mockito.anyString(), Mockito.anyString());
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId("asdf")
@@ -189,7 +189,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStopHasValidIdThenThrowNoException() {
 
-        Mockito.doNothing().when(ovhClient).startInstance(project.getId(), instance.getInstanceId());
+        Mockito.doNothing().when(instanceClient).startInstance(project.getId(), instance.getInstanceId());
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId(project.getId())
@@ -202,7 +202,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStopHasValidIdThenThrowException() {
 
-        Mockito.doThrow(FeignException.FeignClientException.class).when(ovhClient).stopInstance(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(FeignException.FeignClientException.class).when(instanceClient).stopInstance(Mockito.anyString(), Mockito.anyString());
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId("asdf")

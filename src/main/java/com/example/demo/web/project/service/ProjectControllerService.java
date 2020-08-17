@@ -1,7 +1,7 @@
 package com.example.demo.web.project.service;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.feign.OvhClient;
+import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.web.project.service.model.ProjectDetails;
@@ -20,7 +20,7 @@ public class ProjectControllerService implements IProjectControllerService {
 
     private final AppConfig appConfig;
     private final JPQLQueryFactory queryFactory;
-    private final OvhClient ovhClient;
+    private final InstanceClient instanceClient;
 
     @Override
     public ProjectDetails getProjectDetails(String id) {
@@ -59,12 +59,12 @@ public class ProjectControllerService implements IProjectControllerService {
     @Override
     public void handleProjectInstanceStart(ProjectInstanceStartRequest request) {
 
-        ovhClient.startInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
+        instanceClient.startInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
     }
 
     @Override
     public void handleProjectInstanceStop(ProjectInstanceStopRequest request) {
 
-        ovhClient.stopInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
+        instanceClient.stopInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
     }
 }

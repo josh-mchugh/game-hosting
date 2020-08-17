@@ -1,13 +1,13 @@
-package com.example.demo.ovh.feign.model;
+package com.example.demo.ovh.feign.instance.model;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class OvhSshKeyCreateApiRequest {
+public class InstanceGroupCreateApi {
 
     String name;
-    String publicKey;
     String region;
+    String type;
 }
