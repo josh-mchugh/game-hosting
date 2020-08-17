@@ -11,7 +11,7 @@ public class RecoveryTokenScheduler {
 
     private final IUserService userService;
 
-    @Scheduled(fixedDelayString = "${app.password.recovery-scheduler-delay}")
+    @Scheduled(fixedDelayString = "${app.password.recovery-scheduler-delay}", initialDelayString = "${app.password.recovery-scheduler-initial-delay}")
     public void scheduledExpiredRecoveryTokenProcessor() {
 
         while(userService.existsByRecoveryTokensExpired()) {

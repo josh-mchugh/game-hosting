@@ -30,14 +30,16 @@ public class AppConfig {
 
         private String noReplyAddress;
         private String supportAddress;
-        private Long schedulerDelay;
+        private String schedulerDelay;
+        private String schedulerInitialDelay;
         private Integer pagingSize;
     }
 
     @Data
     public static class Password {
 
-        private Long recoverySchedulerDelay;
+        private String recoverySchedulerDelay;
+        private String recoverySchedulerInitialDelay;
         private Long recoveryExpirationOffset;
     }
 
