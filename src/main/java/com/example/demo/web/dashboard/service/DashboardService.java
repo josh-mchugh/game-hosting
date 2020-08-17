@@ -181,7 +181,7 @@ public class DashboardService implements IDashboardService {
     private InstanceApi handleInstanceCreateApi(Project project, InstanceGroup instanceGroup, DashboardProjectCreateRequest request, String sshKeyId) {
 
         InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
-                .name(project.getName())
+                .name(project.getId())
                 .flavorId(request.getFlavor())
                 .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
                 .region(request.getRegion())
