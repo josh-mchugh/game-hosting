@@ -2,13 +2,13 @@ package com.example.demo.web.dashboard.service;
 
 import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.framework.security.session.ISessionUtil;
-import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhInstanceApiResponse;
-import com.example.demo.ovh.feign.model.OvhInstanceCreateApiRequest;
-import com.example.demo.ovh.feign.model.OvhInstanceGroupApiResponse;
-import com.example.demo.ovh.feign.model.OvhInstanceGroupCreateApiRequest;
+import com.example.demo.ovh.feign.instance.InstanceClient;
+import com.example.demo.ovh.feign.instance.InstanceGroupClient;
+import com.example.demo.ovh.feign.instance.model.InstanceApi;
+import com.example.demo.ovh.feign.instance.model.InstanceCreateApi;
+import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
+import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
 import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.instance.service.IInstanceGroupService;
@@ -48,7 +48,8 @@ public class DashboardService implements IDashboardService {
     private final IInstanceGroupService instanceGroupService;
     private final IInstanceService instanceService;
     private final ICredentialService credentialService;
-    private final OvhClient ovhClient;
+    private final InstanceClient instanceClient;
+    private final InstanceGroupClient instanceGroupClient;
     private final AppConfig appConfig;
     private final JPQLQueryFactory queryFactory;
 
@@ -124,7 +125,7 @@ public class DashboardService implements IDashboardService {
         Project project = handleProjectCreate(request);
 
         // Call OVH to create Instance Group
-        OvhInstanceGroupApiResponse groupResponse = handleOvhInstanceGroupCreate(project, request);
+        InstanceGroupApi groupResponse = handleInstanceGroupCreateApi(project, request);
 
         // Create Instance Group Entity
         InstanceGroup instanceGroup = handleInstanceGroupCreate(project, groupResponse);
@@ -133,7 +134,7 @@ public class DashboardService implements IDashboardService {
         String sshKeyId = credentialService.getAnsibleCredentialSshKeyId();
 
         // Call OVH to create Instance
-        OvhInstanceApiResponse instanceResponse = handleOvhInstanceCreate(project, instanceGroup, request, sshKeyId);
+        InstanceApi instanceResponse = handleInstanceCreateApi(project, instanceGroup, request, sshKeyId);
 
         // Create Instance Entity
         Instance instance = handleInstanceCreate(instanceResponse, instanceGroup);
@@ -154,18 +155,18 @@ public class DashboardService implements IDashboardService {
         return projectService.handleProjectCreate(projectCreateRequest);
     }
 
-    private OvhInstanceGroupApiResponse handleOvhInstanceGroupCreate(Project project, DashboardProjectCreateRequest request) {
+    private InstanceGroupApi handleInstanceGroupCreateApi(Project project, DashboardProjectCreateRequest request) {
 
-        OvhInstanceGroupCreateApiRequest groupCreateRequest = OvhInstanceGroupCreateApiRequest.builder()
+        InstanceGroupCreateApi groupCreateRequest = InstanceGroupCreateApi.builder()
                 .name(project.getId())
                 .region(request.getRegion())
                 .type("affinity")
                 .build();
 
-        return ovhClient.createGroup(appConfig.getOvh().getProjectId(), groupCreateRequest);
+        return instanceGroupClient.createInstanceGroup(appConfig.getOvh().getProjectId(), groupCreateRequest);
     }
 
-    private InstanceGroup handleInstanceGroupCreate(Project project, OvhInstanceGroupApiResponse groupResponse) {
+    private InstanceGroup handleInstanceGroupCreate(Project project, InstanceGroupApi groupResponse) {
 
         InstanceGroupCreateRequest instanceGroupCreateRequest = InstanceGroupCreateRequest.builder()
                 .instanceGroupId(groupResponse.getId())
@@ -177,9 +178,9 @@ public class DashboardService implements IDashboardService {
         return instanceGroupService.handleInstanceGroupCreate(instanceGroupCreateRequest);
     }
 
-    private OvhInstanceApiResponse handleOvhInstanceCreate(Project project, InstanceGroup instanceGroup, DashboardProjectCreateRequest request, String sshKeyId) {
+    private InstanceApi handleInstanceCreateApi(Project project, InstanceGroup instanceGroup, DashboardProjectCreateRequest request, String sshKeyId) {
 
-        OvhInstanceCreateApiRequest ovhInstanceCreateRequest = OvhInstanceCreateApiRequest.builder()
+        InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
                 .name(project.getName())
                 .flavorId(request.getFlavor())
                 .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
@@ -188,20 +189,20 @@ public class DashboardService implements IDashboardService {
                 .sshKeyId(sshKeyId)
                 .build();
 
-        return ovhClient.createInstance(appConfig.getOvh().getProjectId(), ovhInstanceCreateRequest);
+        return instanceClient.createInstance(appConfig.getOvh().getProjectId(), ovhInstanceCreateRequest);
     }
 
-    private Instance handleInstanceCreate(OvhInstanceApiResponse ovhInstanceApiResponse, InstanceGroup instanceGroup) {
+    private Instance handleInstanceCreate(InstanceApi instanceApi, InstanceGroup instanceGroup) {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
-                .instanceId(ovhInstanceApiResponse.getId())
-                .flavorId(ovhInstanceApiResponse.getFlavor().getFlavorId())
-                .imageId(ovhInstanceApiResponse.getImage().getImageId())
+                .instanceId(instanceApi.getId())
+                .flavorId(instanceApi.getFlavor().getFlavorId())
+                .imageId(instanceApi.getImage().getImageId())
                 .groupId(instanceGroup.getGroupId())
-                .sshKeyId(ovhInstanceApiResponse.getSshKey().getId())
-                .instanceCreatedDate(ovhInstanceApiResponse.getCreatedDate())
-                .name(ovhInstanceApiResponse.getName())
-                .status(ovhInstanceApiResponse.getStatus())
+                .sshKeyId(instanceApi.getSshKey().getId())
+                .instanceCreatedDate(instanceApi.getCreatedDate())
+                .name(instanceApi.getName())
+                .status(instanceApi.getStatus())
                 .build();
 
         return instanceService.handleInstanceCreate(instanceCreateRequest);

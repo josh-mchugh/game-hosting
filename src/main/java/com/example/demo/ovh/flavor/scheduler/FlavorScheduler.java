@@ -1,6 +1,6 @@
 package com.example.demo.ovh.flavor.scheduler;
 
-import com.example.demo.ovh.feign.model.OvhFlavorApiResponse;
+import com.example.demo.ovh.feign.flavor.model.FlavorApi;
 import com.example.demo.ovh.flavor.scheduler.service.IFlavorSchedulerService;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.google.common.collect.ImmutableList;
@@ -22,7 +22,7 @@ public class FlavorScheduler {
 
         log.info("Start: Flavor Updates");
 
-        ImmutableList<OvhFlavorApiResponse> flavorResponses = flavorSchedulerService.getFlavorResponses();
+        ImmutableList<FlavorApi> flavorResponses = flavorSchedulerService.getFlavorResponses();
 
         log.info("Retrieved Flavors: {}", CollectionUtils.size(flavorResponses));
 

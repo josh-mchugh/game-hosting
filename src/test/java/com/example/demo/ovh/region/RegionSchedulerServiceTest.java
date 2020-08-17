@@ -1,8 +1,8 @@
 package com.example.demo.ovh.region;
 
+import com.example.demo.ovh.feign.region.RegionClient;
 import com.example.demo.ovh.region.entity.RegionStatus;
-import com.example.demo.ovh.feign.OvhClient;
-import com.example.demo.ovh.feign.model.OvhRegionApiResponse;
+import com.example.demo.ovh.feign.region.model.RegionApi;
 import com.example.demo.ovh.region.model.Region;
 import com.example.demo.ovh.region.scheduler.service.IRegionSchedulerService;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
@@ -34,13 +34,14 @@ public class RegionSchedulerServiceTest {
     private IRegionSchedulerService regionSchedulerService;
 
     @MockBean
-    private OvhClient ovhClient;
+    private RegionClient regionClient;
+
 
     @Test
     public void testGetRegionNames() {
 
         List<String> names = Arrays.asList("get-region-names-1", "get-region-names-2");
-        Mockito.when(ovhClient.getRegions(Mockito.anyString())).thenReturn(names);
+        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(names);
 
         List<String> regionNames = regionSchedulerService.getRegionNames();
 
@@ -54,11 +55,11 @@ public class RegionSchedulerServiceTest {
         RegionCreateRequest request = TestRegionUtil.createRegion("processed-update-regions-existing");
         Region region = regionService.handleRegionCreate(request);
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setName(request.getName());
         regionResponse.setStatus(RegionStatus.DOWN);
 
-        Mockito.when(ovhClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionResponse);
+        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionResponse);
 
         ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of(region.getName()));
         Region updatedRegion = processResponse.getUpdatedRegions().get(0);
@@ -76,11 +77,11 @@ public class RegionSchedulerServiceTest {
     @Test
     public void testProcessedCreatedRegions() {
 
-        OvhRegionApiResponse regionResponse = new OvhRegionApiResponse();
+        RegionApi regionResponse = new RegionApi();
         regionResponse.setName("processed-create-regions");
         regionResponse.setStatus(RegionStatus.UP);
 
-        Mockito.when(ovhClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionResponse);
+        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionResponse);
 
         ProcessRegionResponse processedResponse = regionSchedulerService.processRegions(ImmutableList.of("not-existing-region"));
         Region createdRegion = processedResponse.getCreatedRegions().get(0);

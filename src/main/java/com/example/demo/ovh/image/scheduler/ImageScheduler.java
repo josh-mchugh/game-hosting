@@ -1,6 +1,6 @@
 package com.example.demo.ovh.image.scheduler;
 
-import com.example.demo.ovh.feign.model.OvhImageApiResponse;
+import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.image.scheduler.service.IImageSchedulerService;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.google.common.collect.ImmutableList;
@@ -22,7 +22,7 @@ public class ImageScheduler {
 
         log.info("Start: Image Updates");
 
-        ImmutableList<OvhImageApiResponse> imageResponses = imageSchedulerService.getImageResponses();
+        ImmutableList<ImageApi> imageResponses = imageSchedulerService.getImageResponses();
 
         log.info("Retrieved Images: {}", CollectionUtils.size(imageResponses));
 
