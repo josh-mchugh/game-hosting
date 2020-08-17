@@ -1,55 +1,30 @@
 package com.example.demo.email.scheduler;
 
 import com.example.demo.email.model.Email;
-import com.example.demo.email.service.IEmailSenderService;
-import com.example.demo.email.service.IEmailService;
-import com.example.demo.email.service.model.EmailProcessedRequest;
-import com.example.demo.email.service.model.EmailSenderRequest;
-import com.example.demo.email.service.model.EmailSenderResponse;
+import com.example.demo.email.scheduler.service.IEmailSchedulerService;
+import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class EmailScheduler {
 
-    private final IEmailService emailService;
-    private final IEmailSenderService emailSenderService;
+    @Autowired
+    private IEmailSchedulerService emailSchedulerService;
 
     @Scheduled(fixedDelayString = "${app.email.scheduler-delay}", initialDelayString = "${app.email.scheduler-initial-delay}")
     public void scheduledEmailProcessing() {
 
-        while(emailService.existsPendingEmails()) {
+        log.info("Processing Queued Emails");
 
-            List<Email> processedMails = emailService.getPendingEmails().stream()
-                    .map(this::buildEmailSenderRequest)
-                    .map(emailSenderService::handleEmailSend)
-                    .map(this::buildEmailProcessRequest)
-                    .map(emailService::handleProcessedEmail)
-                    .collect(Collectors.toList());
-        }
-    }
+        ImmutableList<Email> emails = emailSchedulerService.processEmails();
 
-    private EmailSenderRequest buildEmailSenderRequest(Email email) {
-
-        return EmailSenderRequest.builder()
-                .id(email.getId())
-                .toAddress(email.getToAddress())
-                .template(email.getTemplate())
-                .bodyContext(email.getBodyContext())
-                .subjectContext(email.getSubjectContext())
-                .build();
-    }
-
-    private EmailProcessedRequest buildEmailProcessRequest(EmailSenderResponse response) {
-
-        return EmailProcessedRequest.builder()
-                .id(response.getId())
-                .status(response.getStatus())
-                .build();
+        log.info("Processed emails: {}", emails.size());
+        log.info("Finished Processing Queued Emails");
     }
 }

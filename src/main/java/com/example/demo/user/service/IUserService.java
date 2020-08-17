@@ -3,8 +3,8 @@ package com.example.demo.user.service;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.model.UserCreateRequest;
 import com.example.demo.user.service.model.UserPasswordResetRequest;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IUserService {
 
@@ -32,7 +32,5 @@ public interface IUserService {
 
     boolean existsByRecoveryToken(String token);
 
-    boolean existsByRecoveryTokensExpired();
-
-    List<User> getByRecoveryTokensExpired();
+    Page<User> getByRecoveryTokensExpired(Pageable pageable);
 }

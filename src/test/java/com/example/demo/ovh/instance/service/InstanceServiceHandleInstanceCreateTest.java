@@ -21,7 +21,7 @@ import com.example.demo.ovh.region.service.model.RegionCreateRequest;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.TestCredential;
+import com.example.demo.sample.TestCredentialUtil;
 import com.example.demo.sample.TestFlavorUtil;
 import com.example.demo.sample.TestImageUtil;
 import com.example.demo.sample.TestInstanceGroupUtil;
@@ -375,7 +375,7 @@ public class InstanceServiceHandleInstanceCreateTest {
 
     private Credential createCredential() {
 
-        CredentialCreateRequest request = TestCredential.builder()
+        CredentialCreateRequest request = TestCredentialUtil.builder()
                 .sshKeyId(dependencyIds)
                 .build();
 
