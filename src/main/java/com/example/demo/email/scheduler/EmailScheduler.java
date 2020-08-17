@@ -20,7 +20,7 @@ public class EmailScheduler {
     private final IEmailService emailService;
     private final IEmailSenderService emailSenderService;
 
-    @Scheduled(fixedDelayString = "${app.email.scheduler-delay}")
+    @Scheduled(fixedDelayString = "${app.email.scheduler-delay}", initialDelayString = "${app.email.scheduler-initial-delay}")
     public void scheduledEmailProcessing() {
 
         while(emailService.existsPendingEmails()) {
