@@ -1,10 +1,10 @@
 package com.example.demo.web.test;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.OvhClient;
-import com.example.demo.ovh.model.GroupCreate;
-import com.example.demo.ovh.model.InstanceCreate;
-import com.example.demo.ovh.model.SshKeyCreate;
+import com.example.demo.ovh.feign.OvhClient;
+import com.example.demo.ovh.feign.model.OvhInstanceGroupCreateApiRequest;
+import com.example.demo.ovh.feign.model.OvhInstanceCreateApiRequest;
+import com.example.demo.ovh.feign.model.OvhSshKeyCreateApiRequest;
 import com.example.demo.web.test.model.Metrics;
 import com.example.demo.web.test.model.Status;
 import lombok.RequiredArgsConstructor;
@@ -111,6 +111,24 @@ public class TestController {
         return new ResponseEntity<>(ovhClient.getProjectDetails(appConfig.getOvh().getProjectId()), HttpStatus.OK);
     }
 
+    @GetMapping("/ovh/project/regions")
+    public ResponseEntity<?> getRegions() {
+
+        return new ResponseEntity<>(ovhClient.getRegions(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+    }
+
+    @GetMapping("/ovh/project/region")
+    public ResponseEntity<?> getRegion() {
+
+        return new ResponseEntity<>(ovhClient.getRegion(appConfig.getOvh().getProjectId(), "US-EAST-VA-1"), HttpStatus.OK);
+    }
+
+    @GetMapping("/ovh/project/availableRegions")
+    public ResponseEntity<?> getAvailableRegions() {
+
+        return new ResponseEntity<>(ovhClient.getAvailableRegions(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+    }
+
     @GetMapping("/ovh/project/images")
     public ResponseEntity<?> getImages() {
 
@@ -150,7 +168,7 @@ public class TestController {
     @GetMapping("/ovh/project/sshkey/create")
     public ResponseEntity<?> createSshKey() {
 
-        SshKeyCreate create = SshKeyCreate.builder()
+        OvhSshKeyCreateApiRequest create = OvhSshKeyCreateApiRequest.builder()
                 .name("test-1")
                 .publicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCc6KkpzN4TmJn2WOwjXyIU0jBOp2El/+U08uTw9hVj0GbMbU402HfHGQb24Bh6uNbE1RaMz9rY1Zs2D1S6evDgabSYJaFxJlMzsCdGrcq5c/BIaGG9EzmuPul/VMU59KqhKQ9HCGnHx/VUl0OjwhXmyB3cQRI7QJX9WjfMD8d/PVsIjLNpo15BwWsRVIpR3B2Bwnqt54PDO9dSWYxea2ppkQSiJJ1jtUtR7ViGLid7YkO/bbK1xMasJpzo3V+i/MGegWa1skVaTya6eiMnErxlKAuRcd0mEiM8LIsiT5xIv0uAL2ssTegtKUmH7rNGOJRHDGm1/G2BkKsBS8B70t/n me@ME-PC")
                 .region("US-EAST-VA-1")
@@ -176,7 +194,7 @@ public class TestController {
     @GetMapping("/ovh/project/group/create")
     public ResponseEntity<?> createGroup() {
 
-        GroupCreate create = GroupCreate.builder()
+        OvhInstanceGroupCreateApiRequest create = OvhInstanceGroupCreateApiRequest.builder()
                 .name("test-group-1")
                 .region("US-EAST-VA-1")
                 .type("affinity")
@@ -188,13 +206,13 @@ public class TestController {
     @GetMapping("/ovh/project/group")
     public ResponseEntity<?> getGroup() {
 
-        return new ResponseEntity<>(ovhClient.getGroupById(appConfig.getOvh().getProjectId(), "3bf0b22f-6509-4c6a-b3ef-6719f8670f48"), HttpStatus.OK);
+        return new ResponseEntity<>(ovhClient.getGroupById(appConfig.getOvh().getProjectId(), "84ad0d1a-d65c-49a7-b6d4-516d1465a65e"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/group/delete")
-    public ResponseEntity<?> deleteGroup() {
+    public ResponseEntity<?> deleteGroup(@RequestParam("id") String id) {
 
-        ovhClient.deleteGroupById(appConfig.getOvh().getProjectId(), "c853760f-76b2-4e95-9b3b-bd85c3573492");
+        ovhClient.deleteGroupById(appConfig.getOvh().getProjectId(), id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -202,12 +220,12 @@ public class TestController {
     @GetMapping("/ovh/project/instance/create")
     public ResponseEntity<?> createInstance() {
 
-        InstanceCreate request = InstanceCreate.builder()
+        OvhInstanceCreateApiRequest request = OvhInstanceCreateApiRequest.builder()
                 .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
                 .name(UUID.randomUUID().toString())
                 .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
                 .region("US-EAST-VA-1")
-                .groupId("3bf0b22f-6509-4c6a-b3ef-6719f8670f48")
+                .groupId("84ad0d1a-d65c-49a7-b6d4-516d1465a65e")
                 .build();
 
         return new ResponseEntity<>(ovhClient.createInstance(appConfig.getOvh().getProjectId(), request), HttpStatus.OK);
