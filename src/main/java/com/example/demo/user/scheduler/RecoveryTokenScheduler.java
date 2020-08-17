@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RecoveryTokenScheduler {
 
-    private IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
+    private final IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
 
     @Scheduled(fixedDelayString = "${app.password.recovery-scheduler-delay}", initialDelayString = "${app.password.recovery-scheduler-initial-delay}")
     public void scheduledExpiredRecoveryTokenProcessor() {
