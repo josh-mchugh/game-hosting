@@ -1,6 +1,6 @@
 package com.example.demo.user.scheduler;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.scheduler.service.IRecoveryTokenSchedulerService;
 import com.example.demo.user.service.IUserService;
@@ -36,7 +36,7 @@ public class RecoveryTokenSchedulerTest {
     @Test
     public void whenExpiredRecoveryTokenExistsThenReturnArray(){
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("test@test");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         userService.handleCreateRecoveryToken(user.getEmail());

@@ -2,12 +2,6 @@ package com.example.demo.web.dashboard.service;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
-import com.example.demo.game.model.Game;
-import com.example.demo.game.service.IGameService;
-import com.example.demo.game.service.model.GameCreateRequest;
-import com.example.demo.ovh.credential.model.Credential;
-import com.example.demo.ovh.credential.service.ICredentialService;
-import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
 import com.example.demo.ovh.feign.common.SshKeyDetailApi;
 import com.example.demo.ovh.feign.flavor.model.FlavorApi;
 import com.example.demo.ovh.feign.image.model.ImageApi;
@@ -15,29 +9,14 @@ import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;
 import com.example.demo.ovh.feign.instance.model.InstanceApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
-import com.example.demo.ovh.flavor.model.Flavor;
-import com.example.demo.ovh.flavor.service.IFlavorService;
-import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
-import com.example.demo.ovh.image.model.Image;
-import com.example.demo.ovh.image.service.IImageService;
-import com.example.demo.ovh.image.service.model.ImageCreateRequest;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
-import com.example.demo.ovh.region.service.model.RegionCreateRequest;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.TestCredentialUtil;
-import com.example.demo.sample.TestFlavorUtil;
-import com.example.demo.sample.TestGameUtil;
-import com.example.demo.sample.TestImageUtil;
-import com.example.demo.sample.TestProjectUtil;
-import com.example.demo.sample.TestRegionUtil;
-import com.example.demo.sample.TestUserUtil;
-import com.example.demo.user.model.User;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.SampleData;
+import com.example.demo.sample.util.TestProjectCreateRequest;
 import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
 import com.example.demo.web.dashboard.service.model.DashboardDetailsResponse;
 import com.example.demo.web.dashboard.service.model.DashboardProjectCreateRequest;
 import com.example.demo.web.dashboard.service.model.DashboardProjectCreateResponse;
@@ -66,22 +45,10 @@ public class DashboardServiceTest {
     private IUserService userService;
 
     @Autowired
-    private IRegionService regionService;
-
-    @Autowired
-    private IFlavorService flavorService;
-
-    @Autowired
-    private IImageService imageService;
-
-    @Autowired
     private IProjectService projectService;
 
     @Autowired
-    private IGameService gameService;
-
-    @Autowired
-    private ICredentialService credentialService;
+    private SampleBuilder sampleBuilder;
 
     @MockBean
     private ISessionUtil sessionUtil;
@@ -92,20 +59,27 @@ public class DashboardServiceTest {
     @MockBean
     private InstanceGroupClient instanceGroupClient;
 
-    private User user;
+    private SampleData data;
 
     @BeforeEach
     public void setup() {
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("test@test");
-        user = userService.handleCreateUser(userCreateRequest);
+
+        data = sampleBuilder.builder()
+                .user()
+                .region()
+                .flavor()
+                .image()
+                .credential()
+                .game()
+                .build();
     }
 
     @Test
     public void whenDashboardDetailsHasVerifiedUserThenReturnEmailVerifiedTrue() {
 
-        userService.handleEmailVerification(user.getVerification().getToken());
+        userService.handleEmailVerification(data.getUser().getVerification().getToken());
 
-        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(user.getEmail());
+        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 
@@ -115,14 +89,14 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasProjectsThenReturnProjectsTrue() {
 
-        ProjectCreateRequest projectCreateRequest = TestProjectUtil.builder()
+        ProjectCreateRequest projectCreateRequest = TestProjectCreateRequest.builder()
                 .name("test-project")
-                .userId(user)
+                .userId(data.getUser())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
         Project project = projectService.handleProjectCreate(projectCreateRequest);
 
-        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(user.getEmail());
+        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 
@@ -132,17 +106,14 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasProjectsSizeThenReturnProjectsSize() {
 
-        GameCreateRequest gameCreateRequest = TestGameUtil.builder().build();
-        Game game =  gameService.handleGameCreateRequest(gameCreateRequest);
-
-        ProjectCreateRequest projectCreateRequest = TestProjectUtil.builder()
+        ProjectCreateRequest projectCreateRequest = TestProjectCreateRequest.builder()
                 .name("test-project")
-                .userId(user)
-                .gameType(game)
+                .userId(data.getUser())
+                .gameType(data.getGame())
                 .build();
         Project project = projectService.handleProjectCreate(projectCreateRequest);
 
-        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(user.getEmail());
+        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 
@@ -152,19 +123,16 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasProjectThenProjectEqualsExpected() {
 
-        GameCreateRequest gameCreateRequest = TestGameUtil.builder().build();
-        Game game =  gameService.handleGameCreateRequest(gameCreateRequest);
-
-        ProjectCreateRequest projectCreateRequest = TestProjectUtil.builder()
+        ProjectCreateRequest projectCreateRequest = TestProjectCreateRequest.builder()
                 .name("test-project")
-                .userId(user)
-                .gameType(game)
+                .userId(data.getUser())
+                .gameType(data.getGame())
                 .build();
         Project project = projectService.handleProjectCreate(projectCreateRequest);
 
-        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(user.getEmail());
+        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
-        DashboardProjectProjection expectedProject = new DashboardProjectProjection(project.getId(), project.getName(), game.getType());
+        DashboardProjectProjection expectedProject = new DashboardProjectProjection(project.getId(), project.getName(), data.getGame().getType());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 
@@ -174,7 +142,7 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasNonVerifiedUserThenReturnEmailVerifiedFalse() {
 
-        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(user.getEmail());
+        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 
@@ -184,7 +152,7 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasNoProjectsThenReturnHasProjectsFalse() {
 
-        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(user.getEmail());
+        Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 
@@ -194,19 +162,7 @@ public class DashboardServiceTest {
     @Test
     public void whenProjectCreateProjectIsValidThenReturnProjectId() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.builder(TestRegionUtil.Type.US_EAST_VA_1).build();
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        FlavorCreateRequest flavorCreateRequest = TestFlavorUtil.builder(TestFlavorUtil.Type.S1_2).build();
-        Flavor flavor = flavorService.handleFlavorCreate(flavorCreateRequest);
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.UBUNTU_20_4).build();
-        Image image = imageService.handleImageCreate(imageCreateRequest);
-
-        CredentialCreateRequest credentialCreateRequest = TestCredentialUtil.createDefault();
-        Credential credential = credentialService.handleSshKeyCreate(credentialCreateRequest);
-
-        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(user);
+        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(data.getUser());
 
         InstanceGroupApi instanceGroupApiResponse = new InstanceGroupApi();
         instanceGroupApiResponse.setId("5eeb0772-7658-46e2-ad95-b2566ccdd394");

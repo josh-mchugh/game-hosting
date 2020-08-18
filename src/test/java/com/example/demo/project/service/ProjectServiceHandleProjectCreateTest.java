@@ -1,17 +1,12 @@
 package com.example.demo.project.service;
 
 import com.example.demo.game.entity.GameType;
-import com.example.demo.game.service.IGameService;
-import com.example.demo.game.service.model.GameCreateRequest;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.TestGameUtil;
-import com.example.demo.sample.TestUserUtil;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,21 +26,17 @@ public class ProjectServiceHandleProjectCreateTest {
     private IProjectService projectService;
 
     @Autowired
-    private IUserService userService;
+    private SampleBuilder sampleBuilder;
 
-    @Autowired
-    private IGameService gameService;
-
-    private User user;
+    private SampleData data;
 
     @BeforeEach
     public void setup() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("test@test");
-        user = userService.handleCreateUser(userCreateRequest);
-
-        GameCreateRequest gameCreateRequest = TestGameUtil.builder().build();
-        gameService.handleGameCreateRequest(gameCreateRequest);
+        data = sampleBuilder.builder()
+                .user()
+                .game()
+                .build();
     }
 
     @Test
@@ -61,7 +52,7 @@ public class ProjectServiceHandleProjectCreateTest {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
                 .name("name")
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
 
@@ -75,7 +66,7 @@ public class ProjectServiceHandleProjectCreateTest {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
                 .name("name")
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
 
@@ -89,7 +80,7 @@ public class ProjectServiceHandleProjectCreateTest {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
                 .name("name")
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
 
@@ -102,7 +93,7 @@ public class ProjectServiceHandleProjectCreateTest {
     public void whenCreateRequestHasNullNameThenThrowException() {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
 
@@ -142,7 +133,7 @@ public class ProjectServiceHandleProjectCreateTest {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
                 .name("name")
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .build();
 
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> projectService.handleProjectCreate(createRequest));
@@ -155,7 +146,7 @@ public class ProjectServiceHandleProjectCreateTest {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
                 .name("name")
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
         Project project = projectService.handleProjectCreate(createRequest);
@@ -168,7 +159,7 @@ public class ProjectServiceHandleProjectCreateTest {
 
         ProjectCreateRequest createRequest = ProjectCreateRequest.builder()
                 .name("name")
-                .userId(user.getId())
+                .userId(data.getUser().getId())
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
         Project project = projectService.handleProjectCreate(createRequest);

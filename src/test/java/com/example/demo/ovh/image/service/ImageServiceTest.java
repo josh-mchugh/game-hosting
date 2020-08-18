@@ -1,4 +1,4 @@
-package com.example.demo.ovh.image;
+package com.example.demo.ovh.image.service;
 
 import com.example.demo.ovh.image.model.Image;
 import com.example.demo.ovh.image.service.IImageService;
@@ -7,14 +7,13 @@ import com.example.demo.ovh.image.service.model.ImageUpdateRequest;
 import com.example.demo.ovh.region.model.Region;
 import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.ovh.region.service.model.RegionCreateRequest;
-import com.example.demo.sample.TestImageUtil;
-import com.example.demo.sample.TestRegionUtil;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.util.TestImageCreateRequest;
+import com.example.demo.sample.util.TestRegionCreateRequest;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,7 +24,6 @@ import java.time.LocalDateTime;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ImageServiceTest {
 
     @Autowired
@@ -34,8 +32,21 @@ public class ImageServiceTest {
     @Autowired
     private IRegionService regionService;
 
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
+    private Region region;
+
+    @BeforeEach
+    public void setup() {
+
+        region = sampleBuilder.builder()
+                .region()
+                .build()
+                .getRegion();
+    }
+
     @Test
-    @Order(1)
     public void testExistAllShouldBeFalse() {
 
         boolean exists = imageService.existsAny();
@@ -46,10 +57,7 @@ public class ImageServiceTest {
     @Test
     public void testExistAllShouldBeTrue() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("exists-all-be-true");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.DEBIAN_8_GITLAB)
+        ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
                 .imageId("exists-all-be-true")
                 .regionName(region.getName())
                 .build();
@@ -63,10 +71,7 @@ public class ImageServiceTest {
     @Test
     public void testExistsByImageIdShouldBeTrue() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("exits-by-image-id-be-true");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.DEBIAN_8_GITLAB)
+        ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
                 .imageId("exists-by-image-id-be-true")
                 .regionName(region.getName())
                 .build();
@@ -88,10 +93,7 @@ public class ImageServiceTest {
     @Test
     public void testHandleImageCreate() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("US-EAST-VA-1");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.DEBIAN_8_GITLAB)
+        ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
                 .imageId("handle-image-create")
                 .regionName(region.getName())
                 .build();
@@ -115,16 +117,13 @@ public class ImageServiceTest {
     @Test
     public void testHandleImageUpdate() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("handle-image-update");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.DEBIAN_8_GITLAB)
+        ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
                 .imageId("handle-image-update")
                 .regionName(region.getName())
                 .build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
 
-        RegionCreateRequest updateRegionCreateRequest = TestRegionUtil.createRegion("handle-image-region-updated");
+        RegionCreateRequest updateRegionCreateRequest = TestRegionCreateRequest.builder(TestRegionCreateRequest.Type.US_EAST_VA).build();
         Region updatedRegion = regionService.handleRegionCreate(updateRegionCreateRequest);
 
         ImageUpdateRequest imageUpdateRequest = ImageUpdateRequest.builder()

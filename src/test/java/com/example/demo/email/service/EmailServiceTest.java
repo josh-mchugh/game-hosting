@@ -1,11 +1,11 @@
-package com.example.demo.email;
+package com.example.demo.email.service;
 
 import com.example.demo.email.entity.EmailStatus;
 import com.example.demo.email.entity.EmailTemplate;
 import com.example.demo.email.model.Email;
-import com.example.demo.email.service.IEmailService;
 import com.example.demo.email.service.model.EmailCreateRequest;
 import com.example.demo.email.service.model.EmailProcessedRequest;
+import com.example.demo.sample.util.TestEmailCreateRequest;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
+@Transactional
 @SpringBootTest
 public class EmailServiceTest {
 
@@ -56,6 +59,9 @@ public class EmailServiceTest {
 
         EmailCreateRequest request = createEmailRequest();
         emailService.handleCreateEmail(request);
+
+        EmailCreateRequest secondRequest = TestEmailCreateRequest.createDefault();
+        emailService.handleCreateEmail(secondRequest);
 
         ImmutableList<Email> emails = emailService.getPendingEmails();
 

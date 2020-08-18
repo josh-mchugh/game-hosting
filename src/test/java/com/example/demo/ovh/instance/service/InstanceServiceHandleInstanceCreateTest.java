@@ -1,36 +1,10 @@
 package com.example.demo.ovh.instance.service;
 
-import com.example.demo.game.entity.GameType;
-import com.example.demo.ovh.credential.model.Credential;
-import com.example.demo.ovh.credential.service.ICredentialService;
-import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.ovh.flavor.model.Flavor;
-import com.example.demo.ovh.flavor.service.IFlavorService;
-import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
-import com.example.demo.ovh.image.model.Image;
-import com.example.demo.ovh.image.service.IImageService;
-import com.example.demo.ovh.image.service.model.ImageCreateRequest;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.model.Instance;
-import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
-import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
-import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
-import com.example.demo.ovh.region.service.model.RegionCreateRequest;
-import com.example.demo.project.model.Project;
-import com.example.demo.project.service.IProjectService;
-import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.TestCredentialUtil;
-import com.example.demo.sample.TestFlavorUtil;
-import com.example.demo.sample.TestImageUtil;
-import com.example.demo.sample.TestInstanceGroupUtil;
-import com.example.demo.sample.TestProjectUtil;
-import com.example.demo.sample.TestRegionUtil;
-import com.example.demo.sample.TestUserUtil;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,39 +22,25 @@ import java.time.LocalDateTime;
 public class InstanceServiceHandleInstanceCreateTest {
 
     @Autowired
-    private IUserService userService;
-
-    @Autowired
-    private IProjectService projectService;
-
-    @Autowired
-    private IInstanceGroupService instanceGroupService;
-
-    @Autowired
     private IInstanceService instanceService;
 
     @Autowired
-    private IFlavorService flavorService;
+    private SampleBuilder sampleBuilder;
 
-    @Autowired
-    private IRegionService regionService;
-
-    @Autowired
-    private IImageService imageService;
-
-    @Autowired
-    private ICredentialService credentialService;
-
-    private final String dependencyIds = "when-handle-instance-create";
+    private SampleData data;
 
     @BeforeEach
     public void setup() {
 
-        Region region = createRegion();
-        Flavor flavor = createFlavor();
-        Image image = createImage();
-        Credential credential = createCredential();
-        InstanceGroup instanceGroup = createInstanceGroup();
+        data = sampleBuilder.builder()
+                .user()
+                .region()
+                .flavor()
+                .image()
+                .credential()
+                .project()
+                .instanceGroup()
+                .build();
     }
 
     @Test
@@ -88,10 +48,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-handle-instance-created-then-not-null")
-                .imageId(dependencyIds)
-                .flavorId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -113,7 +73,7 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-handle-instance-created-then-not-null")
-                .flavorId(dependencyIds)
+                .flavorId(data.getFlavor().getFlavorId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -127,7 +87,7 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-handle-instance-created-then-not-null")
-                .imageId(dependencyIds)
+                .imageId(data.getImage().getImageId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -141,10 +101,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-has-instance-id-return-instance-id")
-                .imageId(dependencyIds)
-                .flavorId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -157,10 +117,10 @@ public class InstanceServiceHandleInstanceCreateTest {
     public void whenInstanceCreateHasNullInstanceIdThenThrowException() {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -175,10 +135,10 @@ public class InstanceServiceHandleInstanceCreateTest {
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-has-name-return-name")
                 .name("name")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -192,10 +152,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-has-name-return-null")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -209,10 +169,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-has-status-return-status")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -226,10 +186,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-status-null-throw-exception")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .build();
 
         Exception exception = Assertions.assertThrows(PersistenceException.class, () -> instanceService.handleInstanceCreate(instanceCreateRequest));
@@ -244,10 +204,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-has-instance-created-date-return-instance-created-date")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(currentTime)
                 .build();
@@ -262,10 +222,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-has-null-instance-created-date-return-null")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -279,10 +239,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-create-has-ip4-address-return-ip4-address")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .ip4Address("ip4-address")
                 .build();
@@ -297,10 +257,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-created-has-null-ip4-address-return-null")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
@@ -314,10 +274,10 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-has-ip6-address-then-return-ip6-address")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .ip6Address("ip6-address")
                 .build();
@@ -332,73 +292,15 @@ public class InstanceServiceHandleInstanceCreateTest {
 
         InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
                 .instanceId("when-instance-has-null-ip6-address-then-return-null")
-                .flavorId(dependencyIds)
-                .imageId(dependencyIds)
-                .groupId(dependencyIds)
-                .sshKeyId(dependencyIds)
+                .imageId(data.getImage().getImageId())
+                .flavorId(data.getFlavor().getFlavorId())
+                .groupId(data.getInstanceGroup().getGroupId())
+                .sshKeyId(data.getCredential().getSshKeyId())
                 .status(InstanceStatus.ACTIVE)
                 .build();
 
         Instance instance = instanceService.handleInstanceCreate(instanceCreateRequest);
 
         Assertions.assertNull(instance.getIp6Address());
-    }
-
-    private Region createRegion() {
-
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.builder()
-                .regionName(dependencyIds)
-                .build();
-
-        return regionService.handleRegionCreate(regionCreateRequest);
-    }
-
-    private Flavor createFlavor() {
-
-        FlavorCreateRequest flavorCreateRequest = TestFlavorUtil.builder()
-                .flavorId(dependencyIds)
-                .regionName(dependencyIds)
-                .build();
-
-        return flavorService.handleFlavorCreate(flavorCreateRequest);
-    }
-
-    private Image createImage() {
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.DEBIAN_8_GITLAB)
-                .imageId(dependencyIds)
-                .regionName(dependencyIds)
-                .build();
-
-        return imageService.handleImageCreate(imageCreateRequest);
-    }
-
-    private Credential createCredential() {
-
-        CredentialCreateRequest request = TestCredentialUtil.builder()
-                .sshKeyId(dependencyIds)
-                .build();
-
-        return credentialService.handleSshKeyCreate(request);
-    }
-
-    private InstanceGroup createInstanceGroup() {
-
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("test@test");
-        User user = userService.handleCreateUser(userCreateRequest);
-
-        ProjectCreateRequest projectCreateRequest = TestProjectUtil.builder()
-                .name(dependencyIds)
-                .userId(user)
-                .gameType(GameType.MINECRAFT_JAVA)
-                .build();
-        Project project = projectService.handleProjectCreate(projectCreateRequest);
-
-        InstanceGroupCreateRequest instanceGroupCreateRequest = TestInstanceGroupUtil.builder()
-                .instanceGroupId(dependencyIds)
-                .projectId(project.getId())
-                .build();
-
-        return instanceGroupService.handleInstanceGroupCreate(instanceGroupCreateRequest);
     }
 }

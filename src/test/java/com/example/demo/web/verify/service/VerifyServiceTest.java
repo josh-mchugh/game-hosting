@@ -1,6 +1,6 @@
-package com.example.demo.web.verify;
+package com.example.demo.web.verify.service;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
+@Transactional
 @SpringBootTest
 public class VerifyServiceTest {
 
@@ -25,7 +28,7 @@ public class VerifyServiceTest {
     @Test
     public void testHandleResendVerificationEmail() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser( "resend-verification@verify-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         VerificationResendResponse response = verifyService.handleResendVerificationEmail(user.getId());

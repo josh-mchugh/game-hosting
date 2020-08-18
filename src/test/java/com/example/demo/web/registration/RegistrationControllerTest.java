@@ -1,6 +1,6 @@
 package com.example.demo.web.registration;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -17,7 +17,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RegistrationControllerTest {
@@ -72,14 +75,14 @@ public class RegistrationControllerTest {
     @Test
     public void testPostRegistrationExistingUser() throws  Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser( "existing-user@registration-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .param("email", user.getEmail())
-                .param("password", "Password1!")
-                .param("confirmPassword", "Password1!");
+                .param("email", "test@test")
+                .param("password", "password")
+                .param("confirmPassword", "password");
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())

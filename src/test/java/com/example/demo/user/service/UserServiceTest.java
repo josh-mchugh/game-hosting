@@ -1,6 +1,6 @@
-package com.example.demo.user;
+package com.example.demo.user.service;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.user.model.User;
@@ -16,7 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
+@Transactional
 @SpringBootTest
 public class UserServiceTest {
 
@@ -26,7 +29,7 @@ public class UserServiceTest {
     @Test
     public void testCreateAdminUser() {
 
-        UserCreateRequest request = TestUserUtil.createAdminUser("admin@test.com");
+        UserCreateRequest request = TestUserCreateRequest.createDefaultAdmin();
         User user = userService.handleCreateUser(request);
 
         Assertions.assertTrue(StringUtils.isNotEmpty(user.getId()));
@@ -41,7 +44,7 @@ public class UserServiceTest {
     @Test
     public void testCreateRegularUser() {
 
-        UserCreateRequest request = TestUserUtil.createUser("regular@test.com");
+        UserCreateRequest request = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(request);
 
         Assertions.assertTrue(StringUtils.isNotEmpty(user.getId()));
@@ -56,7 +59,7 @@ public class UserServiceTest {
     @Test
     public void testExistsByEmail() {
 
-        UserCreateRequest request = TestUserUtil.createUser("existUser@existUser.com");
+        UserCreateRequest request = TestUserCreateRequest.createDefault();
         userService.handleCreateUser(request);
 
         boolean exists = userService.existsUserByEmail(request.getEmail());
@@ -75,7 +78,7 @@ public class UserServiceTest {
     @Test
     public void testExistsByVerificationToken() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("exists-by-verification-token@user-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         boolean exists = userService.existsByVerificationToken(user.getVerification().getToken());
@@ -94,7 +97,7 @@ public class UserServiceTest {
     @Test
     public void testGetUserByEmail() {
 
-        UserCreateRequest request = TestUserUtil.createUser("test.user1@test.user1.com");
+        UserCreateRequest request = TestUserCreateRequest.createDefault();
         userService.handleCreateUser(request);
 
         User user = userService.getUserByEmail(request.getEmail());
@@ -113,7 +116,7 @@ public class UserServiceTest {
     @Test
     public void testHandleAuthenticationSuccess() {
 
-        UserCreateRequest request = TestUserUtil.createUser("authentication-success@user-service.com");
+        UserCreateRequest request = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(request);
 
         user = userService.handleAuthenticationSuccess(user.getEmail());
@@ -124,7 +127,7 @@ public class UserServiceTest {
     @Test
     public void testHandleAuthenticationFailure() {
 
-        UserCreateRequest request = TestUserUtil.createUser("authentication-failure@user-service.com");
+        UserCreateRequest request = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(request);
 
         user = userService.handleAuthenticationFailure(user.getEmail());
@@ -134,7 +137,7 @@ public class UserServiceTest {
     @Test
     public void testPasswordReset() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("password-reset@user-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -155,7 +158,7 @@ public class UserServiceTest {
     @Test
     public void testHandleEmailVerification() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("handle-email-verification@user-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         User updatedUser = userService.handleEmailVerification(user.getVerification().getToken());
@@ -169,7 +172,7 @@ public class UserServiceTest {
     @Test
     public void testHandleResetEmailVerification() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("handle-reset-email-verification@user-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         User updatedUser = userService.handleResetEmailVerification(user.getId());
@@ -186,7 +189,7 @@ public class UserServiceTest {
     @Test
     public void testHandleDeleteRecoveryTokenById() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("delete-recovery-token-by-id@user-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -201,7 +204,7 @@ public class UserServiceTest {
     @Test
     public void testHandleCreateRecoveryToken() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -216,7 +219,7 @@ public class UserServiceTest {
     @Test
     public void testGetByRecoveryTokenExpired() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user3@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         userService.handleCreateRecoveryToken(user.getEmail());
@@ -231,7 +234,7 @@ public class UserServiceTest {
     @Test
     public void testExistsByRecoveryToken() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user4@recovery-token-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());

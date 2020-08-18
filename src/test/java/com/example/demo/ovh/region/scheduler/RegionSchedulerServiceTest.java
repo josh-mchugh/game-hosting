@@ -1,4 +1,4 @@
-package com.example.demo.ovh.region;
+package com.example.demo.ovh.region.scheduler;
 
 import com.example.demo.ovh.feign.region.RegionClient;
 import com.example.demo.ovh.region.entity.RegionStatus;
@@ -8,7 +8,7 @@ import com.example.demo.ovh.region.scheduler.service.IRegionSchedulerService;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.ovh.region.service.model.RegionCreateRequest;
-import com.example.demo.sample.TestRegionUtil;
+import com.example.demo.sample.util.TestRegionCreateRequest;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,6 @@ public class RegionSchedulerServiceTest {
     @MockBean
     private RegionClient regionClient;
 
-
     @Test
     public void testGetRegionNames() {
 
@@ -52,7 +51,7 @@ public class RegionSchedulerServiceTest {
     @Test
     public void testProcessedUpdateRegionsExisting() {
 
-        RegionCreateRequest request = TestRegionUtil.createRegion("processed-update-regions-existing");
+        RegionCreateRequest request = TestRegionCreateRequest.createDefault();
         Region region = regionService.handleRegionCreate(request);
 
         RegionApi regionResponse = new RegionApi();

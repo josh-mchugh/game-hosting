@@ -1,9 +1,9 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.service.model.RegionCreateRequest;
 
-public class TestRegionUtil {
+public class TestRegionCreateRequest {
 
     public enum Type {
         US_EAST_VA_1,
@@ -18,6 +18,11 @@ public class TestRegionUtil {
     public static Builder builder(Type type) {
 
         return new Builder(type);
+    }
+
+    public static RegionCreateRequest createDefault() {
+
+        return builder().build();
     }
 
     public static class Builder {
@@ -79,18 +84,5 @@ public class TestRegionUtil {
                 .countryCodes("us")
                 .dataCenterLocation("US-EAST-VA")
                 .status(RegionStatus.UP);
-    }
-
-    public static RegionCreateRequest createRegion(String name) {
-
-        return createRegion(name, RegionStatus.UP);
-    }
-
-    public static RegionCreateRequest createRegion(String name, RegionStatus status) {
-
-        return RegionCreateRequest.builder()
-                .name(name)
-                .status(status)
-                .build();
     }
 }
