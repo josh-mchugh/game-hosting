@@ -1,10 +1,9 @@
-package com.example.demo.web.password.forgot;
+package com.example.demo.web.password.forgot.service;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
-import com.example.demo.web.password.forgot.service.IForgotPasswordService;
 import com.example.demo.web.password.forgot.service.model.ForgotPasswordResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
-@SpringBootTest()
+@Transactional
+@SpringBootTest
 public class ForgotPasswordServiceTest {
 
     @Autowired
@@ -25,7 +27,7 @@ public class ForgotPasswordServiceTest {
     @Test
     public void testForgotPasswordExistingUser() {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@forgot-password-service.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         ForgotPasswordResponse response = forgotPasswordService.handleForgotPassword(user.getEmail());

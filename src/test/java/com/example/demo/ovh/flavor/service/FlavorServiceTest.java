@@ -1,19 +1,17 @@
-package com.example.demo.ovh.flavor;
+package com.example.demo.ovh.flavor.service;
 
 import com.example.demo.ovh.flavor.model.Flavor;
-import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
 import com.example.demo.ovh.flavor.service.model.FlavorUpdateRequest;
 import com.example.demo.ovh.region.model.Region;
 import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.ovh.region.service.model.RegionCreateRequest;
-import com.example.demo.sample.TestFlavorUtil;
-import com.example.demo.sample.TestRegionUtil;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.util.TestFlavorCreateRequest;
+import com.example.demo.sample.util.TestRegionCreateRequest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,7 +21,6 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FlavorServiceTest {
 
     @Autowired
@@ -32,8 +29,21 @@ public class FlavorServiceTest {
     @Autowired
     private IRegionService regionService;
 
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
+    private Region region;
+
+    @BeforeEach
+    public void setup() {
+
+        region = sampleBuilder.builder()
+                .region()
+                .build()
+                .getRegion();
+    }
+
     @Test
-    @Order(1)
     public void testExistsAllShouldBeFalse() {
 
         boolean exists = flavorService.existsAny();
@@ -44,10 +54,7 @@ public class FlavorServiceTest {
     @Test
     public void testExistsAllShouldBeTrue() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("flavor-exist-all-be-true");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        FlavorCreateRequest flavorCreateRequest = TestFlavorUtil.createFlavor("exists-all-should-be-true", region.getName());
+        FlavorCreateRequest flavorCreateRequest = TestFlavorCreateRequest.createDefault();
         flavorService.handleFlavorCreate(flavorCreateRequest);
 
         boolean exists = flavorService.existsAny();
@@ -66,10 +73,7 @@ public class FlavorServiceTest {
     @Test
     public void textGetByFlavorIdShouldBeTrue() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("get-by-flavor-id-should-be-true");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        FlavorCreateRequest flavorCreateRequest = TestFlavorUtil.createFlavor("get-by-flavor-id-should-be-true", region.getName());
+        FlavorCreateRequest flavorCreateRequest = TestFlavorCreateRequest.createDefault();
         Flavor flavor = flavorService.handleFlavorCreate(flavorCreateRequest);
 
         boolean exists = flavorService.existsByFlavorId(flavor.getFlavorId());
@@ -79,9 +83,6 @@ public class FlavorServiceTest {
 
     @Test
     public void testHandleFlavorCreate() {
-
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("handle-flavor-create");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
 
         FlavorCreateRequest flavorCreateRequest = FlavorCreateRequest.builder()
                 .flavorId("handle-flavor-create")
@@ -120,9 +121,6 @@ public class FlavorServiceTest {
     @Test
     public void testHandleFlavorUpdate() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("handle-flavor-update");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
         FlavorCreateRequest flavorCreateRequest = FlavorCreateRequest.builder()
                 .flavorId("handle-flavor-update")
                 .regionName(region.getName())
@@ -141,7 +139,7 @@ public class FlavorServiceTest {
                 .build();
         Flavor flavor = flavorService.handleFlavorCreate(flavorCreateRequest);
 
-        RegionCreateRequest updatedRegionCreateRequest = TestRegionUtil.createRegion("handle-flavor-updated");
+        RegionCreateRequest updatedRegionCreateRequest = TestRegionCreateRequest.builder(TestRegionCreateRequest.Type.US_EAST_VA).build();
         Region updatedRegion = regionService.handleRegionCreate(updatedRegionCreateRequest);
 
         FlavorUpdateRequest flavorUpdateRequest = FlavorUpdateRequest.builder()

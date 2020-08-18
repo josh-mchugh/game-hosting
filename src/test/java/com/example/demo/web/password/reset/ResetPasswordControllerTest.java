@@ -1,6 +1,6 @@
 package com.example.demo.web.password.reset;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -16,7 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ResetPasswordControllerTest {
@@ -30,7 +33,7 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordWithValidId() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("user1@reset-password-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -59,7 +62,7 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordEmptyPasswords() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("empty-passwords@reset-password-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -79,7 +82,7 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordMismatchPassword() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("mismatch-passwords@reset-password-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -99,7 +102,7 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordWeakPassword() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("weak-passwords@reset-password-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());
@@ -119,7 +122,7 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordSubmissionValid() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("valid-submission@reset-password-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         user = userService.handleCreateRecoveryToken(user.getEmail());

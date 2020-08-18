@@ -1,4 +1,4 @@
-package com.example.demo.email;
+package com.example.demo.email.service;
 
 import com.example.demo.email.entity.EmailStatus;
 import com.example.demo.email.entity.EmailTemplate;
@@ -19,10 +19,12 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.UUID;
 
 @ActiveProfiles({"test", "test-email"})
+@Transactional
 @SpringBootTest
 public class EmailSenderServiceTest {
 

@@ -1,20 +1,30 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.ovh.image.service.model.ImageCreateRequest;
 import com.google.common.collect.ImmutableList;
 
 import java.time.LocalDateTime;
 
-public class TestImageUtil {
+public class TestImageCreateRequest {
 
     public enum Type {
         DEBIAN_8_GITLAB,
         UBUNTU_20_4
     }
 
+    public static Builder builder() {
+
+        return new Builder(Type.UBUNTU_20_4);
+    }
+
     public static Builder builder(Type type) {
 
         return new Builder(type);
+    }
+
+    public static ImageCreateRequest createDefault() {
+
+        return builder().build();
     }
 
     public static class Builder {

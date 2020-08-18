@@ -1,4 +1,4 @@
-package com.example.demo.ovh.image;
+package com.example.demo.ovh.image.scheduler;
 
 import com.example.demo.ovh.feign.image.ImageClient;
 import com.example.demo.ovh.feign.image.model.ImageApi;
@@ -8,13 +8,12 @@ import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesRespons
 import com.example.demo.ovh.image.service.IImageService;
 import com.example.demo.ovh.image.service.model.ImageCreateRequest;
 import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
-import com.example.demo.ovh.region.service.model.RegionCreateRequest;
-import com.example.demo.sample.TestImageUtil;
-import com.example.demo.sample.TestRegionUtil;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.util.TestImageCreateRequest;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +29,27 @@ import javax.transaction.Transactional;
 public class ImageSchedulerServiceTest {
 
     @Autowired
-    private IRegionService regionService;
-
-    @Autowired
     private IImageService imageService;
 
     @Autowired
     private IImageSchedulerService imageSchedulerService;
 
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
     @MockBean
     private ImageClient imageClient;
+
+    private Region region;
+
+    @BeforeEach
+    public void setup() {
+
+        region = sampleBuilder.builder()
+                .region()
+                .build()
+                .getRegion();
+    }
 
     @Test
     public void testGetImageResponsesCreated() {
@@ -58,10 +68,7 @@ public class ImageSchedulerServiceTest {
     @Test
     public void testProcessScheduledImagesUpdated() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("process-scheduled-images-updated");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        ImageCreateRequest imageCreateRequest = TestImageUtil.builder(TestImageUtil.Type.DEBIAN_8_GITLAB)
+        ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
                 .imageId("process-scheduled-images-updated")
                 .regionName(region.getName())
                 .build();
@@ -84,9 +91,6 @@ public class ImageSchedulerServiceTest {
 
     @Test
     public void testProcessScheduledImagesCreated() {
-
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("process-scheduled-image-created");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
 
         ImageApi imageResponse = new ImageApi();
         imageResponse.setImageId("process-scheduled-image-created");

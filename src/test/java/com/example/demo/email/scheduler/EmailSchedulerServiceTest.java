@@ -7,7 +7,7 @@ import com.example.demo.email.service.IEmailSenderService;
 import com.example.demo.email.service.IEmailService;
 import com.example.demo.email.service.model.EmailCreateRequest;
 import com.example.demo.email.service.model.EmailSenderResponse;
-import com.example.demo.sample.TestEmailUtil;
+import com.example.demo.sample.util.TestEmailCreateRequest;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ public class EmailSchedulerServiceTest {
     @Test
     public void whenSchedulerProcessesMailThenReturnList() {
 
-        EmailCreateRequest createRequest = TestEmailUtil.createDefault();
+        EmailCreateRequest createRequest = TestEmailCreateRequest.createDefault();
         Email email = emailService.handleCreateEmail(createRequest);
 
         EmailSenderResponse emailSenderResponse = EmailSenderResponse.builder()

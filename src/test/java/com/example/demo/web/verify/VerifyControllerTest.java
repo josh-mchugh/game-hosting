@@ -1,6 +1,6 @@
 package com.example.demo.web.verify;
 
-import com.example.demo.sample.TestUserUtil;
+import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import com.example.demo.user.service.model.UserCreateRequest;
@@ -16,8 +16,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 @AutoConfigureMockMvc
 public class VerifyControllerTest {
 
@@ -30,7 +33,7 @@ public class VerifyControllerTest {
     @Test
     public void testVerifyEmail() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("valid-verify@verify-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/verify/%s", user.getVerification().getToken()));
@@ -59,7 +62,7 @@ public class VerifyControllerTest {
     @Test
     public void testVerifyResendEmail() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserUtil.createUser("verify-email-resend@verify-controller.com");
+        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
         User user = userService.handleCreateUser(userCreateRequest);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/verify/resend")
