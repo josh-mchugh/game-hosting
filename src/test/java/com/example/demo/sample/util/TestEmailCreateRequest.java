@@ -1,9 +1,9 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.email.entity.EmailTemplate;
 import com.example.demo.email.service.model.EmailCreateRequest;
 
-public class TestEmailUtil {
+public class TestEmailCreateRequest {
 
     public enum Type {
         WELCOME_EMAIL

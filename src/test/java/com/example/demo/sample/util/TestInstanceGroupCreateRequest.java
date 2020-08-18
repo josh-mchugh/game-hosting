@@ -1,10 +1,10 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
 import com.example.demo.project.model.Project;
 
-public class TestInstanceGroupUtil {
+public class TestInstanceGroupCreateRequest {
 
     public enum Type {
         DEFAULT
@@ -81,15 +81,6 @@ public class TestInstanceGroupUtil {
         }
     }
 
-    /*
-        {
-            "id":"84ad0d1a-d65c-49a7-b6d4-516d1465a65e",
-            "name":"test-group-1",
-            "region":"US-EAST-VA-1",
-            "type":"affinity",
-            "instance_ids":[]
-        }
-     */
     private static InstanceGroupCreateRequest.Builder getDefault() {
 
         return InstanceGroupCreateRequest.builder()

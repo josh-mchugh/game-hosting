@@ -1,10 +1,9 @@
-package com.example.demo.web.registration;
+package com.example.demo.web.registration.service;
 
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
-import com.example.demo.user.model.User;
 import com.example.demo.user.entity.VerificationStatus;
-import com.example.demo.web.registration.service.IRegistrationService;
+import com.example.demo.user.model.User;
 import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
+
 @ActiveProfiles("test")
+@Transactional
 @SpringBootTest
 public class RegistrationServiceTest {
 

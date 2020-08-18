@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
-public class UserMappterTest {
+public class UserMapperTest {
 
     @Test
     public void whenEntityIsNullThenReturnNull() {
