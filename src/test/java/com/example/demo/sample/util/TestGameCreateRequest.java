@@ -1,9 +1,9 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.service.model.GameCreateRequest;
 
-public class TestGameUtil {
+public class TestGameCreateRequest {
 
     public enum Type {
         MC_BEDROCK,
@@ -18,6 +18,11 @@ public class TestGameUtil {
     public static Builder builder(Type type) {
 
         return new Builder(type);
+    }
+
+    public static GameCreateRequest createDefault() {
+
+        return buildDefaultType().build();
     }
 
     public static class Builder {

@@ -1,11 +1,11 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
 
 import java.time.LocalDateTime;
 
-public class TestInstanceUtil {
+public class TestInstanceCreateRequest {
 
     public enum Type {
         US_EAST_VA_1_Ubuntu_20_04

@@ -3,7 +3,7 @@ package com.example.demo.ovh.credential.service;
 import com.example.demo.ovh.credential.entity.CredentialType;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.sample.TestCredentialUtil;
+import com.example.demo.sample.util.TestCredentialCreateRequest;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class CredentialServiceTest {
     @Test
     public void whenEntitiesDoExistThenExistsAllReturnTrue() {
 
-        CredentialCreateRequest request = TestCredentialUtil.createDefault();
+        CredentialCreateRequest request = TestCredentialCreateRequest.createDefault();
         credentialService.handleSshKeyCreate(request);
 
         boolean exists = credentialService.existsAny();
@@ -47,7 +47,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestIsValidThenReturnCredential() {
 
-        CredentialCreateRequest request = TestCredentialUtil.createDefault();
+        CredentialCreateRequest request = TestCredentialCreateRequest.createDefault();
         Credential credential = credentialService.handleSshKeyCreate(request);
 
         Assertions.assertNotNull(credential);
@@ -62,7 +62,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestIsValidThenReturnId() {
 
-        CredentialCreateRequest request = TestCredentialUtil.createDefault();
+        CredentialCreateRequest request = TestCredentialCreateRequest.createDefault();
         Credential credential = credentialService.handleSshKeyCreate(request);
 
         Assertions.assertNotNull(credential.getId());
@@ -71,7 +71,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasSshKeyIdThenReturnSshKeyId() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .sshKeyId("ssh key id")
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -82,7 +82,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasNullSshKeyThenThrowException() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .sshKeyId(null)
                 .build();
 
@@ -92,7 +92,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasNameThenReturnName() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .name("name")
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -103,7 +103,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasNullNameThenReturnNull() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .name(null)
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -114,7 +114,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasPublicKeyThenReturnEncryptedPublicKey() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .publicKey("public key")
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -125,7 +125,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasNullPublicKeyThenReturnNull() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .publicKey(null)
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -136,7 +136,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasPrivateKeyThenReturnEncryptedPrivateKey() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .privateKey("private key")
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -147,7 +147,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasNullPrivateKeyThenReturnNull() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .privateKey(null)
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -158,7 +158,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasTypeThenReturnType() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .type(CredentialType.ANSIBLE)
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);
@@ -169,7 +169,7 @@ public class CredentialServiceTest {
     @Test
     public void whenCreateRequestHasNullTypeThenReturnType() {
 
-        CredentialCreateRequest request = TestCredentialUtil.builder()
+        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
                 .type(null)
                 .build();
         Credential credential = credentialService.handleSshKeyCreate(request);

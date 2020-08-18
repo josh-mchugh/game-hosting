@@ -1,8 +1,8 @@
-package com.example.demo.sample;
+package com.example.demo.sample.util;
 
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
 
-public class TestFlavorUtil {
+public class TestFlavorCreateRequest {
 
     public enum Type {
         S1_2,
@@ -18,6 +18,11 @@ public class TestFlavorUtil {
     public static Builder builder(Type type) {
 
         return new Builder(type);
+    }
+
+    public static FlavorCreateRequest createDefault() {
+
+        return builder().build();
     }
 
     public static class Builder {
@@ -121,13 +126,5 @@ public class TestFlavorUtil {
                 .disk(40)
                 .outboundBandwidth(100)
                 .inboundBandwidth(100);
-    }
-
-    public static FlavorCreateRequest createFlavor(String flavorId, String regionName) {
-
-        return FlavorCreateRequest.builder()
-                .flavorId(flavorId)
-                .regionName(regionName)
-                .build();
     }
 }

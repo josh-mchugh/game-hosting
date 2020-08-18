@@ -1,16 +1,12 @@
-package com.example.demo.ovh.region;
+package com.example.demo.ovh.region.service;
 
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.ovh.region.service.model.RegionCreateRequest;
 import com.example.demo.ovh.region.service.model.RegionUpdateRequest;
-import com.example.demo.sample.TestRegionUtil;
+import com.example.demo.sample.util.TestRegionCreateRequest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,14 +16,12 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class RegionServiceTest {
 
     @Autowired
     private IRegionService regionService;
 
     @Test
-    @Order(1)
     public void testExistsAnyShouldBeFalse() {
 
         boolean exists = regionService.existsAny();
@@ -38,7 +32,7 @@ public class RegionServiceTest {
     @Test
     public void testExistAnyShouldBeTrue() {
 
-        RegionCreateRequest request = TestRegionUtil.createRegion("exits-any-be-true");
+        RegionCreateRequest request = TestRegionCreateRequest.createDefault();
         regionService.handleRegionCreate(request);
 
         boolean exists = regionService.existsAny();
@@ -49,10 +43,10 @@ public class RegionServiceTest {
     @Test
     public void testExistsByNameShouldBeTrue() {
 
-        RegionCreateRequest request = TestRegionUtil.createRegion("exist-by-name-be-true");
+        RegionCreateRequest request = TestRegionCreateRequest.createDefault();
         regionService.handleRegionCreate(request);
 
-        boolean exists = regionService.existsByName("exist-by-name-be-true");
+        boolean exists = regionService.existsByName("US-EAST-VA-1");
 
         Assertions.assertTrue(exists);
     }

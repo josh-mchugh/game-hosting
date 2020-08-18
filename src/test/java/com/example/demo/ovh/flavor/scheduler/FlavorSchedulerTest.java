@@ -1,4 +1,4 @@
-package com.example.demo.ovh.flavor;
+package com.example.demo.ovh.flavor.scheduler;
 
 import com.example.demo.ovh.feign.flavor.FlavorClient;
 import com.example.demo.ovh.feign.flavor.model.FlavorApi;
@@ -8,13 +8,12 @@ import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsRespo
 import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
 import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
-import com.example.demo.ovh.region.service.model.RegionCreateRequest;
-import com.example.demo.sample.TestFlavorUtil;
-import com.example.demo.sample.TestRegionUtil;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +33,24 @@ public class FlavorSchedulerTest {
     private IFlavorService flavorService;
 
     @Autowired
-    private IRegionService regionService;
+    private IFlavorSchedulerService flavorSchedulerService;
 
     @Autowired
-    private IFlavorSchedulerService flavorSchedulerService;
+    private SampleBuilder sampleBuilder;
 
     @MockBean
     private FlavorClient flavorClient;
+
+    private Region region;
+
+    @BeforeEach
+    public void setup() {
+
+        region = sampleBuilder.builder()
+                .region()
+                .build()
+                .getRegion();
+    }
 
     @Test
     public void testGetFlavorResponses() {
@@ -59,9 +69,6 @@ public class FlavorSchedulerTest {
     @Test
     public void testProcessorFlavorsCreated() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("processor-flavors-created");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
         FlavorApi flavorResponse = new FlavorApi();
         flavorResponse.setFlavorId("processor-flavors-created");
         flavorResponse.setRegionName(region.getName());
@@ -77,10 +84,7 @@ public class FlavorSchedulerTest {
     @Test
     public void testProcessorFlavorsUpdated() {
 
-        RegionCreateRequest regionCreateRequest = TestRegionUtil.createRegion("processor-flavors-updated");
-        Region region = regionService.handleRegionCreate(regionCreateRequest);
-
-        FlavorCreateRequest flavorCreateRequest = TestFlavorUtil.createFlavor("processor-flavors-updated", region.getName());
+        FlavorCreateRequest flavorCreateRequest = TestFlavorCreateRequest.createDefault();
         Flavor flavor = flavorService.handleFlavorCreate(flavorCreateRequest);
 
         FlavorApi flavorResponse = new FlavorApi();
