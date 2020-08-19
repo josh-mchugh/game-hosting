@@ -90,7 +90,6 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
         String hourly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getHourly() : null;
         String monthly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getMonthly() : null;
-        ImmutableList<String> tags = CollectionUtils.isNotEmpty(imageResponse.getTags()) ? ImmutableList.copyOf(imageResponse.getTags()) : null;
 
         return ImageCreateRequest.builder()
                 .imageId(imageResponse.getImageId())
@@ -107,7 +106,6 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .username(imageResponse.getUser())
                 .status(imageResponse.getStatus())
                 .visibility(imageResponse.getVisibility())
-                .tags(tags)
                 .build();
     }
 }

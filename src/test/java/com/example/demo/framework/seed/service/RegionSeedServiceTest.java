@@ -1,0 +1,118 @@
+package com.example.demo.framework.seed.service;
+
+import com.example.demo.ovh.feign.region.RegionClient;
+import com.example.demo.ovh.feign.region.model.RegionApi;
+import com.example.demo.ovh.region.entity.RegionStatus;
+import com.example.demo.ovh.region.model.Region;
+import com.example.demo.sample.SampleBuilder;
+import com.google.common.collect.ImmutableList;
+import feign.FeignException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+
+import javax.transaction.Transactional;
+import java.util.Collections;
+
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
+public class RegionSeedServiceTest {
+
+    @Autowired
+    private RegionSeedService regionSeedService;
+
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
+    @MockBean
+    public RegionClient regionClient;
+
+    @Test
+    public void whenRegionExistsThenDoesNotExistsReturnsFalse() {
+
+        sampleBuilder.builder()
+                .region()
+                .build();
+
+        Assertions.assertFalse(regionSeedService.dataNotExists());
+    }
+
+    @Test
+    public void whenRegionDoesNotExistsThenDoesNotExistsReturnsTrue() {
+
+        Assertions.assertTrue(regionSeedService.dataNotExists());
+    }
+
+    @Test
+    public void whenRegionsApiReturnsEmptyArrayThenReturnEmptyArray() {
+
+        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.emptyList());
+
+        ImmutableList<Region> regions = regionSeedService.initializeData();
+
+        Assertions.assertEquals(0, regions.size());
+    }
+
+    @Test
+    public void whenRegionApiReturnsIsValidThenReturnArrayList() {
+
+        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.singletonList("us-east"));
+
+        RegionApi regionApi = new RegionApi();
+        regionApi.setName("name");
+        regionApi.setStatus(RegionStatus.UP);
+
+        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionApi);
+
+        ImmutableList<Region> regions = regionSeedService.initializeData();
+
+        Assertions.assertEquals(1, regions.size());
+    }
+
+    @Test
+    public void whenRegionsApiThrowsErrorThenThrowError() {
+
+        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
+
+        Assertions.assertThrows(FeignException.FeignClientException.class, () -> regionSeedService.initializeData());
+    }
+
+    @Test
+    public void whenRegionApiThrowsErrorThenThrowError() {
+
+        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.singletonList("us-east"));
+
+        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
+
+        Assertions.assertThrows(FeignException.FeignClientException.class, () -> regionSeedService.initializeData());
+    }
+
+    @Test
+    public void whenTypeHasValueThenReturnValue() {
+
+        Assertions.assertEquals("Region", regionSeedService.type());
+    }
+
+    @Test
+    public void typeShouldNotBeNull() {
+
+        Assertions.assertNotNull(regionSeedService.type());
+    }
+
+    @Test
+    public void whenOrderHasValueThenReturnValue() {
+
+        Assertions.assertEquals(2, regionSeedService.order());
+    }
+
+    @Test
+    public void orderShouldNotBeNull() {
+
+        Assertions.assertNotNull(regionSeedService.order());
+    }
+}
