@@ -24,5 +24,4 @@ public class ImageCreateRequest {
     String username;
     String status;
     String visibility;
-    ImmutableList<String> tags;
 }

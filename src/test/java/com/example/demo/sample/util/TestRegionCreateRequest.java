@@ -12,7 +12,7 @@ public class TestRegionCreateRequest {
 
     public static Builder builder() {
 
-        return new Builder();
+        return new Builder(Type.US_EAST_VA_1);
     }
 
     public static Builder builder(Type type) {

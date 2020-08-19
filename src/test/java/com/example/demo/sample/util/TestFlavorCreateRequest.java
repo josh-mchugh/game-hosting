@@ -12,7 +12,7 @@ public class TestFlavorCreateRequest {
 
     public static Builder builder() {
 
-        return new Builder();
+        return new Builder(Type.S1_2);
     }
 
     public static Builder builder(Type type) {

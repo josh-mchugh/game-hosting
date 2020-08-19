@@ -78,7 +78,6 @@ public class TestImageCreateRequest {
                 .minRam(0)
                 .monthly(null)
                 .hourly(null)
-                .tags(ImmutableList.of("application", "gitlab"))
                 .type("linux")
                 .username("debian")
                 .status("active")
