@@ -102,6 +102,13 @@ public class SampleBuilder {
             return this;
         }
 
+        public Builder user(TestUserCreateRequest.Type type) {
+
+            user = createUser(type);
+
+            return this;
+        }
+
         public Builder game() {
 
             game = createDefaultGame();
@@ -177,6 +184,11 @@ public class SampleBuilder {
     private User createDefaultUser() {
 
         return userService.handleCreateUser(TestUserCreateRequest.createDefault());
+    }
+
+    private User createUser(TestUserCreateRequest.Type type) {
+
+        return userService.handleCreateUser(TestUserCreateRequest.builder(type).build());
     }
 
     private Game createDefaultGame() {
