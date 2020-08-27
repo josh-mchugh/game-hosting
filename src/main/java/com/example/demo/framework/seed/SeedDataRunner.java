@@ -33,7 +33,7 @@ public class SeedDataRunner {
                     .sorted(Comparator.comparingInt(ISeedService::order))
                     .filter(ISeedService::dataNotExists)
                     .forEachOrdered(service -> {
-                        log.info("Initializing {} data.", service.type());
+                        log.info("{} - Initializing {} data.", service.order(), service.type());
                         ImmutableList<?> data = service.initializeData();
                         log.info("{} initialized: {}", service.type(), data.size());
                     });
