@@ -1,6 +1,6 @@
 package com.example.demo.web.ansible.model.jobs;
 
-import com.example.demo.web.ansible.model.base.AbstractBase;
+import com.example.demo.awx.feign.common.AbstractBase;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

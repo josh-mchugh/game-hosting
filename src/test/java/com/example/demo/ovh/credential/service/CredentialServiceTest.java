@@ -134,28 +134,6 @@ public class CredentialServiceTest {
     }
 
     @Test
-    public void whenCreateRequestHasPrivateKeyThenReturnEncryptedPrivateKey() {
-
-        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
-                .privateKey("private key")
-                .build();
-        Credential credential = credentialService.handleSshKeyCreate(request);
-
-        Assertions.assertEquals("private key", encryptor.decrypt(credential.getPrivateKey()));
-    }
-
-    @Test
-    public void whenCreateRequestHasNullPrivateKeyThenReturnNull() {
-
-        CredentialCreateRequest request = TestCredentialCreateRequest.builder()
-                .privateKey(null)
-                .build();
-        Credential credential = credentialService.handleSshKeyCreate(request);
-
-        Assertions.assertNull(credential.getPrivateKey());
-    }
-
-    @Test
     public void whenCreateRequestHasTypeThenReturnType() {
 
         CredentialCreateRequest request = TestCredentialCreateRequest.builder()

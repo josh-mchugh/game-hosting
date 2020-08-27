@@ -303,7 +303,6 @@
             </column>
             <column name="name" type="nvarchar(255)"/>
             <column name="public_key" type="nvarchar(MAX)"/>
-            <column name="private_key" type="nvarchar(MAX)"/>
             <column name="type" type="varchar(255)"/>
         </createTable>
     </changeSet>
@@ -345,6 +344,204 @@
         <addForeignKeyConstraint baseTableName="instance" baseColumnNames="image_id" constraintName="instance_image_id__image_id" referencedTableName="image" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="instance" baseColumnNames="instance_group_id" constraintName="instance_instance_group_id__instance_group_id" referencedTableName="instance_group" referencedColumnNames="id" />
         <addForeignKeyConstraint baseTableName="instance" baseColumnNames="credential_id" constraintName="instance_credential_id__credential_id" referencedTableName="credential" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="15" author="jmchugh">
+        <createTable tableName="awx_organization">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_organization" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="organization_id" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="16" author="jmchugh">
+        <createTable tableName="awx_credential">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_credential" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="awx_organization_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credential_id" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+            <column name="private_key" type="nvarchar(MAX)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passphrase" type="nvarchar(255)"/>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_credential" baseColumnNames="awx_organization_id" constraintName="awx_credential_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="17" author="jmchugh">
+        <createTable tableName="awx_project">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_project" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="project_id" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+            <column name="scm_type" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scm_url" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scm_branch" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="awx_organization_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="awx_credential_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_project" baseColumnNames="awx_organization_id" constraintName="awx_project_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="awx_project" baseColumnNames="awx_credential_id" constraintName="awx_project_awx_credential_id__awx_credential_id" referencedTableName="awx_credential" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="18" author="jmchugh">
+        <createTable tableName="awx_playbook">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_playbook" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="awx_project_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_playbook" baseColumnNames="awx_project_id" constraintName="awx_playbook_awx_project_id__awx_project_id" referencedTableName="awx_project" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="19" author="jmchugh">
+        <createTable tableName="awx_inventory">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_inventory" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="awx_organization_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inventory_id" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_inventory" baseColumnNames="awx_organization_id" constraintName="awx_inventory_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="20" author="jmchugh">
+        <createTable tableName="awx_host">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_host" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="awx_inventory_id" type="nvarchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="instance_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hostname" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_host" baseColumnNames="awx_inventory_id" constraintName="awx_host_awx_inventory_id__awx_inventory_id" referencedTableName="awx_inventory" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="awx_host" baseColumnNames="instance_id" constraintName="awx_host_instance_id__instance_id" referencedTableName="instance" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="21" author="jmchugh">
+        <createTable tableName="awx_template">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_template" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="awx_credential_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="awx_inventory_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="awx_playbook_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="template_id" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+            <column name="job_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verbosity" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_template" baseColumnNames="awx_credential_id" constraintName="awx_template_awx_credential_id__awx_credential_id" referencedTableName="awx_credential" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="awx_template" baseColumnNames="awx_inventory_id" constraintName="awx_template_awx_inventory_id__awx_inventory_id" referencedTableName="awx_inventory" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="awx_template" baseColumnNames="awx_playbook_id" constraintName="awx_template_awx_playbook_id__awx_playbook_id" referencedTableName="awx_playbook" referencedColumnNames="id"/>
     </changeSet>
 
 </databaseChangeLog>

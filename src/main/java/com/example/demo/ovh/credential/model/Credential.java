@@ -12,6 +12,5 @@ public class Credential {
     String sshKeyId;
     String name;
     String publicKey;
-    String privateKey;
     CredentialType type;
 }

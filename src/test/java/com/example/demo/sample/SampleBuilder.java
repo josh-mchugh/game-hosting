@@ -1,5 +1,26 @@
 package com.example.demo.sample;
 
+import com.example.demo.awx.credential.model.AwxCredential;
+import com.example.demo.awx.credential.service.IAwxCredentialService;
+import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
+import com.example.demo.awx.host.model.AwxHost;
+import com.example.demo.awx.host.service.IAwxHostService;
+import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
+import com.example.demo.awx.inventory.model.AwxInventory;
+import com.example.demo.awx.inventory.service.IAwxInventoryService;
+import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
+import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.service.IAwxOrganizationService;
+import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
+import com.example.demo.awx.playbook.model.AwxPlaybook;
+import com.example.demo.awx.playbook.service.IAwxPlaybookService;
+import com.example.demo.awx.playbook.service.model.AwxPlaybookCreateRequest;
+import com.example.demo.awx.project.model.AwxProject;
+import com.example.demo.awx.project.service.IAwxProjectService;
+import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
+import com.example.demo.awx.template.model.AwxTemplate;
+import com.example.demo.awx.template.service.IAwxTemplateService;
+import com.example.demo.awx.template.service.model.AwxTemplateCreateRequest;
 import com.example.demo.game.model.Game;
 import com.example.demo.game.service.IGameService;
 import com.example.demo.ovh.credential.model.Credential;
@@ -19,6 +40,13 @@ import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
+import com.example.demo.sample.util.TestAwxCredentialCreateRequest;
+import com.example.demo.sample.util.TestAwxHostCreateRequest;
+import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
+import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
+import com.example.demo.sample.util.TestAwxPlaybookCreateRequest;
+import com.example.demo.sample.util.TestAwxProjectCreateRequest;
+import com.example.demo.sample.util.TestAwxTemplateCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.example.demo.sample.util.TestGameCreateRequest;
@@ -63,6 +91,27 @@ public class SampleBuilder {
     @Autowired
     private IInstanceService instanceService;
 
+    @Autowired
+    private IAwxOrganizationService awxOrganizationService;
+
+    @Autowired
+    private IAwxCredentialService awxCredentialService;
+
+    @Autowired
+    private IAwxProjectService awxProjectService;
+
+    @Autowired
+    private IAwxPlaybookService awxPlaybookService;
+
+    @Autowired
+    private IAwxInventoryService awxInventoryService;
+
+    @Autowired
+    private IAwxHostService awxHostService;
+
+    @Autowired
+    private IAwxTemplateService awxTemplateService;
+
     private User user;
     private Game game;
     private Region region;
@@ -72,6 +121,13 @@ public class SampleBuilder {
     private Project project;
     private InstanceGroup instanceGroup;
     private Instance instance;
+    private AwxOrganization awxOrganization;
+    private AwxCredential awxCredential;
+    private AwxProject awxProject;
+    private AwxPlaybook awxPlaybook;
+    private AwxInventory awxInventory;
+    private AwxHost awxHost;
+    private AwxTemplate awxTemplate;
 
     public Builder builder() {
 
@@ -90,6 +146,13 @@ public class SampleBuilder {
                 .project()
                 .instanceGroup()
                 .instance()
+                .awxOrganization()
+                .awxCredential()
+                .awxProject()
+                .awxPlaybook()
+                .awxInventory()
+                .awxHost()
+                .awxTemplate()
                 .build();
     }
 
@@ -165,6 +228,62 @@ public class SampleBuilder {
             return this;
         }
 
+        public Builder awxOrganization() {
+
+            awxOrganization = createDefaultAwxOrganization();
+
+            return this;
+        }
+
+        public Builder awxCredential() {
+
+            awxCredential = createDefaultAwxCredential();
+
+            return this;
+        }
+
+        public Builder awxGitlabCredential() {
+
+            awxCredential = createGitlabCredential();
+
+            return this;
+        }
+
+        public Builder awxProject() {
+
+            awxProject = createDefaultAwxProject();
+
+            return this;
+        }
+
+        public Builder awxPlaybook() {
+
+            awxPlaybook = createDefaultAwxPlaybook();
+
+            return this;
+        }
+
+        public Builder awxInventory() {
+
+            awxInventory = createDefaultAwxInventory();
+
+            return this;
+        }
+
+        public Builder awxHost() {
+
+            awxHost = createDefaultAwxHost();
+
+            return this;
+        }
+
+        public Builder awxTemplate() {
+
+            awxTemplate = createDefaultAwxTemplate();
+
+            return this;
+        }
+
         public SampleData build() {
 
             return SampleData.builder()
@@ -177,6 +296,13 @@ public class SampleBuilder {
                     .project(project)
                     .instanceGroup(instanceGroup)
                     .instance(instance)
+                    .awxOrganization(awxOrganization)
+                    .awxCredential(awxCredential)
+                    .awxProject(awxProject)
+                    .awxPlaybook(awxPlaybook)
+                    .awxInventory(awxInventory)
+                    .awxHost(awxHost)
+                    .awxTemplate(awxTemplate)
                     .build();
         }
     }
@@ -254,5 +380,79 @@ public class SampleBuilder {
                 .build();
 
         return instanceService.handleInstanceCreate(instanceCreateRequest);
+    }
+
+    private AwxOrganization createDefaultAwxOrganization() {
+
+        AwxOrganizationCreateRequest request = TestAwxOrganizationCreateRequest.createDefault();
+
+        return awxOrganizationService.handleOrganizationCreate(request);
+    }
+
+    private AwxCredential createDefaultAwxCredential() {
+
+        AwxCredentialCreateRequest request = TestAwxCredentialCreateRequest.builder()
+                .awxOrganizationId(awxOrganization)
+                .build();
+
+        return awxCredentialService.handleAwxCredentialCreate(request);
+    }
+
+    private AwxCredential createGitlabCredential() {
+
+        AwxCredentialCreateRequest request = TestAwxCredentialCreateRequest.builder(TestAwxCredentialCreateRequest.Type.GITLAB)
+                .awxOrganizationId(awxOrganization)
+                .build();
+
+        return awxCredentialService.handleAwxCredentialCreate(request);
+    }
+
+    private AwxProject createDefaultAwxProject() {
+
+        AwxProjectCreateRequest request = TestAwxProjectCreateRequest.builder()
+                .awxOrganizationId(awxOrganization.getOrganizationId())
+                .awxCredentialId(awxCredential.getCredentialId())
+                .build();
+
+        return awxProjectService.handleCreateRequest(request);
+    }
+
+    private AwxPlaybook createDefaultAwxPlaybook() {
+
+        AwxPlaybookCreateRequest request = TestAwxPlaybookCreateRequest.builder()
+                .projectId(awxProject.getProjectId())
+                .build();
+
+        return awxPlaybookService.handleCreateRequest(request);
+    }
+
+    private AwxInventory createDefaultAwxInventory() {
+
+        AwxInventoryCreateRequest request = TestAwxInventoryCreateRequest.builder()
+                .organization(awxOrganization)
+                .build();
+
+        return awxInventoryService.handleCreateRequest(request);
+    }
+
+    private AwxHost createDefaultAwxHost() {
+
+        AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
+                .instanceId(instance.getId())
+                .inventoryId(awxInventory.getInventoryId())
+                .build();
+
+        return awxHostService.handleCreateRequest(request);
+    }
+
+    private AwxTemplate createDefaultAwxTemplate() {
+
+        AwxTemplateCreateRequest request = TestAwxTemplateCreateRequest.builder()
+                .awxCredential(awxCredential)
+                .awxInventory(awxInventory)
+                .awxPlaybook(awxPlaybook)
+                .build();
+
+        return awxTemplateService.handleCreateRequest(request);
     }
 }
