@@ -1,15 +1,20 @@
 package com.example.demo.web.ansible;
 
-import com.example.demo.web.ansible.model.ListResponse;
-import com.example.demo.web.ansible.model.Ping;
-import com.example.demo.web.ansible.model.inventories.Inventory;
-import com.example.demo.web.ansible.model.inventories.InventoryRequest;
+import com.example.demo.awx.feign.common.ListResponse;
+import com.example.demo.awx.feign.credential.CredentialClient;
+import com.example.demo.awx.feign.credential.model.CredentialApi;
+import com.example.demo.awx.feign.inventory.InventoryClient;
+import com.example.demo.awx.feign.organization.OrganizationClient;
+import com.example.demo.awx.feign.ping.PingClient;
+import com.example.demo.awx.feign.ping.model.PingApi;
+import com.example.demo.awx.feign.project.ProjectClient;
+import com.example.demo.awx.feign.inventory.model.InventoryApi;
+import com.example.demo.awx.feign.inventory.model.InventoryCreateApi;
 import com.example.demo.web.ansible.model.jobs.Job;
 import com.example.demo.web.ansible.model.jobs.JobRelaunchRequest;
-import com.example.demo.web.ansible.model.organizations.Organization;
-import com.example.demo.web.ansible.model.organizations.OrganizationRequest;
-import com.example.demo.web.ansible.model.projects.Project;
-import com.example.demo.web.ansible.model.projects.ProjectRequest;
+import com.example.demo.awx.feign.organization.model.OrganizationApi;
+import com.example.demo.awx.feign.project.model.ProjectApi;
+import com.example.demo.awx.feign.project.model.ProjectCreateApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
@@ -26,110 +31,66 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class AnsibleController {
 
+    private final PingClient pingClient;
+    private final OrganizationClient organizationClient;
+    private final CredentialClient credentialClient;
+    private final ProjectClient projectClient;
+    private final InventoryClient inventoryClient;
+
     @GetMapping("/ping")
-    private ResponseEntity<Ping> getPing(@RequestParam("serverAddress") String serverAddress) {
+    private ResponseEntity<PingApi> getPing() {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/ping")
-                .toUriString();
-
-        return new RestTemplate().getForEntity(url, Ping.class);
+        return new ResponseEntity<>(pingClient.getPing(), HttpStatus.OK);
     }
 
     @GetMapping("/organizations")
-    private ResponseEntity<ListResponse<Organization>> getOrganizations(@RequestParam("serverAddress") String serverAddress) {
+    private ResponseEntity<ListResponse<OrganizationApi>> getOrganizations() {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/organizations/")
-                .toUriString();
-
-        ParameterizedTypeReference<ListResponse<Organization>> type = new ParameterizedTypeReference<ListResponse<Organization>>() {};
-
-        ResponseEntity<ListResponse<Organization>> response = getRestTemplate().exchange(url, HttpMethod.GET, null, type);
-
-        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        return new ResponseEntity<>(organizationClient.getOrganizations(), HttpStatus.OK);
     }
 
-    @PostMapping("/organizations")
-    public ResponseEntity<Organization> postOrganizations(@RequestParam("serverAddress") String serverAddress) {
+    @GetMapping("/credentials/{organizationId}")
+    public ResponseEntity<ListResponse<CredentialApi>> getCredentials(@PathVariable("organizationId") Long organizationId) {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/organizations/")
-                .toUriString();
-
-        OrganizationRequest request = new OrganizationRequest();
-        request.setName("test organization 5");
-        request.setDescription("test organization 5 from API");
-        request.setMaxHosts(0);
-
-        Organization organization = getRestTemplate().postForObject(url, new HttpEntity<>(request), Organization.class);
-
-        return new ResponseEntity<>(organization, HttpStatus.CREATED);
+        return new ResponseEntity<>(credentialClient.getCredentials(organizationId), HttpStatus.OK);
     }
 
     @GetMapping("/inventories")
-    public ResponseEntity<ListResponse<Inventory>> getInventories(@RequestParam("serverAddress") String serverAddress) {
+    public ResponseEntity<ListResponse<InventoryApi>> getInventories() {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/inventories/")
-                .toUriString();
-
-        ParameterizedTypeReference<ListResponse<Inventory>> type = new ParameterizedTypeReference<ListResponse<Inventory>>() {};
-
-        ResponseEntity<ListResponse<Inventory>> inventories = getRestTemplate().exchange(url, HttpMethod.GET, null, type);
-
-        return new ResponseEntity<>(inventories.getBody(), HttpStatus.OK);
+        return new ResponseEntity<>(inventoryClient.getInventories(3L), HttpStatus.OK);
     }
 
-    @PostMapping("/inventories")
-    public ResponseEntity<Inventory> postInventories(@RequestParam("serverAddress") String serverAddress) {
+    @GetMapping("/inventories/create")
+    public ResponseEntity<InventoryApi> postInventories() {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/inventories/")
-                .toUriString();
+        InventoryCreateApi body = InventoryCreateApi.builder()
+                .name("Test Inventory 1")
+                .description("Test Inventory 1 from API")
+                .organizationId(3L)
+                .build();
 
-        InventoryRequest request = new InventoryRequest();
-        request.setName("Test Inventory 1");
-        request.setDescription("Test Inventory 1 from API");
-        request.setOrganizationId(1);
-
-        Inventory inventory = getRestTemplate().postForObject(url, new HttpEntity<>(request), Inventory.class);
-
-        return new ResponseEntity<>(inventory, HttpStatus.CREATED);
+        return new ResponseEntity<>(inventoryClient.createInventory(body), HttpStatus.CREATED);
     }
 
     @GetMapping("/projects")
-    private ResponseEntity<ListResponse<Project>> getProjects(@RequestParam("serverAddress") String serverAddress) {
+    private ResponseEntity<ListResponse<ProjectApi>> getProjects() {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/projects/")
-                .toUriString();
-
-        ParameterizedTypeReference<ListResponse<Project>> type = new ParameterizedTypeReference<ListResponse<Project>>() {};
-
-        ResponseEntity<ListResponse<Project>> projects =  getRestTemplate().exchange(url, HttpMethod.GET, null, type);
-
-        return new ResponseEntity<>(projects.getBody(), HttpStatus.OK);
+        return new ResponseEntity<>(projectClient.getProjects(3L), HttpStatus.OK);
     }
 
     @PostMapping("/projects")
-    private ResponseEntity<Project> postProject(@RequestParam("serverAddress") String serverAddress) {
+    private ResponseEntity<ProjectApi> postProject() {
 
-        String url = UriComponentsBuilder.fromHttpUrl(serverAddress)
-                .path("/api/v2/projects/")
-                .toUriString();
+        ProjectCreateApi body = ProjectCreateApi.builder()
+                .name("New Test Project API 1")
+                .description("New Project created from the API 1")
+                .scmType("git")
+                .scmUrl("git@gitlab.com:jmchugh/ansible-playbooks.git")
+                .credentialId(3L)
+                .build();
 
-        ProjectRequest request = new ProjectRequest();
-        request.setName("New Test Project API 1");
-        request.setDescription("New Project created from the API 1");
-        request.setScmType("git");
-        request.setScmUrl("git@gitlab.com:jmchugh/ansible-playbooks.git");
-        request.setCredentialId(3L);
-        request.setOrganizationId(1L);
-
-        Project project = getRestTemplate().postForObject(url, new HttpEntity<>(request), Project.class);
-
-        return new ResponseEntity<>(project, HttpStatus.CREATED);
+        return new ResponseEntity<>(projectClient.createProject(3L, body), HttpStatus.CREATED);
     }
 
     @GetMapping("/jobs")

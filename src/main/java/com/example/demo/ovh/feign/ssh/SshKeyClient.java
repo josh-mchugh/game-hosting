@@ -1,6 +1,6 @@
 package com.example.demo.ovh.feign.ssh;
 
-import com.example.demo.framework.feign.FeignAuthConfig;
+import com.example.demo.framework.feign.FeignOvhConfig;
 import com.example.demo.ovh.feign.ssh.model.SshKeyApi;
 import com.example.demo.ovh.feign.ssh.model.SshKeyCreateApi;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "sshKeyClient", url = "${app.ovh.base-url}", configuration = FeignAuthConfig.class)
+@FeignClient(name = "sshKeyClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface SshKeyClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/sshkey")

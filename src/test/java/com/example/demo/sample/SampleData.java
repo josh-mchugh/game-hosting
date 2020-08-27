@@ -1,5 +1,12 @@
 package com.example.demo.sample;
 
+import com.example.demo.awx.credential.model.AwxCredential;
+import com.example.demo.awx.host.model.AwxHost;
+import com.example.demo.awx.inventory.model.AwxInventory;
+import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.playbook.model.AwxPlaybook;
+import com.example.demo.awx.project.model.AwxProject;
+import com.example.demo.awx.template.model.AwxTemplate;
 import com.example.demo.game.model.Game;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.flavor.model.Flavor;
@@ -25,4 +32,11 @@ public class SampleData {
     private final Project project;
     private final InstanceGroup instanceGroup;
     private final Instance instance;
+    private final AwxOrganization awxOrganization;
+    private final AwxCredential awxCredential;
+    private final AwxProject awxProject;
+    private final AwxPlaybook awxPlaybook;
+    private final AwxInventory awxInventory;
+    private final AwxHost awxHost;
+    private final AwxTemplate awxTemplate;
 }

@@ -1,9 +1,10 @@
 package com.example.demo.ovh.instance.entity;
 
+import com.example.demo.awx.host.entity.AwxHostEntity;
 import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.ovh.credential.entity.CredentialEntity;
 import com.example.demo.ovh.flavor.entity.FlavorEntity;
 import com.example.demo.ovh.image.entity.ImageEntity;
-import com.example.demo.ovh.credential.entity.CredentialEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -39,6 +41,9 @@ public class InstanceEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "credential_id", nullable = false)
     private CredentialEntity credentialEntity;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "instanceEntity")
+    private AwxHostEntity awxHostEntity;
 
     @NotNull
     @Column(name = "instance_id", unique = true, nullable = false)
