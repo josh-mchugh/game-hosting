@@ -25,9 +25,6 @@ public class CredentialEntity extends AbstractEntity {
     @Column(name = "public_key")
     private String publicKey;
 
-    @Column(name = "private_key")
-    private String privateKey;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private CredentialType type;

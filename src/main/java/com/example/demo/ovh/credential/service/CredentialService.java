@@ -53,7 +53,6 @@ public class CredentialService implements ICredentialService {
         entity.setSshKeyId(request.getSshKeyId());;
         entity.setName(request.getName());
         entity.setPublicKey(encryptor.encrypt(request.getPublicKey()));
-        entity.setPrivateKey(encryptor.encrypt(request.getPrivateKey()));
         entity.setType(request.getType());
 
         entityManager.persist(entity);

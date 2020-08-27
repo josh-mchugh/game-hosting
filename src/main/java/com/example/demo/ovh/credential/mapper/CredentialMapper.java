@@ -17,7 +17,6 @@ public class CredentialMapper {
                 .sshKeyId(entity.getSshKeyId())
                 .name(entity.getName())
                 .publicKey(entity.getPublicKey())
-                .privateKey(entity.getPrivateKey())
                 .type(entity.getType())
                 .build();
     }

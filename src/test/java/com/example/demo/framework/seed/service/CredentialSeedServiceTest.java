@@ -1,7 +1,5 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.ovh.credential.entity.CredentialType;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.feign.ssh.SshKeyClient;
 import com.example.demo.ovh.feign.ssh.model.SshKeyApi;
@@ -18,7 +16,12 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.transaction.Transactional;
 import java.util.Collections;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "app.ovh.ssh-key-configs[0].name=name",
+        "app.ovh.ssh-key-configs[0].type=ANSIBLE",
+        "app.ovh.ssh-key-configs[0].public-key=public key",
+        "app.ovh.ssh-key-configs[0].private-key=private key"
+})
 @Transactional
 @ActiveProfiles("test")
 public class CredentialSeedServiceTest {
@@ -28,9 +31,6 @@ public class CredentialSeedServiceTest {
 
     @Autowired
     private SampleBuilder sampleBuilder;
-
-    @MockBean
-    private AppConfig appConfig;
 
     @MockBean
     private SshKeyClient sshKeyClient;
@@ -58,17 +58,6 @@ public class CredentialSeedServiceTest {
     @Test
     public void whenApiDoesNotContainSshKeyThenCreateNewCredentialReturnList() {
 
-        AppConfig.Ovh.SshKeyConfig sshKeyConfig = new AppConfig.Ovh.SshKeyConfig();
-        sshKeyConfig.setName("config name");
-        sshKeyConfig.setPublicKey("config public key");
-        sshKeyConfig.setPrivateKey("config private key");
-        sshKeyConfig.setType(CredentialType.ANSIBLE);
-
-        AppConfig.Ovh ovh = new AppConfig.Ovh();
-        ovh.setSshKeyConfigs(Collections.singletonList(sshKeyConfig));
-
-        Mockito.when(appConfig.getOvh()).thenReturn(ovh);
-
         Mockito.when(sshKeyClient.getSshKeys(Mockito.anyString())).thenReturn(Collections.emptyList());
 
         SshKeyApi sshKeyApi = new SshKeyApi();
@@ -86,17 +75,6 @@ public class CredentialSeedServiceTest {
     @Test
     public void whenApiContainsSshKeyThenCreateNewCredentialReturnList() {
 
-        AppConfig.Ovh.SshKeyConfig sshKeyConfig = new AppConfig.Ovh.SshKeyConfig();
-        sshKeyConfig.setName("name");
-        sshKeyConfig.setPrivateKey("private key");
-        sshKeyConfig.setPublicKey("public key");
-        sshKeyConfig.setType(CredentialType.ANSIBLE);
-
-        AppConfig.Ovh ovh = new AppConfig.Ovh();
-        ovh.setSshKeyConfigs(Collections.singletonList(sshKeyConfig));
-
-        Mockito.when(appConfig.getOvh()).thenReturn(ovh);
-
         SshKeyApi sshKeyApi = new SshKeyApi();
         sshKeyApi.setId("ssh key id");
         sshKeyApi.setName("name");
@@ -107,19 +85,6 @@ public class CredentialSeedServiceTest {
         ImmutableList<Credential> credentials = credentialSeedService.initializeData();
 
         Assertions.assertEquals(1, credentials.size());
-    }
-
-    @Test
-    public void whenApiHasNoResultsAndHasNoConfigThenReturnEmptyList() {
-
-        AppConfig.Ovh ovh = new AppConfig.Ovh();
-        ovh.setSshKeyConfigs(Collections.emptyList());
-
-        Mockito.when(appConfig.getOvh()).thenReturn(ovh);
-
-        ImmutableList<Credential> credentials = credentialSeedService.initializeData();
-
-        Assertions.assertEquals(0, credentials.size());
     }
 
     @Test

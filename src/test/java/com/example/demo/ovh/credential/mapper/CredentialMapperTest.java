@@ -97,25 +97,6 @@ public class CredentialMapperTest {
     }
 
     @Test
-    public void whenEntityHasPrivateKeyThenReturnPrivateKey() {
-
-        CredentialEntity entity = new CredentialEntity();
-        entity.setPrivateKey("private key");
-
-        Credential credential = CredentialMapper.map(entity);
-
-        Assertions.assertEquals("private key", credential.getPrivateKey());
-    }
-
-    @Test
-    public void whenEntityHasNullPrivateKeyThenReturnNull() {
-
-        Credential credential = CredentialMapper.map(new CredentialEntity());
-
-        Assertions.assertNull(credential.getPrivateKey());
-    }
-
-    @Test
     public void whenEntityHasTypeThenReturnType() {
 
         CredentialEntity entity = new CredentialEntity();

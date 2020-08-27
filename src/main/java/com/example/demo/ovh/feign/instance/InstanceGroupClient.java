@@ -1,6 +1,6 @@
 package com.example.demo.ovh.feign.instance;
 
-import com.example.demo.framework.feign.FeignAuthConfig;
+import com.example.demo.framework.feign.FeignOvhConfig;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "instanceGroupClient", url = "${app.ovh.base-url}", configuration = FeignAuthConfig.class)
+@FeignClient(name = "instanceGroupClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface InstanceGroupClient {
 
     @PostMapping("/1.0/cloud/project/{projectId}/instance/group")
