@@ -39,6 +39,25 @@ public class AwxHostMapperTest {
     }
 
     @Test
+    public void whenEntityHasHostIdThenReturnHostId() {
+
+        AwxHostEntity entity = new AwxHostEntity();
+        entity.setHostId(1L);
+
+        AwxHost awxHost = AwxHostMapper.map(entity);
+
+        Assertions.assertEquals(1L, awxHost.getHostId());
+    }
+
+    @Test
+    public void whenEntityHasNullHostIdThenReturnNull() {
+
+        AwxHost awxHost = AwxHostMapper.map(new AwxHostEntity());
+
+        Assertions.assertNull(awxHost.getHostId());
+    }
+
+    @Test
     public void whenEntityHasHostnameThenReturnHostname() {
 
         AwxHostEntity entity = new AwxHostEntity();
@@ -74,5 +93,24 @@ public class AwxHostMapperTest {
         AwxHost awxHost = AwxHostMapper.map(new AwxHostEntity());
 
         Assertions.assertNull(awxHost.getDescription());
+    }
+
+    @Test
+    public void whenEntityHasEnabledThenReturnEnabled() {
+
+        AwxHostEntity entity = new AwxHostEntity();
+        entity.setEnabled(true);
+
+        AwxHost awxHost = AwxHostMapper.map(entity);
+
+        Assertions.assertTrue(awxHost.getEnabled());
+    }
+
+    @Test
+    public void whenEntityHasNullEnabledThenReturnNull() {
+
+        AwxHost awxHost = AwxHostMapper.map(new AwxHostEntity());
+
+        Assertions.assertNull(awxHost.getEnabled());
     }
 }

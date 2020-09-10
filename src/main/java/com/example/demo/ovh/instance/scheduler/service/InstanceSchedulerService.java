@@ -5,6 +5,7 @@ import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.model.InstanceApi;
 import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
+import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.ovh.instance.mapper.InstanceMapper;
 import com.example.demo.ovh.instance.model.Instance;
@@ -49,7 +50,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
                     for (Instance instance : instances) {
 
-                        if (apiResponse.getId().equals(instance.getInstanceId())) {
+                        if (apiResponse.getId().equals(instance.getInstanceId()) && !instance.getStatus().equals(InstanceStatus.BUILD)) {
 
                             if (!isEqual(instance, apiResponse)) {
 

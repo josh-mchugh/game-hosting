@@ -146,7 +146,7 @@ public class AwxPlaybookSeedServiceTest {
     }
 
     @Test
-    public void orderShouldNotBeNull() {
+    public void whenOrderShouldNotBeNull() {
 
         Assertions.assertNotNull(awxPlaybookSeedService.order());
     }

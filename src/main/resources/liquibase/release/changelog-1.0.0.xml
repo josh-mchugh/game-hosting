@@ -497,10 +497,16 @@
             <column name="instance_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="host_id" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
             <column name="hostname" type="nvarchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="description" type="nvarchar(255)"/>
+            <column name="enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="awx_host" baseColumnNames="awx_inventory_id" constraintName="awx_host_awx_inventory_id__awx_inventory_id" referencedTableName="awx_inventory" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="awx_host" baseColumnNames="instance_id" constraintName="awx_host_instance_id__instance_id" referencedTableName="instance" referencedColumnNames="id"/>

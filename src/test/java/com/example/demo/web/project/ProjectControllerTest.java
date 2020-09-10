@@ -65,7 +65,6 @@ public class ProjectControllerTest {
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-
     }
 
     @Test
@@ -78,6 +77,5 @@ public class ProjectControllerTest {
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-
     }
 }
