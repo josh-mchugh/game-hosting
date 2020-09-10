@@ -1,15 +1,15 @@
 package com.example.demo.web.test;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.flavor.FlavorClient;
 import com.example.demo.ovh.feign.image.ImageClient;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;
-import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
 import com.example.demo.ovh.feign.instance.model.InstanceCreateApi;
+import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
+import com.example.demo.ovh.feign.region.RegionClient;
 import com.example.demo.ovh.feign.ssh.SshKeyClient;
 import com.example.demo.ovh.feign.ssh.model.SshKeyCreateApi;
-import com.example.demo.ovh.feign.region.RegionClient;
 import com.example.demo.web.test.model.Metrics;
 import com.example.demo.web.test.model.Status;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final RegionClient regionClient;
     private final ImageClient imageClient;
     private final FlavorClient flavorClient;
@@ -118,55 +118,55 @@ public class TestController {
     @GetMapping("/ovh/project/regions")
     public ResponseEntity<?> getRegions() {
 
-        return new ResponseEntity<>(regionClient.getRegions(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+        return new ResponseEntity<>(regionClient.getRegions(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/region")
     public ResponseEntity<?> getRegion() {
 
-        return new ResponseEntity<>(regionClient.getRegion(appConfig.getOvh().getProjectId(), "US-EAST-VA-1"), HttpStatus.OK);
+        return new ResponseEntity<>(regionClient.getRegion(ovhConfig.getProjectId(), "US-EAST-VA-1"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/availableRegions")
     public ResponseEntity<?> getAvailableRegions() {
 
-        return new ResponseEntity<>(regionClient.getAvailableRegions(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+        return new ResponseEntity<>(regionClient.getAvailableRegions(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/images")
     public ResponseEntity<?> getImages() {
 
-        return new ResponseEntity<>(imageClient.getImages(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+        return new ResponseEntity<>(imageClient.getImages(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/image")
     public ResponseEntity<?> getImage() {
 
-        return new ResponseEntity<>(imageClient.getImage(appConfig.getOvh().getProjectId(), "cefc8220-ba0a-4327-b13d-591abaf4be0c"), HttpStatus.OK);
+        return new ResponseEntity<>(imageClient.getImage(ovhConfig.getProjectId(), "cefc8220-ba0a-4327-b13d-591abaf4be0c"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/flavors")
     public ResponseEntity<?> getFlavors() {
 
-        return new ResponseEntity<>(flavorClient.getFlavors(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+        return new ResponseEntity<>(flavorClient.getFlavors(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/flavor")
     public ResponseEntity<?> getFlavor() {
 
-        return new ResponseEntity<>(flavorClient.getFlavorById(appConfig.getOvh().getProjectId(), "a64381e7-c4e7-4b01-9fbe-da405c544d2e"), HttpStatus.OK);
+        return new ResponseEntity<>(flavorClient.getFlavorById(ovhConfig.getProjectId(), "a64381e7-c4e7-4b01-9fbe-da405c544d2e"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/sshkeys")
     public ResponseEntity<?> getSshKeys() {
 
-        return new ResponseEntity<>(sshKeyClient.getSshKeys(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+        return new ResponseEntity<>(sshKeyClient.getSshKeys(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/sshkey")
     public ResponseEntity<?> getSshKey() {
 
-        return new ResponseEntity<>(sshKeyClient.getSshKeyById(appConfig.getOvh().getProjectId(), "5455553d"), HttpStatus.OK);
+        return new ResponseEntity<>(sshKeyClient.getSshKeyById(ovhConfig.getProjectId(), "5455553d"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/sshkey/create")
@@ -178,13 +178,13 @@ public class TestController {
                 .region("US-EAST-VA-1")
                 .build();
 
-        return new ResponseEntity<>(sshKeyClient.createSshKey(appConfig.getOvh().getProjectId(), create), HttpStatus.OK);
+        return new ResponseEntity<>(sshKeyClient.createSshKey(ovhConfig.getProjectId(), create), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/sshkey/delete")
     public ResponseEntity<?> deleteSshKey() {
 
-        sshKeyClient.deleteSshKeyById(appConfig.getOvh().getProjectId(), "6447567a64433078");
+        sshKeyClient.deleteSshKeyById(ovhConfig.getProjectId(), "6447567a64433078");
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -192,7 +192,7 @@ public class TestController {
     @GetMapping("/ovh/project/groups")
     public ResponseEntity<?> getGroups() {
 
-        return new ResponseEntity<>(instanceGroupClient.getInstanceGroups(appConfig.getOvh().getProjectId()), HttpStatus.OK);
+        return new ResponseEntity<>(instanceGroupClient.getInstanceGroups(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/group/create")
@@ -204,19 +204,19 @@ public class TestController {
                 .type("affinity")
                 .build();
 
-        return new ResponseEntity<>(instanceGroupClient.createInstanceGroup(appConfig.getOvh().getProjectId(), create), HttpStatus.OK);
+        return new ResponseEntity<>(instanceGroupClient.createInstanceGroup(ovhConfig.getProjectId(), create), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/group")
     public ResponseEntity<?> getGroup() {
 
-        return new ResponseEntity<>(instanceGroupClient.getInstanceGroupById(appConfig.getOvh().getProjectId(), "84ad0d1a-d65c-49a7-b6d4-516d1465a65e"), HttpStatus.OK);
+        return new ResponseEntity<>(instanceGroupClient.getInstanceGroupById(ovhConfig.getProjectId(), "84ad0d1a-d65c-49a7-b6d4-516d1465a65e"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/group/delete")
     public ResponseEntity<?> deleteGroup(@RequestParam("id") String id) {
 
-        instanceGroupClient.deleteInstanceGroupById(appConfig.getOvh().getProjectId(), id);
+        instanceGroupClient.deleteInstanceGroupById(ovhConfig.getProjectId(), id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -232,19 +232,19 @@ public class TestController {
                 .groupId("84ad0d1a-d65c-49a7-b6d4-516d1465a65e")
                 .build();
 
-        return new ResponseEntity<>(instanceClient.createInstance(appConfig.getOvh().getProjectId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(instanceClient.createInstance(ovhConfig.getProjectId(), request), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/instance")
     public ResponseEntity<?> getInstance() {
 
-        return new ResponseEntity<>(instanceClient.getInstanceById(appConfig.getOvh().getProjectId(), "d0cf8308-f83c-451a-9f0e-b3cd95fbffd6"), HttpStatus.OK);
+        return new ResponseEntity<>(instanceClient.getInstanceById(ovhConfig.getProjectId(), "d0cf8308-f83c-451a-9f0e-b3cd95fbffd6"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/instance/delete")
     public ResponseEntity<?> deleteInstance() {
 
-        instanceClient.deleteInstance(appConfig.getOvh().getProjectId(), "1ed3e014-aa09-43e6-b4c8-0681ebe9935e");
+        instanceClient.deleteInstance(ovhConfig.getProjectId(), "1ed3e014-aa09-43e6-b4c8-0681ebe9935e");
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

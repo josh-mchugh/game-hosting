@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "flavorClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
+@FeignClient(name = "flavorClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface FlavorClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/flavor")

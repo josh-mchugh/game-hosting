@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "regionClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
+@FeignClient(name = "regionClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface RegionClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/region")

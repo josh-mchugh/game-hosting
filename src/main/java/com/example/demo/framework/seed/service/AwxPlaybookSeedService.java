@@ -6,7 +6,7 @@ import com.example.demo.awx.playbook.service.IAwxPlaybookService;
 import com.example.demo.awx.playbook.service.model.AwxPlaybookCreateRequest;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AwxPlaybookSeedService implements ISeedService<AwxPlaybook> {
 
-    private final AppConfig appConfig;
+    private final AwxConfig awxConfig;
     private final IAwxProjectService awxProjectService;
     private final IAwxPlaybookService awxPlaybookService;
     private final PlaybookClient playbookClient;
@@ -35,7 +35,7 @@ public class AwxPlaybookSeedService implements ISeedService<AwxPlaybook> {
     @Override
     public ImmutableList<AwxPlaybook> initializeData() {
 
-        AwxProject awxProject = awxProjectService.getByName(appConfig.getAwx().getProject().getName());
+        AwxProject awxProject = awxProjectService.getByName(awxConfig.getProject().getName());
 
         List<String> playbooks = playbookClient.getPlaybooks(awxProject.getProjectId());
 

@@ -1,6 +1,6 @@
 package com.example.demo.framework.feign;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import feign.RequestInterceptor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.context.annotation.Bean;
@@ -10,21 +10,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class FeignOvhConfig {
 
     @Bean
-    public RequestInterceptor authRequestInterceptor(AppConfig appConfig) {
+    public RequestInterceptor authRequestInterceptor(OvhConfig ovhConfig) {
 
         return requestTemplate -> {
 
-            String url = UriComponentsBuilder.fromHttpUrl(appConfig.getOvh().getBaseUrl())
+            String url = UriComponentsBuilder.fromHttpUrl(ovhConfig.getBaseUrl())
                     .path(requestTemplate.url())
                     .toUriString();
 
-            String timestamp = new RestTemplate().getForObject(String.format("%s%s", appConfig.getOvh().getBaseUrl(), "/1.0/auth/time"), String.class);
-            String signature = getSignature(appConfig.getOvh().getAppSecret(), appConfig.getOvh().getCustomerKey(), requestTemplate.method(), url, requestTemplate.body(), timestamp);
+            String timestamp = new RestTemplate().getForObject(String.format("%s%s", ovhConfig.getBaseUrl(), "/1.0/auth/time"), String.class);
+            String signature = getSignature(ovhConfig.getAppSecret(), ovhConfig.getCustomerKey(), requestTemplate.method(), url, requestTemplate.body(), timestamp);
 
-            requestTemplate.header("X-Ovh-Application", appConfig.getOvh().getAppKey());
+            requestTemplate.header("X-Ovh-Application", ovhConfig.getAppKey());
             requestTemplate.header("X-Ovh-Timestamp", timestamp);
             requestTemplate.header("X-Ovh-Signature", signature);
-            requestTemplate.header("X-Ovh-Consumer", appConfig.getOvh().getCustomerKey());
+            requestTemplate.header("X-Ovh-Consumer", ovhConfig .getCustomerKey());
         };
     }
 

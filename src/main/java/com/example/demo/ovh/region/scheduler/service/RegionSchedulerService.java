@@ -1,6 +1,6 @@
 package com.example.demo.ovh.region.scheduler.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.region.RegionClient;
 import com.example.demo.ovh.feign.region.model.RegionApi;
 import com.example.demo.ovh.region.model.Region;
@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RegionSchedulerService implements IRegionSchedulerService {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final RegionClient regionClient;
     private final IRegionService regionService;
 
     @Override
     public ImmutableList<String> getRegionNames() {
 
-        return ImmutableList.copyOf(regionClient.getRegions(appConfig.getOvh().getProjectId()));
+        return ImmutableList.copyOf(regionClient.getRegions(ovhConfig.getProjectId()));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
         for(String name : regionNames) {
 
-            RegionApi regionResponse = regionClient.getRegion(appConfig.getOvh().getProjectId(), name);
+            RegionApi regionResponse = regionClient.getRegion(ovhConfig.getProjectId(), name);
 
             if(regionService.existsByName(name)) {
 

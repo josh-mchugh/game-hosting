@@ -5,7 +5,7 @@ import com.example.demo.awx.feign.organization.model.OrganizationApi;
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.organization.service.IAwxOrganizationService;
 import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AwxOrganizationSeedService implements ISeedService<AwxOrganization> {
 
-    private final AppConfig appConfig;
+    private final AwxConfig awxConfig;
     private final IAwxOrganizationService awxOrganizationService;
     private final OrganizationClient organizationClient;
 
@@ -31,7 +31,7 @@ public class AwxOrganizationSeedService implements ISeedService<AwxOrganization>
     public ImmutableList<AwxOrganization> initializeData() {
 
         Optional<OrganizationApi> organizationApi = organizationClient.getOrganizations().getResults().stream()
-                .filter(organization -> organization.getId().equals(appConfig.getAwx().getOrganization().getId()))
+                .filter(organization -> organization.getId().equals(awxConfig.getOrganization().getId()))
                 .findFirst();
 
         return organizationApi

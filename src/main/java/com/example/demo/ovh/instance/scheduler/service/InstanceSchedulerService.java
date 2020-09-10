@@ -1,9 +1,9 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
+import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.model.InstanceApi;
-import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InstanceSchedulerService implements IInstanceSchedulerService {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final JPQLQueryFactory queryFactory;
     private final IInstanceService instanceService;
     private final InstanceClient instanceClient;
@@ -67,7 +67,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
     public List<List<InstanceApi>> getPartitionedApiList() {
 
-        return Lists.partition(instanceClient.getInstances(appConfig.getOvh().getProjectId()), 20);
+        return Lists.partition(instanceClient.getInstances(ovhConfig.getProjectId()), 20);
     }
 
     public ImmutableList<Instance> getInstances(Collection<String> ids) {

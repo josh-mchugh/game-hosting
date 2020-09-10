@@ -17,7 +17,7 @@ public class FlavorScheduler {
 
     private final IFlavorSchedulerService flavorSchedulerService;
 
-    @Scheduled(fixedDelayString = "${app.ovh.flavor-scheduler-delay}", initialDelayString = "${app.ovh.flavor-scheduler-initial-delay}")
+    @Scheduled(fixedDelayString = "${ovh.flavor-scheduler-delay}", initialDelayString = "${ovh.flavor-scheduler-initial-delay}")
     public void scheduledFlavorUpdater() {
 
         log.info("Start: Flavor Updates");

@@ -1,6 +1,6 @@
 package com.example.demo.ovh.image.scheduler.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.image.ImageClient;
 import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.image.model.Image;
@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ImageSchedulerService implements IImageSchedulerService {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final ImageClient imageClient;
     private final IImageService imageService;
 
     @Override
     public ImmutableList<ImageApi> getImageResponses() {
 
-        return ImmutableList.copyOf(imageClient.getImages(appConfig.getOvh().getProjectId()));
+        return ImmutableList.copyOf(imageClient.getImages(ovhConfig.getProjectId()));
     }
 
     @Override

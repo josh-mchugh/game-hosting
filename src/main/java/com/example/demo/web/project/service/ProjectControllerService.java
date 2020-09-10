@@ -6,7 +6,7 @@ import com.example.demo.awx.feign.host.model.HostPatchApi;
 import com.example.demo.awx.host.entity.QAwxHostEntity;
 import com.example.demo.awx.host.model.AwxHost;
 import com.example.demo.awx.host.service.IAwxHostService;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.project.entity.QProjectEntity;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProjectControllerService implements IProjectControllerService {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final JPQLQueryFactory queryFactory;
     private final InstanceClient instanceClient;
     private final IAwxHostService awxHostService;
@@ -67,7 +67,7 @@ public class ProjectControllerService implements IProjectControllerService {
     @Override
     public void handleProjectInstanceStart(ProjectInstanceStartRequest request) {
 
-        instanceClient.startInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
+        instanceClient.startInstance(ovhConfig.getProjectId(), request.getInstanceId());
 
         Long hostId = getHostIdByInstanceId(request.getInstanceId());
 
@@ -83,7 +83,7 @@ public class ProjectControllerService implements IProjectControllerService {
     @Override
     public void handleProjectInstanceStop(ProjectInstanceStopRequest request) {
 
-        instanceClient.stopInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
+        instanceClient.stopInstance(ovhConfig.getProjectId(), request.getInstanceId());
 
         Long hostId = getHostIdByInstanceId(request.getInstanceId());
 

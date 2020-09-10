@@ -9,7 +9,7 @@ import com.example.demo.awx.feign.project.model.ProjectCreateApi;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
 import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AwxProjectSeedService implements ISeedService<AwxProject> {
 
-    private final AppConfig appConfig;
+    private final AwxConfig awxConfig;
     private final IAwxCredentialService awxCredentialService;
     private final IAwxProjectService awxProjectService;
     private final ProjectClient projectClient;
@@ -35,10 +35,10 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
     @Override
     public ImmutableList<AwxProject> initializeData() {
 
-        ListResponse<ProjectApi> projectApis = projectClient.getProjects(appConfig.getAwx().getOrganization().getId());
+        ListResponse<ProjectApi> projectApis = projectClient.getProjects(awxConfig.getOrganization().getId());
 
         Optional<ProjectApi> projectApi = projectApis.getResults().stream()
-                .filter(project -> project.getName().equals(appConfig.getAwx().getProject().getName()))
+                .filter(project -> project.getName().equals(awxConfig.getProject().getName()))
                 .findFirst();
 
         if(projectApi.isPresent()) {
@@ -65,18 +65,18 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
 
     private ProjectApi createProjectApi() {
 
-        AwxCredential awxCredential = awxCredentialService.getByName(appConfig.getAwx().getProject().getCredentialName());
+        AwxCredential awxCredential = awxCredentialService.getByName(awxConfig.getProject().getCredentialName());
 
         ProjectCreateApi projectCreateApi = ProjectCreateApi.builder()
                 .credentialId(awxCredential.getCredentialId())
-                .name(appConfig.getAwx().getProject().getName())
-                .description(appConfig.getAwx().getProject().getDescription())
-                .scmType(appConfig.getAwx().getProject().getScmType())
-                .scmUrl(appConfig.getAwx().getProject().getScmUrl())
-                .scmBranch(appConfig.getAwx().getProject().getScmBranch())
+                .name(awxConfig.getProject().getName())
+                .description(awxConfig.getProject().getDescription())
+                .scmType(awxConfig.getProject().getScmType())
+                .scmUrl(awxConfig.getProject().getScmUrl())
+                .scmBranch(awxConfig.getProject().getScmBranch())
                 .build();
 
-        return projectClient.createProject(appConfig.getAwx().getOrganization().getId(), projectCreateApi);
+        return projectClient.createProject(awxConfig.getOrganization().getId(), projectCreateApi);
     }
 
     private AwxProjectCreateRequest createAwxProjectRequest(ProjectApi projectApi) {

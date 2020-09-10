@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "imageClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
+@FeignClient(name = "imageClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface ImageClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/image")

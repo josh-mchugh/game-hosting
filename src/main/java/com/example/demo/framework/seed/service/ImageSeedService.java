@@ -1,6 +1,6 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.feign.image.ImageClient;
 import com.example.demo.ovh.feign.image.model.ImageApi;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ImageSeedService implements ISeedService<Image> {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final IImageService imageService;
     private final ImageClient imageClient;
 
@@ -28,7 +28,7 @@ public class ImageSeedService implements ISeedService<Image> {
     @Override
     public ImmutableList<Image> initializeData() {
 
-        return imageClient.getImages(appConfig.getOvh().getProjectId()).stream()
+        return imageClient.getImages(ovhConfig.getProjectId()).stream()
                 .map(this::buildImageCreateRequest)
                 .map(imageService::handleImageCreate)
                 .collect(ImmutableList.toImmutableList());

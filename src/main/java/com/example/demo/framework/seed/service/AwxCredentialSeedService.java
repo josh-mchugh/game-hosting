@@ -6,7 +6,7 @@ import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.awx.feign.credential.CredentialClient;
 import com.example.demo.awx.feign.credential.model.CredentialApi;
 import com.example.demo.awx.feign.credential.model.CredentialCreateApi;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
 
-    private final AppConfig appConfig;
+    private final AwxConfig awxConfig;
     private final IAwxCredentialService awxCredentialService;
     private final CredentialClient credentialClient;
 
@@ -33,12 +33,12 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
     @Override
     public ImmutableList<AwxCredential> initializeData() {
 
-        List<AppConfig.Awx.Credential> credentials = appConfig.getAwx().getCredentials();
-        List<CredentialApi> credentialApis = credentialClient.getCredentials(appConfig.getAwx().getOrganization().getId()).getResults();
+        List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
+        List<CredentialApi> credentialApis = credentialClient.getCredentials(awxConfig.getOrganization().getId()).getResults();
 
         List<AwxCredential> awxCredentials = new ArrayList<>();
 
-        for(AppConfig.Awx.Credential credential : credentials) {
+        for(AwxConfig.Credential credential : credentials) {
 
             Optional<CredentialApi> credentialApi = credentialApis.stream()
                     .filter(api -> api.getName().equals(credential.getName()))
@@ -69,7 +69,7 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
         return 8;
     }
 
-    private AwxCredentialCreateRequest buildCredentialCreateRequest(CredentialApi credentialApi, AppConfig.Awx.Credential credential) {
+    private AwxCredentialCreateRequest buildCredentialCreateRequest(CredentialApi credentialApi, AwxConfig.Credential credential) {
 
         return AwxCredentialCreateRequest.builder()
                 .credentialId(credentialApi.getId())
@@ -82,7 +82,7 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
                 .build();
     }
 
-    private CredentialCreateApi.Input createCredentialApiInputs(AppConfig.Awx.Credential credential) {
+    private CredentialCreateApi.Input createCredentialApiInputs(AwxConfig.Credential credential) {
 
         return CredentialCreateApi.Input.builder()
                 .privateKey(credential.getPrivateKey().replace("\\n", "\n"))
@@ -90,7 +90,7 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
                 .build();
     }
 
-    private CredentialCreateApi createCredentialApiRequest(AppConfig.Awx.Credential credential) {
+    private CredentialCreateApi createCredentialApiRequest(AwxConfig.Credential credential) {
 
         return CredentialCreateApi.builder()
                 .name(credential.getName())
@@ -99,12 +99,12 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
                 .build();
     }
 
-    private CredentialApi createCredentialApi(AppConfig.Awx.Credential credential) {
+    private CredentialApi createCredentialApi(AwxConfig.Credential credential) {
 
-        return credentialClient.createCredential(appConfig.getAwx().getOrganization().getId(), createCredentialApiRequest(credential));
+        return credentialClient.createCredential(awxConfig.getOrganization().getId(), createCredentialApiRequest(credential));
     }
 
-    private AwxCredential createAwxCredential(CredentialApi credentialApi, AppConfig.Awx.Credential credential) {
+    private AwxCredential createAwxCredential(CredentialApi credentialApi, AwxConfig.Credential credential) {
 
         AwxCredentialCreateRequest request = buildCredentialCreateRequest(credentialApi, credential);
 

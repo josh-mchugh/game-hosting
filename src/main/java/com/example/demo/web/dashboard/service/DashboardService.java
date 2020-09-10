@@ -8,7 +8,8 @@ import com.example.demo.awx.host.service.IAwxHostService;
 import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.inventory.service.IAwxInventoryService;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.AwxConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.feign.common.IpAddressApi;
@@ -69,7 +70,8 @@ public class DashboardService implements IDashboardService {
     private final HostClient hostClient;
     private final IAwxInventoryService awxInventoryService;
     private final IAwxHostService awxHostService;
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
+    private final AwxConfig awxConfig;
     private final JPQLQueryFactory queryFactory;
 
     @Override
@@ -168,7 +170,7 @@ public class DashboardService implements IDashboardService {
         instance = handleInstanceActiveUpdate(instance, activeInstanceApi);
 
         log.info("Retrieving AWX Inventory Information...");
-        AwxInventory awxInventory = awxInventoryService.findByName(appConfig.getAwx().getInventory().getName());
+        AwxInventory awxInventory = awxInventoryService.findByName(awxConfig.getInventory().getName());
 
         log.info("Calling AWX Host to create awx host....");
         HostApi hostApi = createHostApi(awxInventory, instance);
@@ -202,7 +204,7 @@ public class DashboardService implements IDashboardService {
                 .type("affinity")
                 .build();
 
-        return instanceGroupClient.createInstanceGroup(appConfig.getOvh().getProjectId(), groupCreateRequest);
+        return instanceGroupClient.createInstanceGroup(ovhConfig.getProjectId(), groupCreateRequest);
     }
 
     private InstanceGroup handleInstanceGroupCreate(Project project, InstanceGroupApi groupResponse) {
@@ -228,7 +230,7 @@ public class DashboardService implements IDashboardService {
                 .sshKeyId(sshKeyId)
                 .build();
 
-        return instanceClient.createInstance(appConfig.getOvh().getProjectId(), ovhInstanceCreateRequest);
+        return instanceClient.createInstance(ovhConfig.getProjectId(), ovhInstanceCreateRequest);
     }
 
     private Instance handleInstanceCreate(InstanceApi instanceApi, InstanceGroup instanceGroup) {
@@ -253,7 +255,7 @@ public class DashboardService implements IDashboardService {
         int count = 0;
 
         log.info("Calling OVH API to get Instance status");
-        InstanceApi instanceApi =  instanceClient.getInstanceById(appConfig.getOvh().getProjectId(), instanceId);
+        InstanceApi instanceApi =  instanceClient.getInstanceById(ovhConfig.getProjectId(), instanceId);
 
         while (!instanceApi.getStatus().equals(InstanceStatus.ACTIVE)) {
 
@@ -267,7 +269,7 @@ public class DashboardService implements IDashboardService {
             Thread.sleep(1_500);
 
             log.info("Calling OVH API to get Instance status. Attempt: {}", count);
-            instanceApi = instanceClient.getInstanceById(appConfig.getOvh().getProjectId(), instanceId);
+            instanceApi = instanceClient.getInstanceById(ovhConfig.getProjectId(), instanceId);
 
             count++;
         }
