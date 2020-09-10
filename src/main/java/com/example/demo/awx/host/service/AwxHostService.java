@@ -55,11 +55,45 @@ public class AwxHostService implements IAwxHostService {
         AwxHostEntity entity = new AwxHostEntity();
         entity.setAwxInventoryEntity(awxInventoryEntity);
         entity.setInstanceEntity(instanceEntity);
+        entity.setHostId(request.getHostId());
         entity.setHostname(request.getHostname());
         entity.setDescription(request.getDescription());
+        entity.setEnabled(request.getEnabled());
 
         entityManager.persist(entity);
 
         return AwxHostMapper.map(entity);
+    }
+
+    @Override
+    public AwxHost handleEnabledRequest(Long hostId) {
+
+        AwxHostEntity entity = findByHostId(hostId);
+        entity.setEnabled(true);
+
+        entityManager.persist(entity);
+
+        return AwxHostMapper.map(entity);
+    }
+
+    @Override
+    public AwxHost handleDisableRequest(Long hostId) {
+
+        AwxHostEntity entity = findByHostId(hostId);
+        entity.setEnabled(false);
+
+        entityManager.persist(entity);
+
+        return AwxHostMapper.map(entity);
+    }
+
+    private AwxHostEntity findByHostId(Long hostId) {
+
+        QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
+
+        return queryFactory.select(qAwxHost)
+                .from(qAwxHost)
+                .where(qAwxHost.hostId.eq(hostId))
+                .fetchOne();
     }
 }

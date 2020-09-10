@@ -8,4 +8,8 @@ public interface IAwxHostService {
     boolean existsAny();
 
     AwxHost handleCreateRequest(AwxHostCreateRequest request);
+
+    AwxHost handleEnabledRequest(Long hostId);
+
+    AwxHost handleDisableRequest(Long hostId);
 }

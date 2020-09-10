@@ -62,6 +62,13 @@ public class TestAwxHostCreateRequest {
             return this;
         }
 
+        public Builder hostId(Long hostId) {
+
+            builder.hostId(hostId);
+
+            return this;
+        }
+
         public Builder hostname(String hostname) {
 
             builder.hostname(hostname);
@@ -72,6 +79,13 @@ public class TestAwxHostCreateRequest {
         public Builder description(String description) {
 
             builder.description(description);
+
+            return this;
+        }
+
+        public Builder enabled(Boolean enabled) {
+
+            builder.enabled(enabled);
 
             return this;
         }
@@ -93,7 +107,9 @@ public class TestAwxHostCreateRequest {
     private static AwxHostCreateRequest.Builder buildDefault() {
 
         return AwxHostCreateRequest.builder()
+                .hostId(1L)
                 .hostname("127.0.0.1")
-                .description("This is home");
+                .description("This is home")
+                .enabled(false);
     }
 }

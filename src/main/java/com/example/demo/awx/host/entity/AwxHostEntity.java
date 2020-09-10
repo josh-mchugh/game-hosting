@@ -28,9 +28,15 @@ public class AwxHostEntity extends AbstractEntity {
     @JoinColumn(name = "instance_id", nullable = false)
     private InstanceEntity instanceEntity;
 
+    @Column(name = "host_id", unique = true, nullable = false)
+    private Long hostId;
+
     @Column(name = "hostname", unique = true, nullable = false)
     private String hostname;
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled;
 }

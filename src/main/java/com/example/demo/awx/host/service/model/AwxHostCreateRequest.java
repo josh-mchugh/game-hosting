@@ -9,6 +9,8 @@ public class AwxHostCreateRequest {
 
     Long inventoryId;
     String instanceId;
+    Long hostId;
     String hostname;
     String description;
+    Boolean enabled;
 }

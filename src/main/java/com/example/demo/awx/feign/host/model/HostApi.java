@@ -11,16 +11,10 @@ import lombok.EqualsAndHashCode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HostApi extends AbstractBase {
 
-    String name;
-    String description;
-    Boolean enabled;
-
-    @JsonProperty("instance_id")
-    String instanceId;
-
     @JsonProperty("inventory")
     Long inventoryId;
 
-    @JsonProperty("last_job")
-    Long lastJob;
+    String name;
+    String description;
+    Boolean enabled;
 }
