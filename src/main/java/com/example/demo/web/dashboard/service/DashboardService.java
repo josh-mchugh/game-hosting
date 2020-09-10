@@ -1,20 +1,31 @@
 package com.example.demo.web.dashboard.service;
 
+import com.example.demo.awx.feign.host.HostClient;
+import com.example.demo.awx.feign.host.model.HostApi;
+import com.example.demo.awx.feign.host.model.HostCreateApi;
+import com.example.demo.awx.host.model.AwxHost;
+import com.example.demo.awx.host.service.IAwxHostService;
+import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
+import com.example.demo.awx.inventory.model.AwxInventory;
+import com.example.demo.awx.inventory.service.IAwxInventoryService;
 import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.ovh.credential.service.ICredentialService;
+import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;
 import com.example.demo.ovh.feign.instance.model.InstanceApi;
 import com.example.demo.ovh.feign.instance.model.InstanceCreateApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
+import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.instance.service.IInstanceGroupService;
 import com.example.demo.ovh.instance.service.IInstanceService;
 import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
 import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
+import com.example.demo.ovh.instance.service.model.InstanceUpdateRequest;
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.project.entity.QProjectMembershipEntity;
 import com.example.demo.project.model.Project;
@@ -35,10 +46,15 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DashboardService implements IDashboardService {
@@ -50,6 +66,9 @@ public class DashboardService implements IDashboardService {
     private final ICredentialService credentialService;
     private final InstanceClient instanceClient;
     private final InstanceGroupClient instanceGroupClient;
+    private final HostClient hostClient;
+    private final IAwxInventoryService awxInventoryService;
+    private final IAwxHostService awxHostService;
     private final AppConfig appConfig;
     private final JPQLQueryFactory queryFactory;
 
@@ -121,23 +140,43 @@ public class DashboardService implements IDashboardService {
     @Override
     public DashboardProjectCreateResponse handleDashboardProjectCreate(DashboardProjectCreateRequest request) {
 
-        // Create Project Entity
+        LocalDateTime startTime = LocalDateTime.now();
+        log.info("Entered handleDashboardProject: {}", startTime);
+
+        log.info("Creating Project...");
         Project project = handleProjectCreate(request);
 
-        // Call OVH to create Instance Group
+        log.info("Calling OVH API to create Instance Group...");
         InstanceGroupApi groupResponse = handleInstanceGroupCreateApi(project, request);
 
-        // Create Instance Group Entity
+        log.info("Creating Instance Group Entity...");
         InstanceGroup instanceGroup = handleInstanceGroupCreate(project, groupResponse);
 
-        // Get Ansible Credential
+        log.info("Get Ansible Credential...");
         String sshKeyId = credentialService.getAnsibleCredentialSshKeyId();
 
-        // Call OVH to create Instance
+        log.info("Call OVH API to create new Instance...");
         InstanceApi instanceResponse = handleInstanceCreateApi(project, instanceGroup, request, sshKeyId);
 
-        // Create Instance Entity
+        log.info("Creating Instance Entity...");
         Instance instance = handleInstanceCreate(instanceResponse, instanceGroup);
+
+        log.info("Poll OVH Instance API until instance is active...");
+        InstanceApi activeInstanceApi = pollForActiveInstance(instance.getInstanceId());
+
+        log.info("Updating Instance entity...");
+        instance = handleInstanceActiveUpdate(instance, activeInstanceApi);
+
+        log.info("Retrieving AWX Inventory Information...");
+        AwxInventory awxInventory = awxInventoryService.findByName(appConfig.getAwx().getInventory().getName());
+
+        log.info("Calling AWX Host to create awx host....");
+        HostApi hostApi = createHostApi(awxInventory, instance);
+
+        log.info("Creating AWX Host entity...");
+        AwxHost awxHost = createAwxHost(hostApi, instance);
+
+        log.info("Finished handleDashboardProjectCreate. Total Time: {} seconds", ChronoUnit.SECONDS.between(startTime, LocalDateTime.now()));
 
         return DashboardProjectCreateResponse.builder()
                 .projectId(project.getId())
@@ -183,7 +222,7 @@ public class DashboardService implements IDashboardService {
         InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
                 .name(project.getId())
                 .flavorId(request.getFlavor())
-                .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
+                .imageId("b8a5e8e5-9b08-4187-aab1-1f1f95e43791")
                 .region(request.getRegion())
                 .groupId(instanceGroup.getGroupId())
                 .sshKeyId(sshKeyId)
@@ -206,5 +245,89 @@ public class DashboardService implements IDashboardService {
                 .build();
 
         return instanceService.handleInstanceCreate(instanceCreateRequest);
+    }
+
+    @SneakyThrows
+    public InstanceApi pollForActiveInstance(String instanceId) {
+
+        int count = 0;
+
+        log.info("Calling OVH API to get Instance status");
+        InstanceApi instanceApi =  instanceClient.getInstanceById(appConfig.getOvh().getProjectId(), instanceId);
+
+        while (!instanceApi.getStatus().equals(InstanceStatus.ACTIVE)) {
+
+            if(count >= 20) {
+
+                log.info("Exiting polling as max attempts for instance API exceeded.");
+
+                break;
+            }
+
+            Thread.sleep(1_500);
+
+            log.info("Calling OVH API to get Instance status. Attempt: {}", count);
+            instanceApi = instanceClient.getInstanceById(appConfig.getOvh().getProjectId(), instanceId);
+
+            count++;
+        }
+
+        log.info("Returning updated Instance API...");
+
+        return instanceApi;
+    }
+
+    private Instance handleInstanceActiveUpdate(Instance instance, InstanceApi instanceApi) {
+
+        InstanceUpdateRequest request = InstanceUpdateRequest.builder()
+                .id(instance.getId())
+                .name(instance.getName())
+                .status(instanceApi.getStatus())
+                .instanceCreatedDate(instance.getInstanceCreatedDate())
+                .ip4Address(getIpAddress(instanceApi.getIpAddresses(), 4))
+                .ip6Address(getIpAddress(instanceApi.getIpAddresses(), 6))
+                .build();
+
+        return instanceService.handleInstanceUpdate(request);
+    }
+
+    private String getIpAddress(List<IpAddressApi> ipAddresses, Integer version) {
+
+        if(ipAddresses == null) {
+
+            return null;
+        }
+
+        return ipAddresses.stream()
+                .filter(ipAddress -> ipAddress.getVersion().equals(version))
+                .map(IpAddressApi::getIp)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private HostApi createHostApi(AwxInventory awxInventory, Instance instance) {
+
+        HostCreateApi hostCreateApi = HostCreateApi.builder()
+                .inventoryId(awxInventory.getInventoryId())
+                .name(instance.getIp4Address())
+                .description(instance.getId())
+                .enabled(true)
+                .build();
+
+        return hostClient.createHost(hostCreateApi);
+    }
+
+    private AwxHost createAwxHost(HostApi hostApi, Instance instance) {
+
+        AwxHostCreateRequest awxHostCreateRequest = AwxHostCreateRequest.builder()
+                .inventoryId(hostApi.getInventoryId())
+                .instanceId(instance.getId())
+                .hostId(hostApi.getId())
+                .hostname(hostApi.getName())
+                .description(hostApi.getDescription())
+                .enabled(hostApi.getEnabled())
+                .build();
+
+        return awxHostService.handleCreateRequest(awxHostCreateRequest);
     }
 }

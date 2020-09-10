@@ -7,5 +7,7 @@ public interface IAwxInventoryService {
 
     boolean existsAny();
 
+    AwxInventory findByName(String name);
+
     AwxInventory handleCreateRequest(AwxInventoryCreateRequest request);
 }

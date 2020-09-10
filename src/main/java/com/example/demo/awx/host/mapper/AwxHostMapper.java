@@ -14,8 +14,10 @@ public class AwxHostMapper {
 
         return AwxHost.builder()
                 .id(entity.getId())
+                .hostId(entity.getHostId())
                 .hostname(entity.getHostname())
                 .description(entity.getDescription())
+                .enabled(entity.getEnabled())
                 .build();
     }
 }

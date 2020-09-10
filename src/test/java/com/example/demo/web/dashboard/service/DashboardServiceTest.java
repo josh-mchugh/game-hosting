@@ -1,7 +1,10 @@
 package com.example.demo.web.dashboard.service;
 
+import com.example.demo.awx.feign.host.HostClient;
+import com.example.demo.awx.feign.host.model.HostApi;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
+import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.common.SshKeyDetailApi;
 import com.example.demo.ovh.feign.flavor.model.FlavorApi;
 import com.example.demo.ovh.feign.image.model.ImageApi;
@@ -32,6 +35,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @SpringBootTest
 @Transactional
@@ -59,6 +63,9 @@ public class DashboardServiceTest {
     @MockBean
     private InstanceGroupClient instanceGroupClient;
 
+    @MockBean
+    private HostClient hostClient;
+
     private SampleData data;
 
     @BeforeEach
@@ -71,6 +78,11 @@ public class DashboardServiceTest {
                 .image()
                 .credential()
                 .game()
+                .awxOrganization()
+                .awxCredential()
+                .awxInventory()
+                .awxProject()
+                .awxPlaybook()
                 .build();
     }
 
@@ -164,57 +176,14 @@ public class DashboardServiceTest {
 
         Mockito.when(sessionUtil.getCurrentUser()).thenReturn(data.getUser());
 
-        InstanceGroupApi instanceGroupApiResponse = new InstanceGroupApi();
-        instanceGroupApiResponse.setId("5eeb0772-7658-46e2-ad95-b2566ccdd394");
-        instanceGroupApiResponse.setName("d4afbaa3-0b2a-47a1-9c76-6dd2eab75042");
-        instanceGroupApiResponse.setRegion("US-EAST-VA-1");
-        instanceGroupApiResponse.setType("affinity");
+        Mockito.when(instanceGroupClient.createInstanceGroup(Mockito.anyString(), Mockito.any())).thenReturn(buildInstanceGroupApi());
 
-        Mockito.when(instanceGroupClient.createInstanceGroup(Mockito.anyString(), Mockito.any())).thenReturn(instanceGroupApiResponse);
+        Mockito.when(instanceClient.createInstance(Mockito.anyString(), Mockito.any())).thenReturn(buildInstanceApi(InstanceStatus.BUILD));
+        Mockito.when(instanceClient.getInstanceById(Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(buildInstanceApi(InstanceStatus.BUILD))
+                .thenReturn(buildInstanceApi(InstanceStatus.ACTIVE));
 
-        InstanceApi instanceApiResponse = new InstanceApi();
-        instanceApiResponse.setId("b6625973-469d-42b4-8e4e-9ede2b3305bd");
-        instanceApiResponse.setName("Test Project Name");
-        instanceApiResponse.setStatus(InstanceStatus.BUILD);
-        instanceApiResponse.setCreatedDate(LocalDateTime.now());
-        instanceApiResponse.setRegion("US-EAST-VA-1");
-
-        SshKeyDetailApi sshKeyDetail = new SshKeyDetailApi();
-        sshKeyDetail.setId("ssh key id");
-
-        instanceApiResponse.setSshKey(sshKeyDetail);
-
-        FlavorApi flavorApiResponse = new FlavorApi();
-        flavorApiResponse.setFlavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e");
-        flavorApiResponse.setName("s1-2");
-        flavorApiResponse.setAvailable(true);
-        flavorApiResponse.setDisk(10);
-        flavorApiResponse.setInboundBandwidth(100);
-        flavorApiResponse.setOsType("linux");
-        flavorApiResponse.setOutboundBandwidth(100);
-        flavorApiResponse.setQuota(2);
-        flavorApiResponse.setRam(2000);
-        flavorApiResponse.setRegionName("US-EAST-VA-1");
-        flavorApiResponse.setType("ovh.vps-ssd");
-        flavorApiResponse.setVcpus(1);
-
-        instanceApiResponse.setFlavor(flavorApiResponse);
-
-        ImageApi imageApiResponse = new ImageApi();
-        imageApiResponse.setImageId("cefc8220-ba0a-4327-b13d-591abaf4be0c");
-        imageApiResponse.setName("Ubuntu 20.04");
-        imageApiResponse.setCreationDate(LocalDateTime.now());
-        imageApiResponse.setMinDisk(0);
-        imageApiResponse.setMinRam(0);
-        imageApiResponse.setRegionName("US-EAST-VA-1");
-        imageApiResponse.setStatus("active");
-        imageApiResponse.setType("linux");
-        imageApiResponse.setUser("ubuntu");
-        imageApiResponse.setVisibility("public");
-
-        instanceApiResponse.setImage(imageApiResponse);
-
-        Mockito.when(instanceClient.createInstance(Mockito.anyString(), Mockito.any())).thenReturn(instanceApiResponse);
+        Mockito.when(hostClient.createHost(Mockito.any())).thenReturn(buildHostApi());
 
         DashboardProjectCreateRequest createRequest = DashboardProjectCreateRequest.builder()
                 .name("test-project")
@@ -226,5 +195,99 @@ public class DashboardServiceTest {
         DashboardProjectCreateResponse response = dashboardService.handleDashboardProjectCreate(createRequest);
 
         Assertions.assertNotNull(response.getProjectId());
+    }
+
+    private InstanceGroupApi buildInstanceGroupApi() {
+
+        InstanceGroupApi instanceGroupApi = new InstanceGroupApi();
+        instanceGroupApi.setId("5eeb0772-7658-46e2-ad95-b2566ccdd394");
+        instanceGroupApi.setName("d4afbaa3-0b2a-47a1-9c76-6dd2eab75042");
+        instanceGroupApi.setRegion("US-EAST-VA-1");
+        instanceGroupApi.setType("affinity");
+
+        return instanceGroupApi;
+    }
+
+    private FlavorApi buildFlavorApi() {
+
+        FlavorApi flavorApi = new FlavorApi();
+        flavorApi.setFlavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e");
+        flavorApi.setName("s1-2");
+        flavorApi.setAvailable(true);
+        flavorApi.setDisk(10);
+        flavorApi.setInboundBandwidth(100);
+        flavorApi.setOsType("linux");
+        flavorApi.setOutboundBandwidth(100);
+        flavorApi.setQuota(2);
+        flavorApi.setRam(2000);
+        flavorApi.setRegionName("US-EAST-VA-1");
+        flavorApi.setType("ovh.vps-ssd");
+        flavorApi.setVcpus(1);
+
+        return flavorApi;
+    }
+
+    private ImageApi buildImageApi() {
+
+        ImageApi imageApi = new ImageApi();
+        imageApi.setImageId("cefc8220-ba0a-4327-b13d-591abaf4be0c");
+        imageApi.setName("Ubuntu 20.04");
+        imageApi.setCreationDate(LocalDateTime.now());
+        imageApi.setMinDisk(0);
+        imageApi.setMinRam(0);
+        imageApi.setRegionName("US-EAST-VA-1");
+        imageApi.setStatus("active");
+        imageApi.setType("linux");
+        imageApi.setUser("ubuntu");
+        imageApi.setVisibility("public");
+
+        return imageApi;
+    }
+
+    private SshKeyDetailApi buildSshKeyDetailApi() {
+
+        SshKeyDetailApi sshKeyDetail = new SshKeyDetailApi();
+        sshKeyDetail.setId("ssh key id");
+
+        return sshKeyDetail;
+    }
+
+    private IpAddressApi buildIpAddressApi(Integer version) {
+
+        IpAddressApi ipAddressApi = new IpAddressApi();
+        ipAddressApi.setIp("0.0.0.0.0");
+        ipAddressApi.setVersion(version);
+
+        return ipAddressApi;
+    }
+
+    private InstanceApi buildInstanceApi(InstanceStatus instanceStatus) {
+
+        InstanceApi instanceApi = new InstanceApi();
+        instanceApi.setId("b6625973-469d-42b4-8e4e-9ede2b3305bd");
+        instanceApi.setName("Test Project Name");
+        instanceApi.setStatus(instanceStatus);
+        instanceApi.setCreatedDate(LocalDateTime.now());
+        instanceApi.setRegion("US-EAST-VA-1");
+        instanceApi.setIpAddresses(Arrays.asList(buildIpAddressApi(4), buildIpAddressApi(6)));
+
+        instanceApi.setSshKey(buildSshKeyDetailApi());
+        instanceApi.setFlavor(buildFlavorApi());
+        instanceApi.setImage(buildImageApi());
+
+        return instanceApi;
+    }
+
+    private HostApi buildHostApi() {
+
+        HostApi hostApi = new HostApi();
+        hostApi.setId(1L);
+        hostApi.setInventoryId(1L);
+        hostApi.setInventoryId(data.getAwxInventory().getInventoryId());
+        hostApi.setName("0.0.0.0.0");
+        hostApi.setDescription("description");
+        hostApi.setEnabled(true);
+
+        return hostApi;
     }
 }

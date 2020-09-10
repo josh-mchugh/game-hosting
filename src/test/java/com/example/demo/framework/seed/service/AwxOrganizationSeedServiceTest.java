@@ -73,7 +73,7 @@ public class AwxOrganizationSeedServiceTest {
     public void whenOrganizationClientReturnsMatchingConfigThenReturnList() {
 
         OrganizationApi organizationApi = new OrganizationApi();
-        organizationApi.setId(3L);
+        organizationApi.setId(2L);
         organizationApi.setName("Game Hosting Service");
 
         ListResponse<OrganizationApi> clientResponse = new ListResponse<>();
