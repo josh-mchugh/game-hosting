@@ -87,7 +87,7 @@ public class TestAwxInventoryCreateRequest {
         return AwxInventoryCreateRequest.builder()
                 .organizationId(1L)
                 .inventoryId(1L)
-                .name("Inventory Name")
+                .name("Default")
                 .description("Default Inventory");
     }
 }

@@ -98,6 +98,32 @@ public class AwxHostServiceCreateRequestTest {
     }
 
     @Test
+    public void whenCreateRequestHasHostIdThenReturnHostId() {
+
+        AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
+                .inventory(data.getAwxInventory())
+                .instance(data.getInstance())
+                .hostId(2L)
+                .build();
+
+        AwxHost awxHost = awxHostService.handleCreateRequest(request);
+
+        Assertions.assertEquals(2L, awxHost.getHostId());
+    }
+
+    @Test
+    public void whenCreateRequestHasNullHostIdThenReturnThrowException() {
+
+        AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
+                .inventory(data.getAwxInventory())
+                .instance(data.getInstance())
+                .hostId(null)
+                .build();
+
+        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreateRequest(request));
+    }
+
+    @Test
     public void whenCreateRequestHasHostnameThenReturnHostName() {
 
         AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
@@ -146,5 +172,30 @@ public class AwxHostServiceCreateRequestTest {
         AwxHost awxHost = awxHostService.handleCreateRequest(request);
 
         Assertions.assertNull(awxHost.getDescription());
+    }
+
+    @Test
+    public void whenCreateRequestHasEnabledThenReturnEnabled() {
+
+        AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
+                .inventory(data.getAwxInventory())
+                .instance(data.getInstance())
+                .enabled(false)
+                .build();
+        AwxHost awxHost = awxHostService.handleCreateRequest(request);
+
+        Assertions.assertFalse(awxHost.getEnabled());
+    }
+
+    @Test
+    public void whenCreateRequestHasNullEnabledThenThrowException() {
+
+        AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
+                .inventory(data.getAwxInventory())
+                .instance(data.getInstance())
+                .enabled(null)
+                .build();
+
+        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreateRequest(request));
     }
 }

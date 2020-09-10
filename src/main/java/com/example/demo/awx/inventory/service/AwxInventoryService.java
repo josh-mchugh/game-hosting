@@ -35,6 +35,19 @@ public class AwxInventoryService implements IAwxInventoryService {
     }
 
     @Override
+    public AwxInventory findByName(String name) {
+
+        QAwxInventoryEntity qAwxInventory = QAwxInventoryEntity.awxInventoryEntity;
+
+        AwxInventoryEntity entity = queryFactory.select(qAwxInventory)
+                .from(qAwxInventory)
+                .where(qAwxInventory.name.eq(name))
+                .fetchOne();
+
+        return AwxInventoryMapper.map(entity);
+    }
+
+    @Override
     public AwxInventory handleCreateRequest(AwxInventoryCreateRequest request) {
 
         QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;

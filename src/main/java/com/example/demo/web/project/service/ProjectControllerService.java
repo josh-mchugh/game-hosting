@@ -1,5 +1,11 @@
 package com.example.demo.web.project.service;
 
+import com.example.demo.awx.feign.host.HostClient;
+import com.example.demo.awx.feign.host.model.HostApi;
+import com.example.demo.awx.feign.host.model.HostPatchApi;
+import com.example.demo.awx.host.entity.QAwxHostEntity;
+import com.example.demo.awx.host.model.AwxHost;
+import com.example.demo.awx.host.service.IAwxHostService;
 import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
@@ -21,6 +27,8 @@ public class ProjectControllerService implements IProjectControllerService {
     private final AppConfig appConfig;
     private final JPQLQueryFactory queryFactory;
     private final InstanceClient instanceClient;
+    private final IAwxHostService awxHostService;
+    private final HostClient hostClient;
 
     @Override
     public ProjectDetails getProjectDetails(String id) {
@@ -60,11 +68,43 @@ public class ProjectControllerService implements IProjectControllerService {
     public void handleProjectInstanceStart(ProjectInstanceStartRequest request) {
 
         instanceClient.startInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
+
+        Long hostId = getHostIdByInstanceId(request.getInstanceId());
+
+        HostPatchApi updateBody = HostPatchApi.builder()
+                .enabled(true)
+                .build();
+
+        HostApi hostApi = hostClient.updateHost(hostId, updateBody);
+
+        AwxHost awxHost = awxHostService.handleEnabledRequest(hostId);
     }
 
     @Override
     public void handleProjectInstanceStop(ProjectInstanceStopRequest request) {
 
         instanceClient.stopInstance(appConfig.getOvh().getProjectId(), request.getInstanceId());
+
+        Long hostId = getHostIdByInstanceId(request.getInstanceId());
+
+        HostPatchApi updateBody = HostPatchApi.builder()
+                .enabled(false)
+                .build();
+
+        HostApi hostApi = hostClient.updateHost(hostId, updateBody);
+
+        AwxHost awxHost = awxHostService.handleDisableRequest(hostId);
+    }
+
+    private Long getHostIdByInstanceId(String instanceId) {
+
+        QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
+        QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
+
+        return queryFactory.select(qAwxHost.hostId)
+                .from(qAwxHost)
+                .innerJoin(qAwxHost.instanceEntity, qInstance)
+                .where(qInstance.instanceId.eq(instanceId))
+                .fetchOne();
     }
 }
