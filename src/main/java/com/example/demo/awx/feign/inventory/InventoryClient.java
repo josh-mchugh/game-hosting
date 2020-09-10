@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "inventoryClient", url = "${app.awx.base-url}", configuration = FeignAwxConfig.class)
+@FeignClient(name = "inventoryClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
 public interface InventoryClient {
 
     @GetMapping("/api/v2/organizations/{organizationId}/inventories/")

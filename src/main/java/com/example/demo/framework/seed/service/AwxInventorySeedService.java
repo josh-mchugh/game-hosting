@@ -7,7 +7,7 @@ import com.example.demo.awx.feign.inventory.model.InventoryCreateApi;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.inventory.service.AwxInventoryService;
 import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AwxInventorySeedService implements ISeedService<AwxInventory> {
 
-    private final AppConfig appConfig;
+    private final AwxConfig awxConfig;
     private final AwxInventoryService awxInventoryService;
     private final InventoryClient inventoryClient;
 
@@ -32,10 +32,10 @@ public class AwxInventorySeedService implements ISeedService<AwxInventory> {
     @Override
     public ImmutableList<AwxInventory> initializeData() {
 
-        ListResponse<InventoryApi> inventoryApiListResponse = inventoryClient.getInventories(appConfig.getAwx().getOrganization().getId());
+        ListResponse<InventoryApi> inventoryApiListResponse = inventoryClient.getInventories(awxConfig.getOrganization().getId());
 
         Optional<InventoryApi> inventoryApiResult = inventoryApiListResponse.getResults().stream()
-                .filter(inventory -> inventory.getName().equals(appConfig.getAwx().getInventory().getName()))
+                .filter(inventory -> inventory.getName().equals(awxConfig.getInventory().getName()))
                 .findFirst();
 
         if (inventoryApiResult.isPresent()) {
@@ -69,9 +69,9 @@ public class AwxInventorySeedService implements ISeedService<AwxInventory> {
     private InventoryApi createInventoryApi() {
 
         InventoryCreateApi inventoryCreateApi = InventoryCreateApi.builder()
-                .organizationId(appConfig.getAwx().getOrganization().getId())
-                .name(appConfig.getAwx().getInventory().getName())
-                .description(appConfig.getAwx().getInventory().getDescription())
+                .organizationId(awxConfig.getOrganization().getId())
+                .name(awxConfig.getInventory().getName())
+                .description(awxConfig.getInventory().getDescription())
                 .build();
 
         return inventoryClient.createInventory(inventoryCreateApi);

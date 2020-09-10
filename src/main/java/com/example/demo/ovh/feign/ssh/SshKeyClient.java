@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "sshKeyClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
+@FeignClient(name = "sshKeyClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface SshKeyClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/sshkey")

@@ -17,7 +17,7 @@ public class ImageScheduler {
 
     private final IImageSchedulerService imageSchedulerService;
 
-    @Scheduled(fixedDelayString = "${app.ovh.image-scheduler-delay}", initialDelayString = "${app.ovh.image-scheduler-initial-delay}")
+    @Scheduled(fixedDelayString = "${ovh.image-scheduler-delay}", initialDelayString = "${ovh.image-scheduler-initial-delay}")
     public void scheduledImageUpdater() {
 
         log.info("Start: Image Updates");

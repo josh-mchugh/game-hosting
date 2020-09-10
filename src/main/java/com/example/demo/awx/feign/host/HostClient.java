@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "hostClient", url = "${app.awx.base-url}", configuration = FeignAwxConfig.class)
+@FeignClient(name = "hostClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
 public interface HostClient {
 
     @PostMapping("/api/v2/hosts/")

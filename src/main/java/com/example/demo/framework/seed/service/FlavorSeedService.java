@@ -1,6 +1,6 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.feign.flavor.FlavorClient;
 import com.example.demo.ovh.feign.flavor.model.FlavorApi;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FlavorSeedService implements ISeedService<Flavor> {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final IFlavorService flavorService;
     private final FlavorClient flavorClient;
 
@@ -28,7 +28,7 @@ public class FlavorSeedService implements ISeedService<Flavor> {
     @Override
     public ImmutableList<Flavor> initializeData() {
 
-        return flavorClient.getFlavors(appConfig.getOvh().getProjectId()).stream()
+        return flavorClient.getFlavors(ovhConfig.getProjectId()).stream()
                 .map(this::buildFlavorCreateRequest)
                 .map(flavorService::handleFlavorCreate)
                 .collect(ImmutableList.toImmutableList());

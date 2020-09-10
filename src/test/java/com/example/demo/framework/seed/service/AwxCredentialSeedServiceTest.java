@@ -21,14 +21,14 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootTest(properties = {
-        "app.awx.credentials[0].name=First Credential",
-        "app.awx.credentials[0].type=MACHINE",
-        "app.awx.credentials[0].private-key=privatekey",
-        "app.awx.credentials[0].passphrase=passphrase",
-        "app.awx.credentials[1].name=Second Credential",
-        "app.awx.credentials[1].type=SOURCE_CONTROL",
-        "app.awx.credentials[1].private-key=private key",
-        "app.awx.credentials[1].passphrase=passphrase"
+        "awx.credentials[0].name=First Credential",
+        "awx.credentials[0].type=MACHINE",
+        "awx.credentials[0].private-key=privatekey",
+        "awx.credentials[0].passphrase=passphrase",
+        "awx.credentials[1].name=Second Credential",
+        "awx.credentials[1].type=SOURCE_CONTROL",
+        "awx.credentials[1].private-key=private key",
+        "awx.credentials[1].passphrase=passphrase"
 })
 @Transactional
 @ActiveProfiles("test")

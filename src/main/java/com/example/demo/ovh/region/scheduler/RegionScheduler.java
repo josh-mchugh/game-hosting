@@ -16,7 +16,7 @@ public class RegionScheduler {
 
     private final IRegionSchedulerService regionSchedulerService;
 
-    @Scheduled(fixedDelayString = "${app.ovh.region-scheduler-delay}", initialDelayString = "${app.ovh.region-scheduler-initial-delay}")
+    @Scheduled(fixedDelayString = "${ovh.region-scheduler-delay}", initialDelayString = "${ovh.region-scheduler-initial-delay}")
     public void scheduledRegionUpdater() {
 
         log.info("Start: Regions Updates");

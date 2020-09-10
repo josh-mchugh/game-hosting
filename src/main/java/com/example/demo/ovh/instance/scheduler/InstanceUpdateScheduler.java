@@ -15,7 +15,7 @@ public class InstanceUpdateScheduler {
 
     private final IInstanceSchedulerService instanceSchedulerService;
 
-    @Scheduled(fixedDelayString = "${app.ovh.instance-scheduler-delay}", initialDelayString = "${app.ovh.instance-scheduler-initial-delay}")
+    @Scheduled(fixedDelayString = "${ovh.instance-scheduler-delay}", initialDelayString = "${ovh.instance-scheduler-initial-delay}")
     public void instanceUpdateScheduler() {
 
         log.info("Processing Instance Updates");

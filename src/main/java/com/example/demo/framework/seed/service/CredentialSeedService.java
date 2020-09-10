@@ -1,6 +1,6 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CredentialSeedService implements ISeedService<Credential> {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final ICredentialService credentialService;
     private final SshKeyClient sshKeyClient;
 
@@ -48,17 +48,17 @@ public class CredentialSeedService implements ISeedService<Credential> {
         return 6;
     }
 
-    private SshKeyApi createSshKeyResponse(AppConfig.Ovh.SshKeyConfig config) {
+    private SshKeyApi createSshKeyResponse(OvhConfig.SshKeyConfig config) {
 
         SshKeyCreateApi apiRequest = SshKeyCreateApi.builder()
                 .name(config.getName())
                 .publicKey(config.getPublicKey())
                 .build();
 
-        return sshKeyClient.createSshKey(appConfig.getOvh().getProjectId(), apiRequest);
+        return sshKeyClient.createSshKey(ovhConfig.getProjectId(), apiRequest);
     }
 
-    private Credential createCredential(AppConfig.Ovh.SshKeyConfig config, SshKeyApi apiResponse) {
+    private Credential createCredential(OvhConfig.SshKeyConfig config, SshKeyApi apiResponse) {
 
         CredentialCreateRequest request = CredentialCreateRequest.builder()
                 .sshKeyId(apiResponse.getId())
@@ -75,9 +75,9 @@ public class CredentialSeedService implements ISeedService<Credential> {
 
         List<Credential> credentials = new ArrayList<>();
 
-        List<SshKeyApi> apiResponses = sshKeyClient.getSshKeys(appConfig.getOvh().getProjectId());
+        List<SshKeyApi> apiResponses = sshKeyClient.getSshKeys(ovhConfig.getProjectId());
 
-        for(AppConfig.Ovh.SshKeyConfig config : appConfig.getOvh().getSshKeyConfigs()) {
+        for(OvhConfig.SshKeyConfig config : ovhConfig.getSshKeyConfigs()) {
 
             Optional<SshKeyApi> apiResponse = apiResponses.stream()
                     .filter(response -> response.getPublicKey().equals(config.getPublicKey()))

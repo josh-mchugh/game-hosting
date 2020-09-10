@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "projectClient", url = "${app.awx.base-url}", configuration = FeignAwxConfig.class)
+@FeignClient(name = "projectClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
 public interface ProjectClient {
 
     @GetMapping("/api/v2/organizations/{organizationId}/projects/")

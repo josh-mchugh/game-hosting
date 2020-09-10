@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "instanceClient", url = "${app.ovh.base-url}", configuration = FeignOvhConfig.class)
+@FeignClient(name = "instanceClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
 public interface InstanceClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/instance/{instanceId}")

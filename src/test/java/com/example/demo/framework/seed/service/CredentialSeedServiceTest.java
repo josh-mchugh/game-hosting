@@ -17,10 +17,10 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 
 @SpringBootTest(properties = {
-        "app.ovh.ssh-key-configs[0].name=name",
-        "app.ovh.ssh-key-configs[0].type=ANSIBLE",
-        "app.ovh.ssh-key-configs[0].public-key=public key",
-        "app.ovh.ssh-key-configs[0].private-key=private key"
+        "ovh.ssh-key-configs[0].name=name",
+        "ovh.ssh-key-configs[0].type=ANSIBLE",
+        "ovh.ssh-key-configs[0].public-key=public key",
+        "ovh.ssh-key-configs[0].private-key=private key"
 })
 @Transactional
 @ActiveProfiles("test")

@@ -1,6 +1,6 @@
 package com.example.demo.ovh.flavor.scheduler.service;
 
-import com.example.demo.framework.properties.AppConfig;
+import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.flavor.FlavorClient;
 import com.example.demo.ovh.feign.flavor.model.FlavorApi;
 import com.example.demo.ovh.flavor.model.Flavor;
@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FlavorSchedulerService implements IFlavorSchedulerService {
 
-    private final AppConfig appConfig;
+    private final OvhConfig ovhConfig;
     private final FlavorClient flavorClient;
     private final IFlavorService flavorService;
 
     @Override
     public ImmutableList<FlavorApi> getFlavorResponses() {
 
-        return ImmutableList.copyOf(flavorClient.getFlavors(appConfig.getOvh().getProjectId()));
+        return ImmutableList.copyOf(flavorClient.getFlavors(ovhConfig.getProjectId()));
     }
 
     @Override
