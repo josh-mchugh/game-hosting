@@ -1,7 +1,6 @@
 package com.example.demo.ovh.image.service;
 
 import com.example.demo.ovh.image.model.Image;
-import com.example.demo.ovh.image.service.IImageService;
 import com.example.demo.ovh.image.service.model.ImageCreateRequest;
 import com.example.demo.ovh.image.service.model.ImageUpdateRequest;
 import com.example.demo.ovh.region.model.Region;
@@ -69,23 +68,23 @@ public class ImageServiceTest {
     }
 
     @Test
-    public void testExistsByImageIdShouldBeTrue() {
+    public void testExistsByNameShouldBeTrue() {
 
         ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
-                .imageId("exists-by-image-id-be-true")
+                .name("Test Name")
                 .regionName(region.getName())
                 .build();
-        Image image = imageService.handleImageCreate(imageCreateRequest);
+        imageService.handleImageCreate(imageCreateRequest);
 
-        boolean exists = imageService.existsByImageId(image.getImageId());
+        boolean exists = imageService.existsByName("Test Name");
 
         Assertions.assertTrue(exists);
     }
 
     @Test
-    public void testExistsByImageIdShouldBeFalse() {
+    public void testExistsByNameShouldBeFalse() {
 
-        boolean exists = imageService.existsByImageId("exists-by-image-id-be-false");
+        boolean exists = imageService.existsByName("Test Name");
 
         Assertions.assertFalse(exists);
     }
@@ -94,7 +93,6 @@ public class ImageServiceTest {
     public void testHandleImageCreate() {
 
         ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
-                .imageId("handle-image-create")
                 .regionName(region.getName())
                 .build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
@@ -118,7 +116,6 @@ public class ImageServiceTest {
     public void testHandleImageUpdate() {
 
         ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
-                .imageId("handle-image-update")
                 .regionName(region.getName())
                 .build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
@@ -127,9 +124,9 @@ public class ImageServiceTest {
         Region updatedRegion = regionService.handleRegionCreate(updateRegionCreateRequest);
 
         ImageUpdateRequest imageUpdateRequest = ImageUpdateRequest.builder()
-                .imageId(image.getImageId())
+                .imageId("new-image-id")
                 .regionName(updatedRegion.getName())
-                .name("handle-image-region-updated")
+                .name(image.getName())
                 .imageCreatedDate(LocalDateTime.now())
                 .flavorType(null)
                 .hourly("updated.hourly")
@@ -145,9 +142,9 @@ public class ImageServiceTest {
         Image updatedImage = imageService.handleImageUpdate(imageUpdateRequest);
 
         Assertions.assertEquals(image.getId(), updatedImage.getId());
-        Assertions.assertEquals(image.getImageId(), updatedImage.getImageId());
+        Assertions.assertEquals(image.getName(), updatedImage.getName());
 
-        Assertions.assertNotEquals(image.getName(), updatedImage.getName());
+        Assertions.assertNotEquals(image.getImageId(), updatedImage.getImageId());
         Assertions.assertNotEquals(image.getImageCreatedDate(), updatedImage.getImageCreatedDate());
         Assertions.assertNotEquals(image.getHourly(), updatedImage.getHourly());
         Assertions.assertNotEquals(image.getMonthly(), updatedImage.getMonthly());

@@ -181,13 +181,15 @@
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
             <column name="image_id" type="nvarchar(255)">
-                <constraints unique="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="region_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="type" type="nvarchar(255)"/>
-            <column name="name" type="nvarchar(255)"/>
+            <column name="name" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
             <column name="image_created_date" type="datetime"/>
             <column name="flavor_type" type="nvarchar(255)"/>
             <column name="hourly" type="nvarchar(255)"/>

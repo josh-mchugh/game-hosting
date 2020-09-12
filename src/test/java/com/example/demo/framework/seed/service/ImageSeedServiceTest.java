@@ -63,6 +63,7 @@ public class ImageSeedServiceTest {
 
         ImageApi imageApi = new ImageApi();
         imageApi.setImageId("image id");
+        imageApi.setName("Ubuntu 20.4");
         imageApi.setRegionName(region.getName());
 
         Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(Collections.singletonList(imageApi));
