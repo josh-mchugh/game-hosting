@@ -69,15 +69,16 @@ public class ImageSchedulerServiceTest {
     public void testProcessScheduledImagesUpdated() {
 
         ImageCreateRequest imageCreateRequest = TestImageCreateRequest.builder(TestImageCreateRequest.Type.DEBIAN_8_GITLAB)
-                .imageId("process-scheduled-images-updated")
+                .imageId("image-id")
+                .name("name")
                 .regionName(region.getName())
                 .build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
 
         ImageApi imageResponse = new ImageApi();
-        imageResponse.setImageId(image.getImageId());
+        imageResponse.setImageId("new-image-id");
         imageResponse.setRegionName(region.getName());
-        imageResponse.setName("new-name");
+        imageResponse.setName("name");
 
         ProcessedImagesResponse responses = imageSchedulerService.processScheduledImages(ImmutableList.of(imageResponse));
 
@@ -85,8 +86,8 @@ public class ImageSchedulerServiceTest {
         Assertions.assertEquals(1, CollectionUtils.size(responses.getUpdatedImages()));
 
         Assertions.assertEquals(image.getId(), responses.getUpdatedImages().get(0).getId());
-        Assertions.assertNotEquals(image.getName(), responses.getUpdatedImages().get(0).getName());
-        Assertions.assertEquals(imageResponse.getName(), responses.getUpdatedImages().get(0).getName());
+        Assertions.assertNotEquals(image.getImageId(), responses.getUpdatedImages().get(0).getImageId());
+        Assertions.assertEquals(imageResponse.getImageId(), responses.getUpdatedImages().get(0).getImageId());
     }
 
     @Test
@@ -94,6 +95,7 @@ public class ImageSchedulerServiceTest {
 
         ImageApi imageResponse = new ImageApi();
         imageResponse.setImageId("process-scheduled-image-created");
+        imageResponse.setName("name");
         imageResponse.setRegionName(region.getName());
 
         ProcessedImagesResponse responses = imageSchedulerService.processScheduledImages(ImmutableList.of(imageResponse));

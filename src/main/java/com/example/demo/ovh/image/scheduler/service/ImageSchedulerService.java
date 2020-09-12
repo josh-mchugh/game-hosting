@@ -34,7 +34,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
         for (ImageApi response : imageResponses) {
 
-            if(imageService.existsByImageId(response.getImageId())) {
+            if(imageService.existsByName(response.getName())) {
 
                 builder.updatedImage(processImageUpdate(response));
 

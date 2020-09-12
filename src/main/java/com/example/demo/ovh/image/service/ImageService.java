@@ -36,13 +36,13 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public boolean existsByImageId(String imageId) {
+    public boolean existsByName(String imageId) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
 
         long count = queryFactory.select(qImage.id)
                 .from(qImage)
-                .where(qImage.imageId.eq(imageId))
+                .where(qImage.name.eq(imageId))
                 .fetchCount();
 
         return count >= 1;
@@ -87,7 +87,7 @@ public class ImageService implements IImageService {
                 .where(qRegion.name.eq(request.getRegionName()))
                 .fetchOne();
 
-        ImageEntity entity = getByImageId(request.getImageId());
+        ImageEntity entity = getByName(request.getName());
         entity.setImageId(request.getImageId());
         entity.setRegionEntity(regionEntity);
         entity.setName(request.getName());
@@ -108,12 +108,12 @@ public class ImageService implements IImageService {
         return ImageMapper.map(entity);
     }
 
-    private ImageEntity getByImageId(String imageId) {
+    private ImageEntity getByName(String name) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
 
         return queryFactory.selectFrom(qImage)
-                .where(qImage.imageId.eq(imageId))
+                .where(qImage.name.eq(name))
                 .fetchOne();
     }
 }
