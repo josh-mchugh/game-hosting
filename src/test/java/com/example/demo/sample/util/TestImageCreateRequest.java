@@ -36,6 +36,13 @@ public class TestImageCreateRequest {
             this.builder = getImageByType(type);
         }
 
+        public Builder name(String name) {
+
+            builder.name(name);
+
+            return this;
+        }
+
         public Builder imageId(String imageId) {
 
             builder.imageId(imageId);
