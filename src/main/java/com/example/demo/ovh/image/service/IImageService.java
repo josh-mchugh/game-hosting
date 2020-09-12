@@ -8,7 +8,7 @@ public interface IImageService {
 
     boolean existsAny();
 
-    boolean existsByImageId(String imageId);
+    boolean existsByName(String name);
 
     Image handleImageCreate(ImageCreateRequest request);
 

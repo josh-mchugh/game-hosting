@@ -5,15 +5,12 @@ import com.example.demo.ovh.region.entity.RegionEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,14 +18,14 @@ import java.util.List;
 @Table(name = "image")
 public class ImageEntity extends AbstractEntity {
 
-    @Column(name = "image_id", unique = true, nullable=false)
+    @Column(name = "image_id", nullable=false)
     private String imageId;
 
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     private RegionEntity regionEntity;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Column(name = "type")
