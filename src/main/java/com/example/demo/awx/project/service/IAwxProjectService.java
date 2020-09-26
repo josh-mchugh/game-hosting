@@ -7,7 +7,7 @@ public interface IAwxProjectService {
 
     boolean existsAny();
 
-    AwxProject getByName(String name);
+    AwxProject getByProjectId(Long projectId);
 
     AwxProject handleCreateRequest(AwxProjectCreateRequest request);
 }

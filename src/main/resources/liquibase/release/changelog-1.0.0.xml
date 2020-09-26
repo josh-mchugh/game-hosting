@@ -552,4 +552,30 @@
         <addForeignKeyConstraint baseTableName="awx_template" baseColumnNames="awx_playbook_id" constraintName="awx_template_awx_playbook_id__awx_playbook_id" referencedTableName="awx_playbook" referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="22" author="jmchugh">
+        <createTable tableName="awx_notification">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__awx_notification" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="notification_id" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="awx_organization_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+            <column name="notification_type" type="nvarchar(255)"/>
+            <column name="webhook_callback_url" type="nvarchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="awx_notification" baseColumnNames="awx_organization_id" constraintName="awx_notification_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
+    </changeSet>
+
 </databaseChangeLog>

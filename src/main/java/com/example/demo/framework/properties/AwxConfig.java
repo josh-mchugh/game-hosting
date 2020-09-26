@@ -17,6 +17,7 @@ import java.util.List;
 public class AwxConfig {
 
     @NotBlank private String baseUrl;
+    @NotBlank private String notificationBaseUrl;
     @NotBlank private String username;
     @NotBlank private String password;
     @NotNull private Organization organization;
