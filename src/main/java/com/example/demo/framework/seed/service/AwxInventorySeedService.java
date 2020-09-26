@@ -56,7 +56,7 @@ public class AwxInventorySeedService implements ISeedService<AwxInventory> {
     @Override
     public Integer order() {
 
-        return 12;
+        return 10;
     }
 
     private AwxInventory createNewAwxInventory() {

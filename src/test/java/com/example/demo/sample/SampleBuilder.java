@@ -9,6 +9,9 @@ import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.inventory.service.IAwxInventoryService;
 import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
+import com.example.demo.awx.notification.model.AwxNotification;
+import com.example.demo.awx.notification.service.IAwxNotificationService;
+import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.organization.service.IAwxOrganizationService;
 import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
@@ -43,6 +46,7 @@ import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestAwxCredentialCreateRequest;
 import com.example.demo.sample.util.TestAwxHostCreateRequest;
 import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
+import com.example.demo.sample.util.TestAwxNotificationCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
 import com.example.demo.sample.util.TestAwxPlaybookCreateRequest;
 import com.example.demo.sample.util.TestAwxProjectCreateRequest;
@@ -112,6 +116,9 @@ public class SampleBuilder {
     @Autowired
     private IAwxTemplateService awxTemplateService;
 
+    @Autowired
+    private IAwxNotificationService awxNotificationService;
+
     private User user;
     private Game game;
     private Region region;
@@ -128,6 +135,7 @@ public class SampleBuilder {
     private AwxInventory awxInventory;
     private AwxHost awxHost;
     private AwxTemplate awxTemplate;
+    private AwxNotification awxNotification;
 
     public Builder builder() {
 
@@ -284,6 +292,13 @@ public class SampleBuilder {
             return this;
         }
 
+        public Builder awxNotification() {
+
+            awxNotification = createDefaultAwxNotification();
+
+            return this;
+        }
+
         public SampleData build() {
 
             return SampleData.builder()
@@ -303,6 +318,7 @@ public class SampleBuilder {
                     .awxInventory(awxInventory)
                     .awxHost(awxHost)
                     .awxTemplate(awxTemplate)
+                    .awxNotification(awxNotification)
                     .build();
         }
     }
@@ -454,5 +470,14 @@ public class SampleBuilder {
                 .build();
 
         return awxTemplateService.handleCreateRequest(request);
+    }
+
+    private AwxNotification createDefaultAwxNotification() {
+
+        AwxNotificationCreateRequest request = TestAwxNotificationCreateRequest.builder()
+                .awxOrganization(awxOrganization)
+                .build();
+
+        return awxNotificationService.handleCreateNotification(request);
     }
 }
