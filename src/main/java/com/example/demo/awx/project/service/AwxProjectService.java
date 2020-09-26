@@ -39,13 +39,13 @@ public class AwxProjectService implements IAwxProjectService {
     }
 
     @Override
-    public AwxProject getByName(String name) {
+    public AwxProject getByProjectId(Long projectId) {
 
         QAwxProjectEntity qAwxProject = QAwxProjectEntity.awxProjectEntity;
 
         AwxProjectEntity entity = queryFactory.select(qAwxProject)
                 .from(qAwxProject)
-                .where(qAwxProject.name.eq(name))
+                .where(qAwxProject.projectId.eq(projectId))
                 .fetchOne();
 
         return AwxProjectMapper.map(entity);

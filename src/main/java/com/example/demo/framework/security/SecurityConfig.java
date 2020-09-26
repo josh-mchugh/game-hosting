@@ -32,10 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/registration/**",
             "/forgot-password/**",
             "/reset-password/**",
-            "/verify/**"
+            "/verify/**",
+            "/awx/**"
         };
 
         http
+                .csrf()
+                    .ignoringAntMatchers("/awx/**")
+                .and()
                 .authorizeRequests()
                     .antMatchers(publicResources).permitAll()
                     .antMatchers("/admin/**").hasRole("ADMIN")
