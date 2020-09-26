@@ -127,7 +127,7 @@ public class AwxInventorySeedServiceTest {
     @Test
     public void whenOrderHasValueReturnValue() {
 
-        Assertions.assertEquals(12, awxInventorySeedService.order());
+        Assertions.assertEquals(10, awxInventorySeedService.order());
     }
 
     @Test

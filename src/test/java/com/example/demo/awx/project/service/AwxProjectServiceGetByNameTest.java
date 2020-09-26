@@ -44,17 +44,17 @@ public class AwxProjectServiceGetByNameTest {
                 .awxCredentialId(sampleData.getAwxCredential().getCredentialId())
                 .name("test name")
                 .build();
-        awxProjectService.handleCreateRequest(request);
+        AwxProject awxProject = awxProjectService.handleCreateRequest(request);
 
-        AwxProject awxProject = awxProjectService.getByName("test name");
+        AwxProject retrievedProject = awxProjectService.getByProjectId(awxProject.getProjectId());
 
-        Assertions.assertNotNull(awxProject);
+        Assertions.assertEquals(awxProject, retrievedProject);
     }
 
     @Test
     public void whenEntityDoesNotExistsThenGetByNameReturnNull() {
 
-        AwxProject awxCredential = awxProjectService.getByName("name");
+        AwxProject awxCredential = awxProjectService.getByProjectId(1L);
 
         Assertions.assertNull(awxCredential);
     }
@@ -62,6 +62,6 @@ public class AwxProjectServiceGetByNameTest {
     @Test
     public void whenRequestParaIsNullThenThrowException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxProjectService.getByName(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> awxProjectService.getByProjectId(null));
     }
 }

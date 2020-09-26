@@ -3,9 +3,15 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.awx.credential.model.AwxCredential;
 import com.example.demo.awx.credential.service.IAwxCredentialService;
 import com.example.demo.awx.feign.common.ListResponse;
+import com.example.demo.awx.feign.notification.NotificationClient;
+import com.example.demo.awx.feign.notification.model.NotificationApi;
+import com.example.demo.awx.feign.notification.model.NotificationConfiguration;
+import com.example.demo.awx.feign.notification.model.NotificationCreateApi;
 import com.example.demo.awx.feign.project.ProjectClient;
 import com.example.demo.awx.feign.project.model.ProjectApi;
 import com.example.demo.awx.feign.project.model.ProjectCreateApi;
+import com.example.demo.awx.notification.service.IAwxNotificationService;
+import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
 import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
@@ -14,6 +20,7 @@ import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -25,6 +32,8 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
     private final IAwxCredentialService awxCredentialService;
     private final IAwxProjectService awxProjectService;
     private final ProjectClient projectClient;
+    private final NotificationClient notificationClient;
+    private final IAwxNotificationService awxNotificationService;
 
     @Override
     public boolean dataNotExists() {
@@ -44,8 +53,9 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
         if(projectApi.isPresent()) {
 
             AwxProjectCreateRequest request = createAwxProjectRequest(projectApi.get());
+            AwxProject awxProject = awxProjectService.handleCreateRequest(request);
 
-            return ImmutableList.of(awxProjectService.handleCreateRequest(request));
+            return ImmutableList.of(awxProject);
         }
 
         return ImmutableList.of(createNewAwxProject());
@@ -61,6 +71,26 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
     public Integer order() {
 
         return 9;
+    }
+
+    private AwxProject createNewAwxProject() {
+
+        // Create Project in AWX
+        ProjectApi api = createProjectApi();
+
+        // Persist AwxProject
+        AwxProjectCreateRequest request = createAwxProjectRequest(api);
+        AwxProject awxProject = awxProjectService.handleCreateRequest(request);
+
+        // Create Notification for success in AWX
+        NotificationCreateApi notificationCreateApi = buildNotificationCreateApi(awxProject);
+        NotificationApi notificationApi = notificationClient.createSuccessNotificationForProject(awxProject.getProjectId(), notificationCreateApi);
+
+        // Persist AwxNotification
+        AwxNotificationCreateRequest awxNotificationCreateRequest = buildAwxNotificationCreateRequest(notificationApi);
+        awxNotificationService.handleCreateNotification(awxNotificationCreateRequest);
+
+        return awxProject;
     }
 
     private ProjectApi createProjectApi() {
@@ -93,11 +123,29 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
                 .build();
     }
 
-    private AwxProject createNewAwxProject() {
+    private NotificationCreateApi buildNotificationCreateApi(AwxProject awxProject) {
 
-        ProjectApi api = createProjectApi();
-        AwxProjectCreateRequest request = createAwxProjectRequest(api);
+        String url = UriComponentsBuilder.fromHttpUrl(awxConfig.getNotificationBaseUrl())
+                .path(String.format("/awx/notification/project/%s/success", awxProject.getProjectId()))
+                .toUriString();
 
-        return awxProjectService.handleCreateRequest(request);
+        return NotificationCreateApi.builder()
+                .name(String.format("Project - %s - %s", awxProject.getName(), awxProject.getProjectId()))
+                .notificationConfiguration(new NotificationConfiguration(url))
+                .notificationType("webhook")
+                .organizationId(awxConfig.getOrganization().getId())
+                .build();
+    }
+
+    private AwxNotificationCreateRequest buildAwxNotificationCreateRequest(NotificationApi notificationApi) {
+
+        return AwxNotificationCreateRequest.builder()
+                .notificationId(notificationApi.getId())
+                .organizationId(notificationApi.getOrganizationId())
+                .name(notificationApi.getName())
+                .description(notificationApi.getDescription())
+                .notificationType(notificationApi.getNotificationType())
+                .webhookCallbackUrl(notificationApi.getNotificationConfiguration().getUrl())
+                .build();
     }
 }
