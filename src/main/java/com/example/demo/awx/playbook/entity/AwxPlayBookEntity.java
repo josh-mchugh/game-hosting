@@ -1,7 +1,7 @@
 package com.example.demo.awx.playbook.entity;
 
 import com.example.demo.awx.project.entity.AwxProjectEntity;
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "awx_playbook")
-public class AwxPlayBookEntity extends AbstractEntity {
+public class AwxPlayBookEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "awx_project_id", nullable = false)

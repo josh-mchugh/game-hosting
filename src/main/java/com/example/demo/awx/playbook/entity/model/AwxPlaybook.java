@@ -1,10 +1,10 @@
-package com.example.demo.awx.playbook.model;
+package com.example.demo.awx.playbook.entity.model;
 
 import com.example.demo.awx.playbook.entity.PlaybookType;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
+@Getter
 @Builder(builderClassName = "Builder")
 public class AwxPlaybook {
 

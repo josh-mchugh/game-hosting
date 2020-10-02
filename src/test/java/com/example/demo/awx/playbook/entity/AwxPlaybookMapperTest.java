@@ -1,7 +1,7 @@
-package com.example.demo.awx.playbook.mapper;
+package com.example.demo.awx.playbook.entity;
 
-import com.example.demo.awx.playbook.entity.AwxPlayBookEntity;
-import com.example.demo.awx.playbook.model.AwxPlaybook;
+import com.example.demo.awx.playbook.entity.mapper.AwxPlaybookMapper;
+import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
