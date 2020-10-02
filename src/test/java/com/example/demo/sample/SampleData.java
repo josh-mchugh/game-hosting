@@ -5,7 +5,7 @@ import com.example.demo.awx.host.model.AwxHost;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.notification.model.AwxNotification;
 import com.example.demo.awx.organization.model.AwxOrganization;
-import com.example.demo.awx.playbook.model.AwxPlaybook;
+import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.template.model.AwxTemplate;
 import com.example.demo.game.model.Game;

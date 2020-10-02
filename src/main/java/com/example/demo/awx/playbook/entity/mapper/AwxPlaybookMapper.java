@@ -1,7 +1,7 @@
-package com.example.demo.awx.playbook.mapper;
+package com.example.demo.awx.playbook.entity.mapper;
 
 import com.example.demo.awx.playbook.entity.AwxPlayBookEntity;
-import com.example.demo.awx.playbook.model.AwxPlaybook;
+import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 
 public class AwxPlaybookMapper {
 

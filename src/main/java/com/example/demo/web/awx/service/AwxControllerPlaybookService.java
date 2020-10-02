@@ -1,18 +1,19 @@
 package com.example.demo.web.awx.service;
 
 import com.example.demo.awx.feign.playbook.PlaybookClient;
-import com.example.demo.awx.playbook.model.AwxPlaybook;
-import com.example.demo.awx.playbook.service.IAwxPlaybookService;
-import com.example.demo.awx.playbook.service.model.AwxPlaybookCreateRequest;
+import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
+import com.example.demo.awx.playbook.projection.IAwxPlaybookProjector;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
 import com.example.demo.web.awx.service.model.PlaybookCreateRequest;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,14 +22,15 @@ import java.util.stream.Collectors;
 public class AwxControllerPlaybookService implements IAwxControllerPlaybookService {
 
     private final IAwxProjectService awxProjectService;
-    private final IAwxPlaybookService awxPlaybookService;
+    private final IAwxPlaybookProjector awxPlaybookProjector;
     private final PlaybookClient playbookClient;
+    private final CommandGateway commandGateway;
 
     @Override
-    public ImmutableList<AwxPlaybook> handleCreatePlaybooks(PlaybookCreateRequest request) {
+    public ImmutableList<Object> handleCreatePlaybooks(PlaybookCreateRequest request) {
 
         // TODO: Refactor into Create / Update functionality
-        if(awxPlaybookService.existsAny()) {
+        if(awxPlaybookProjector.existsAny()) {
 
             log.info("Playbooks already exist....");
 
@@ -39,9 +41,9 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
 
         AwxProject awxProject = awxProjectService.getByProjectId(request.getProjectId());
 
-        List<AwxPlaybook> awxPlaybooks = playbookClient.getPlaybooks(awxProject.getProjectId()).stream()
-                .map(playbook -> buildPlaybookCreateRequest(playbook, awxProject.getProjectId()))
-                .map(awxPlaybookService::handleCreateRequest)
+        List<Object> awxPlaybooks = playbookClient.getPlaybooks(awxProject.getProjectId()).stream()
+                .map(playbook ->buildAwxPlaybookCreateCommand(playbook, awxProject.getId()))
+                .map(commandGateway::sendAndWait)
                 .collect(Collectors.toList());
 
         log.info("Persisted {} AwxPlaybooks", awxPlaybooks.size());
@@ -49,11 +51,12 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
         return ImmutableList.copyOf(awxPlaybooks);
     }
 
-    private AwxPlaybookCreateRequest buildPlaybookCreateRequest(String playbook, Long projectId) {
+    private AwxPlaybookCreateCommand buildAwxPlaybookCreateCommand(String name, String awxProjectId) {
 
-        return AwxPlaybookCreateRequest.builder()
-                .projectId(projectId)
-                .name(playbook)
+        return AwxPlaybookCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .awxProjectId(awxProjectId)
+                .name(name)
                 .build();
     }
 }

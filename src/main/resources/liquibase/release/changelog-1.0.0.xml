@@ -578,4 +578,44 @@
         <addForeignKeyConstraint baseTableName="awx_notification" baseColumnNames="awx_organization_id" constraintName="awx_notification_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="23" author="jmchugh">
+        <createTable tableName="association_value_entry">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__association_value_entry" />
+            </column>
+            <column name="association_key" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="association_value" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="saga_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="saga_type" type="nvarchar(255)"/>
+        </createTable>
+        <createTable tableName="saga_entry">
+            <column name="saga_id" type="nvarchar(255)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__saga_entry"/>
+            </column>
+            <column name="revision" type="nvarchar(255)"/>
+            <column name="saga_type" type="nvarchar(255)"/>
+            <column name="serialized_saga" type="blob"/>
+        </createTable>
+        <createTable tableName="token_entry">
+            <column name="processor_name" type="nvarchar(255)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__token_entry_processor_name"/>
+            </column>
+            <column name="segment" type="int">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__token_entry_segment"/>
+            </column>
+            <column name="owner" type="nvarchar(255)"/>
+            <column name="timestamp" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="blob"/>
+            <column name="token_type" type="nvarchar(255)"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

@@ -15,9 +15,10 @@ import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequ
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.organization.service.IAwxOrganizationService;
 import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
-import com.example.demo.awx.playbook.model.AwxPlaybook;
-import com.example.demo.awx.playbook.service.IAwxPlaybookService;
-import com.example.demo.awx.playbook.service.model.AwxPlaybookCreateRequest;
+import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
+import com.example.demo.awx.playbook.entity.PlaybookType;
+import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
+import com.example.demo.awx.playbook.entity.service.IAwxPlaybookService;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
 import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
@@ -48,7 +49,6 @@ import com.example.demo.sample.util.TestAwxHostCreateRequest;
 import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
 import com.example.demo.sample.util.TestAwxNotificationCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
-import com.example.demo.sample.util.TestAwxPlaybookCreateRequest;
 import com.example.demo.sample.util.TestAwxProjectCreateRequest;
 import com.example.demo.sample.util.TestAwxTemplateCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
@@ -64,6 +64,8 @@ import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class SampleBuilder {
@@ -435,11 +437,14 @@ public class SampleBuilder {
 
     private AwxPlaybook createDefaultAwxPlaybook() {
 
-        AwxPlaybookCreateRequest request = TestAwxPlaybookCreateRequest.builder()
-                .projectId(awxProject.getProjectId())
+        AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .awxProjectId(awxProject.getId())
+                .name("cowsay-playbook.yml")
+                .type(PlaybookType.COWSAY)
                 .build();
 
-        return awxPlaybookService.handleCreateRequest(request);
+        return awxPlaybookService.handleAwxPlaybookCreated(event);
     }
 
     private AwxInventory createDefaultAwxInventory() {

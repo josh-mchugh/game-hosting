@@ -3,7 +3,7 @@ package com.example.demo.sample.util;
 import com.example.demo.awx.credential.model.AwxCredential;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.playbook.entity.PlaybookType;
-import com.example.demo.awx.playbook.model.AwxPlaybook;
+import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.service.model.AwxTemplateCreateRequest;
