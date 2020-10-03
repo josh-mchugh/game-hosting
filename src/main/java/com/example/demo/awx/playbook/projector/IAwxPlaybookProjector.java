@@ -1,4 +1,4 @@
-package com.example.demo.awx.playbook.projection;
+package com.example.demo.awx.playbook.projector;
 
 public interface IAwxPlaybookProjector {
 

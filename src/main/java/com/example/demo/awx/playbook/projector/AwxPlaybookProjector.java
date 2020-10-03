@@ -1,4 +1,4 @@
-package com.example.demo.awx.playbook.projection;
+package com.example.demo.awx.playbook.projector;
 
 import com.example.demo.awx.playbook.entity.QAwxPlayBookEntity;
 import com.querydsl.jpa.JPQLQueryFactory;

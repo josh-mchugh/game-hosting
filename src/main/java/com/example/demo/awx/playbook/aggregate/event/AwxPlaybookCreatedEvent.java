@@ -10,8 +10,8 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 public class AwxPlaybookCreatedEvent {
 
-    UUID id;
-    String awxProjectId;
-    String name;
-    PlaybookType type;
+    private final UUID id;
+    private final String awxProjectId;
+    private final String name;
+    private final PlaybookType type;
 }

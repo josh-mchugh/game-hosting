@@ -1,4 +1,4 @@
-package com.example.demo.awx.template.model;
+package com.example.demo.awx.template.entity.model;
 
 import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;

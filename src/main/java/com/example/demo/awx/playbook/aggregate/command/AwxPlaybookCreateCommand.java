@@ -14,11 +14,11 @@ public class AwxPlaybookCreateCommand {
 
     @NotNull
     @TargetAggregateIdentifier
-    UUID id;
+    private final UUID id;
 
     @NotBlank
-    String awxProjectId;
+    private final String awxProjectId;
 
     @NotBlank
-    String name;
+    private final String name;
 }

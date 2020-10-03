@@ -3,7 +3,7 @@ package com.example.demo.awx.template.entity;
 import com.example.demo.awx.credential.entity.AwxCredentialEntity;
 import com.example.demo.awx.inventory.entity.AwxInventoryEntity;
 import com.example.demo.awx.playbook.entity.AwxPlayBookEntity;
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "awx_template")
-public class AwxTemplateEntity extends AbstractEntity {
+public class AwxTemplateEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "awx_credential_id", nullable = false)

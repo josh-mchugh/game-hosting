@@ -22,9 +22,11 @@ import com.example.demo.awx.playbook.entity.service.IAwxPlaybookService;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
 import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
-import com.example.demo.awx.template.model.AwxTemplate;
-import com.example.demo.awx.template.service.IAwxTemplateService;
-import com.example.demo.awx.template.service.model.AwxTemplateCreateRequest;
+import com.example.demo.awx.template.aggregate.event.AwxTemplateCreatedEvent;
+import com.example.demo.awx.template.entity.TemplateJobType;
+import com.example.demo.awx.template.entity.TemplateVerbosity;
+import com.example.demo.awx.template.entity.model.AwxTemplate;
+import com.example.demo.awx.template.entity.service.IAwxTemplateService;
 import com.example.demo.game.model.Game;
 import com.example.demo.game.service.IGameService;
 import com.example.demo.ovh.credential.model.Credential;
@@ -50,7 +52,6 @@ import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
 import com.example.demo.sample.util.TestAwxNotificationCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
 import com.example.demo.sample.util.TestAwxProjectCreateRequest;
-import com.example.demo.sample.util.TestAwxTemplateCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.example.demo.sample.util.TestGameCreateRequest;
@@ -468,13 +469,19 @@ public class SampleBuilder {
 
     private AwxTemplate createDefaultAwxTemplate() {
 
-        AwxTemplateCreateRequest request = TestAwxTemplateCreateRequest.builder()
-                .awxCredential(awxCredential)
-                .awxInventory(awxInventory)
-                .awxPlaybook(awxPlaybook)
+        AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .awxCredentialId(awxCredential.getId())
+                .awxInventoryId(awxInventory.getId())
+                .awxPlaybookId(awxPlaybook.getId())
+                .templateId(1L)
+                .name("run job")
+                .description("runs a job")
+                .jobType(TemplateJobType.RUN)
+                .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
-        return awxTemplateService.handleCreateRequest(request);
+        return awxTemplateService.handleAwxTemplateCreated(event);
     }
 
     private AwxNotification createDefaultAwxNotification() {

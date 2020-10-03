@@ -1,4 +1,4 @@
-package com.example.demo.awx.playbook.projection;
+package com.example.demo.awx.template.projector;
 
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -12,10 +12,10 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxPlaybookProjectorExistsAnyTest {
+public class AwxTemplateProjectorExistsAnyTest {
 
     @Autowired
-    private IAwxPlaybookProjector awxPlaybookProjector;
+    private IAwxTemplateProjector awxTemplateProjector;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -25,17 +25,19 @@ public class AwxPlaybookProjectorExistsAnyTest {
 
         sampleBuilder.builder()
                 .awxOrganization()
-                .awxGitlabCredential()
+                .awxCredential()
+                .awxInventory()
                 .awxProject()
                 .awxPlaybook()
+                .awxTemplate()
                 .build();
 
-        Assertions.assertTrue(awxPlaybookProjector.existsAny());
+        Assertions.assertTrue(awxTemplateProjector.existsAny());
     }
 
     @Test
-    public void whenEntitiesDoNotExistThenExistsAnyReturnsFalse() {
+    public void whenEntitiesDoesNotExistThenExistsAnyReturnsFalse() {
 
-        Assertions.assertFalse(awxPlaybookProjector.existsAny());
+        Assertions.assertFalse(awxTemplateProjector.existsAny());
     }
 }
