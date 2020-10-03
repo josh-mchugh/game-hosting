@@ -1,9 +1,7 @@
-package com.example.demo.awx.template.mapper;
+package com.example.demo.awx.template.entity;
 
-import com.example.demo.awx.template.entity.AwxTemplateEntity;
-import com.example.demo.awx.template.entity.TemplateJobType;
-import com.example.demo.awx.template.entity.TemplateVerbosity;
-import com.example.demo.awx.template.model.AwxTemplate;
+import com.example.demo.awx.template.entity.mapper.AwxTemplateMapper;
+import com.example.demo.awx.template.entity.model.AwxTemplate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

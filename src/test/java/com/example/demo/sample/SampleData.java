@@ -7,7 +7,7 @@ import com.example.demo.awx.notification.model.AwxNotification;
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.project.model.AwxProject;
-import com.example.demo.awx.template.model.AwxTemplate;
+import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.game.model.Game;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.flavor.model.Flavor;

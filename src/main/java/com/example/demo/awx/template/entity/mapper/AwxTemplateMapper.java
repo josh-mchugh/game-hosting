@@ -1,7 +1,7 @@
-package com.example.demo.awx.template.mapper;
+package com.example.demo.awx.template.entity.mapper;
 
 import com.example.demo.awx.template.entity.AwxTemplateEntity;
-import com.example.demo.awx.template.model.AwxTemplate;
+import com.example.demo.awx.template.entity.model.AwxTemplate;
 
 public class AwxTemplateMapper {
 
