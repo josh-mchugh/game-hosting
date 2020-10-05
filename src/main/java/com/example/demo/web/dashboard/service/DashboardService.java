@@ -3,9 +3,7 @@ package com.example.demo.web.dashboard.service;
 import com.example.demo.awx.feign.host.HostClient;
 import com.example.demo.awx.feign.host.model.HostApi;
 import com.example.demo.awx.feign.host.model.HostCreateApi;
-import com.example.demo.awx.host.model.AwxHost;
-import com.example.demo.awx.host.service.IAwxHostService;
-import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
+import com.example.demo.awx.host.aggregate.command.AwxHostCreateCommand;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.inventory.service.IAwxInventoryService;
 import com.example.demo.framework.properties.AwxConfig;
@@ -49,11 +47,13 @@ import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -69,10 +69,10 @@ public class DashboardService implements IDashboardService {
     private final InstanceGroupClient instanceGroupClient;
     private final HostClient hostClient;
     private final IAwxInventoryService awxInventoryService;
-    private final IAwxHostService awxHostService;
     private final OvhConfig ovhConfig;
     private final AwxConfig awxConfig;
     private final JPQLQueryFactory queryFactory;
+    private final CommandGateway commandGateway;
 
     @Override
     public DashboardDetailsResponse getDashboardDetails() {
@@ -176,7 +176,7 @@ public class DashboardService implements IDashboardService {
         HostApi hostApi = createHostApi(awxInventory, instance);
 
         log.info("Creating AWX Host entity...");
-        AwxHost awxHost = createAwxHost(hostApi, instance);
+        createAwxHost(awxInventory, instance, hostApi);
 
         log.info("Finished handleDashboardProjectCreate. Total Time: {} seconds", ChronoUnit.SECONDS.between(startTime, LocalDateTime.now()));
 
@@ -319,10 +319,11 @@ public class DashboardService implements IDashboardService {
         return hostClient.createHost(hostCreateApi);
     }
 
-    private AwxHost createAwxHost(HostApi hostApi, Instance instance) {
+    private void createAwxHost(AwxInventory awxInventory, Instance instance, HostApi hostApi) {
 
-        AwxHostCreateRequest awxHostCreateRequest = AwxHostCreateRequest.builder()
-                .inventoryId(hostApi.getInventoryId())
+        AwxHostCreateCommand command = AwxHostCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .awxInventoryId(awxInventory.getId())
                 .instanceId(instance.getId())
                 .hostId(hostApi.getId())
                 .hostname(hostApi.getName())
@@ -330,6 +331,6 @@ public class DashboardService implements IDashboardService {
                 .enabled(hostApi.getEnabled())
                 .build();
 
-        return awxHostService.handleCreateRequest(awxHostCreateRequest);
+        commandGateway.send(command);
     }
 }

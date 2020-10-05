@@ -1,7 +1,7 @@
 package com.example.demo.awx.host.entity;
 
 import com.example.demo.awx.inventory.entity.AwxInventoryEntity;
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "awx_host")
-public class AwxHostEntity extends AbstractEntity {
+public class AwxHostEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "awx_inventory_id", nullable = false)

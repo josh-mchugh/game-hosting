@@ -1,11 +1,12 @@
 package com.example.demo.web.project.service;
 
 import com.example.demo.awx.feign.host.HostClient;
-import com.example.demo.awx.feign.host.model.HostApi;
 import com.example.demo.awx.feign.host.model.HostPatchApi;
-import com.example.demo.awx.host.entity.QAwxHostEntity;
-import com.example.demo.awx.host.model.AwxHost;
-import com.example.demo.awx.host.service.IAwxHostService;
+import com.example.demo.awx.host.aggregate.command.AwxHostDisableCommand;
+import com.example.demo.awx.host.aggregate.command.AwxHostEnableCommand;
+import com.example.demo.awx.host.projection.IAwxHostProjector;
+import com.example.demo.awx.host.projection.model.AwxHostHostIdProjection;
+import com.example.demo.awx.host.projection.model.AwxHostHostIdQuery;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
@@ -18,7 +19,10 @@ import com.example.demo.web.project.service.projections.ProjectDetailsProjection
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -27,8 +31,9 @@ public class ProjectControllerService implements IProjectControllerService {
     private final OvhConfig ovhConfig;
     private final JPQLQueryFactory queryFactory;
     private final InstanceClient instanceClient;
-    private final IAwxHostService awxHostService;
+    private final IAwxHostProjector awxHostProjector;
     private final HostClient hostClient;
+    private final CommandGateway commandGateway;
 
     @Override
     public ProjectDetails getProjectDetails(String id) {
@@ -67,44 +72,42 @@ public class ProjectControllerService implements IProjectControllerService {
     @Override
     public void handleProjectInstanceStart(ProjectInstanceStartRequest request) {
 
+        // Call OVH to start instance
         instanceClient.startInstance(ovhConfig.getProjectId(), request.getInstanceId());
 
-        Long hostId = getHostIdByInstanceId(request.getInstanceId());
+        // Get AwxHost by OvH Instance Id
+        AwxHostHostIdQuery query = new AwxHostHostIdQuery(request.getInstanceId());
+        AwxHostHostIdProjection projection = awxHostProjector.getHostIdProjection(query);
 
+        // Call AWX to set Host to enabled
         HostPatchApi updateBody = HostPatchApi.builder()
                 .enabled(true)
                 .build();
+        hostClient.updateHost(projection.getHostId(), updateBody);
 
-        HostApi hostApi = hostClient.updateHost(hostId, updateBody);
-
-        AwxHost awxHost = awxHostService.handleEnabledRequest(hostId);
+        // Send command to enable AwxHost
+        AwxHostEnableCommand command = new AwxHostEnableCommand(UUID.fromString(projection.getAwxHostId()));
+        commandGateway.send(command);
     }
 
     @Override
     public void handleProjectInstanceStop(ProjectInstanceStopRequest request) {
 
+        // Call OVH to stop instance
         instanceClient.stopInstance(ovhConfig.getProjectId(), request.getInstanceId());
 
-        Long hostId = getHostIdByInstanceId(request.getInstanceId());
+        // Get AwxHost by OvH Instance Id
+        AwxHostHostIdQuery query = new AwxHostHostIdQuery(request.getInstanceId());
+        AwxHostHostIdProjection projection = awxHostProjector.getHostIdProjection(query);
 
+        // Call AWX to set Host to disabled
         HostPatchApi updateBody = HostPatchApi.builder()
                 .enabled(false)
                 .build();
+        hostClient.updateHost(projection.getHostId(), updateBody);
 
-        HostApi hostApi = hostClient.updateHost(hostId, updateBody);
-
-        AwxHost awxHost = awxHostService.handleDisableRequest(hostId);
-    }
-
-    private Long getHostIdByInstanceId(String instanceId) {
-
-        QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
-        QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
-
-        return queryFactory.select(qAwxHost.hostId)
-                .from(qAwxHost)
-                .innerJoin(qAwxHost.instanceEntity, qInstance)
-                .where(qInstance.instanceId.eq(instanceId))
-                .fetchOne();
+        // Send command to disable AwxHost
+        AwxHostDisableCommand command = new AwxHostDisableCommand(UUID.fromString(projection.getAwxHostId()));
+        commandGateway.send(command);
     }
 }

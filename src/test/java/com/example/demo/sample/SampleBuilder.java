@@ -3,9 +3,9 @@ package com.example.demo.sample;
 import com.example.demo.awx.credential.model.AwxCredential;
 import com.example.demo.awx.credential.service.IAwxCredentialService;
 import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
-import com.example.demo.awx.host.model.AwxHost;
-import com.example.demo.awx.host.service.IAwxHostService;
-import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
+import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
+import com.example.demo.awx.host.entity.model.AwxHost;
+import com.example.demo.awx.host.entity.service.IAwxHostService;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.inventory.service.IAwxInventoryService;
 import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
@@ -47,7 +47,6 @@ import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestAwxCredentialCreateRequest;
-import com.example.demo.sample.util.TestAwxHostCreateRequest;
 import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
 import com.example.demo.sample.util.TestAwxNotificationCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
@@ -459,12 +458,17 @@ public class SampleBuilder {
 
     private AwxHost createDefaultAwxHost() {
 
-        AwxHostCreateRequest request = TestAwxHostCreateRequest.builder()
+        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .awxInventoryId(awxInventory.getId())
                 .instanceId(instance.getId())
-                .inventoryId(awxInventory.getInventoryId())
+                .hostId(1L)
+                .hostname("hostname")
+                .description("description")
+                .enabled(true)
                 .build();
 
-        return awxHostService.handleCreateRequest(request);
+        return awxHostService.handleCreated(event);
     }
 
     private AwxTemplate createDefaultAwxTemplate() {

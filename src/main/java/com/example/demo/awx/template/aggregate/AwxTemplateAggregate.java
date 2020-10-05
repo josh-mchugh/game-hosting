@@ -4,7 +4,6 @@ import com.example.demo.awx.template.aggregate.command.AwxTemplateCreateCommand;
 import com.example.demo.awx.template.aggregate.event.AwxTemplateCreatedEvent;
 import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -14,7 +13,6 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.UUID;
 
-@Getter
 @Aggregate
 @NoArgsConstructor
 public class AwxTemplateAggregate {
