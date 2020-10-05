@@ -1,9 +1,8 @@
 package com.example.demo.awx.playbook.aggregate;
 
-import com.example.demo.awx.playbook.entity.PlaybookType;
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
 import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
-import lombok.Getter;
+import com.example.demo.awx.playbook.entity.PlaybookType;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.CommandHandler;
@@ -14,7 +13,6 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.UUID;
 
-@Getter
 @Aggregate
 @NoArgsConstructor
 public class AwxPlaybookAggregate {
