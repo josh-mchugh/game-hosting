@@ -9,9 +9,9 @@ import com.example.demo.awx.host.entity.service.IAwxHostService;
 import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.awx.inventory.service.IAwxInventoryService;
 import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
-import com.example.demo.awx.notification.model.AwxNotification;
-import com.example.demo.awx.notification.service.IAwxNotificationService;
-import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
+import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
+import com.example.demo.awx.notification.entity.model.AwxNotification;
+import com.example.demo.awx.notification.entity.service.IAwxNotificationService;
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.organization.service.IAwxOrganizationService;
 import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
@@ -48,7 +48,6 @@ import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestAwxCredentialCreateRequest;
 import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
-import com.example.demo.sample.util.TestAwxNotificationCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
 import com.example.demo.sample.util.TestAwxProjectCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
@@ -490,10 +489,17 @@ public class SampleBuilder {
 
     private AwxNotification createDefaultAwxNotification() {
 
-        AwxNotificationCreateRequest request = TestAwxNotificationCreateRequest.builder()
-                .awxOrganization(awxOrganization)
+        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .organizationId(awxOrganization.getOrganizationId())
+                .notificationId(1L)
+                .name("name")
+                .description("description")
+                .organizationId(1L)
+                .notificationType("notification type")
+                .webhookCallBackUrl("callback url")
                 .build();
 
-        return awxNotificationService.handleCreateNotification(request);
+        return awxNotificationService.handleCreated(event);
     }
 }

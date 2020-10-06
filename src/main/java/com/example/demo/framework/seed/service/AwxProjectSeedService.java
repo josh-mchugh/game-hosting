@@ -10,8 +10,7 @@ import com.example.demo.awx.feign.notification.model.NotificationCreateApi;
 import com.example.demo.awx.feign.project.ProjectClient;
 import com.example.demo.awx.feign.project.model.ProjectApi;
 import com.example.demo.awx.feign.project.model.ProjectCreateApi;
-import com.example.demo.awx.notification.service.IAwxNotificationService;
-import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
+import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.IAwxProjectService;
 import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
@@ -19,10 +18,12 @@ import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
     private final IAwxProjectService awxProjectService;
     private final ProjectClient projectClient;
     private final NotificationClient notificationClient;
-    private final IAwxNotificationService awxNotificationService;
+    private final CommandGateway commandGateway;
 
     @Override
     public boolean dataNotExists() {
@@ -87,8 +88,16 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
         NotificationApi notificationApi = notificationClient.createSuccessNotificationForProject(awxProject.getProjectId(), notificationCreateApi);
 
         // Persist AwxNotification
-        AwxNotificationCreateRequest awxNotificationCreateRequest = buildAwxNotificationCreateRequest(notificationApi);
-        awxNotificationService.handleCreateNotification(awxNotificationCreateRequest);
+        AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .notificationId(notificationApi.getId())
+                .organizationId(notificationApi.getOrganizationId())
+                .name(notificationApi.getName())
+                .description(notificationApi.getDescription())
+                .notificationType(notificationApi.getNotificationType())
+                .webhookCallBackUrl(notificationApi.getNotificationConfiguration().getUrl())
+                .build();
+        commandGateway.send(command);
 
         return awxProject;
     }
@@ -134,18 +143,6 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
                 .notificationConfiguration(new NotificationConfiguration(url))
                 .notificationType("webhook")
                 .organizationId(awxConfig.getOrganization().getId())
-                .build();
-    }
-
-    private AwxNotificationCreateRequest buildAwxNotificationCreateRequest(NotificationApi notificationApi) {
-
-        return AwxNotificationCreateRequest.builder()
-                .notificationId(notificationApi.getId())
-                .organizationId(notificationApi.getOrganizationId())
-                .name(notificationApi.getName())
-                .description(notificationApi.getDescription())
-                .notificationType(notificationApi.getNotificationType())
-                .webhookCallbackUrl(notificationApi.getNotificationConfiguration().getUrl())
                 .build();
     }
 }

@@ -1,7 +1,7 @@
-package com.example.demo.awx.notification.mapper;
+package com.example.demo.awx.notification.entity;
 
-import com.example.demo.awx.notification.entity.AwxNotificationEntity;
-import com.example.demo.awx.notification.model.AwxNotification;
+import com.example.demo.awx.notification.entity.mapper.AwxNotificationMapper;
+import com.example.demo.awx.notification.entity.model.AwxNotification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

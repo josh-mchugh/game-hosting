@@ -53,7 +53,8 @@
             <column name="to_address" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="context" type="nvarchar(MAX)"/>
+            <column name="body_context" type="nvarchar(MAX)"/>
+            <column name="subject_context" type="nvarchar(MAX)"/>
             <column name="mailing_date" type="timestamp"/>
         </createTable>
     </changeSet>
@@ -112,13 +113,6 @@
     </changeSet>
 
     <changeSet id="5" author="jmchugh">
-        <renameColumn tableName="email" oldColumnName="context" newColumnName="body_context"/>
-        <addColumn tableName="email">
-            <column name="subject_context" type="nvarchar(MAX)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet id="6" author="jmchugh">
         <createTable tableName="region">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__region" />
@@ -138,7 +132,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="7" author="jmchugh">
+    <changeSet id="6" author="jmchugh">
         <createTable tableName="flavor">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__flavor" />
@@ -170,7 +164,7 @@
         <addForeignKeyConstraint baseTableName="flavor" baseColumnNames="region_id" constraintName="flavor_region_id__region_id"  referencedTableName="region" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="8" author="jmchugh">
+    <changeSet id="7" author="jmchugh">
         <createTable tableName="image">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__image" />
@@ -181,14 +175,14 @@
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
             <column name="image_id" type="nvarchar(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="region_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="type" type="nvarchar(255)"/>
             <column name="name" type="nvarchar(255)">
-                <constraints unique="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="image_created_date" type="datetime"/>
             <column name="flavor_type" type="nvarchar(255)"/>
@@ -204,7 +198,7 @@
         <addForeignKeyConstraint baseTableName="image" baseColumnNames="region_id" constraintName="image_region_id__region_id" referencedTableName="region" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="9" author="jmchugh">
+    <changeSet id="8" author="jmchugh">
         <createTable tableName="game">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__game" />
@@ -220,7 +214,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="10" author="jmchugh">
+    <changeSet id="9" author="jmchugh">
         <createTable tableName="project">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__project" />
@@ -246,7 +240,7 @@
         <addForeignKeyConstraint baseTableName="project" baseColumnNames="game_id" constraintName="project_game_id__game_id" referencedTableName="game" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="11" author="jmchugh">
+    <changeSet id="10" author="jmchugh">
         <createTable tableName="project_membership">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__project_membership" />
@@ -268,7 +262,7 @@
         <addForeignKeyConstraint baseTableName="project_membership" baseColumnNames="user_id" constraintName="project_membership_user_id__users_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="12" author="jmchugh">
+    <changeSet id="11" author="jmchugh">
         <createTable tableName="instance_group">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__instance_group" />
@@ -290,7 +284,7 @@
         <addForeignKeyConstraint baseTableName="instance_group" baseColumnNames="project_id" constraintName="instance_group_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="13" author="jmchugh">
+    <changeSet id="12" author="jmchugh">
         <createTable tableName="credential">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__credential" />
@@ -309,7 +303,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="14" author="jmchugh">
+    <changeSet id="13" author="jmchugh">
         <createTable tableName="instance">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__instance" />
@@ -348,7 +342,7 @@
         <addForeignKeyConstraint baseTableName="instance" baseColumnNames="credential_id" constraintName="instance_credential_id__credential_id" referencedTableName="credential" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="15" author="jmchugh">
+    <changeSet id="14" author="jmchugh">
         <createTable tableName="awx_organization">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_organization" />
@@ -368,7 +362,7 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="16" author="jmchugh">
+    <changeSet id="15" author="jmchugh">
         <createTable tableName="awx_credential">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_credential" />
@@ -399,7 +393,7 @@
         <addForeignKeyConstraint baseTableName="awx_credential" baseColumnNames="awx_organization_id" constraintName="awx_credential_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="17" author="jmchugh">
+    <changeSet id="16" author="jmchugh">
         <createTable tableName="awx_project">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_project" />
@@ -436,7 +430,7 @@
         <addForeignKeyConstraint baseTableName="awx_project" baseColumnNames="awx_credential_id" constraintName="awx_project_awx_credential_id__awx_credential_id" referencedTableName="awx_credential" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="18" author="jmchugh">
+    <changeSet id="17" author="jmchugh">
         <createTable tableName="awx_playbook">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_playbook" />
@@ -459,7 +453,7 @@
         <addForeignKeyConstraint baseTableName="awx_playbook" baseColumnNames="awx_project_id" constraintName="awx_playbook_awx_project_id__awx_project_id" referencedTableName="awx_project" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="19" author="jmchugh">
+    <changeSet id="18" author="jmchugh">
         <createTable tableName="awx_inventory">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_inventory" />
@@ -483,7 +477,7 @@
         <addForeignKeyConstraint baseTableName="awx_inventory" baseColumnNames="awx_organization_id" constraintName="awx_inventory_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="20" author="jmchugh">
+    <changeSet id="19" author="jmchugh">
         <createTable tableName="awx_host">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_host" />
@@ -514,7 +508,7 @@
         <addForeignKeyConstraint baseTableName="awx_host" baseColumnNames="instance_id" constraintName="awx_host_instance_id__instance_id" referencedTableName="instance" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="21" author="jmchugh">
+    <changeSet id="20" author="jmchugh">
         <createTable tableName="awx_template">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_template" />
@@ -552,7 +546,7 @@
         <addForeignKeyConstraint baseTableName="awx_template" baseColumnNames="awx_playbook_id" constraintName="awx_template_awx_playbook_id__awx_playbook_id" referencedTableName="awx_playbook" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="22" author="jmchugh">
+    <changeSet id="21" author="jmchugh">
         <createTable tableName="awx_notification">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_notification" />
@@ -578,7 +572,7 @@
         <addForeignKeyConstraint baseTableName="awx_notification" baseColumnNames="awx_organization_id" constraintName="awx_notification_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="23" author="jmchugh">
+    <changeSet id="22" author="jmchugh">
         <createTable tableName="association_value_entry">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="PK__association_value_entry" />

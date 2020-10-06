@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 @Table(name = "image")
 public class ImageEntity extends AbstractEntity {
 
-    @Column(name = "image_id", nullable=false)
+    @Column(name = "image_id", unique = true, nullable=false)
     private String imageId;
 
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     private RegionEntity regionEntity;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "type")
