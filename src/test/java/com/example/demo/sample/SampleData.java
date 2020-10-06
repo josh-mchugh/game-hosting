@@ -3,7 +3,7 @@ package com.example.demo.sample;
 import com.example.demo.awx.credential.model.AwxCredential;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.inventory.model.AwxInventory;
-import com.example.demo.awx.notification.model.AwxNotification;
+import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.project.model.AwxProject;

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-public class AwxTemplateAggregateTest {
+public class AwxTemplateCreateCommandTest {
 
     private FixtureConfiguration<AwxTemplateAggregate> fixture;
 

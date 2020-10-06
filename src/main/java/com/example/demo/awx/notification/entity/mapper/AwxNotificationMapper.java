@@ -1,7 +1,7 @@
-package com.example.demo.awx.notification.mapper;
+package com.example.demo.awx.notification.entity.mapper;
 
 import com.example.demo.awx.notification.entity.AwxNotificationEntity;
-import com.example.demo.awx.notification.model.AwxNotification;
+import com.example.demo.awx.notification.entity.model.AwxNotification;
 
 public class AwxNotificationMapper {
 

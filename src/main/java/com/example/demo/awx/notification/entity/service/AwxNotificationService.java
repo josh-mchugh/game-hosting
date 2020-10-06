@@ -1,13 +1,14 @@
-package com.example.demo.awx.notification.service;
+package com.example.demo.awx.notification.entity.service;
 
+import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.AwxNotificationEntity;
-import com.example.demo.awx.notification.mapper.AwxNotificationMapper;
-import com.example.demo.awx.notification.model.AwxNotification;
-import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
+import com.example.demo.awx.notification.entity.mapper.AwxNotificationMapper;
+import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
 import com.example.demo.awx.organization.entity.QAwxOrganizationEntity;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -22,22 +23,24 @@ public class AwxNotificationService implements IAwxNotificationService {
     private final EntityManager entityManager;
 
     @Override
-    public AwxNotification handleCreateNotification(AwxNotificationCreateRequest request) {
+    @EventHandler
+    public AwxNotification handleCreated(AwxNotificationCreatedEvent event) {
 
         QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.organizationId.eq(request.getOrganizationId()))
+                .where(qAwxOrganization.organizationId.eq(event.getOrganizationId()))
                 .fetchOne();
 
         AwxNotificationEntity entity = new AwxNotificationEntity();
+        entity.setId(event.getId().toString());
         entity.setAwxOrganizationEntity(awxOrganizationEntity);
-        entity.setNotificationId(request.getNotificationId());
-        entity.setName(request.getName());
-        entity.setDescription(request.getDescription());
-        entity.setNotificationType(request.getNotificationType());
-        entity.setWebhookCallBackUrl(request.getWebhookCallbackUrl());
+        entity.setNotificationId(event.getNotificationId());
+        entity.setName(event.getName());
+        entity.setDescription(event.getDescription());
+        entity.setNotificationType(event.getNotificationType());
+        entity.setWebhookCallBackUrl(event.getWebhookCallBackUrl());
 
         entityManager.persist(entity);
 

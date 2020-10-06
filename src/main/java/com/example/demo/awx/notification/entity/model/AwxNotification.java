@@ -1,4 +1,4 @@
-package com.example.demo.awx.notification.model;
+package com.example.demo.awx.notification.entity.model;
 
 import lombok.Builder;
 import lombok.Value;

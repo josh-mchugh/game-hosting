@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-public class AwxPlaybookAggregateTest {
+public class AwxPlaybookCreateCommandTest {
 
     private FixtureConfiguration<AwxPlaybookAggregate> fixture;
 
