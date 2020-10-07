@@ -1,5 +1,7 @@
-package com.example.demo.awx.credential.service;
+package com.example.demo.awx.credential.projector;
 
+import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
+import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,10 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxCredentialsServiceExistAnyTest {
+public class AwxCredentialsProjectionExistAnyTest {
+
+    @Autowired
+    private IAwxCredentialProjector awxCredentialProjector;
 
     @Autowired
     private IAwxCredentialService awxCredentialService;
@@ -19,7 +24,7 @@ public class AwxCredentialsServiceExistAnyTest {
     @Test
     public void whenEntityDoNotExistThenExistsAnyReturnFalse() {
 
-        boolean exists = awxCredentialService.existsAny();
+        boolean exists = awxCredentialProjector.existsAny();
 
         Assertions.assertFalse(exists);
     }
@@ -27,6 +32,6 @@ public class AwxCredentialsServiceExistAnyTest {
     @Test
     public void whenCreateRequestIsNullThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () ->awxCredentialService.handleAwxCredentialCreate(null));
+        Assertions.assertThrows(NullPointerException.class, () -> awxCredentialService.handleCreated(null));
     }
 }

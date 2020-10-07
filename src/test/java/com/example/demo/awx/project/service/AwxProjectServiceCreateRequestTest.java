@@ -1,6 +1,6 @@
 package com.example.demo.awx.project.service;
 
-import com.example.demo.awx.credential.model.AwxCredential;
+import com.example.demo.awx.credential.entity.model.AwxCredential;
 import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;

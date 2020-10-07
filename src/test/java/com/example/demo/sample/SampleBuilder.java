@@ -1,8 +1,9 @@
 package com.example.demo.sample;
 
-import com.example.demo.awx.credential.model.AwxCredential;
-import com.example.demo.awx.credential.service.IAwxCredentialService;
-import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
+import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
+import com.example.demo.awx.credential.entity.AwxCredentialType;
+import com.example.demo.awx.credential.entity.model.AwxCredential;
+import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.entity.service.IAwxHostService;
@@ -46,7 +47,6 @@ import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.util.TestAwxCredentialCreateRequest;
 import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
 import com.example.demo.sample.util.TestAwxProjectCreateRequest;
@@ -408,20 +408,34 @@ public class SampleBuilder {
 
     private AwxCredential createDefaultAwxCredential() {
 
-        AwxCredentialCreateRequest request = TestAwxCredentialCreateRequest.builder()
-                .awxOrganizationId(awxOrganization)
+        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .organizationId(awxOrganization.getOrganizationId())
+                .credentialId(1L)
+                .name("Ansible")
+                .description("Ansible Credential")
+                .privateKey("private key")
+                .passphrase("passphrase")
+                .type(AwxCredentialType.MACHINE)
                 .build();
 
-        return awxCredentialService.handleAwxCredentialCreate(request);
+        return awxCredentialService.handleCreated(event);
     }
 
     private AwxCredential createGitlabCredential() {
 
-        AwxCredentialCreateRequest request = TestAwxCredentialCreateRequest.builder(TestAwxCredentialCreateRequest.Type.GITLAB)
-                .awxOrganizationId(awxOrganization)
+        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .organizationId(awxOrganization.getOrganizationId())
+                .credentialId(1L)
+                .name("Gitlab SCM")
+                .description("Gitlab SCM Credential")
+                .privateKey("private key")
+                .passphrase("passphrase")
+                .type(AwxCredentialType.SOURCE_CONTROL)
                 .build();
 
-        return awxCredentialService.handleAwxCredentialCreate(request);
+        return awxCredentialService.handleCreated(event);
     }
 
     private AwxProject createDefaultAwxProject() {

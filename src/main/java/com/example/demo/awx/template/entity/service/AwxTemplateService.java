@@ -50,7 +50,7 @@ public class AwxTemplateService implements IAwxTemplateService{
                 .fetchOne();
 
         AwxTemplateEntity entity = new AwxTemplateEntity();
-        entity.setId(event.getId().toString());
+        entity.setId(event.getId());
         entity.setAwxCredentialEntity(awxCredentialEntity);
         entity.setAwxInventoryEntity(awxInventory);
         entity.setAwxPlayBookEntity(awxPlayBookEntity);
