@@ -1,7 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.credential.model.AwxCredential;
-import com.example.demo.awx.credential.service.IAwxCredentialService;
+import com.example.demo.awx.credential.entity.model.AwxCredential;
+import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
+import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.notification.NotificationClient;
 import com.example.demo.awx.feign.notification.model.NotificationApi;
@@ -30,7 +31,7 @@ import java.util.UUID;
 public class AwxProjectSeedService implements ISeedService<AwxProject> {
 
     private final AwxConfig awxConfig;
-    private final IAwxCredentialService awxCredentialService;
+    private final IAwxCredentialProjector awxCredentialProjector;
     private final IAwxProjectService awxProjectService;
     private final ProjectClient projectClient;
     private final NotificationClient notificationClient;
@@ -104,7 +105,7 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
 
     private ProjectApi createProjectApi() {
 
-        AwxCredential awxCredential = awxCredentialService.getByName(awxConfig.getProject().getCredentialName());
+        AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
 
         ProjectCreateApi projectCreateApi = ProjectCreateApi.builder()
                 .credentialId(awxCredential.getCredentialId())

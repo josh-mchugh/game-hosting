@@ -34,7 +34,7 @@ public class AwxPlaybookService implements IAwxPlaybookService {
                 .fetchOne();
 
         AwxPlayBookEntity entity = new AwxPlayBookEntity();
-        entity.setId(event.getId().toString());
+        entity.setId(event.getId());
         entity.setAwxProjectEntity(awxProjectEntity);
         entity.setName(event.getName());
         entity.setType(event.getType());

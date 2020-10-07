@@ -1,7 +1,6 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
-import com.example.demo.awx.credential.model.AwxCredential;
 import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.credential.CredentialClient;
 import com.example.demo.awx.feign.credential.model.CredentialApi;
@@ -89,7 +88,7 @@ public class AwxCredentialSeedServiceTest {
                 .thenReturn(firstCredentialApi)
                 .thenReturn(secondCredentialApi);
 
-        ImmutableList<AwxCredential> awxCredentials = awxCredentialSeedService.initializeData();
+        ImmutableList<Object> awxCredentials = awxCredentialSeedService.initializeData();
 
         Assertions.assertEquals(2, awxCredentials.size());
     }
@@ -119,7 +118,7 @@ public class AwxCredentialSeedServiceTest {
 
         Mockito.when(credentialClient.getCredentials(Mockito.anyLong())).thenReturn(credentialApiList);
 
-        ImmutableList<AwxCredential> awxCredentials = awxCredentialSeedService.initializeData();
+        ImmutableList<Object> awxCredentials = awxCredentialSeedService.initializeData();
 
         Assertions.assertEquals(2, awxCredentials.size());
     }

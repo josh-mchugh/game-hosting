@@ -17,6 +17,7 @@ public class AwxNotificationAggregate {
 
     @AggregateIdentifier
     private UUID id;
+    //TODO: Change to use AwxOrganization id instead of organizationId
     private Long awxOrganizationId;
     private Long notificationId;
     private String name;

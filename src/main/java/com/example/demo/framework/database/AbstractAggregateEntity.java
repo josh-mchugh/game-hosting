@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -44,4 +45,19 @@ public class AbstractAggregateEntity {
     @LastModifiedDate
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
+
+    public void setId(String id) {
+
+        this.id = id;
+    }
+
+    public void setId(UUID id) {
+
+        this.id = id.toString();
+    }
+
+    public UUID getUUID() {
+
+        return UUID.fromString(id);
+    }
 }

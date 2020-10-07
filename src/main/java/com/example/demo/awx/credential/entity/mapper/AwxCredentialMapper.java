@@ -1,7 +1,7 @@
-package com.example.demo.awx.credential.mapper;
+package com.example.demo.awx.credential.entity.mapper;
 
 import com.example.demo.awx.credential.entity.AwxCredentialEntity;
-import com.example.demo.awx.credential.model.AwxCredential;
+import com.example.demo.awx.credential.entity.model.AwxCredential;
 
 public class AwxCredentialMapper {
 

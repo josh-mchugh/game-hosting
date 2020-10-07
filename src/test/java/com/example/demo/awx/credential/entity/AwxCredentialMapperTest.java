@@ -1,8 +1,7 @@
-package com.example.demo.awx.credential.mapper;
+package com.example.demo.awx.credential.entity;
 
-import com.example.demo.awx.credential.entity.AwxCredentialEntity;
-import com.example.demo.awx.credential.entity.AwxCredentialType;
-import com.example.demo.awx.credential.model.AwxCredential;
+import com.example.demo.awx.credential.entity.mapper.AwxCredentialMapper;
+import com.example.demo.awx.credential.entity.model.AwxCredential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

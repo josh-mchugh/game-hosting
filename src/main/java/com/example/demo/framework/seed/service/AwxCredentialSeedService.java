@@ -1,8 +1,7 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.credential.model.AwxCredential;
-import com.example.demo.awx.credential.service.IAwxCredentialService;
-import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
+import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateCommand;
+import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import com.example.demo.awx.feign.credential.CredentialClient;
 import com.example.demo.awx.feign.credential.model.CredentialApi;
 import com.example.demo.awx.feign.credential.model.CredentialCreateApi;
@@ -10,33 +9,36 @@ import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
+public class AwxCredentialSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxCredentialService awxCredentialService;
+    private final IAwxCredentialProjector awxCredentialProjector;
     private final CredentialClient credentialClient;
+    private final CommandGateway commandGateway;
 
     @Override
     public boolean dataNotExists() {
 
-        return !awxCredentialService.existsAny();
+        return !awxCredentialProjector.existsAny();
     }
 
     @Override
-    public ImmutableList<AwxCredential> initializeData() {
+    public ImmutableList<Object> initializeData() {
 
         List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
         List<CredentialApi> credentialApis = credentialClient.getCredentials(awxConfig.getOrganization().getId()).getResults();
 
-        List<AwxCredential> awxCredentials = new ArrayList<>();
+        List<Object> awxCredentials = new ArrayList<>();
 
         for(AwxConfig.Credential credential : credentials) {
 
@@ -69,19 +71,6 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
         return 8;
     }
 
-    private AwxCredentialCreateRequest buildCredentialCreateRequest(CredentialApi credentialApi, AwxConfig.Credential credential) {
-
-        return AwxCredentialCreateRequest.builder()
-                .credentialId(credentialApi.getId())
-                .name(credentialApi.getName())
-                .description(credentialApi.getDescription())
-                .privateKey(credential.getPrivateKey().replace("\\n", "\n"))
-                .passphrase(credential.getPassphrase())
-                .organizationId(credentialApi.getOrganizationId())
-                .type(credentialApi.getCredentialType())
-                .build();
-    }
-
     private CredentialCreateApi.Input createCredentialApiInputs(AwxConfig.Credential credential) {
 
         return CredentialCreateApi.Input.builder()
@@ -104,10 +93,19 @@ public class AwxCredentialSeedService implements ISeedService<AwxCredential> {
         return credentialClient.createCredential(awxConfig.getOrganization().getId(), createCredentialApiRequest(credential));
     }
 
-    private AwxCredential createAwxCredential(CredentialApi credentialApi, AwxConfig.Credential credential) {
+    private Object createAwxCredential(CredentialApi credentialApi, AwxConfig.Credential credential) {
 
-        AwxCredentialCreateRequest request = buildCredentialCreateRequest(credentialApi, credential);
+        AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .organizationId(credentialApi.getOrganizationId())
+                .credentialId(credentialApi.getId())
+                .name(credentialApi.getName())
+                .description(credentialApi.getDescription())
+                .privateKey(credential.getPrivateKey().replace("\\n", "\n"))
+                .passphrase(credential.getPassphrase())
+                .type(credential.getType())
+                .build();
 
-        return awxCredentialService.handleAwxCredentialCreate(request);
+        return commandGateway.sendAndWait(command);
     }
 }
