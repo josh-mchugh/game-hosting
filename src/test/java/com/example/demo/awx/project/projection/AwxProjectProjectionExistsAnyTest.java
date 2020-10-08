@@ -1,5 +1,6 @@
-package com.example.demo.awx.project.service;
+package com.example.demo.awx.project.projection;
 
+import com.example.demo.awx.project.entity.service.IAwxProjectService;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,13 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxProjectServiceExistsAnyTest {
+public class AwxProjectProjectionExistsAnyTest {
 
     @Autowired
     private IAwxProjectService awxProjectService;
+
+    @Autowired
+    private IAwxProjectProjector awxProjectProjector;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -29,12 +33,12 @@ public class AwxProjectServiceExistsAnyTest {
                 .awxProject()
                 .build();
 
-        Assertions.assertTrue(awxProjectService.existsAny());
+        Assertions.assertTrue(awxProjectProjector.existsAny());
     }
 
     @Test
     public void whenEntityDoesNotExitThenExitsAnyReturnFalse() {
 
-        Assertions.assertFalse(awxProjectService.existsAny());
+        Assertions.assertFalse(awxProjectProjector.existsAny());
     }
 }

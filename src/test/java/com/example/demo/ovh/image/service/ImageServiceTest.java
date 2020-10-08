@@ -120,12 +120,9 @@ public class ImageServiceTest {
                 .build();
         Image image = imageService.handleImageCreate(imageCreateRequest);
 
-        RegionCreateRequest updateRegionCreateRequest = TestRegionCreateRequest.builder(TestRegionCreateRequest.Type.US_EAST_VA).build();
-        Region updatedRegion = regionService.handleRegionCreate(updateRegionCreateRequest);
-
         ImageUpdateRequest imageUpdateRequest = ImageUpdateRequest.builder()
                 .imageId("new-image-id")
-                .regionName(updatedRegion.getName())
+                .regionName(region.getName())
                 .name(image.getName())
                 .imageCreatedDate(LocalDateTime.now())
                 .flavorType(null)

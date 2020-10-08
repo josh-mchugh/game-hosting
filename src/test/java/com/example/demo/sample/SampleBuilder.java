@@ -20,9 +20,9 @@ import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
 import com.example.demo.awx.playbook.entity.PlaybookType;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.playbook.entity.service.IAwxPlaybookService;
-import com.example.demo.awx.project.model.AwxProject;
-import com.example.demo.awx.project.service.IAwxProjectService;
-import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
+import com.example.demo.awx.project.aggregate.event.AwxProjectCreatedEvent;
+import com.example.demo.awx.project.entity.model.AwxProject;
+import com.example.demo.awx.project.entity.service.IAwxProjectService;
 import com.example.demo.awx.template.aggregate.event.AwxTemplateCreatedEvent;
 import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;
@@ -48,7 +48,6 @@ import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
-import com.example.demo.sample.util.TestAwxProjectCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.example.demo.sample.util.TestGameCreateRequest;
@@ -439,12 +438,19 @@ public class SampleBuilder {
 
     private AwxProject createDefaultAwxProject() {
 
-        AwxProjectCreateRequest request = TestAwxProjectCreateRequest.builder()
-                .awxOrganizationId(awxOrganization.getOrganizationId())
-                .awxCredentialId(awxCredential.getCredentialId())
+        AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .organizationId(awxOrganization.getOrganizationId())
+                .awxCredentialId(awxCredential.getId())
+                .projectId(1L)
+                .name("Game Hosting Project")
+                .description("Game Hosting Project")
+                .scmType("git")
+                .scmBranch("master")
+                .scmUrl("url")
                 .build();
 
-        return awxProjectService.handleCreateRequest(request);
+        return awxProjectService.handleCreated(event);
     }
 
     private AwxPlaybook createDefaultAwxPlaybook() {

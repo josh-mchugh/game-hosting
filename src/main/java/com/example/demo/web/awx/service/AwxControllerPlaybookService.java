@@ -3,8 +3,8 @@ package com.example.demo.web.awx.service;
 import com.example.demo.awx.feign.playbook.PlaybookClient;
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
 import com.example.demo.awx.playbook.projection.IAwxPlaybookProjector;
-import com.example.demo.awx.project.model.AwxProject;
-import com.example.demo.awx.project.service.IAwxProjectService;
+import com.example.demo.awx.project.entity.model.AwxProject;
+import com.example.demo.awx.project.projection.IAwxProjectProjector;
 import com.example.demo.web.awx.service.model.PlaybookCreateRequest;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AwxControllerPlaybookService implements IAwxControllerPlaybookService {
 
-    private final IAwxProjectService awxProjectService;
+    private final IAwxProjectProjector awxProjectProjector;
     private final IAwxPlaybookProjector awxPlaybookProjector;
     private final PlaybookClient playbookClient;
     private final CommandGateway commandGateway;
@@ -39,7 +39,7 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
 
         log.info("Retrieving Playbooks from AWX...");
 
-        AwxProject awxProject = awxProjectService.getByProjectId(request.getProjectId());
+        AwxProject awxProject = awxProjectProjector.getByProjectId(request.getProjectId());
 
         List<Object> awxPlaybooks = playbookClient.getPlaybooks(awxProject.getProjectId()).stream()
                 .map(playbook ->buildAwxPlaybookCreateCommand(playbook, awxProject.getId()))

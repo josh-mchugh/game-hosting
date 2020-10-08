@@ -1,7 +1,6 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.credential.entity.model.AwxCredential;
-import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
 import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.notification.NotificationClient;
@@ -12,9 +11,9 @@ import com.example.demo.awx.feign.project.ProjectClient;
 import com.example.demo.awx.feign.project.model.ProjectApi;
 import com.example.demo.awx.feign.project.model.ProjectCreateApi;
 import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
-import com.example.demo.awx.project.model.AwxProject;
-import com.example.demo.awx.project.service.IAwxProjectService;
-import com.example.demo.awx.project.service.model.AwxProjectCreateRequest;
+import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
+import com.example.demo.awx.project.entity.service.IAwxProjectService;
+import com.example.demo.awx.project.projection.IAwxProjectProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
@@ -28,10 +27,11 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class AwxProjectSeedService implements ISeedService<AwxProject> {
+public class AwxProjectSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final IAwxCredentialProjector awxCredentialProjector;
+    private final IAwxProjectProjector awxProjectProjector;
     private final IAwxProjectService awxProjectService;
     private final ProjectClient projectClient;
     private final NotificationClient notificationClient;
@@ -40,11 +40,11 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
     @Override
     public boolean dataNotExists() {
 
-        return !awxProjectService.existsAny();
+        return !awxProjectProjector.existsAny();
     }
 
     @Override
-    public ImmutableList<AwxProject> initializeData() {
+    public ImmutableList<Object> initializeData() {
 
         ListResponse<ProjectApi> projectApis = projectClient.getProjects(awxConfig.getOrganization().getId());
 
@@ -54,10 +54,12 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
 
         if(projectApi.isPresent()) {
 
-            AwxProjectCreateRequest request = createAwxProjectRequest(projectApi.get());
-            AwxProject awxProject = awxProjectService.handleCreateRequest(request);
+            AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
 
-            return ImmutableList.of(awxProject);
+            AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredential, projectApi.get());
+            UUID awxProjectId = commandGateway.sendAndWait(createCommand);
+
+            return ImmutableList.of(awxProjectId);
         }
 
         return ImmutableList.of(createNewAwxProject());
@@ -75,18 +77,20 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
         return 9;
     }
 
-    private AwxProject createNewAwxProject() {
+    private UUID createNewAwxProject() {
+
+        AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
 
         // Create Project in AWX
-        ProjectApi api = createProjectApi();
+        ProjectApi api = createProjectApi(awxCredential);
 
         // Persist AwxProject
-        AwxProjectCreateRequest request = createAwxProjectRequest(api);
-        AwxProject awxProject = awxProjectService.handleCreateRequest(request);
+        AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredential, api);
+        UUID projectId = commandGateway.sendAndWait(projectCreateCommand);
 
         // Create Notification for success in AWX
-        NotificationCreateApi notificationCreateApi = buildNotificationCreateApi(awxProject);
-        NotificationApi notificationApi = notificationClient.createSuccessNotificationForProject(awxProject.getProjectId(), notificationCreateApi);
+        NotificationCreateApi notificationCreateApi = buildNotificationCreateApi(api);
+        NotificationApi notificationApi = notificationClient.createSuccessNotificationForProject(api.getId(), notificationCreateApi);
 
         // Persist AwxNotification
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
@@ -100,12 +104,10 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
                 .build();
         commandGateway.send(command);
 
-        return awxProject;
+        return projectId;
     }
 
-    private ProjectApi createProjectApi() {
-
-        AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
+    private ProjectApi createProjectApi(AwxCredential awxCredential) {
 
         ProjectCreateApi projectCreateApi = ProjectCreateApi.builder()
                 .credentialId(awxCredential.getCredentialId())
@@ -119,11 +121,12 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
         return projectClient.createProject(awxConfig.getOrganization().getId(), projectCreateApi);
     }
 
-    private AwxProjectCreateRequest createAwxProjectRequest(ProjectApi projectApi) {
+    private AwxProjectCreateCommand createAwxProjectRequest(AwxCredential awxCredential, ProjectApi projectApi) {
 
-        return AwxProjectCreateRequest.builder()
+        return AwxProjectCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .organizationId(projectApi.getOrganizationId())
-                .credentialId(projectApi.getCredentialId())
+                .awxCredentialId(awxCredential.getId())
                 .projectId(projectApi.getId())
                 .name(projectApi.getName())
                 .description(projectApi.getDescription())
@@ -131,16 +134,17 @@ public class AwxProjectSeedService implements ISeedService<AwxProject> {
                 .scmBranch(projectApi.getScmBranch())
                 .scmUrl(projectApi.getScmUrl())
                 .build();
+
     }
 
-    private NotificationCreateApi buildNotificationCreateApi(AwxProject awxProject) {
+    private NotificationCreateApi buildNotificationCreateApi(ProjectApi projectApi) {
 
         String url = UriComponentsBuilder.fromHttpUrl(awxConfig.getNotificationBaseUrl())
-                .path(String.format("/awx/notification/project/%s/success", awxProject.getProjectId()))
+                .path(String.format("/awx/notification/project/%s/success", projectApi.getId()))
                 .toUriString();
 
         return NotificationCreateApi.builder()
-                .name(String.format("Project - %s - %s", awxProject.getName(), awxProject.getProjectId()))
+                .name(String.format("Project - %s - %s", projectApi.getName(), projectApi.getId()))
                 .notificationConfiguration(new NotificationConfiguration(url))
                 .notificationType("webhook")
                 .organizationId(awxConfig.getOrganization().getId())
