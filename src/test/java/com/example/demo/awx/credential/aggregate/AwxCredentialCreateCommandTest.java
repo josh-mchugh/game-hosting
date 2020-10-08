@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AwxCredentialCreateCommandTest {
 
     @Autowired
-    private StringEncryptor stringEncryptor;
+    private StringEncryptor encryptor;
 
     private FixtureConfiguration<AwxCredentialAggregate> fixture;
 
@@ -29,7 +29,7 @@ public class AwxCredentialCreateCommandTest {
 
         fixture = new AggregateTestFixture<>(AwxCredentialAggregate.class)
                 .registerCommandHandlerInterceptor(new BeanValidationInterceptor<>())
-                .registerInjectableResource(stringEncryptor);
+                .registerInjectableResource(encryptor);
     }
 
     @Test

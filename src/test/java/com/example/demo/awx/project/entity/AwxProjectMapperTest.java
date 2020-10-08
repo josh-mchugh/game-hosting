@@ -1,7 +1,7 @@
-package com.example.demo.awx.project.mapper;
+package com.example.demo.awx.project.entity;
 
-import com.example.demo.awx.project.entity.AwxProjectEntity;
-import com.example.demo.awx.project.model.AwxProject;
+import com.example.demo.awx.project.entity.mapper.AwxProjectMapper;
+import com.example.demo.awx.project.entity.model.AwxProject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

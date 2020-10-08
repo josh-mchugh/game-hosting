@@ -6,7 +6,6 @@ import com.example.demo.awx.feign.notification.model.NotificationApi;
 import com.example.demo.awx.feign.notification.model.NotificationConfiguration;
 import com.example.demo.awx.feign.project.ProjectClient;
 import com.example.demo.awx.feign.project.model.ProjectApi;
-import com.example.demo.awx.project.model.AwxProject;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.google.common.collect.ImmutableList;
@@ -78,7 +77,7 @@ public class AwxProjectSeedServiceTest {
 
         Mockito.when(projectClient.getProjects(Mockito.anyLong())).thenReturn(clientResponse);
 
-        ImmutableList<AwxProject> awxProjects = awxProjectSeedService.initializeData();
+        ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 
         Assertions.assertEquals(1, awxProjects.size());
     }
@@ -126,7 +125,7 @@ public class AwxProjectSeedServiceTest {
 
         Mockito.when(notificationClient.createSuccessNotificationForProject(Mockito.anyLong(), Mockito.any())).thenReturn(notificationApi);
 
-        ImmutableList<AwxProject> awxProjects = awxProjectSeedService.initializeData();
+        ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 
         Assertions.assertEquals(1, awxProjects.size());
     }

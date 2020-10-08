@@ -1,4 +1,4 @@
-package com.example.demo.awx.project.model;
+package com.example.demo.awx.project.entity.model;
 
 import lombok.Builder;
 import lombok.Value;
