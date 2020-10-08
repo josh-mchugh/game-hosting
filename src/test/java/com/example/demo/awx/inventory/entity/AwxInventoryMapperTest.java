@@ -1,7 +1,7 @@
-package com.example.demo.awx.inventory.mapper;
+package com.example.demo.awx.inventory.entity;
 
-import com.example.demo.awx.inventory.entity.AwxInventoryEntity;
-import com.example.demo.awx.inventory.model.AwxInventory;
+import com.example.demo.awx.inventory.entity.mapper.AwxInventoryMapper;
+import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

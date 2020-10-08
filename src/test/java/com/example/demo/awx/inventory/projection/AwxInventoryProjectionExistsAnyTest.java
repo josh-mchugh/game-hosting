@@ -1,4 +1,4 @@
-package com.example.demo.awx.inventory.service;
+package com.example.demo.awx.inventory.projection;
 
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -12,10 +12,10 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxInventoryServiceExistsAnyTest {
+public class AwxInventoryProjectionExistsAnyTest {
 
     @Autowired
-    private IAwxInventoryService awxInventoryService;
+    private IAwxInventoryProjector awxInventoryProjector;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -28,12 +28,12 @@ public class AwxInventoryServiceExistsAnyTest {
                 .awxInventory()
                 .build();
 
-        Assertions.assertTrue(awxInventoryService.existsAny());
+        Assertions.assertTrue(awxInventoryProjector.existsAny());
     }
 
     @Test
     public void whenEntitiesDoesNotExistThenExistsAnyReturnFalse() {
 
-        Assertions.assertFalse(awxInventoryService.existsAny());
+        Assertions.assertFalse(awxInventoryProjector.existsAny());
     }
 }

@@ -3,7 +3,6 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.inventory.InventoryClient;
 import com.example.demo.awx.feign.inventory.model.InventoryApi;
-import com.example.demo.awx.inventory.model.AwxInventory;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
@@ -66,7 +65,7 @@ public class AwxInventorySeedServiceTest {
 
         Mockito.when(inventoryClient.createInventory(Mockito.any())).thenReturn(inventoryApi);
 
-        ImmutableList<AwxInventory> awxInventories = awxInventorySeedService.initializeData();
+        ImmutableList<Object> awxInventories = awxInventorySeedService.initializeData();
 
         Assertions.assertEquals(1L, awxInventories.size());
     }
@@ -107,7 +106,7 @@ public class AwxInventorySeedServiceTest {
 
         Mockito.when(inventoryClient.getInventories(Mockito.anyLong())).thenReturn(listResponse);
 
-        ImmutableList<AwxInventory> awxInventories = awxInventorySeedService.initializeData();
+        ImmutableList<Object> awxInventories = awxInventorySeedService.initializeData();
 
         Assertions.assertEquals(1, awxInventories.size());
     }

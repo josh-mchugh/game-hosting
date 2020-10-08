@@ -8,6 +8,7 @@ import com.example.demo.ovh.image.service.model.ImageCreateRequest;
 import com.example.demo.ovh.image.service.model.ImageUpdateRequest;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -87,7 +88,7 @@ public class ImageService implements IImageService {
                 .where(qRegion.name.eq(request.getRegionName()))
                 .fetchOne();
 
-        ImageEntity entity = getByName(request.getName());
+        ImageEntity entity = getByNameAndRegionId(request.getName(), regionEntity.getId());
         entity.setImageId(request.getImageId());
         entity.setRegionEntity(regionEntity);
         entity.setName(request.getName());
@@ -108,12 +109,19 @@ public class ImageService implements IImageService {
         return ImageMapper.map(entity);
     }
 
-    private ImageEntity getByName(String name) {
+    private ImageEntity getByNameAndRegionId(String name, String regionId) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
+        QRegionEntity qRegion = QRegionEntity.regionEntity;
 
-        return queryFactory.selectFrom(qImage)
-                .where(qImage.name.eq(name))
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(qImage.name.eq(name));
+        predicate.and(qRegion.id.eq(regionId));
+
+        return queryFactory.select(qImage)
+                .from(qImage)
+                .innerJoin(qImage.regionEntity, qRegion)
+                .where(predicate)
                 .fetchOne();
     }
 }

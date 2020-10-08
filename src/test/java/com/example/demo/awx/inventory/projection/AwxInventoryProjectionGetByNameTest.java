@@ -1,6 +1,6 @@
-package com.example.demo.awx.inventory.service;
+package com.example.demo.awx.inventory.projection;
 
-import com.example.demo.awx.inventory.model.AwxInventory;
+import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,10 +13,10 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxInventoryServiceGetByNameTest {
+public class AwxInventoryProjectionGetByNameTest {
 
     @Autowired
-    private IAwxInventoryService awxInventoryService;
+    private IAwxInventoryProjector awxInventoryProjector;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -28,7 +28,7 @@ public class AwxInventoryServiceGetByNameTest {
                 .awxOrganization()
                 .awxInventory();
 
-        AwxInventory awxInventory = awxInventoryService.findByName("Default");
+        AwxInventory awxInventory = awxInventoryProjector.findByName("Default");
 
         Assertions.assertNotNull(awxInventory);
     }
@@ -36,7 +36,7 @@ public class AwxInventoryServiceGetByNameTest {
     @Test
     public void whenFindByNameIsNotValidReturnNull() {
 
-        AwxInventory awxInventory = awxInventoryService.findByName("Default");
+        AwxInventory awxInventory = awxInventoryProjector.findByName("Default");
 
         Assertions.assertNull(awxInventory);
     }
@@ -44,6 +44,6 @@ public class AwxInventoryServiceGetByNameTest {
     @Test
     public void whenFindByNameHasNullParamThenThrowException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxInventoryService.findByName(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> awxInventoryProjector.findByName(null));
     }
 }
