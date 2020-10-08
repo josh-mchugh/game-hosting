@@ -1,4 +1,4 @@
-package com.example.demo.awx.inventory.service.model;
+package com.example.demo.awx.inventory.entity.service.model;
 
 import lombok.Builder;
 import lombok.Value;

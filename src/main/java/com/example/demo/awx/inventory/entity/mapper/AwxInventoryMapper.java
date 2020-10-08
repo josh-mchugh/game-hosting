@@ -1,7 +1,7 @@
-package com.example.demo.awx.inventory.mapper;
+package com.example.demo.awx.inventory.entity.mapper;
 
 import com.example.demo.awx.inventory.entity.AwxInventoryEntity;
-import com.example.demo.awx.inventory.model.AwxInventory;
+import com.example.demo.awx.inventory.entity.model.AwxInventory;
 
 public class AwxInventoryMapper {
 

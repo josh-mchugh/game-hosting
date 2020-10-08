@@ -7,9 +7,9 @@ import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.entity.service.IAwxHostService;
-import com.example.demo.awx.inventory.model.AwxInventory;
-import com.example.demo.awx.inventory.service.IAwxInventoryService;
-import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
+import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
+import com.example.demo.awx.inventory.entity.model.AwxInventory;
+import com.example.demo.awx.inventory.entity.service.IAwxInventoryService;
 import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.notification.entity.service.IAwxNotificationService;
@@ -47,7 +47,6 @@ import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.util.TestAwxInventoryCreateRequest;
 import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
 import com.example.demo.sample.util.TestAwxProjectCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
@@ -462,11 +461,15 @@ public class SampleBuilder {
 
     private AwxInventory createDefaultAwxInventory() {
 
-        AwxInventoryCreateRequest request = TestAwxInventoryCreateRequest.builder()
-                .organization(awxOrganization)
+        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .organizationId(awxOrganization.getOrganizationId())
+                .inventoryId(1L)
+                .name("Default")
+                .description("Default Inventory")
                 .build();
 
-        return awxInventoryService.handleCreateRequest(request);
+        return awxInventoryService.handleCreated(event);
     }
 
     private AwxHost createDefaultAwxHost() {

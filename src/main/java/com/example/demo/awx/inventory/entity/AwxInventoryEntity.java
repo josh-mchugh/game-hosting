@@ -2,7 +2,7 @@ package com.example.demo.awx.inventory.entity;
 
 import com.example.demo.awx.host.entity.AwxHostEntity;
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "awx_inventory")
-public class AwxInventoryEntity extends AbstractEntity {
+public class AwxInventoryEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "awx_organization_id", nullable = false)

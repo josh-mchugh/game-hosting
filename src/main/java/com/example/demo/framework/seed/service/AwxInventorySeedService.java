@@ -4,33 +4,35 @@ import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.inventory.InventoryClient;
 import com.example.demo.awx.feign.inventory.model.InventoryApi;
 import com.example.demo.awx.feign.inventory.model.InventoryCreateApi;
-import com.example.demo.awx.inventory.model.AwxInventory;
-import com.example.demo.awx.inventory.service.AwxInventoryService;
-import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
+import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateCommand;
+import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class AwxInventorySeedService implements ISeedService<AwxInventory> {
+public class AwxInventorySeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final AwxInventoryService awxInventoryService;
+    private final IAwxInventoryProjector awxInventoryProjector;
     private final InventoryClient inventoryClient;
+    private final CommandGateway commandGateway;
 
     @Override
     public boolean dataNotExists() {
 
-        return !awxInventoryService.existsAny();
+        return !awxInventoryProjector.existsAny();
     }
 
     @Override
-    public ImmutableList<AwxInventory> initializeData() {
+    public ImmutableList<Object> initializeData() {
 
         ListResponse<InventoryApi> inventoryApiListResponse = inventoryClient.getInventories(awxConfig.getOrganization().getId());
 
@@ -59,7 +61,7 @@ public class AwxInventorySeedService implements ISeedService<AwxInventory> {
         return 10;
     }
 
-    private AwxInventory createNewAwxInventory() {
+    private Object createNewAwxInventory() {
 
         InventoryApi inventoryApi = createInventoryApi();
 
@@ -77,15 +79,16 @@ public class AwxInventorySeedService implements ISeedService<AwxInventory> {
         return inventoryClient.createInventory(inventoryCreateApi);
     }
 
-    private AwxInventory createAwxInventory(InventoryApi inventoryApi) {
+    private Object createAwxInventory(InventoryApi inventoryApi) {
 
-        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
+        AwxInventoryCreateCommand event = AwxInventoryCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .organizationId(inventoryApi.getOrganizationId())
+                .inventoryId(inventoryApi.getId())
                 .name(inventoryApi.getName())
                 .description(inventoryApi.getDescription())
-                .inventoryId(inventoryApi.getId())
                 .build();
 
-        return awxInventoryService.handleCreateRequest(request);
+        return commandGateway.sendAndWait(event);
     }
 }

@@ -4,8 +4,8 @@ import com.example.demo.awx.feign.host.HostClient;
 import com.example.demo.awx.feign.host.model.HostApi;
 import com.example.demo.awx.feign.host.model.HostCreateApi;
 import com.example.demo.awx.host.aggregate.command.AwxHostCreateCommand;
-import com.example.demo.awx.inventory.model.AwxInventory;
-import com.example.demo.awx.inventory.service.IAwxInventoryService;
+import com.example.demo.awx.inventory.entity.model.AwxInventory;
+import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.security.session.ISessionUtil;
@@ -68,7 +68,7 @@ public class DashboardService implements IDashboardService {
     private final InstanceClient instanceClient;
     private final InstanceGroupClient instanceGroupClient;
     private final HostClient hostClient;
-    private final IAwxInventoryService awxInventoryService;
+    private final IAwxInventoryProjector awxInventoryProjector;
     private final OvhConfig ovhConfig;
     private final AwxConfig awxConfig;
     private final JPQLQueryFactory queryFactory;
@@ -170,7 +170,7 @@ public class DashboardService implements IDashboardService {
         instance = handleInstanceActiveUpdate(instance, activeInstanceApi);
 
         log.info("Retrieving AWX Inventory Information...");
-        AwxInventory awxInventory = awxInventoryService.findByName(awxConfig.getInventory().getName());
+        AwxInventory awxInventory = awxInventoryProjector.findByName(awxConfig.getInventory().getName());
 
         log.info("Calling AWX Host to create awx host....");
         HostApi hostApi = createHostApi(awxInventory, instance);
