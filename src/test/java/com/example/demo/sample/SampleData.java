@@ -4,7 +4,7 @@ import com.example.demo.awx.credential.entity.model.AwxCredential;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.awx.template.entity.model.AwxTemplate;

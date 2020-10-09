@@ -1,12 +1,13 @@
-package com.example.demo.awx.organization.service.model;
+package com.example.demo.awx.organization.entity.model;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class AwxOrganizationCreateRequest {
+public class AwxOrganization {
 
+    String id;
     Long organizationId;
     String name;
     String description;

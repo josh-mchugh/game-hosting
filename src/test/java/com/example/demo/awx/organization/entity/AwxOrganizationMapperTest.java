@@ -1,7 +1,7 @@
-package com.example.demo.awx.organization.mapper;
+package com.example.demo.awx.organization.entity;
 
-import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.mapper.AwxOrganizationMapper;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

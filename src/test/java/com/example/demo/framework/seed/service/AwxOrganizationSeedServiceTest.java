@@ -3,7 +3,6 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.organization.OrganizationClient;
 import com.example.demo.awx.feign.organization.model.OrganizationApi;
-import com.example.demo.awx.organization.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
@@ -81,7 +80,7 @@ public class AwxOrganizationSeedServiceTest {
 
         Mockito.when(organizationClient.getOrganizations()).thenReturn(clientResponse);
 
-        ImmutableList<AwxOrganization> organizations = awxOrganizationSeedService.initializeData();
+        ImmutableList<Object> organizations = awxOrganizationSeedService.initializeData();
 
         Assertions.assertEquals(1, organizations.size());
     }

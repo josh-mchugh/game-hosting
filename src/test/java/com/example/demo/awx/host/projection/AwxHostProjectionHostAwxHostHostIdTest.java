@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxHostProjectorHostAwxHostHostIdTest {
+public class AwxHostProjectionHostAwxHostHostIdTest {
 
     @Autowired
     private IAwxHostProjector awxHostProjector;

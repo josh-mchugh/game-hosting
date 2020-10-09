@@ -13,9 +13,9 @@ import com.example.demo.awx.inventory.entity.service.IAwxInventoryService;
 import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.notification.entity.service.IAwxNotificationService;
-import com.example.demo.awx.organization.model.AwxOrganization;
-import com.example.demo.awx.organization.service.IAwxOrganizationService;
-import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
+import com.example.demo.awx.organization.aggregate.event.AwxOrganizationCreatedEvent;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.service.IAwxOrganizationService;
 import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
 import com.example.demo.awx.playbook.entity.PlaybookType;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
@@ -47,7 +47,6 @@ import com.example.demo.ovh.region.service.IRegionService;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.util.TestAwxOrganizationCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.example.demo.sample.util.TestGameCreateRequest;
@@ -399,9 +398,14 @@ public class SampleBuilder {
 
     private AwxOrganization createDefaultAwxOrganization() {
 
-        AwxOrganizationCreateRequest request = TestAwxOrganizationCreateRequest.createDefault();
+        AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .organizationId(1L)
+                .name("Game Hosting Service")
+                .description("organization description")
+                .build();
 
-        return awxOrganizationService.handleOrganizationCreate(request);
+        return awxOrganizationService.handleCreated(event);
     }
 
     private AwxCredential createDefaultAwxCredential() {

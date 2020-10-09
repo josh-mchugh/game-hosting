@@ -3,7 +3,7 @@ package com.example.demo.awx.credential.entity;
 import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
 import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

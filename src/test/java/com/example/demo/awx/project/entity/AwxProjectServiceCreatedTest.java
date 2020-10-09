@@ -20,7 +20,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxProjectServiceCreateRequestTest {
+public class AwxProjectServiceCreatedTest {
 
     @Autowired
     private IAwxProjectService awxProjectService;

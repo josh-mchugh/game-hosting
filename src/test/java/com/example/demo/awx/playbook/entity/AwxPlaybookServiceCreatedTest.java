@@ -19,7 +19,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxPlaybookServiceCreateRequestTest {
+public class AwxPlaybookServiceCreatedTest {
 
     @Autowired
     private IAwxPlaybookService awxPlaybookService;

@@ -4,7 +4,7 @@ import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.feign.common.ListResponse;
 import com.example.demo.awx.feign.credential.CredentialClient;
 import com.example.demo.awx.feign.credential.model.CredentialApi;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
