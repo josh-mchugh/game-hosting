@@ -3,7 +3,7 @@ package com.example.demo.awx.notification.entity;
 import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.notification.entity.service.IAwxNotificationService;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxNotificationServiceHandleCreatedTest {
+public class AwxNotificationServiceCreatedTest {
 
     @Autowired
     private IAwxNotificationService awxNotificationService;

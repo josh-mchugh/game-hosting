@@ -1,7 +1,7 @@
-package com.example.demo.awx.organization.mapper;
+package com.example.demo.awx.organization.entity.mapper;
 
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 
 public class AwxOrganizationMapper {
 

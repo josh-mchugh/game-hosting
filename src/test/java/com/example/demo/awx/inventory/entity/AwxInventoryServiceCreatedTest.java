@@ -3,7 +3,7 @@ package com.example.demo.awx.inventory.entity;
 import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.awx.inventory.entity.service.IAwxInventoryService;
-import com.example.demo.awx.organization.model.AwxOrganization;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

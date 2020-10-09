@@ -12,7 +12,6 @@ import com.example.demo.awx.feign.project.model.ProjectApi;
 import com.example.demo.awx.feign.project.model.ProjectCreateApi;
 import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
 import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
-import com.example.demo.awx.project.entity.service.IAwxProjectService;
 import com.example.demo.awx.project.projection.IAwxProjectProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
@@ -30,11 +29,10 @@ import java.util.UUID;
 public class AwxProjectSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxCredentialProjector awxCredentialProjector;
-    private final IAwxProjectProjector awxProjectProjector;
-    private final IAwxProjectService awxProjectService;
     private final ProjectClient projectClient;
     private final NotificationClient notificationClient;
+    private final IAwxCredentialProjector awxCredentialProjector;
+    private final IAwxProjectProjector awxProjectProjector;
     private final CommandGateway commandGateway;
 
     @Override
