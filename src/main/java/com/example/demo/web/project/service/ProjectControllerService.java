@@ -1,7 +1,7 @@
 package com.example.demo.web.project.service;
 
-import com.example.demo.awx.feign.host.HostClient;
-import com.example.demo.awx.feign.host.model.HostPatchApi;
+import com.example.demo.awx.host.feign.HostClient;
+import com.example.demo.awx.host.feign.model.HostPatchApi;
 import com.example.demo.awx.host.aggregate.command.AwxHostDisableCommand;
 import com.example.demo.awx.host.aggregate.command.AwxHostEnableCommand;
 import com.example.demo.awx.host.projection.IAwxHostProjector;

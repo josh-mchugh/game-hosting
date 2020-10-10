@@ -1,7 +1,7 @@
 package com.example.demo.web.project.service;
 
-import com.example.demo.awx.feign.host.HostClient;
-import com.example.demo.awx.feign.host.model.HostApi;
+import com.example.demo.awx.host.feign.HostClient;
+import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;

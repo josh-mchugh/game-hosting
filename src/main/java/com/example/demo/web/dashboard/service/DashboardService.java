@@ -1,8 +1,8 @@
 package com.example.demo.web.dashboard.service;
 
-import com.example.demo.awx.feign.host.HostClient;
-import com.example.demo.awx.feign.host.model.HostApi;
-import com.example.demo.awx.feign.host.model.HostCreateApi;
+import com.example.demo.awx.host.feign.HostClient;
+import com.example.demo.awx.host.feign.model.HostApi;
+import com.example.demo.awx.host.feign.model.HostCreateApi;
 import com.example.demo.awx.host.aggregate.command.AwxHostCreateCommand;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;

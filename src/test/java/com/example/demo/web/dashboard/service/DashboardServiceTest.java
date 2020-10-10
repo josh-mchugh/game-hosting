@@ -1,7 +1,7 @@
 package com.example.demo.web.dashboard.service;
 
-import com.example.demo.awx.feign.host.HostClient;
-import com.example.demo.awx.feign.host.model.HostApi;
+import com.example.demo.awx.host.feign.HostClient;
+import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.feign.common.IpAddressApi;

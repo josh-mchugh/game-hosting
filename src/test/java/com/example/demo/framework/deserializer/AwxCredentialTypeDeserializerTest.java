@@ -1,7 +1,7 @@
 package com.example.demo.framework.deserializer;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
-import com.example.demo.awx.feign.credential.model.CredentialApi;
+import com.example.demo.awx.credential.feign.model.CredentialApi;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;

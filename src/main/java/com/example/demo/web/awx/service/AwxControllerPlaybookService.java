@@ -1,6 +1,6 @@
 package com.example.demo.web.awx.service;
 
-import com.example.demo.awx.feign.playbook.PlaybookClient;
+import com.example.demo.awx.playbook.feign.PlaybookClient;
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
 import com.example.demo.awx.playbook.projection.IAwxPlaybookProjector;
 import com.example.demo.awx.project.entity.model.AwxProject;

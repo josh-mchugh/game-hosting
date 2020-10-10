@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.feign.organization.OrganizationClient;
-import com.example.demo.awx.feign.organization.model.OrganizationApi;
+import com.example.demo.awx.organization.feign.OrganizationClient;
+import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.awx.organization.aggregate.command.AwxOrganizationCreateCommand;
 import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
 import com.example.demo.framework.properties.AwxConfig;
