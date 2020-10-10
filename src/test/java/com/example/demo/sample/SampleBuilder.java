@@ -28,8 +28,10 @@ import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.awx.template.entity.service.IAwxTemplateService;
-import com.example.demo.game.model.Game;
-import com.example.demo.game.service.IGameService;
+import com.example.demo.game.aggregate.event.GameCreatedEvent;
+import com.example.demo.game.entity.GameType;
+import com.example.demo.game.entity.model.Game;
+import com.example.demo.game.entity.service.IGameService;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.flavor.model.Flavor;
@@ -49,7 +51,6 @@ import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
-import com.example.demo.sample.util.TestGameCreateRequest;
 import com.example.demo.sample.util.TestImageCreateRequest;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
@@ -333,7 +334,7 @@ public class SampleBuilder {
 
     private Game createDefaultGame() {
 
-        return gameService.handleGameCreateRequest(TestGameCreateRequest.createDefault());
+        return gameService.handleCreated(new GameCreatedEvent(UUID.randomUUID(), GameType.MINECRAFT_JAVA));
     }
 
     private Region createDefaultRegion() {

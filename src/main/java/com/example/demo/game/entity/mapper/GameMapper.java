@@ -1,7 +1,7 @@
-package com.example.demo.game.mapper;
+package com.example.demo.game.entity.mapper;
 
 import com.example.demo.game.entity.GameEntity;
-import com.example.demo.game.model.Game;
+import com.example.demo.game.entity.model.Game;
 
 public class GameMapper {
 

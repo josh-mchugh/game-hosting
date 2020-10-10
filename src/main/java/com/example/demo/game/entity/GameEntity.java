@@ -1,6 +1,6 @@
 package com.example.demo.game.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "game")
-public class GameEntity extends AbstractEntity {
+public class GameEntity extends AbstractAggregateEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", unique = true, nullable = false)

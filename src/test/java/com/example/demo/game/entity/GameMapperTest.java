@@ -1,8 +1,7 @@
-package com.example.demo.game.mapper;
+package com.example.demo.game.entity;
 
-import com.example.demo.game.entity.GameEntity;
-import com.example.demo.game.entity.GameType;
-import com.example.demo.game.model.Game;
+import com.example.demo.game.entity.mapper.GameMapper;
+import com.example.demo.game.entity.model.Game;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
