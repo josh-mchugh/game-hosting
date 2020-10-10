@@ -1,7 +1,6 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.game.entity.GameType;
-import com.example.demo.game.model.Game;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
@@ -42,7 +41,7 @@ public class GameSeedServiceTest {
     @Test
     public void whenGameIsInitializedThenReturnList() {
 
-        ImmutableList<Game> games = gameSeedService.initializeData();
+        ImmutableList<Object> games = gameSeedService.initializeData();
 
         Assertions.assertEquals(GameType.values().length, games.size());
     }

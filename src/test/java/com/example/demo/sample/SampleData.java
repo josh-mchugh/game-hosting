@@ -8,7 +8,7 @@ import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
-import com.example.demo.game.model.Game;
+import com.example.demo.game.entity.model.Game;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.image.model.Image;
