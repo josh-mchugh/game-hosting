@@ -1,9 +1,9 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
-import com.example.demo.awx.feign.common.ListResponse;
-import com.example.demo.awx.feign.credential.CredentialClient;
-import com.example.demo.awx.feign.credential.model.CredentialApi;
+import com.example.demo.awx.feign.ListResponse;
+import com.example.demo.awx.credential.feign.CredentialClient;
+import com.example.demo.awx.credential.feign.model.CredentialApi;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;

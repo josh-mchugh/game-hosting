@@ -1,11 +1,11 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.feign.common.ListResponse;
-import com.example.demo.awx.feign.notification.NotificationClient;
-import com.example.demo.awx.feign.notification.model.NotificationApi;
-import com.example.demo.awx.feign.notification.model.NotificationConfiguration;
-import com.example.demo.awx.feign.project.ProjectClient;
-import com.example.demo.awx.feign.project.model.ProjectApi;
+import com.example.demo.awx.feign.ListResponse;
+import com.example.demo.awx.notification.feign.NotificationClient;
+import com.example.demo.awx.notification.feign.model.NotificationApi;
+import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
+import com.example.demo.awx.project.feign.ProjectClient;
+import com.example.demo.awx.project.feign.model.ProjectApi;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.google.common.collect.ImmutableList;

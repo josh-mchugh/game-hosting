@@ -2,9 +2,9 @@ package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateCommand;
 import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
-import com.example.demo.awx.feign.credential.CredentialClient;
-import com.example.demo.awx.feign.credential.model.CredentialApi;
-import com.example.demo.awx.feign.credential.model.CredentialCreateApi;
+import com.example.demo.awx.credential.feign.CredentialClient;
+import com.example.demo.awx.credential.feign.model.CredentialApi;
+import com.example.demo.awx.credential.feign.model.CredentialCreateApi;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;

@@ -1,8 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.feign.common.ListResponse;
-import com.example.demo.awx.feign.inventory.InventoryClient;
-import com.example.demo.awx.feign.inventory.model.InventoryApi;
+import com.example.demo.awx.feign.ListResponse;
+import com.example.demo.awx.inventory.feign.InventoryClient;
+import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;

@@ -1,8 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.feign.common.ListResponse;
-import com.example.demo.awx.feign.organization.OrganizationClient;
-import com.example.demo.awx.feign.organization.model.OrganizationApi;
+import com.example.demo.awx.feign.ListResponse;
+import com.example.demo.awx.organization.feign.OrganizationClient;
+import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
