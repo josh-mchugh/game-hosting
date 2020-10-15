@@ -7,7 +7,7 @@ import com.example.demo.ovh.flavor.scheduler.service.IFlavorSchedulerService;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.flavor.service.IFlavorService;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
-import com.example.demo.ovh.region.model.Region;
+import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.google.common.collect.ImmutableList;

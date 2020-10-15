@@ -44,8 +44,10 @@ import com.example.demo.ovh.instance.service.IInstanceGroupService;
 import com.example.demo.ovh.instance.service.IInstanceService;
 import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
 import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
-import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
+import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
+import com.example.demo.ovh.region.entity.RegionStatus;
+import com.example.demo.ovh.region.entity.model.Region;
+import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
@@ -55,7 +57,6 @@ import com.example.demo.sample.util.TestImageCreateRequest;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
 import com.example.demo.sample.util.TestProjectCreateRequest;
-import com.example.demo.sample.util.TestRegionCreateRequest;
 import com.example.demo.sample.util.TestUserCreateRequest;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.IUserService;
@@ -339,7 +340,16 @@ public class SampleBuilder {
 
     private Region createDefaultRegion() {
 
-        return regionService.handleRegionCreate(TestRegionCreateRequest.createDefault());
+        RegionCreatedEvent event = RegionCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("US-EAST-VA-1")
+                .continentCode("US")
+                .countryCodes("us")
+                .dataCenterLocation("US-EAST-VA")
+                .status(RegionStatus.UP)
+                .build();
+
+        return regionService.handleCreated(event);
     }
 
     private Flavor createDefaultFlavor() {

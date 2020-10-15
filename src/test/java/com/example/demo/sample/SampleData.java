@@ -14,7 +14,7 @@ import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.image.model.Image;
 import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;
-import com.example.demo.ovh.region.model.Region;
+import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.project.model.Project;
 import com.example.demo.user.model.User;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.example.demo.ovh.region.model;
+package com.example.demo.ovh.region.entity.model;
 
 import com.example.demo.ovh.region.entity.RegionStatus;
 import lombok.Builder;

@@ -3,7 +3,6 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.ovh.feign.region.RegionClient;
 import com.example.demo.ovh.feign.region.model.RegionApi;
 import com.example.demo.ovh.region.entity.RegionStatus;
-import com.example.demo.ovh.region.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
@@ -16,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootTest
@@ -53,7 +53,7 @@ public class RegionSeedServiceTest {
 
         Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.emptyList());
 
-        ImmutableList<Region> regions = regionSeedService.initializeData();
+        ImmutableList<Object> regions = regionSeedService.initializeData();
 
         Assertions.assertEquals(0, regions.size());
     }
@@ -66,10 +66,11 @@ public class RegionSeedServiceTest {
         RegionApi regionApi = new RegionApi();
         regionApi.setName("name");
         regionApi.setStatus(RegionStatus.UP);
+        regionApi.setIpCountries(Arrays.asList("uk", "us", "ca"));
 
         Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionApi);
 
-        ImmutableList<Region> regions = regionSeedService.initializeData();
+        ImmutableList<Object> regions = regionSeedService.initializeData();
 
         Assertions.assertEquals(1, regions.size());
     }

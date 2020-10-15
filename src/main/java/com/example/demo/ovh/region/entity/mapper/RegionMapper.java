@@ -1,7 +1,7 @@
-package com.example.demo.ovh.region.mapper;
+package com.example.demo.ovh.region.entity.mapper;
 
 import com.example.demo.ovh.region.entity.RegionEntity;
-import com.example.demo.ovh.region.model.Region;
+import com.example.demo.ovh.region.entity.model.Region;
 
 public class RegionMapper {
 
