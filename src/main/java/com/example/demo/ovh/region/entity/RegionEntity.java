@@ -1,6 +1,6 @@
 package com.example.demo.ovh.region.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "region")
-public class RegionEntity extends AbstractEntity {
+public class RegionEntity extends AbstractAggregateEntity {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;

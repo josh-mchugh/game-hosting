@@ -3,7 +3,7 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.ovh.feign.image.ImageClient;
 import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.image.model.Image;
-import com.example.demo.ovh.region.model.Region;
+import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;

@@ -3,12 +3,12 @@ package com.example.demo.ovh.flavor.service;
 import com.example.demo.ovh.flavor.model.Flavor;
 import com.example.demo.ovh.flavor.service.model.FlavorCreateRequest;
 import com.example.demo.ovh.flavor.service.model.FlavorUpdateRequest;
-import com.example.demo.ovh.region.model.Region;
-import com.example.demo.ovh.region.service.IRegionService;
-import com.example.demo.ovh.region.service.model.RegionCreateRequest;
+import com.example.demo.ovh.region.aggregate.event.RegionUpdatedEvent;
+import com.example.demo.ovh.region.entity.RegionStatus;
+import com.example.demo.ovh.region.entity.model.Region;
+import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.util.TestFlavorCreateRequest;
-import com.example.demo.sample.util.TestRegionCreateRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -139,8 +140,15 @@ public class FlavorServiceTest {
                 .build();
         Flavor flavor = flavorService.handleFlavorCreate(flavorCreateRequest);
 
-        RegionCreateRequest updatedRegionCreateRequest = TestRegionCreateRequest.builder(TestRegionCreateRequest.Type.US_EAST_VA).build();
-        Region updatedRegion = regionService.handleRegionCreate(updatedRegionCreateRequest);
+        RegionUpdatedEvent event = RegionUpdatedEvent.builder()
+                .id(UUID.fromString(region.getId()))
+                .continentCode("US")
+                .countryCodes("us")
+                .dataCenterLocation("US-EAST-VA")
+                .status(RegionStatus.UP)
+                .build();
+
+        Region updatedRegion = regionService.handleUpdated(event);
 
         FlavorUpdateRequest flavorUpdateRequest = FlavorUpdateRequest.builder()
                 .flavorId("handle-flavor-update")

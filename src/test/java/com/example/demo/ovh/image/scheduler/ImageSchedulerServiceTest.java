@@ -7,7 +7,7 @@ import com.example.demo.ovh.image.scheduler.service.IImageSchedulerService;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.image.service.IImageService;
 import com.example.demo.ovh.image.service.model.ImageCreateRequest;
-import com.example.demo.ovh.region.model.Region;
+import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.util.TestImageCreateRequest;
 import com.google.common.collect.ImmutableList;
