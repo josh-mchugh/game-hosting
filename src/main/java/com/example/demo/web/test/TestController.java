@@ -1,13 +1,13 @@
 package com.example.demo.web.test;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.feign.flavor.FlavorClient;
+import com.example.demo.ovh.flavor.feign.FlavorClient;
 import com.example.demo.ovh.feign.image.ImageClient;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;
 import com.example.demo.ovh.feign.instance.model.InstanceCreateApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
-import com.example.demo.ovh.feign.region.RegionClient;
+import com.example.demo.ovh.region.feign.RegionClient;
 import com.example.demo.ovh.feign.ssh.SshKeyClient;
 import com.example.demo.ovh.feign.ssh.model.SshKeyCreateApi;
 import com.example.demo.web.test.model.Metrics;

@@ -1,7 +1,7 @@
 package com.example.demo.ovh.region.projection;
 
-import com.example.demo.ovh.region.projection.model.FetchIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 
 public interface IRegionProjection {
 
@@ -9,5 +9,5 @@ public interface IRegionProjection {
 
     boolean existsAny();
 
-    FetchIdByNameResponse fetchIdByName(FetchIdByNameQuery query);
+    FetchRegionIdByNameResponse fetchIdByName(FetchRegionIdByNameQuery query);
 }

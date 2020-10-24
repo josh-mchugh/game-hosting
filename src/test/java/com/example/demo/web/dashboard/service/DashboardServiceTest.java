@@ -6,7 +6,7 @@ import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.common.SshKeyDetailApi;
-import com.example.demo.ovh.feign.flavor.model.FlavorApi;
+import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;

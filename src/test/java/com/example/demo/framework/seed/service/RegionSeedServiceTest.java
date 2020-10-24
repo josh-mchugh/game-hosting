@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.feign.region.RegionClient;
-import com.example.demo.ovh.feign.region.model.RegionApi;
+import com.example.demo.ovh.region.feign.RegionClient;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;

@@ -1,13 +1,13 @@
 package com.example.demo.ovh.region.scheduler.service;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.feign.region.RegionClient;
-import com.example.demo.ovh.feign.region.model.RegionApi;
+import com.example.demo.ovh.region.feign.RegionClient;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.aggregate.command.RegionUpdateCommand;
 import com.example.demo.ovh.region.projection.IRegionProjection;
-import com.example.demo.ovh.region.projection.model.FetchIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -58,11 +58,11 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
     private Object handleUpdateRegion(RegionApi region) {
 
-        FetchIdByNameQuery query = FetchIdByNameQuery.builder()
+        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
                 .name(region.getName())
                 .build();
 
-        FetchIdByNameResponse response = regionProjection.fetchIdByName(query);
+        FetchRegionIdByNameResponse response = regionProjection.fetchIdByName(query);
 
         RegionUpdateCommand command = RegionUpdateCommand.builder()
                 .id(UUID.fromString(response.getId()))

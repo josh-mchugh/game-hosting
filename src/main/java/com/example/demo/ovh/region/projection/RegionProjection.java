@@ -1,8 +1,8 @@
 package com.example.demo.ovh.region.projection;
 
 import com.example.demo.ovh.region.entity.QRegionEntity;
-import com.example.demo.ovh.region.projection.model.FetchIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -40,12 +40,12 @@ public class RegionProjection implements IRegionProjection {
     }
 
     @Override
-    public FetchIdByNameResponse fetchIdByName(FetchIdByNameQuery query) {
+    public FetchRegionIdByNameResponse fetchIdByName(FetchRegionIdByNameQuery query) {
 
         QRegionEntity qRegion = QRegionEntity.regionEntity;
 
         return queryFactory.select(Projections.constructor(
-                    FetchIdByNameResponse.class,
+                    FetchRegionIdByNameResponse.class,
                     qRegion.id
                 ))
                 .from(qRegion)

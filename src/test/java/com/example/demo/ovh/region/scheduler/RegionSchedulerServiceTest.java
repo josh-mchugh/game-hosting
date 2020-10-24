@@ -1,7 +1,7 @@
 package com.example.demo.ovh.region.scheduler;
 
-import com.example.demo.ovh.feign.region.RegionClient;
-import com.example.demo.ovh.feign.region.model.RegionApi;
+import com.example.demo.ovh.region.feign.RegionClient;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;

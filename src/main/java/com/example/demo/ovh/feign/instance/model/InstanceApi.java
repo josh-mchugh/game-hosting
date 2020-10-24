@@ -2,7 +2,7 @@ package com.example.demo.ovh.feign.instance.model;
 
 import com.example.demo.framework.deserializer.DateTimeDeserializer;
 import com.example.demo.ovh.feign.common.SshKeyDetailApi;
-import com.example.demo.ovh.feign.flavor.model.FlavorApi;
+import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.feign.image.model.ImageApi;
 import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.common.MonthlyBillingApi;
