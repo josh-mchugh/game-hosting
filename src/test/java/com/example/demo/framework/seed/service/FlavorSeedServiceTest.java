@@ -1,8 +1,7 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.feign.flavor.FlavorClient;
-import com.example.demo.ovh.feign.flavor.model.FlavorApi;
-import com.example.demo.ovh.flavor.model.Flavor;
+import com.example.demo.ovh.flavor.feign.FlavorClient;
+import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -67,7 +66,7 @@ public class FlavorSeedServiceTest {
 
         Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenReturn(Collections.singletonList(flavorApi));
 
-        ImmutableList<Flavor> flavors = flavorSeedService.initializeData();
+        ImmutableList<Object> flavors = flavorSeedService.initializeData();
 
         Assertions.assertEquals(1, flavors.size());
     }
@@ -77,7 +76,7 @@ public class FlavorSeedServiceTest {
 
         Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenReturn(Collections.emptyList());
 
-        ImmutableList<Flavor> flavors = flavorSeedService.initializeData();
+        ImmutableList<Object> flavors = flavorSeedService.initializeData();
 
         Assertions.assertEquals(0, flavors.size());
     }

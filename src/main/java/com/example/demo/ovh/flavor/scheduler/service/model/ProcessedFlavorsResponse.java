@@ -1,6 +1,5 @@
 package com.example.demo.ovh.flavor.scheduler.service.model;
 
-import com.example.demo.ovh.flavor.model.Flavor;
 import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Singular;
@@ -11,8 +10,8 @@ import lombok.Value;
 public class ProcessedFlavorsResponse {
 
     @Singular
-    ImmutableList<Flavor> updatedFlavors;
+    ImmutableList<Object> updatedFlavors;
 
     @Singular
-    ImmutableList<Flavor> createdFlavors;
+    ImmutableList<Object> createdFlavors;
 }

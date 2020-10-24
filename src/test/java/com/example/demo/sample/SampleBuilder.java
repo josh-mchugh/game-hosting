@@ -34,8 +34,9 @@ import com.example.demo.game.entity.model.Game;
 import com.example.demo.game.entity.service.IGameService;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.credential.service.ICredentialService;
-import com.example.demo.ovh.flavor.model.Flavor;
-import com.example.demo.ovh.flavor.service.IFlavorService;
+import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
+import com.example.demo.ovh.flavor.entity.model.Flavor;
+import com.example.demo.ovh.flavor.entity.service.IFlavorService;
 import com.example.demo.ovh.image.model.Image;
 import com.example.demo.ovh.image.service.IImageService;
 import com.example.demo.ovh.instance.model.Instance;
@@ -52,7 +53,6 @@ import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
-import com.example.demo.sample.util.TestFlavorCreateRequest;
 import com.example.demo.sample.util.TestImageCreateRequest;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
@@ -354,7 +354,25 @@ public class SampleBuilder {
 
     private Flavor createDefaultFlavor() {
 
-        return flavorService.handleFlavorCreate(TestFlavorCreateRequest.createDefault());
+        FlavorCreatedEvent event = FlavorCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
+                .regionId(region.getId())
+                .name("s1-2")
+                .type("ovh.vps-ssd")
+                .available(true)
+                .hourly("s1-2.consumption")
+                .monthly("s1-2.monthly")
+                .quota(3)
+                .osType("linux")
+                .vcpus(1)
+                .ram(2000)
+                .disk(10)
+                .outboundBandwidth(100)
+                .inboundBandwidth(100)
+                .build();
+
+        return flavorService.handleCreated(event);
     }
 
     private Image createDefaultImage() {

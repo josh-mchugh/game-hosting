@@ -10,7 +10,7 @@ import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.ovh.credential.model.Credential;
-import com.example.demo.ovh.flavor.model.Flavor;
+import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.image.model.Image;
 import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;

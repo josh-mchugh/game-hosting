@@ -2,8 +2,8 @@ package com.example.demo.framework.seed.service;
 
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
-import com.example.demo.ovh.feign.region.RegionClient;
-import com.example.demo.ovh.feign.region.model.RegionApi;
+import com.example.demo.ovh.region.feign.RegionClient;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.projection.IRegionProjection;
 import com.google.common.base.Joiner;
