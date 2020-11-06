@@ -21,7 +21,7 @@ public class RegionProjectionExistsAnyTest {
     private IRegionService regionService;
 
     @Autowired
-    private IRegionProjection regionProjection;
+    private IRegionProjector regionProjection;
 
     @Test
     public void testExistsAnyShouldBeFalse() {

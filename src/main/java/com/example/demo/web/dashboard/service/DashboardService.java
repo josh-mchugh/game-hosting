@@ -221,10 +221,11 @@ public class DashboardService implements IDashboardService {
 
     private InstanceApi handleInstanceCreateApi(Project project, InstanceGroup instanceGroup, DashboardProjectCreateRequest request, String sshKeyId) {
 
+        // TODO: Remove hard coded image id
         InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
                 .name(project.getId())
                 .flavorId(request.getFlavor())
-                .imageId("b8a5e8e5-9b08-4187-aab1-1f1f95e43791")
+                .imageId("22772a1f-9fc1-4e4d-9567-fc3e0d582824")
                 .region(request.getRegion())
                 .groupId(instanceGroup.getGroupId())
                 .sshKeyId(sshKeyId)
