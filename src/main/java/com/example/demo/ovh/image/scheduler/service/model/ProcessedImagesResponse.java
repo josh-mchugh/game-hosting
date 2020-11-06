@@ -1,18 +1,18 @@
 package com.example.demo.ovh.image.scheduler.service.model;
 
-import com.example.demo.ovh.image.model.Image;
-import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
+
+import java.util.List;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class ProcessedImagesResponse {
 
     @Singular
-    ImmutableList<Image> createdImages;
+    List<Object> createdImages;
 
     @Singular
-    ImmutableList<Image> updatedImages;
+    List<Object> updatedImages;
 }

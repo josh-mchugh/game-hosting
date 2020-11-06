@@ -5,7 +5,7 @@ import com.example.demo.ovh.region.feign.RegionClient;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.aggregate.command.RegionUpdateCommand;
-import com.example.demo.ovh.region.projection.IRegionProjection;
+import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
@@ -25,7 +25,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
     private final OvhConfig ovhConfig;
     private final RegionClient regionClient;
-    private final IRegionProjection regionProjection;
+    private final IRegionProjector regionProjection;
     private final CommandGateway commandGateway;
 
     @Override

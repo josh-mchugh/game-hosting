@@ -11,7 +11,7 @@ import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.ovh.credential.model.Credential;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
-import com.example.demo.ovh.image.model.Image;
+import com.example.demo.ovh.image.entity.model.Image;
 import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.region.entity.model.Region;

@@ -19,7 +19,7 @@ import java.util.UUID;
 public class RegionProjectFetchIdByNameTest {
 
     @Autowired
-    private IRegionProjection regionProjection;
+    private IRegionProjector regionProjection;
 
     @Autowired
     private IRegionService regionService;

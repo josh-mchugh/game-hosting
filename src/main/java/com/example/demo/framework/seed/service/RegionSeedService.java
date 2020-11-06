@@ -5,7 +5,7 @@ import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.region.feign.RegionClient;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
-import com.example.demo.ovh.region.projection.IRegionProjection;
+import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class RegionSeedService implements ISeedService<Object> {
 
     private final OvhConfig ovhConfig;
-    private final IRegionProjection regionProjection;
+    private final IRegionProjector regionProjection;
     private final RegionClient regionClient;
     private final CommandGateway commandGateway;
 

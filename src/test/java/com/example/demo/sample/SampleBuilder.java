@@ -37,8 +37,9 @@ import com.example.demo.ovh.credential.service.ICredentialService;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.entity.service.IFlavorService;
-import com.example.demo.ovh.image.model.Image;
-import com.example.demo.ovh.image.service.IImageService;
+import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
+import com.example.demo.ovh.image.entity.model.Image;
+import com.example.demo.ovh.image.entity.service.IImageService;
 import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.instance.service.IInstanceGroupService;
@@ -53,7 +54,6 @@ import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestCredentialCreateRequest;
-import com.example.demo.sample.util.TestImageCreateRequest;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
 import com.example.demo.sample.util.TestProjectCreateRequest;
@@ -63,6 +63,7 @@ import com.example.demo.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -377,7 +378,24 @@ public class SampleBuilder {
 
     private Image createDefaultImage() {
 
-        return imageService.handleImageCreate(TestImageCreateRequest.createDefault());
+        ImageCreatedEvent event = ImageCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("Ubuntu 20.04")
+                .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
+                .imageCreatedDate(LocalDateTime.of(2020, 4, 24, 9, 12, 57))
+                .flavorType(null)
+                .regionId(region.getId())
+                .minDisk(0)
+                .minRam(0)
+                .monthly(null)
+                .hourly(null)
+                .type("linux")
+                .username("ubuntu")
+                .status("active")
+                .visibility("public")
+                .build();
+
+        return imageService.handleCreated(event);
     }
 
     private Credential createDefaultCredential() {

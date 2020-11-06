@@ -6,7 +6,7 @@ import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
 import com.example.demo.ovh.flavor.feign.FlavorClient;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.region.projection.IRegionProjection;
+import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.google.common.collect.ImmutableList;
@@ -23,7 +23,7 @@ public class FlavorSeedService implements ISeedService<Object> {
     private final OvhConfig ovhConfig;
     private final IFlavorProjector flavorProjectionService;
     private final FlavorClient flavorClient;
-    private final IRegionProjection regionProjection;
+    private final IRegionProjector regionProjection;
     private final CommandGateway commandGateway;
 
     @Override

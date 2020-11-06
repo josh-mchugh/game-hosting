@@ -1,17 +1,18 @@
 package com.example.demo.ovh.flavor.scheduler.service.model;
 
-import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
+
+import java.util.List;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class ProcessedFlavorsResponse {
 
     @Singular
-    ImmutableList<Object> updatedFlavors;
+    List<Object> updatedFlavors;
 
     @Singular
-    ImmutableList<Object> createdFlavors;
+    List<Object> createdFlavors;
 }

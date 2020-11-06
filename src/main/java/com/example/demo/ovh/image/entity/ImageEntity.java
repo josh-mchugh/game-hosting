@@ -1,6 +1,6 @@
 package com.example.demo.ovh.image.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "image")
-public class ImageEntity extends AbstractEntity {
-
-    @Column(name = "image_id", unique = true, nullable=false)
-    private String imageId;
+public class ImageEntity extends AbstractAggregateEntity {
 
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     private RegionEntity regionEntity;
+
+    @Column(name = "image_id", unique = true, nullable = false)
+    private String imageId;
 
     @Column(name = "name", nullable = false)
     private String name;

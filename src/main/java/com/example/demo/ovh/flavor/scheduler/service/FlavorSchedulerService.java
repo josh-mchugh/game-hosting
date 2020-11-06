@@ -9,7 +9,7 @@ import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdQuery;
 import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdResponse;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
-import com.example.demo.ovh.region.projection.IRegionProjection;
+import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +26,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     private final OvhConfig ovhConfig;
     private final FlavorClient flavorClient;
     private final IFlavorProjector flavorProjectionService;
-    private final IRegionProjection regionProjection;
+    private final IRegionProjector regionProjection;
     private final CommandGateway commandGateway;
 
     @Override
@@ -74,7 +74,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         String hourly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getHourly() : null;
         String monthly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getMonthly() : null;
 
-        FlavorUpdateCommand request = FlavorUpdateCommand.builder()
+        FlavorUpdateCommand command = FlavorUpdateCommand.builder()
                 .id(UUID.fromString(flavorIdResponse.getId()))
                 .regionId(regionIdResponse.getId())
                 .name(flavorResponse.getName())
@@ -91,7 +91,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
                 .outboundBandwidth(flavorResponse.getOutboundBandwidth())
                 .build();
 
-        return commandGateway.sendAndWait(request);
+        return commandGateway.sendAndWait(command);
     }
 
     private Object handleFlavorCreate(FlavorApi flavorResponse) {

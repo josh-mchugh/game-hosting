@@ -1,8 +1,7 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.feign.image.ImageClient;
-import com.example.demo.ovh.feign.image.model.ImageApi;
-import com.example.demo.ovh.image.model.Image;
+import com.example.demo.ovh.image.feign.ImageClient;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -48,7 +47,7 @@ public class ImageSeedServiceTest {
 
         Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(Collections.emptyList());
 
-        ImmutableList<Image> images = imageSeedService.initializeData();
+        ImmutableList<Object> images = imageSeedService.initializeData();
 
         Assertions.assertEquals(0, images.size());
     }
@@ -68,7 +67,7 @@ public class ImageSeedServiceTest {
 
         Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(Collections.singletonList(imageApi));
 
-        ImmutableList<Image> images = imageSeedService.initializeData();
+        ImmutableList<Object> images = imageSeedService.initializeData();
 
         Assertions.assertEquals(1, images.size());
     }

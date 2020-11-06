@@ -1,17 +1,24 @@
 package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.feign.image.ImageClient;
-import com.example.demo.ovh.feign.image.model.ImageApi;
-import com.example.demo.ovh.image.model.Image;
+import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
+import com.example.demo.ovh.image.aggregate.command.ImageUpdateCommand;
+import com.example.demo.ovh.image.feign.ImageClient;
+import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.image.projection.IImageProjector;
+import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
+import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjection;
+import com.example.demo.ovh.image.projection.model.FetchImageIdAndRegionIdQuery;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
-import com.example.demo.ovh.image.service.IImageService;
-import com.example.demo.ovh.image.service.model.ImageCreateRequest;
-import com.example.demo.ovh.image.service.model.ImageUpdateRequest;
+import com.example.demo.ovh.region.projection.IRegionProjector;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +26,9 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
     private final OvhConfig ovhConfig;
     private final ImageClient imageClient;
-    private final IImageService imageService;
+    private final IImageProjector imageProjector;
+    private final IRegionProjector regionProjector;
+    private final CommandGateway commandGateway;
 
     @Override
     public ImmutableList<ImageApi> getImageResponses() {
@@ -34,7 +43,12 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
         for (ImageApi response : imageResponses) {
 
-            if(imageService.existsByName(response.getName())) {
+            ExistImageNameAndRegionNameQuery query = ExistImageNameAndRegionNameQuery.builder()
+                    .name(response.getName())
+                    .regionName(response.getRegionName())
+                    .build();
+
+            if(imageProjector.existsByNameAndRegionName(query)) {
 
                 builder.updatedImage(processImageUpdate(response));
 
@@ -47,22 +61,28 @@ public class ImageSchedulerService implements IImageSchedulerService {
         return builder.build();
     }
 
-    private Image processImageUpdate(ImageApi imageResponse) {
+    private Object processImageUpdate(ImageApi imageResponse) {
 
-        ImageUpdateRequest imageUpdateRequest = buildImageUpdateRequest(imageResponse);
+        ImageUpdateCommand command = imageUpdateCommand(imageResponse);
 
-        return imageService.handleImageUpdate(imageUpdateRequest);
+        return commandGateway.sendAndWait(command);
     }
 
-    private ImageUpdateRequest buildImageUpdateRequest(ImageApi imageResponse) {
+    private ImageUpdateCommand imageUpdateCommand(ImageApi imageResponse) {
+
+        FetchImageIdAndRegionIdQuery query = FetchImageIdAndRegionIdQuery.builder()
+                .imageName(imageResponse.getName())
+                .regionName(imageResponse.getRegionName())
+                .build();
+        FetchImageAndRegionIdProjection projection = imageProjector.fetchImageIdAndRegionIdQuery(query);
 
         String hourly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getHourly() : null;
         String monthly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getMonthly() : null;
-        ImmutableList<String> tags = CollectionUtils.isNotEmpty(imageResponse.getTags()) ? ImmutableList.copyOf(imageResponse.getTags()) : null;
 
-        return ImageUpdateRequest.builder()
+        return ImageUpdateCommand.builder()
+                .id(UUID.fromString(projection.getId()))
                 .imageId(imageResponse.getImageId())
-                .regionName(imageResponse.getRegionName())
+                .regionId(projection.getRegionId())
                 .name(imageResponse.getName())
                 .type(imageResponse.getType())
                 .imageCreatedDate(imageResponse.getCreationDate())
@@ -75,37 +95,43 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .username(imageResponse.getUser())
                 .status(imageResponse.getStatus())
                 .visibility(imageResponse.getVisibility())
-                .tags(tags)
                 .build();
     }
 
-    private Image processImageCreate(ImageApi imageResponse) {
+    private Object processImageCreate(ImageApi imageResponse) {
 
-        ImageCreateRequest imageCreateRequest = buildImageCreateRequest(imageResponse);
+        ImageCreateCommand command = imageCreateCommand(imageResponse);
 
-        return imageService.handleImageCreate(imageCreateRequest);
+        return commandGateway.sendAndWait(command);
     }
 
-    private ImageCreateRequest buildImageCreateRequest(ImageApi imageResponse) {
+    private ImageCreateCommand imageCreateCommand(ImageApi response) {
 
-        String hourly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getHourly() : null;
-        String monthly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getMonthly() : null;
+        //TODO: Replace to prevent excess call in loop
+        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
+                .name(response.getRegionName())
+                .build();
+        FetchRegionIdByNameResponse regionIdByNameResponse = regionProjector.fetchIdByName(query);
 
-        return ImageCreateRequest.builder()
-                .imageId(imageResponse.getImageId())
-                .regionName(imageResponse.getRegionName())
-                .name(imageResponse.getName())
-                .type(imageResponse.getType())
-                .imageCreatedDate(imageResponse.getCreationDate())
-                .flavorType(imageResponse.getFlavorType())
+        String hourly = response.getPlanCode() != null ? response.getPlanCode().getHourly() : null;
+        String monthly = response.getPlanCode() != null ? response.getPlanCode().getMonthly() : null;
+
+        return ImageCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .imageId(response.getImageId())
+                .regionId(regionIdByNameResponse.getId())
+                .name(response.getName())
+                .type(response.getType())
+                .imageCreatedDate(response.getCreationDate())
+                .flavorType(response.getFlavorType())
                 .hourly(hourly)
                 .monthly(monthly)
-                .size(imageResponse.getSize())
-                .minRam(imageResponse.getMinRam())
-                .minDisk(imageResponse.getMinDisk())
-                .username(imageResponse.getUser())
-                .status(imageResponse.getStatus())
-                .visibility(imageResponse.getVisibility())
+                .size(response.getSize())
+                .minRam(response.getMinRam())
+                .minDisk(response.getMinDisk())
+                .username(response.getUser())
+                .status(response.getStatus())
+                .visibility(response.getVisibility())
                 .build();
     }
 }
