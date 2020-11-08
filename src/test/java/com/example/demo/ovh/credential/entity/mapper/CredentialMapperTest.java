@@ -1,8 +1,9 @@
-package com.example.demo.ovh.credential.mapper;
+package com.example.demo.ovh.credential.entity.mapper;
 
 import com.example.demo.ovh.credential.entity.CredentialEntity;
 import com.example.demo.ovh.credential.entity.CredentialType;
-import com.example.demo.ovh.credential.model.Credential;
+import com.example.demo.ovh.credential.entity.mapper.CredentialMapper;
+import com.example.demo.ovh.credential.entity.model.Credential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

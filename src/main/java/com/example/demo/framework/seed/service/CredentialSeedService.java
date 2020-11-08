@@ -2,36 +2,38 @@ package com.example.demo.framework.seed.service;
 
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
-import com.example.demo.ovh.credential.model.Credential;
-import com.example.demo.ovh.credential.service.ICredentialService;
-import com.example.demo.ovh.credential.service.model.CredentialCreateRequest;
-import com.example.demo.ovh.feign.ssh.SshKeyClient;
-import com.example.demo.ovh.feign.ssh.model.SshKeyApi;
-import com.example.demo.ovh.feign.ssh.model.SshKeyCreateApi;
+import com.example.demo.ovh.credential.aggregate.command.CredentialCreateCommand;
+import com.example.demo.ovh.credential.feign.SshKeyClient;
+import com.example.demo.ovh.credential.feign.model.SshKeyApi;
+import com.example.demo.ovh.credential.feign.model.SshKeyCreateApi;
+import com.example.demo.ovh.credential.projector.ICredentialProjector;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class CredentialSeedService implements ISeedService<Credential> {
+public class CredentialSeedService implements ISeedService<Object> {
 
     private final OvhConfig ovhConfig;
-    private final ICredentialService credentialService;
     private final SshKeyClient sshKeyClient;
+    private final ICredentialProjector credentialProjector;
+    private final CommandGateway commandGateway;
 
     @Override
     public boolean dataNotExists() {
 
-        return !credentialService.existsAny();
+        return !credentialProjector.existsAny();
     }
 
     @Override
-    public ImmutableList<Credential> initializeData() {
+    public ImmutableList<Object> initializeData() {
 
         return createSshKeys();
     }
@@ -48,32 +50,9 @@ public class CredentialSeedService implements ISeedService<Credential> {
         return 6;
     }
 
-    private SshKeyApi createSshKeyResponse(OvhConfig.SshKeyConfig config) {
+    private ImmutableList<Object> createSshKeys() {
 
-        SshKeyCreateApi apiRequest = SshKeyCreateApi.builder()
-                .name(config.getName())
-                .publicKey(config.getPublicKey())
-                .build();
-
-        return sshKeyClient.createSshKey(ovhConfig.getProjectId(), apiRequest);
-    }
-
-    private Credential createCredential(OvhConfig.SshKeyConfig config, SshKeyApi apiResponse) {
-
-        CredentialCreateRequest request = CredentialCreateRequest.builder()
-                .sshKeyId(apiResponse.getId())
-                .name(apiResponse.getName())
-                .publicKey(apiResponse.getPublicKey())
-                .privateKey(config.getPrivateKey())
-                .type(config.getType())
-                .build();
-
-        return credentialService.handleSshKeyCreate(request);
-    }
-
-    private ImmutableList<Credential> createSshKeys() {
-
-        List<Credential> credentials = new ArrayList<>();
+        List<UUID> credentials = new ArrayList<>();
 
         List<SshKeyApi> apiResponses = sshKeyClient.getSshKeys(ovhConfig.getProjectId());
 
@@ -94,5 +73,28 @@ public class CredentialSeedService implements ISeedService<Credential> {
         }
 
         return ImmutableList.copyOf(credentials);
+    }
+
+    private SshKeyApi createSshKeyResponse(OvhConfig.SshKeyConfig config) {
+
+        SshKeyCreateApi apiRequest = SshKeyCreateApi.builder()
+                .name(config.getName())
+                .publicKey(config.getPublicKey())
+                .build();
+
+        return sshKeyClient.createSshKey(ovhConfig.getProjectId(), apiRequest);
+    }
+
+    private UUID createCredential(OvhConfig.SshKeyConfig config, SshKeyApi apiResponse) {
+
+        CredentialCreateCommand command = CredentialCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .sshKeyId(apiResponse.getId())
+                .name(apiResponse.getName())
+                .publicKey(apiResponse.getPublicKey())
+                .type(config.getType())
+                .build();
+
+        return commandGateway.sendAndWait(command);
     }
 }

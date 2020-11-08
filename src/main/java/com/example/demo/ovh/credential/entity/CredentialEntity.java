@@ -1,5 +1,6 @@
 package com.example.demo.ovh.credential.entity;
 
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.framework.database.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "credential")
-public class CredentialEntity extends AbstractEntity {
+public class CredentialEntity extends AbstractAggregateEntity {
 
     @Column(name = "ssh_key_id", unique = true, nullable = false)
     private String sshKeyId;
