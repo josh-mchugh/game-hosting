@@ -1,8 +1,8 @@
-package com.example.demo.ovh.feign.ssh;
+package com.example.demo.ovh.credential.feign;
 
 import com.example.demo.framework.feign.FeignOvhConfig;
-import com.example.demo.ovh.feign.ssh.model.SshKeyApi;
-import com.example.demo.ovh.feign.ssh.model.SshKeyCreateApi;
+import com.example.demo.ovh.credential.feign.model.SshKeyApi;
+import com.example.demo.ovh.credential.feign.model.SshKeyCreateApi;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

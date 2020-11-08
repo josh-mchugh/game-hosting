@@ -9,7 +9,8 @@ import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.security.session.ISessionUtil;
-import com.example.demo.ovh.credential.service.ICredentialService;
+import com.example.demo.ovh.credential.entity.service.ICredentialService;
+import com.example.demo.ovh.credential.projector.ICredentialProjector;
 import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;
@@ -65,6 +66,7 @@ public class DashboardService implements IDashboardService {
     private final IInstanceGroupService instanceGroupService;
     private final IInstanceService instanceService;
     private final ICredentialService credentialService;
+    private final ICredentialProjector credentialProjector;
     private final InstanceClient instanceClient;
     private final InstanceGroupClient instanceGroupClient;
     private final HostClient hostClient;
@@ -155,7 +157,7 @@ public class DashboardService implements IDashboardService {
         InstanceGroup instanceGroup = handleInstanceGroupCreate(project, groupResponse);
 
         log.info("Get Ansible Credential...");
-        String sshKeyId = credentialService.getAnsibleCredentialSshKeyId();
+        String sshKeyId = credentialProjector.getAnsibleSshKeyId();
 
         log.info("Call OVH API to create new Instance...");
         InstanceApi instanceResponse = handleInstanceCreateApi(project, instanceGroup, request, sshKeyId);

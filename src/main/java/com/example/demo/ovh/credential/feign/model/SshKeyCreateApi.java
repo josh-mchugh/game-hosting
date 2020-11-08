@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.ssh.model;
+package com.example.demo.ovh.credential.feign.model;
 
 import lombok.Builder;
 import lombok.Value;

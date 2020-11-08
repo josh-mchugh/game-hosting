@@ -1,8 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.credential.model.Credential;
-import com.example.demo.ovh.feign.ssh.SshKeyClient;
-import com.example.demo.ovh.feign.ssh.model.SshKeyApi;
+import com.example.demo.ovh.credential.entity.model.Credential;
+import com.example.demo.ovh.credential.feign.SshKeyClient;
+import com.example.demo.ovh.credential.feign.model.SshKeyApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
@@ -67,7 +67,7 @@ public class CredentialSeedServiceTest {
 
         Mockito.when(sshKeyClient.createSshKey(Mockito.any(), Mockito.any())).thenReturn(sshKeyApi);
 
-        ImmutableList<Credential> credentials = credentialSeedService.initializeData();
+        ImmutableList<Object> credentials = credentialSeedService.initializeData();
 
         Assertions.assertEquals(1, credentials.size());
     }
@@ -82,7 +82,7 @@ public class CredentialSeedServiceTest {
 
         Mockito.when(sshKeyClient.getSshKeys(Mockito.any())).thenReturn(Collections.singletonList(sshKeyApi));
 
-        ImmutableList<Credential> credentials = credentialSeedService.initializeData();
+        ImmutableList<Object> credentials = credentialSeedService.initializeData();
 
         Assertions.assertEquals(1, credentials.size());
     }

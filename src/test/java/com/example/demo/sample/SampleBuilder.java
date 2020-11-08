@@ -32,8 +32,10 @@ import com.example.demo.game.aggregate.event.GameCreatedEvent;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.game.entity.service.IGameService;
-import com.example.demo.ovh.credential.model.Credential;
-import com.example.demo.ovh.credential.service.ICredentialService;
+import com.example.demo.ovh.credential.aggregate.event.CredentialCreatedEvent;
+import com.example.demo.ovh.credential.entity.CredentialType;
+import com.example.demo.ovh.credential.entity.model.Credential;
+import com.example.demo.ovh.credential.entity.service.ICredentialService;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.entity.service.IFlavorService;
@@ -53,7 +55,6 @@ import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.project.model.Project;
 import com.example.demo.project.service.IProjectService;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.sample.util.TestCredentialCreateRequest;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
 import com.example.demo.sample.util.TestProjectCreateRequest;
@@ -400,7 +401,15 @@ public class SampleBuilder {
 
     private Credential createDefaultCredential() {
 
-       return  credentialService.handleSshKeyCreate(TestCredentialCreateRequest.createDefault());
+        CredentialCreatedEvent event = CredentialCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .sshKeyId("ssh key id")
+                .name("credential name")
+                .publicKey("public key")
+                .type(CredentialType.ANSIBLE)
+                .build();
+
+       return  credentialService.handleCreated(event);
     }
 
     private Project createDefaultProject() {

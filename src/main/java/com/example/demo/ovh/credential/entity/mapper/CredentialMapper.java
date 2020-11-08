@@ -1,7 +1,7 @@
-package com.example.demo.ovh.credential.mapper;
+package com.example.demo.ovh.credential.entity.mapper;
 
 import com.example.demo.ovh.credential.entity.CredentialEntity;
-import com.example.demo.ovh.credential.model.Credential;
+import com.example.demo.ovh.credential.entity.model.Credential;
 
 public class CredentialMapper {
 
