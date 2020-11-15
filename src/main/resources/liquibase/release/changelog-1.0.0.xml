@@ -55,7 +55,7 @@
             </column>
             <column name="body_context" type="nvarchar(MAX)"/>
             <column name="subject_context" type="nvarchar(MAX)"/>
-            <column name="mailing_date" type="timestamp"/>
+            <column name="sent_date" type="timestamp"/>
         </createTable>
     </changeSet>
 

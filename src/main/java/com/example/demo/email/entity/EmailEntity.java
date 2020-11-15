@@ -1,5 +1,6 @@
 package com.example.demo.email.entity;
 
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.framework.database.AbstractEntity;
 import com.example.demo.framework.database.converter.CollectionConverter;
 import com.example.demo.framework.database.converter.MapConverter;
@@ -20,17 +21,17 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "email")
-public class EmailEntity extends AbstractEntity {
+public class EmailEntity extends AbstractAggregateEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "template")
+    @Column(name = "template", nullable = false)
     private EmailTemplate template;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private EmailStatus status;
 
-    @Column(name = "to_address")
+    @Column(name = "to_address", nullable = false)
     private String toAddress;
 
     @Convert(converter = MapConverter.class)
@@ -41,6 +42,6 @@ public class EmailEntity extends AbstractEntity {
     @Column(name = "subject_context")
     private List<Object> subjectContext;
 
-    @Column(name = "mailing_date")
-    private LocalDateTime mailingDate;
+    @Column(name = "sent_date")
+    private LocalDateTime sentDate;
 }
