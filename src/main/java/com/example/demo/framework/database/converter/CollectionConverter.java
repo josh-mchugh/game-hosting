@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -16,7 +17,7 @@ public class CollectionConverter implements AttributeConverter<Collection<Object
     @Override
     public String convertToDatabaseColumn(Collection<Object> attribute) {
 
-        if(attribute == null) {
+        if(CollectionUtils.isEmpty(attribute)) {
 
             return  null;
         }

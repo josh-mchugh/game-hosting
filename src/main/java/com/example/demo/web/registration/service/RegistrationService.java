@@ -1,8 +1,7 @@
 package com.example.demo.web.registration.service;
 
+import com.example.demo.email.aggregate.command.EmailCreateCommand;
 import com.example.demo.email.entity.EmailTemplate;
-import com.example.demo.email.service.IEmailService;
-import com.example.demo.email.service.model.EmailCreateRequest;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.model.User;
@@ -11,7 +10,10 @@ import com.example.demo.user.service.model.UserCreateRequest;
 import com.example.demo.util.AppUrlUtil;
 import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class RegistrationService implements IRegistrationService{
 
     private final AppUrlUtil appUrlUtil;
     private final IUserService userService;
-    private final IEmailService emailService;
+    private final CommandGateway commandGateway;
 
     @Override
     public User handleCreateNewUser(RegistrationCreateUserRequest request) {
@@ -33,20 +35,22 @@ public class RegistrationService implements IRegistrationService{
 
         User user = userService.handleCreateUser(userCreateRequest);
 
-        EmailCreateRequest welcomeEmailRequest = EmailCreateRequest.builder()
+        EmailCreateCommand welcomeEmailCommand = EmailCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .toAddress(user.getEmail())
                 .template(EmailTemplate.WELCOME)
                 .build();
 
-        emailService.handleCreateEmail(welcomeEmailRequest);
+        commandGateway.send(welcomeEmailCommand);
 
-        EmailCreateRequest verificationEmail = EmailCreateRequest.builder()
+        EmailCreateCommand verificationEmailCommand = EmailCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .toAddress(user.getEmail())
                 .template(EmailTemplate.USER_VERIFICATION)
                 .bodyContext("verificationUrl", appUrlUtil.getAppUrl(String.format("/verify/%s", user.getVerification().getToken())))
                 .build();
 
-        emailService.handleCreateEmail(verificationEmail);
+        commandGateway.send(verificationEmailCommand);
 
         return user;
     }

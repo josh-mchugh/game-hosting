@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.MapUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -18,7 +19,7 @@ public class MapConverter implements AttributeConverter<Map<String, Object>, Str
     @Override
     public String convertToDatabaseColumn(Map<String, Object> attribute) {
 
-        if(attribute == null) {
+        if(MapUtils.isEmpty(attribute)) {
 
             return null;
         }
