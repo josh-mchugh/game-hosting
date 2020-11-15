@@ -1,15 +1,15 @@
 package com.example.demo.game.aggregate.event;
 
 import com.example.demo.game.entity.GameType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Value;
 
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
+@Value
+@Builder(builderClassName = "Builder")
 public class GameCreatedEvent {
 
-    private final UUID id;
-    private final GameType type;
+    UUID id;
+    GameType type;
 }

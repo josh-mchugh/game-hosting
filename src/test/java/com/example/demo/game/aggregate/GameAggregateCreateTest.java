@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-public class GameCreateCommandTest {
+public class GameAggregateCreateTest {
 
     private FixtureConfiguration<GameAggregate> fixture;
 
@@ -28,8 +28,15 @@ public class GameCreateCommandTest {
 
         UUID id = UUID.randomUUID();
 
-        GameCreateCommand command = new GameCreateCommand(id, GameType.MINECRAFT_JAVA);
-        GameCreatedEvent event = new GameCreatedEvent(id, GameType.MINECRAFT_JAVA);
+        GameCreateCommand command = GameCreateCommand.builder()
+                .id(id)
+                .type(GameType.MINECRAFT_JAVA)
+                .build();
+
+        GameCreatedEvent event = GameCreatedEvent.builder()
+                .id(id)
+                .type(GameType.MINECRAFT_JAVA)
+                .build();
 
         fixture.givenNoPriorActivity()
                 .when(command)
@@ -40,7 +47,10 @@ public class GameCreateCommandTest {
     @Test
     public void whenCreateHasNullIdTheThrowException() {
 
-        GameCreateCommand command = new GameCreateCommand(null, GameType.MINECRAFT_JAVA);
+        GameCreateCommand command = GameCreateCommand.builder()
+                .id(null)
+                .type(GameType.MINECRAFT_JAVA)
+                .build();
 
         fixture.givenNoPriorActivity()
                 .when(command)
@@ -50,7 +60,10 @@ public class GameCreateCommandTest {
     @Test
     public void whenCreateHasNullTypeThenThrowException() {
 
-        GameCreateCommand command = new GameCreateCommand(UUID.randomUUID(), null);
+        GameCreateCommand command = GameCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .type(null)
+                .build();
 
         fixture.givenNoPriorActivity()
                 .when(command)

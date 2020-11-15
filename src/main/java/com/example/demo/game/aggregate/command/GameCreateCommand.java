@@ -1,21 +1,21 @@
 package com.example.demo.game.aggregate.command;
 
 import com.example.demo.game.entity.GameType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
+@Value
+@Builder(builderClassName = "Builder")
 public class GameCreateCommand {
 
     @NotNull
     @TargetAggregateIdentifier
-    private final UUID id;
+    UUID id;
 
     @NotNull
-    private final GameType type;
+    GameType type;
 }

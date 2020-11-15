@@ -29,7 +29,7 @@ public class GameSeedService implements ISeedService<Object> {
     public ImmutableList<Object> initializeData() {
 
         return Lists.newArrayList(GameType.values()).stream()
-                .map(type -> new GameCreateCommand(UUID.randomUUID(), type))
+                .map(this::createCommand)
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
     }
@@ -44,5 +44,13 @@ public class GameSeedService implements ISeedService<Object> {
     public Integer order() {
 
         return 5;
+    }
+
+    private GameCreateCommand createCommand(GameType type) {
+
+        return GameCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .type(type)
+                .build();
     }
 }
