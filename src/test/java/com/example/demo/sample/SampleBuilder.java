@@ -29,6 +29,7 @@ import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.awx.template.entity.service.IAwxTemplateService;
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
+import com.example.demo.game.aggregate.event.GameCreatedEventTest;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.game.entity.service.IGameService;
@@ -337,7 +338,12 @@ public class SampleBuilder {
 
     private Game createDefaultGame() {
 
-        return gameService.handleCreated(new GameCreatedEvent(UUID.randomUUID(), GameType.MINECRAFT_JAVA));
+        GameCreatedEvent event = GameCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .type(GameType.MINECRAFT_JAVA)
+                .build();
+
+        return gameService.handleCreated(event);
     }
 
     private Region createDefaultRegion() {

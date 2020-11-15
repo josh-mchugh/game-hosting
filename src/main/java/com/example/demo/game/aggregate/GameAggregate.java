@@ -23,7 +23,10 @@ public class GameAggregate {
     @CommandHandler
     public GameAggregate(GameCreateCommand command) {
 
-        GameCreatedEvent event = new GameCreatedEvent(command.getId(), command.getType());
+        GameCreatedEvent event = GameCreatedEvent.builder()
+                .id(command.getId())
+                .type(command.getType())
+                .build();
 
         AggregateLifecycle.apply(event);
     }

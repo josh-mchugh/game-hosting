@@ -1,6 +1,7 @@
 package com.example.demo.game.projection;
 
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
+import com.example.demo.game.aggregate.event.GameCreatedEventTest;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.service.IGameService;
 import org.junit.jupiter.api.Assertions;
@@ -34,7 +35,11 @@ public class GameServiceExistsTest {
     @Test
     public void whenEntitiesThenExistsAllReturnTrue() {
 
-        GameCreatedEvent event = new GameCreatedEvent(UUID.randomUUID(), GameType.MINECRAFT_JAVA);
+        GameCreatedEvent event = GameCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .type(GameType.MINECRAFT_JAVA)
+                .build();
+
         gameService.handleCreated(event);
 
         boolean exists = gameProjection.existsAny();
