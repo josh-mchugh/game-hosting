@@ -2,35 +2,35 @@ package com.example.demo.framework.seed.service;
 
 import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.framework.seed.ISeedService;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.aggregate.command.UserCreateAdminCommand;
+import com.example.demo.user.projection.IUserProjector;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
-public class UserSeedService implements ISeedService<User> {
+public class UserSeedService implements ISeedService<Object> {
 
     private final AppConfig appConfig;
-    private final IUserService userService;
+    private final IUserProjector userProjector;
+    private final CommandGateway commandGateway;
 
     @Override
     public boolean dataNotExists() {
 
-        return !userService.existsUserByEmail(appConfig.getAdminUser().getUsername());
+        return !userProjector.existsByEmail(appConfig.getAdminUser().getUsername());
     }
 
     @Override
-    public ImmutableList<User> initializeData() {
+    public ImmutableList<Object> initializeData() {
 
         return Stream.of(createAdminUser())
-                .map(userService::handleCreateUser)
+                .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
     }
 
@@ -46,13 +46,12 @@ public class UserSeedService implements ISeedService<User> {
         return 1;
     }
 
-    private UserCreateRequest createAdminUser() {
+    private Object createAdminUser() {
 
-        return UserCreateRequest.builder()
+        return UserCreateAdminCommand.builder()
+                .id(UUID.randomUUID())
                 .email(appConfig.getAdminUser().getUsername())
                 .password(appConfig.getAdminUser().getPassword())
-                .state(UserState.ACTIVE)
-                .type(UserType.ADMIN)
                 .build();
     }
 }

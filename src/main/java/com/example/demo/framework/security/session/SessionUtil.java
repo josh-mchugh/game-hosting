@@ -1,7 +1,7 @@
 package com.example.demo.framework.security.session;
 
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.projection.IUserProjector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SessionUtil implements ISessionUtil {
 
-    private final IUserService userService;
+    private final IUserProjector userProjector;
 
     @Override
     public boolean isAuthenticated() {
@@ -29,6 +29,6 @@ public class SessionUtil implements ISessionUtil {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        return userService.getUserByEmail(email);
+        return userProjector.getUserByEmail(email);
     }
 }

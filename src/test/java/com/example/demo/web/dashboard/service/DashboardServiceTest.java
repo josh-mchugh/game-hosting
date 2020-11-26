@@ -19,7 +19,9 @@ import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.example.demo.sample.util.TestProjectCreateRequest;
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.aggregate.event.UserVerifiedEvent;
+import com.example.demo.user.entity.VerificationStatus;
+import com.example.demo.user.entity.service.IUserService;
 import com.example.demo.web.dashboard.service.model.DashboardDetailsResponse;
 import com.example.demo.web.dashboard.service.model.DashboardProjectCreateRequest;
 import com.example.demo.web.dashboard.service.model.DashboardProjectCreateResponse;
@@ -36,6 +38,7 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -89,7 +92,12 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasVerifiedUserThenReturnEmailVerifiedTrue() {
 
-        userService.handleEmailVerification(data.getUser().getVerification().getToken());
+        UserVerifiedEvent event = UserVerifiedEvent.builder()
+                .id(UUID.fromString(data.getUser().getId()))
+                .verifiedDate(LocalDateTime.now())
+                .build();
+
+        userService.handleVerified(event);
 
         Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 

@@ -1,18 +1,22 @@
 package com.example.demo.web.verify.service;
 
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.aggregate.command.UserVerifyResetCommand;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.entity.service.IUserService;
 import com.example.demo.web.verification.service.IVerifyService;
-import com.example.demo.web.verification.service.model.VerificationResendResponse;
-import org.junit.jupiter.api.Assertions;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @Transactional
@@ -25,16 +29,25 @@ public class VerifyServiceTest {
     @Autowired
     private IVerifyService verifyService;
 
+    @MockBean
+    private CommandGateway commandGateway;
+
     @Test
     public void testHandleResendVerificationEmail() {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        VerificationResendResponse response = verifyService.handleResendVerificationEmail(user.getId());
+        User user = userService.handleCreated(event);
 
-        Assertions.assertTrue(response.getSuccess());
-        Assertions.assertEquals(user.getId(), response.getUser().getId());
-        Assertions.assertNotEquals(user.getVerification().getToken(), response.getUser().getVerification().getToken());
+        verifyService.handleResendVerificationEmail(user.getId());
+
+        Mockito.verify(commandGateway, Mockito.times(1)).send(Mockito.any(UserVerifyResetCommand.class));
     }
 }

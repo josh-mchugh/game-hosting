@@ -1,17 +1,21 @@
 package com.example.demo.web.password.forgot.service;
 
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
-import com.example.demo.web.password.forgot.service.model.ForgotPasswordResponse;
-import org.junit.jupiter.api.Assertions;
+import com.example.demo.user.aggregate.command.UserRecoveryTokenCreateCommandTest;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.entity.service.IUserService;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @Transactional
@@ -24,24 +28,33 @@ public class ForgotPasswordServiceTest {
     @Autowired
     private IUserService userService;
 
+    @MockBean
+    private CommandGateway commandGateway;
+
     @Test
     public void testForgotPasswordExistingUser() {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        ForgotPasswordResponse response = forgotPasswordService.handleForgotPassword(user.getEmail());
+        User user = userService.handleCreated(event);
 
-        Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals(user.getEmail(), response.getEmailAddress());
+        forgotPasswordService.handleForgotPassword(user.getEmail());
+
+        Mockito.verify(commandGateway, Mockito.times(1)).send(Mockito.any());
     }
 
     @Test
     public void testForgotPasswordNonExistingUser() {
 
-        ForgotPasswordResponse response = forgotPasswordService.handleForgotPassword("non-existing@forgot-password-service.com");
+        forgotPasswordService.handleForgotPassword("non-existing@forgot-password-service.com");
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(response.getEmailAddress(),"non-existing@forgot-password-service.com");
+        Mockito.verify(commandGateway, Mockito.times(0)).send(Mockito.any(UserRecoveryTokenCreateCommandTest.class));
     }
 }

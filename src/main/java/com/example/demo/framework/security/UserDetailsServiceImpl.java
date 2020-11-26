@@ -1,7 +1,7 @@
 package com.example.demo.framework.security;
 
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.projection.IUserProjector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,17 +12,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final IUserService userService;
+    private final IUserProjector userProjector;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        if (!userService.existsUserByEmail(email)) {
+        if (!userProjector.existsByEmail(email)) {
 
             throw new UsernameNotFoundException(String.format("Unable to find user with email: %s", email));
         }
 
-        User user = userService.getUserByEmail(email);
+        User user = userProjector.getUserByEmail(email);
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())

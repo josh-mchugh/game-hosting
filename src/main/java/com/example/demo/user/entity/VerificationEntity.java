@@ -1,6 +1,6 @@
 package com.example.demo.user.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,20 +17,20 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "user_verification")
-public class VerificationEntity extends AbstractEntity {
+public class VerificationEntity extends AbstractAggregateEntity {
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private VerificationStatus status;
 
-    @Column(name = "token")
+    @Column(name = "token", nullable = false)
     private String token;
 
-    @Column(name = "sent_date")
+    @Column(name = "sent_date", nullable = false)
     private LocalDateTime sentDate;
 
     @Column(name = "verification_date")

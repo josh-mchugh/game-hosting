@@ -1,6 +1,6 @@
 package com.example.demo.web.password.reset;
 
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.projection.IUserProjector;
 import com.example.demo.util.PasswordUtil;
 import com.example.demo.web.password.reset.model.ResetPasswordForm;
 import com.example.demo.web.password.reset.service.IResetPasswordService;
@@ -25,12 +25,12 @@ import javax.validation.Valid;
 public class ResetPasswordController {
 
     private final IResetPasswordService resetPasswordService;
-    private final IUserService userService;
+    private final IUserProjector userProjector;
 
     @GetMapping("/{token}")
     public String getResetPassword(@PathVariable("token") String token, Model model) {
 
-        if (!userService.existsByRecoveryToken(token)) {
+        if (!userProjector.existsByRecoveryToken(token)) {
 
             model.addAttribute("hasValidToken", false);
 

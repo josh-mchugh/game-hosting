@@ -16,7 +16,7 @@ import com.example.demo.ovh.instance.model.Instance;
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.project.model.Project;
-import com.example.demo.user.model.User;
+import com.example.demo.user.entity.model.User;
 import lombok.Builder;
 import lombok.Getter;
 

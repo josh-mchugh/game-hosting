@@ -1,14 +1,13 @@
 package com.example.demo.web.registration.service;
 
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
-import com.example.demo.user.entity.VerificationStatus;
-import com.example.demo.user.model.User;
+import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
 import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
-import org.junit.jupiter.api.Assertions;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
@@ -21,6 +20,9 @@ public class RegistrationServiceTest {
     @Autowired
     private IRegistrationService registrationService;
 
+    @MockBean
+    private CommandGateway commandGateway;
+
     @Test
     public void testRegistrationCreateUser() {
 
@@ -29,18 +31,8 @@ public class RegistrationServiceTest {
                 .password("Password1!")
                 .build();
 
-        User user = registrationService.handleCreateNewUser(request);
+        registrationService.handleCreateNewUser(request);
 
-        Assertions.assertNotNull(user.getId());
-        Assertions.assertEquals(request.getEmail(), user.getEmail());
-        Assertions.assertNotNull(user.getPassword());
-        Assertions.assertEquals(UserType.REGULAR, user.getType());
-        Assertions.assertEquals(UserState.ACTIVE, user.getState());
-
-        Assertions.assertNotNull(user.getVerification().getId());
-        Assertions.assertNotNull(user.getVerification().getToken());
-        Assertions.assertEquals(VerificationStatus.UNVERIFIED, user.getVerification().getStatus());
-        Assertions.assertNotNull(user.getVerification().getSentDate());
-        Assertions.assertNull(user.getVerification().getVerificationDate());
+        Mockito.verify(commandGateway, Mockito.times(1)).send(Mockito.any(UserCreateRegularCommand.class));
     }
 }
