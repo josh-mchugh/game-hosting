@@ -1,17 +1,22 @@
 package com.example.demo.web.password.reset.service;
 
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.entity.service.IUserService;
 import com.example.demo.web.password.reset.service.model.PasswordResetRequest;
-import org.junit.jupiter.api.Assertions;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @Transactional
@@ -24,22 +29,37 @@ public class ResetPasswordServiceTest {
     @Autowired
     private IResetPasswordService resetPasswordService;
 
+    @MockBean
+    private CommandGateway commandGateway;
+
     @Test
     public void testHandleResetPassword() {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        user = userService.handleCreateRecoveryToken(user.getEmail());
+        User user = userService.handleCreated(event);
+
+        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
+                .id(UUID.fromString(user.getId()))
+                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
+                .build();
+
+        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
 
         PasswordResetRequest resetRequest = PasswordResetRequest.builder()
                 .password("newPassword1!")
                 .token(user.getRecoveryToken().getToken())
                 .build();
 
-        User updatedUser = resetPasswordService.handlePasswordReset(resetRequest);
+        resetPasswordService.handlePasswordReset(resetRequest);
 
-        Assertions.assertNotEquals(user.getPassword(), updatedUser.getPassword());
-        Assertions.assertNotEquals(user.getRecoveryToken(), updatedUser.getRecoveryToken());
+        Mockito.verify(commandGateway, Mockito.times(1)).send(Mockito.any());
     }
 }

@@ -8,23 +8,19 @@ import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
-@SpringBootTest
-@ActiveProfiles("test")
 public class AwxProjectCreateCommandTest {
-
-    @Autowired
-    private StringEncryptor encryptor;
 
     private FixtureConfiguration<AwxProjectAggregate> fixture;
 
     @BeforeEach
     public void setup() {
+
+        StringEncryptor encryptor = Mockito.mock(StringEncryptor.class);
+        Mockito.when(encryptor.encrypt(Mockito.anyString())).thenReturn("");
 
         fixture = new AggregateTestFixture<>(AwxProjectAggregate.class)
                 .registerCommandHandlerInterceptor(new BeanValidationInterceptor<>())

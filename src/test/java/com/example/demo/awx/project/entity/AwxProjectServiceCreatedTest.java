@@ -5,7 +5,6 @@ import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.awx.project.entity.service.IAwxProjectService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
-import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +26,6 @@ public class AwxProjectServiceCreatedTest {
 
     @Autowired
     private SampleBuilder sampleBuilder;
-
-    @Autowired
-    private StringEncryptor stringEncryptor;
 
     private SampleData data;
 

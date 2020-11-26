@@ -1,8 +1,7 @@
 package com.example.demo.user.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "user_recovery_token")
-public class RecoveryTokenEntity extends AbstractEntity {
+public class RecoveryTokenEntity extends AbstractAggregateEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -1,6 +1,5 @@
 package com.example.demo.user.scheduler;
 
-import com.example.demo.user.model.User;
 import com.example.demo.user.scheduler.service.IRecoveryTokenSchedulerService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class RecoveryTokenScheduler {
 
         log.info("Processing Expired RecoveryTokens");
 
-        ImmutableList<User> users = recoveryTokenSchedulerService.processExpiredRecoveryTokens();
+        ImmutableList<Object> users = recoveryTokenSchedulerService.processExpiredRecoveryTokens();
 
         log.info("Processed Expired Tokens: {}", users.size());
         log.info("FinishedProcessing Expired Recovery Tokens");

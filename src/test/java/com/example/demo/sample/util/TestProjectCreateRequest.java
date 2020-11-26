@@ -3,7 +3,7 @@ package com.example.demo.sample.util;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.project.service.model.ProjectCreateRequest;
-import com.example.demo.user.model.User;
+import com.example.demo.user.entity.model.User;
 
 public class TestProjectCreateRequest {
 

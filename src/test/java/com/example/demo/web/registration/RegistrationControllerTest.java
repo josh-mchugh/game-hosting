@@ -1,9 +1,9 @@
 package com.example.demo.web.registration;
 
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.service.IUserService;
 import com.example.demo.web.registration.model.RegistrationForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @Transactional
@@ -75,8 +76,16 @@ public class RegistrationControllerTest {
     @Test
     public void testPostRegistrationExistingUser() throws  Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
+
+        userService.handleCreated(event);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())

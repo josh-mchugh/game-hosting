@@ -1,9 +1,10 @@
 package com.example.demo.web.verify;
 
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.entity.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -33,8 +35,16 @@ public class VerifyControllerTest {
     @Test
     public void testVerifyEmail() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
+
+        User user = userService.handleCreated(event);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/verify/%s", user.getVerification().getToken()));
 
@@ -62,8 +72,16 @@ public class VerifyControllerTest {
     @Test
     public void testVerifyResendEmail() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
+
+        User user = userService.handleCreated(event);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/verify/resend")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())

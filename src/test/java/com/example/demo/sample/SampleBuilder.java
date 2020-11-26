@@ -29,7 +29,6 @@ import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.awx.template.entity.service.IAwxTemplateService;
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
-import com.example.demo.game.aggregate.event.GameCreatedEventTest;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.game.entity.service.IGameService;
@@ -59,9 +58,11 @@ import com.example.demo.project.service.model.ProjectCreateRequest;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
 import com.example.demo.sample.util.TestProjectCreateRequest;
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.entity.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -172,13 +173,6 @@ public class SampleBuilder {
         public Builder user() {
 
             user = createDefaultUser();
-
-            return this;
-        }
-
-        public Builder user(TestUserCreateRequest.Type type) {
-
-            user = createUser(type);
 
             return this;
         }
@@ -328,12 +322,16 @@ public class SampleBuilder {
 
     private User createDefaultUser() {
 
-        return userService.handleCreateUser(TestUserCreateRequest.createDefault());
-    }
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-    private User createUser(TestUserCreateRequest.Type type) {
-
-        return userService.handleCreateUser(TestUserCreateRequest.builder(type).build());
+        return userService.handleCreated(event);
     }
 
     private Game createDefaultGame() {

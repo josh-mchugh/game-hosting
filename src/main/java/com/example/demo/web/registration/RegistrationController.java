@@ -1,6 +1,6 @@
 package com.example.demo.web.registration;
 
-import com.example.demo.user.service.IUserService;
+import com.example.demo.user.projection.IUserProjector;
 import com.example.demo.util.PasswordUtil;
 import com.example.demo.web.registration.model.RegistrationForm;
 import com.example.demo.web.registration.service.IRegistrationService;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
 
-    private final IUserService userService;
+    private final IUserProjector userProjector;
     private final IRegistrationService registrationService;
 
     @GetMapping("")
@@ -38,7 +38,7 @@ public class RegistrationController {
 
         if(StringUtils.isNotEmpty(form.getEmail())) {
 
-            if (userService.existsUserByEmail(form.getEmail())) {
+            if (userProjector.existsByEmail(form.getEmail())) {
 
                 results.rejectValue("email", "error.email.exists", "Email address already exists");
             }

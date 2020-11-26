@@ -1,9 +1,11 @@
 package com.example.demo.web.password.reset;
 
-import com.example.demo.sample.util.TestUserCreateRequest;
-import com.example.demo.user.model.User;
-import com.example.demo.user.service.IUserService;
-import com.example.demo.user.service.model.UserCreateRequest;
+import com.example.demo.user.aggregate.event.UserCreatedEvent;
+import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
+import com.example.demo.user.entity.UserState;
+import com.example.demo.user.entity.UserType;
+import com.example.demo.user.entity.model.User;
+import com.example.demo.user.entity.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @ActiveProfiles("test")
 @Transactional
@@ -33,10 +36,23 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordWithValidId() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        user = userService.handleCreateRecoveryToken(user.getEmail());
+        User user = userService.handleCreated(event);
+
+        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
+                .id(UUID.fromString(user.getId()))
+                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
+                .build();
+
+        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/reset-password/%s", user.getRecoveryToken().getToken()));
 
@@ -62,10 +78,23 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordEmptyPasswords() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        user = userService.handleCreateRecoveryToken(user.getEmail());
+        User user = userService.handleCreated(event);
+
+        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
+                .id(UUID.fromString(user.getId()))
+                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
+                .build();
+
+        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -82,10 +111,24 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordMismatchPassword() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
 
-        user = userService.handleCreateRecoveryToken(user.getEmail());
+                .build();
+
+        User user = userService.handleCreated(event);
+
+        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
+                .id(UUID.fromString(user.getId()))
+                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
+                .build();
+
+        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -102,10 +145,23 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordWeakPassword() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        user = userService.handleCreateRecoveryToken(user.getEmail());
+        User user = userService.handleCreated(event);
+
+        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
+                .id(UUID.fromString(user.getId()))
+                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
+                .build();
+
+        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -122,10 +178,23 @@ public class ResetPasswordControllerTest {
     @Test
     public void testResetPasswordSubmissionValid() throws Exception {
 
-        UserCreateRequest userCreateRequest = TestUserCreateRequest.createDefault();
-        User user = userService.handleCreateUser(userCreateRequest);
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("test@test")
+                .password("password")
+                .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
 
-        user = userService.handleCreateRecoveryToken(user.getEmail());
+        User user = userService.handleCreated(event);
+
+        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
+                .id(UUID.fromString(user.getId()))
+                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
+                .build();
+
+        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/reset-password/%s", user.getRecoveryToken().getToken()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf())

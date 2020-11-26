@@ -1,6 +1,6 @@
 package com.example.demo.user.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.project.entity.ProjectMembershipEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users")
-public class UserEntity extends AbstractEntity {
+public class UserEntity extends AbstractAggregateEntity {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;

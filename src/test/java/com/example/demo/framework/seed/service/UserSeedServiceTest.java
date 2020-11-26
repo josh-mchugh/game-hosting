@@ -1,7 +1,6 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.sample.SampleBuilder;
-import com.example.demo.user.model.User;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -45,7 +44,7 @@ public class UserSeedServiceTest {
     @Test
     public void whenInitializeDataIsValueReturnList() {
 
-        ImmutableList<User> users = userSeedService.initializeData();
+        ImmutableList<Object> users = userSeedService.initializeData();
 
         Assertions.assertEquals(1, users.size());
     }

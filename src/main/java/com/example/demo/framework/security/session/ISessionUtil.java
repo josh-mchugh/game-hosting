@@ -1,6 +1,6 @@
 package com.example.demo.framework.security.session;
 
-import com.example.demo.user.model.User;
+import com.example.demo.user.entity.model.User;
 
 public interface ISessionUtil {
 
