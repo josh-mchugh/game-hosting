@@ -256,7 +256,9 @@
             <column name="user_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="role" type="varchar(255)"/>
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="project_membership" baseColumnNames="project_id" constraintName="project_membership_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="project_membership" baseColumnNames="user_id" constraintName="project_membership_user_id__users_id" referencedTableName="users" referencedColumnNames="id"/>

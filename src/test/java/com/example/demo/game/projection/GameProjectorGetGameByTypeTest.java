@@ -1,8 +1,8 @@
 package com.example.demo.game.projection;
 
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
-import com.example.demo.game.aggregate.event.GameCreatedEventTest;
 import com.example.demo.game.entity.GameType;
+import com.example.demo.game.entity.model.Game;
 import com.example.demo.game.entity.service.IGameService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class GameServiceExistsTest {
+public class GameProjectorGetGameByTypeTest {
 
     @Autowired
     private IGameProjection gameProjection;
@@ -25,15 +25,21 @@ public class GameServiceExistsTest {
     private IGameService gameService;
 
     @Test
-    public void whenNoEntitiesThenExistsAllReturnFalse() {
+    public void whenParamIsNullThenExpectException() {
 
-        boolean exists = gameProjection.existsAny();
-
-        Assertions.assertFalse(exists);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> gameProjection.getGameByType(null));
     }
 
     @Test
-    public void whenEntitiesThenExistsAllReturnTrue() {
+    public void whenGameDoesNotExistThenReturnNull() {
+
+        Game game = gameProjection.getGameByType(GameType.MINECRAFT_JAVA);
+
+        Assertions.assertNull(game);
+    }
+
+    @Test
+    public void whenGameExistsByTypeThenReturnGame() {
 
         GameCreatedEvent event = GameCreatedEvent.builder()
                 .id(UUID.randomUUID())
@@ -42,8 +48,8 @@ public class GameServiceExistsTest {
 
         gameService.handleCreated(event);
 
-        boolean exists = gameProjection.existsAny();
+        Game game = gameProjection.getGameByType(GameType.MINECRAFT_JAVA);
 
-        Assertions.assertTrue(exists);
+        Assertions.assertEquals(GameType.MINECRAFT_JAVA, game.getType());
     }
 }

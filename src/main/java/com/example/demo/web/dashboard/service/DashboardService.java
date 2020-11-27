@@ -1,14 +1,16 @@
 package com.example.demo.web.dashboard.service;
 
+import com.example.demo.awx.host.aggregate.command.AwxHostCreateCommand;
 import com.example.demo.awx.host.feign.HostClient;
 import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.awx.host.feign.model.HostCreateApi;
-import com.example.demo.awx.host.aggregate.command.AwxHostCreateCommand;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.security.session.ISessionUtil;
+import com.example.demo.game.entity.model.Game;
+import com.example.demo.game.projection.IGameProjection;
 import com.example.demo.ovh.credential.entity.service.ICredentialService;
 import com.example.demo.ovh.credential.projector.ICredentialProjector;
 import com.example.demo.ovh.feign.common.IpAddressApi;
@@ -26,11 +28,11 @@ import com.example.demo.ovh.instance.service.IInstanceService;
 import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
 import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
 import com.example.demo.ovh.instance.service.model.InstanceUpdateRequest;
+import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.project.entity.QProjectMembershipEntity;
-import com.example.demo.project.model.Project;
-import com.example.demo.project.service.IProjectService;
-import com.example.demo.project.service.model.ProjectCreateRequest;
+import com.example.demo.project.entity.model.Project;
+import com.example.demo.project.entity.service.IProjectService;
 import com.example.demo.user.entity.QUserEntity;
 import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.web.dashboard.service.model.DashboardDetailsResponse;
@@ -51,8 +53,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,6 +73,7 @@ public class DashboardService implements IDashboardService {
     private final IAwxInventoryProjector awxInventoryProjector;
     private final OvhConfig ovhConfig;
     private final AwxConfig awxConfig;
+    private final IGameProjection gameProjection;
     private final JPQLQueryFactory queryFactory;
     private final CommandGateway commandGateway;
 
@@ -144,11 +145,13 @@ public class DashboardService implements IDashboardService {
     @Override
     public DashboardProjectCreateResponse handleDashboardProjectCreate(DashboardProjectCreateRequest request) {
 
-        LocalDateTime startTime = LocalDateTime.now();
-        log.info("Entered handleDashboardProject: {}", startTime);
+        //LocalDateTime startTime = LocalDateTime.now();
+        //log.info("Entered handleDashboardProject: {}", startTime);
 
         log.info("Creating Project...");
-        Project project = handleProjectCreate(request);
+        UUID projectId = handleProjectCreate(request);
+
+        /*
 
         log.info("Calling OVH API to create Instance Group...");
         InstanceGroupApi groupResponse = handleInstanceGroupCreateApi(project, request);
@@ -182,20 +185,25 @@ public class DashboardService implements IDashboardService {
 
         log.info("Finished handleDashboardProjectCreate. Total Time: {} seconds", ChronoUnit.SECONDS.between(startTime, LocalDateTime.now()));
 
+        */
+
         return DashboardProjectCreateResponse.builder()
-                .projectId(project.getId())
+                .projectId(projectId.toString())
                 .build();
     }
 
-    private Project handleProjectCreate(DashboardProjectCreateRequest request) {
+    private UUID handleProjectCreate(DashboardProjectCreateRequest request) {
 
-        ProjectCreateRequest projectCreateRequest = ProjectCreateRequest.builder()
+        Game game = gameProjection.getGameByType(request.getGameType());
+
+        ProjectCreateCommand command = ProjectCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .name(request.getName())
+                .gameId(game.getId())
                 .userId(sessionUtil.getCurrentUser().getId())
-                .gameType(request.getGameType())
                 .build();
 
-        return projectService.handleProjectCreate(projectCreateRequest);
+        return commandGateway.sendAndWait(command);
     }
 
     private InstanceGroupApi handleInstanceGroupCreateApi(Project project, DashboardProjectCreateRequest request) {

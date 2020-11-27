@@ -1,4 +1,4 @@
-package com.example.demo.project.model;
+package com.example.demo.project.entity.model;
 
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;

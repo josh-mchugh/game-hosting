@@ -2,7 +2,7 @@ package com.example.demo.sample.util;
 
 import com.example.demo.ovh.instance.model.InstanceGroup;
 import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
-import com.example.demo.project.model.Project;
+import com.example.demo.project.entity.model.Project;
 
 public class TestInstanceGroupCreateRequest {
 

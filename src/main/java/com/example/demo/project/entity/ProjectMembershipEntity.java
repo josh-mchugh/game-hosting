@@ -1,6 +1,6 @@
 package com.example.demo.project.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "project_membership")
-public class ProjectMembershipEntity extends AbstractEntity {
+public class ProjectMembershipEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
@@ -29,6 +29,6 @@ public class ProjectMembershipEntity extends AbstractEntity {
     private UserEntity userEntity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private ProjectMembershipRole role;
 }
