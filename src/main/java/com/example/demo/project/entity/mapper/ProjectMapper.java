@@ -1,7 +1,7 @@
-package com.example.demo.project.mapper;
+package com.example.demo.project.entity.mapper;
 
 import com.example.demo.project.entity.ProjectEntity;
-import com.example.demo.project.model.Project;
+import com.example.demo.project.entity.model.Project;
 
 public class ProjectMapper {
 

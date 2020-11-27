@@ -52,12 +52,13 @@ import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
-import com.example.demo.project.model.Project;
-import com.example.demo.project.service.IProjectService;
-import com.example.demo.project.service.model.ProjectCreateRequest;
+import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
+import com.example.demo.project.entity.model.Project;
+import com.example.demo.project.entity.service.IProjectService;
 import com.example.demo.sample.util.TestInstanceCreateRequest;
 import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
-import com.example.demo.sample.util.TestProjectCreateRequest;
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
@@ -421,13 +422,14 @@ public class SampleBuilder {
         if (user == null) user = createDefaultUser();
         if (game == null) game = createDefaultGame();
 
-        ProjectCreateRequest request = TestProjectCreateRequest.builder()
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .id(UUID.randomUUID())
                 .name("project name")
-                .userId(user)
-                .gameType(game)
+                .gameId(game.getId())
+                .member(ProjectCreatedEvent.createMember(user.getId()))
                 .build();
 
-        return projectService.handleProjectCreate(request);
+        return projectService.handleCreated(event);
     }
 
     private InstanceGroup createDefaultInstanceGroup() {

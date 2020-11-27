@@ -1,6 +1,6 @@
 package com.example.demo.project.entity;
 
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.game.entity.GameEntity;
 import com.example.demo.ovh.instance.entity.InstanceGroupEntity;
 import lombok.Getter;
@@ -23,7 +23,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "project")
-public class ProjectEntity extends AbstractEntity {
+public class ProjectEntity extends AbstractAggregateEntity {
 
     @Column(name = "name", nullable = false)
     private String name;

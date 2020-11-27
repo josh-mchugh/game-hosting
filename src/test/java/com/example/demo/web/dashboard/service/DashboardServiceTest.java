@@ -6,26 +6,25 @@ import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.common.SshKeyDetailApi;
-import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.InstanceGroupClient;
 import com.example.demo.ovh.feign.instance.model.InstanceApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
+import com.example.demo.ovh.flavor.feign.model.FlavorApi;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.project.model.Project;
-import com.example.demo.project.service.IProjectService;
-import com.example.demo.project.service.model.ProjectCreateRequest;
+import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.entity.model.Project;
+import com.example.demo.project.entity.service.IProjectService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
-import com.example.demo.sample.util.TestProjectCreateRequest;
 import com.example.demo.user.aggregate.event.UserVerifiedEvent;
-import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.user.entity.service.IUserService;
 import com.example.demo.web.dashboard.service.model.DashboardDetailsResponse;
 import com.example.demo.web.dashboard.service.model.DashboardProjectCreateRequest;
 import com.example.demo.web.dashboard.service.model.DashboardProjectCreateResponse;
 import com.example.demo.web.dashboard.service.projections.DashboardProjectProjection;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,6 +68,9 @@ public class DashboardServiceTest {
     @MockBean
     private HostClient hostClient;
 
+    @MockBean
+    private CommandGateway commandGateway;
+
     private SampleData data;
 
     @BeforeEach
@@ -109,12 +111,14 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasProjectsThenReturnProjectsTrue() {
 
-        ProjectCreateRequest projectCreateRequest = TestProjectCreateRequest.builder()
-                .name("test-project")
-                .userId(data.getUser())
-                .gameType(GameType.MINECRAFT_JAVA)
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("name")
+                .gameId(data.getGame().getId())
+                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
                 .build();
-        Project project = projectService.handleProjectCreate(projectCreateRequest);
+
+        projectService.handleCreated(event);
 
         Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
@@ -126,12 +130,14 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasProjectsSizeThenReturnProjectsSize() {
 
-        ProjectCreateRequest projectCreateRequest = TestProjectCreateRequest.builder()
-                .name("test-project")
-                .userId(data.getUser())
-                .gameType(data.getGame())
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("name")
+                .gameId(data.getGame().getId())
+                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
                 .build();
-        Project project = projectService.handleProjectCreate(projectCreateRequest);
+
+        projectService.handleCreated(event);
 
         Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
@@ -143,12 +149,14 @@ public class DashboardServiceTest {
     @Test
     public void whenDashboardDetailsHasProjectThenProjectEqualsExpected() {
 
-        ProjectCreateRequest projectCreateRequest = TestProjectCreateRequest.builder()
-                .name("test-project")
-                .userId(data.getUser())
-                .gameType(data.getGame())
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("name")
+                .gameId(data.getGame().getId())
+                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
                 .build();
-        Project project = projectService.handleProjectCreate(projectCreateRequest);
+
+        Project project = projectService.handleCreated(event);
 
         Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
@@ -192,6 +200,8 @@ public class DashboardServiceTest {
                 .thenReturn(buildInstanceApi(InstanceStatus.ACTIVE));
 
         Mockito.when(hostClient.createHost(Mockito.any())).thenReturn(buildHostApi());
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
 
         DashboardProjectCreateRequest createRequest = DashboardProjectCreateRequest.builder()
                 .name("test-project")
