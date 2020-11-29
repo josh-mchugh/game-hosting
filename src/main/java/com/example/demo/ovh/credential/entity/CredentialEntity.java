@@ -1,7 +1,6 @@
 package com.example.demo.ovh.credential.entity;
 
 import com.example.demo.framework.database.AbstractAggregateEntity;
-import com.example.demo.framework.database.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package com.example.demo.ovh.instance.entity;
 
 import com.example.demo.awx.host.entity.AwxHostEntity;
-import com.example.demo.framework.database.AbstractEntity;
+import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.ovh.credential.entity.CredentialEntity;
 import com.example.demo.ovh.flavor.entity.FlavorEntity;
 import com.example.demo.ovh.image.entity.ImageEntity;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "instance")
-public class InstanceEntity extends AbstractEntity {
+public class InstanceEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "flavor_id", nullable = false)
@@ -45,7 +45,6 @@ public class InstanceEntity extends AbstractEntity {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "instanceEntity")
     private AwxHostEntity awxHostEntity;
 
-    @NotNull
     @Column(name = "instance_id", unique = true, nullable = false)
     private String instanceId;
 

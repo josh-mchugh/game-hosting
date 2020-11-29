@@ -1,7 +1,6 @@
 package com.example.demo.email.entity;
 
 import com.example.demo.framework.database.AbstractAggregateEntity;
-import com.example.demo.framework.database.AbstractEntity;
 import com.example.demo.framework.database.converter.CollectionConverter;
 import com.example.demo.framework.database.converter.MapConverter;
 import lombok.Getter;
