@@ -4,24 +4,25 @@ import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.feign.common.IpAddressApi;
 import com.example.demo.ovh.feign.instance.InstanceClient;
 import com.example.demo.ovh.feign.instance.model.InstanceApi;
+import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
-import com.example.demo.ovh.instance.mapper.InstanceMapper;
-import com.example.demo.ovh.instance.model.Instance;
-import com.example.demo.ovh.instance.service.IInstanceService;
-import com.example.demo.ovh.instance.service.model.InstanceUpdateRequest;
+import com.example.demo.ovh.instance.entity.mapper.InstanceMapper;
+import com.example.demo.ovh.instance.entity.model.Instance;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,13 +31,13 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
     private final OvhConfig ovhConfig;
     private final JPQLQueryFactory queryFactory;
-    private final IInstanceService instanceService;
     private final InstanceClient instanceClient;
+    private final CommandGateway commandGateway;
 
     @Override
-    public ImmutableList<Instance> handleInstanceUpdates() {
+    public List<UUID> handleInstanceUpdates() {
 
-        List<Instance> updatedInstances = new ArrayList<>();
+        List<UUID> updatedInstances = new ArrayList<>();
 
         for(List<InstanceApi> apiResponses : getPartitionedApiList()) {
 
@@ -62,7 +63,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
             }
         }
 
-        return ImmutableList.copyOf(updatedInstances);
+        return updatedInstances;
     }
 
     public List<List<InstanceApi>> getPartitionedApiList() {
@@ -74,6 +75,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
         QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
 
+        //TODO: Replace with QueryGate / Projection
         List<InstanceEntity> entities = queryFactory.select(qInstance)
                 .from(qInstance)
                 .where(qInstance.instanceId.in(ids))
@@ -126,10 +128,10 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
                 .orElse(null);
     }
 
-    private Instance handleInstanceUpdate(String id, InstanceApi apiResponse) {
+    private UUID handleInstanceUpdate(String id, InstanceApi apiResponse) {
 
-        InstanceUpdateRequest request = InstanceUpdateRequest.builder()
-                .id(id)
+        InstanceUpdateCommand command = InstanceUpdateCommand.builder()
+                .id(UUID.fromString(id))
                 .name(apiResponse.getName())
                 .status(apiResponse.getStatus())
                 .instanceCreatedDate(apiResponse.getCreatedDate())
@@ -137,6 +139,6 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
                 .ip6Address(getIp6Address(apiResponse.getIpAddresses()))
                 .build();
 
-        return instanceService.handleInstanceUpdate(request);
+        return commandGateway.sendAndWait(command);
     }
 }

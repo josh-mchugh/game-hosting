@@ -15,6 +15,7 @@ import com.example.demo.user.entity.UserEntity;
 import com.google.common.collect.Lists;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,7 @@ public class ProjectService implements IProjectService {
     private final EntityManager entityManager;
 
     @Override
+    @EventHandler
     public Project handleCreated(ProjectCreatedEvent event) {
 
         QGameEntity qGame = QGameEntity.gameEntity;

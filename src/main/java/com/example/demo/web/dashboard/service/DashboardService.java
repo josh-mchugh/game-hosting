@@ -20,14 +20,14 @@ import com.example.demo.ovh.feign.instance.model.InstanceApi;
 import com.example.demo.ovh.feign.instance.model.InstanceCreateApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
 import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
+import com.example.demo.ovh.instance.aggregate.command.InstanceGroupCreateCommand;
+import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
+import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.model.Instance;
-import com.example.demo.ovh.instance.model.InstanceGroup;
-import com.example.demo.ovh.instance.service.IInstanceGroupService;
-import com.example.demo.ovh.instance.service.IInstanceService;
-import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
-import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
-import com.example.demo.ovh.instance.service.model.InstanceUpdateRequest;
+import com.example.demo.ovh.instance.entity.model.Instance;
+import com.example.demo.ovh.instance.entity.model.InstanceGroup;
+import com.example.demo.ovh.instance.entity.service.IInstanceGroupService;
+import com.example.demo.ovh.instance.entity.service.IInstanceService;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.project.entity.QProjectMembershipEntity;
@@ -217,16 +217,17 @@ public class DashboardService implements IDashboardService {
         return instanceGroupClient.createInstanceGroup(ovhConfig.getProjectId(), groupCreateRequest);
     }
 
-    private InstanceGroup handleInstanceGroupCreate(Project project, InstanceGroupApi groupResponse) {
+    private UUID handleInstanceGroupCreate(Project project, InstanceGroupApi groupResponse) {
 
-        InstanceGroupCreateRequest instanceGroupCreateRequest = InstanceGroupCreateRequest.builder()
-                .instanceGroupId(groupResponse.getId())
+        InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .projectId(project.getId())
+                .groupId(groupResponse.getId())
                 .name(groupResponse.getName())
                 .type(groupResponse.getType())
                 .build();
 
-        return instanceGroupService.handleInstanceGroupCreate(instanceGroupCreateRequest);
+        return commandGateway.sendAndWait(command);
     }
 
     private InstanceApi handleInstanceCreateApi(Project project, InstanceGroup instanceGroup, DashboardProjectCreateRequest request, String sshKeyId) {
@@ -246,18 +247,11 @@ public class DashboardService implements IDashboardService {
 
     private Instance handleInstanceCreate(InstanceApi instanceApi, InstanceGroup instanceGroup) {
 
-        InstanceCreateRequest instanceCreateRequest = InstanceCreateRequest.builder()
-                .instanceId(instanceApi.getId())
-                .flavorId(instanceApi.getFlavor().getFlavorId())
-                .imageId(instanceApi.getImage().getImageId())
-                .groupId(instanceGroup.getGroupId())
-                .sshKeyId(instanceApi.getSshKey().getId())
-                .instanceCreatedDate(instanceApi.getCreatedDate())
-                .name(instanceApi.getName())
-                .status(instanceApi.getStatus())
+        InstanceCreatedEvent event = InstanceCreatedEvent.builder()
+                .id(UUID.randomUUID())
                 .build();
 
-        return instanceService.handleInstanceCreate(instanceCreateRequest);
+        return instanceService.handleCreated(event);
     }
 
     @SneakyThrows
@@ -290,10 +284,10 @@ public class DashboardService implements IDashboardService {
         return instanceApi;
     }
 
-    private Instance handleInstanceActiveUpdate(Instance instance, InstanceApi instanceApi) {
+    private UUID handleInstanceActiveUpdate(Instance instance, InstanceApi instanceApi) {
 
-        InstanceUpdateRequest request = InstanceUpdateRequest.builder()
-                .id(instance.getId())
+        InstanceUpdateCommand command = InstanceUpdateCommand.builder()
+                .id(UUID.fromString(instance.getId()))
                 .name(instance.getName())
                 .status(instanceApi.getStatus())
                 .instanceCreatedDate(instance.getInstanceCreatedDate())
@@ -301,7 +295,7 @@ public class DashboardService implements IDashboardService {
                 .ip6Address(getIpAddress(instanceApi.getIpAddresses(), 6))
                 .build();
 
-        return instanceService.handleInstanceUpdate(request);
+        return commandGateway.sendAndWait(command);
     }
 
     private String getIpAddress(List<IpAddressApi> ipAddresses, Integer version) {

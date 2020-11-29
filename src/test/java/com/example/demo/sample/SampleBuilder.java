@@ -42,23 +42,20 @@ import com.example.demo.ovh.flavor.entity.service.IFlavorService;
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.model.Image;
 import com.example.demo.ovh.image.entity.service.IImageService;
-import com.example.demo.ovh.instance.model.Instance;
-import com.example.demo.ovh.instance.model.InstanceGroup;
-import com.example.demo.ovh.instance.service.IInstanceGroupService;
-import com.example.demo.ovh.instance.service.IInstanceService;
-import com.example.demo.ovh.instance.service.model.InstanceCreateRequest;
-import com.example.demo.ovh.instance.service.model.InstanceGroupCreateRequest;
+import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
+import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
+import com.example.demo.ovh.instance.entity.InstanceStatus;
+import com.example.demo.ovh.instance.entity.model.Instance;
+import com.example.demo.ovh.instance.entity.model.InstanceGroup;
+import com.example.demo.ovh.instance.entity.service.IInstanceGroupService;
+import com.example.demo.ovh.instance.entity.service.IInstanceService;
 import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
-import com.example.demo.project.entity.ProjectState;
-import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.project.entity.model.Project;
 import com.example.demo.project.entity.service.IProjectService;
-import com.example.demo.sample.util.TestInstanceCreateRequest;
-import com.example.demo.sample.util.TestInstanceGroupCreateRequest;
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
@@ -436,26 +433,37 @@ public class SampleBuilder {
 
         if (project == null) project = createDefaultProject();
 
-        InstanceGroupCreateRequest request = TestInstanceGroupCreateRequest.builder()
+        InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
+                .id(UUID.randomUUID())
                 .projectId(project.getId())
-                .instanceGroupId("instance-group-id")
-                .name("instance group name")
+                .groupId("instance-group-id")
+                .name("name")
+                .type("type")
                 .build();
 
-        return instanceGroupService.handleInstanceGroupCreate(request);
+        return instanceGroupService.handleCreated(event);
     }
 
     private Instance createDefaultInstance() {
 
         if (instanceGroup == null) instanceGroup = createDefaultInstanceGroup();
+        if (flavor == null) flavor = createDefaultFlavor();
+        if (image == null) image = createDefaultImage();
+        if (credential == null) credential = createDefaultCredential();
 
-        InstanceCreateRequest instanceCreateRequest = TestInstanceCreateRequest.builder()
-                .instanceId("instance-id")
-                .groupId(instanceGroup.getGroupId())
-                .name("instance name")
+        InstanceCreatedEvent event = InstanceCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .flavorId(flavor.getId())
+                .imageId(image.getId())
+                .credentialId(credential.getId())
+                .instanceGroupId(instanceGroup.getId())
+                .instanceId("instanceId")
+                .name("name")
+                .status(InstanceStatus.ACTIVE)
+                .instanceCreatedDate(LocalDateTime.now())
                 .build();
 
-        return instanceService.handleInstanceCreate(instanceCreateRequest);
+        return instanceService.handleCreated(event);
     }
 
     private AwxOrganization createDefaultAwxOrganization() {
