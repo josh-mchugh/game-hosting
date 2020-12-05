@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.instance.model;
+package com.example.demo.ovh.instance.feign.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

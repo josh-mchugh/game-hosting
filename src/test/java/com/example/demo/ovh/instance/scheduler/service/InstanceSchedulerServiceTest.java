@@ -1,8 +1,8 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
-import com.example.demo.ovh.feign.common.IpAddressApi;
-import com.example.demo.ovh.feign.instance.InstanceClient;
-import com.example.demo.ovh.feign.instance.model.InstanceApi;
+import com.example.demo.ovh.instance.feign.model.IpAddressApi;
+import com.example.demo.ovh.instance.feign.InstanceClient;
+import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.aggregate.event.InstanceUpdatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.service.IInstanceService;

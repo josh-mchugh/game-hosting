@@ -1,8 +1,8 @@
-package com.example.demo.ovh.feign.instance;
+package com.example.demo.ovh.instance.feign;
 
 import com.example.demo.framework.feign.FeignOvhConfig;
-import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
-import com.example.demo.ovh.feign.instance.model.InstanceGroupCreateApi;
+import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
+import com.example.demo.ovh.instance.feign.model.InstanceGroupCreateApi;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

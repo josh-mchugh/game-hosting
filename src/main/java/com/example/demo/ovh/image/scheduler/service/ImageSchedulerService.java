@@ -4,7 +4,7 @@ import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.aggregate.command.ImageUpdateCommand;
 import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.instance.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
 import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjection;

@@ -6,7 +6,119 @@
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
            http://www.liquibase.org/xml/ns/dbchangelog
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    
+
+    <changeSet id="axon-tables" author="bilak">
+
+        <createTable tableName="association_value_entry">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_association_value_entry"/>
+            </column>
+            <column name="association_key" type="nvarchar(255)"/>
+            <column name="association_value" type="nvarchar(255)"/>
+            <column name="saga_id" type="nvarchar(255)"/>
+            <column name="saga_type" type="nvarchar(255)"/>
+        </createTable>
+
+        <createTable tableName="domain_event_entry">
+            <column name="global_index" autoIncrement="true" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="aggregate_identifier" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_number" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="nvarchar(255)"/>
+            <column name="event_identifier" type="nvarchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="payload_revision" type="nvarchar(255)"/>
+            <column name="payload_type" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_stamp" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="meta_data" type="blob"/>
+            <column name="payload" type="blob">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="domain_event_entry" indexName="ix_domain_event_entry_1">
+            <column name="time_stamp"/>
+            <column name="sequence_number"/>
+            <column name="aggregate_identifier"/>
+        </createIndex>
+
+        <createIndex tableName="domain_event_entry" unique="true" indexName="ux_domain_event_entry_1">
+            <column name="aggregate_identifier"/>
+            <column name="sequence_number"/>
+        </createIndex>
+
+        <createIndex tableName="domain_event_entry" unique="true" indexName="ux_domain_event_entry_2">
+            <column name="event_identifier"/>
+        </createIndex>
+
+        <createTable tableName="saga_entry">
+            <column name="saga_id" type="nvarchar(255)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_saga_entry"/>
+            </column>
+            <column name="revision" type="nvarchar(255)"/>
+            <column name="saga_type" type="nvarchar(255)"/>
+            <column name="serialized_saga" type="blob"/>
+        </createTable>
+
+        <createTable tableName="snapshot_event_entry">
+            <column name="aggregate_identifier" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_number" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_identifier" type="nvarchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="payload_revision" type="nvarchar(255)"/>
+            <column name="payload_type" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_stamp" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="meta_data" type="blob"/>
+            <column name="payload" type="blob">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="snapshot_event_entry" columnNames="aggregate_identifier, sequence_number, type"
+                       constraintName="pk_snapshot_event_entry"/>
+
+        <createIndex tableName="snapshot_event_entry" unique="true" indexName="ux_snapshot_event_entry_1">
+            <column name="event_identifier"/>
+        </createIndex>
+
+        <createTable tableName="token_entry">
+            <column name="processor_name" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="segment" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="blob"/>
+            <column name="token_type" type="nvarchar(255)"/>
+            <column name="owner" type="nvarchar(255)"/>
+            <column name="timestamp" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="token_entry" columnNames="processor_name, segment" constraintName="pk_token_entry"/>
+    </changeSet>
+
     <changeSet id="1" author="jmchugh">
         <createTable tableName="users">
             <column name="id" type="nvarchar(255)">
@@ -572,46 +684,6 @@
             <column name="webhook_callback_url" type="nvarchar(255)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="awx_notification" baseColumnNames="awx_organization_id" constraintName="awx_notification_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
-    </changeSet>
-
-    <changeSet id="22" author="jmchugh">
-        <createTable tableName="association_value_entry">
-            <column name="id" type="bigint">
-                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__association_value_entry" />
-            </column>
-            <column name="association_key" type="nvarchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="association_value" type="nvarchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="saga_id" type="nvarchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="saga_type" type="nvarchar(255)"/>
-        </createTable>
-        <createTable tableName="saga_entry">
-            <column name="saga_id" type="nvarchar(255)">
-                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__saga_entry"/>
-            </column>
-            <column name="revision" type="nvarchar(255)"/>
-            <column name="saga_type" type="nvarchar(255)"/>
-            <column name="serialized_saga" type="blob"/>
-        </createTable>
-        <createTable tableName="token_entry">
-            <column name="processor_name" type="nvarchar(255)">
-                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__token_entry_processor_name"/>
-            </column>
-            <column name="segment" type="int">
-                <constraints primaryKey="true" nullable="false" primaryKeyName="PK__token_entry_segment"/>
-            </column>
-            <column name="owner" type="nvarchar(255)"/>
-            <column name="timestamp" type="nvarchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="token" type="blob"/>
-            <column name="token_type" type="nvarchar(255)"/>
-        </createTable>
     </changeSet>
 
 </databaseChangeLog>

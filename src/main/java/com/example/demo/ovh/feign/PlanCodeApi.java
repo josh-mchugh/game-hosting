@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.common;
+package com.example.demo.ovh.feign;
 
 import lombok.Data;
 

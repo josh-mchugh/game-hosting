@@ -4,15 +4,14 @@ import com.example.demo.awx.host.feign.HostClient;
 import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
-import com.example.demo.ovh.feign.common.IpAddressApi;
-import com.example.demo.ovh.feign.common.SshKeyDetailApi;
-import com.example.demo.ovh.feign.instance.InstanceClient;
-import com.example.demo.ovh.feign.instance.InstanceGroupClient;
-import com.example.demo.ovh.feign.instance.model.InstanceApi;
-import com.example.demo.ovh.feign.instance.model.InstanceGroupApi;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
+import com.example.demo.ovh.instance.feign.InstanceClient;
+import com.example.demo.ovh.instance.feign.InstanceGroupClient;
+import com.example.demo.ovh.instance.feign.model.ImageApi;
+import com.example.demo.ovh.instance.feign.model.InstanceApi;
+import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
+import com.example.demo.ovh.instance.feign.model.IpAddressApi;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.entity.model.Project;
 import com.example.demo.project.entity.service.IProjectService;
@@ -262,14 +261,6 @@ public class DashboardServiceTest {
         return imageApi;
     }
 
-    private SshKeyDetailApi buildSshKeyDetailApi() {
-
-        SshKeyDetailApi sshKeyDetail = new SshKeyDetailApi();
-        sshKeyDetail.setId("ssh key id");
-
-        return sshKeyDetail;
-    }
-
     private IpAddressApi buildIpAddressApi(Integer version) {
 
         IpAddressApi ipAddressApi = new IpAddressApi();
@@ -289,7 +280,6 @@ public class DashboardServiceTest {
         instanceApi.setRegion("US-EAST-VA-1");
         instanceApi.setIpAddresses(Arrays.asList(buildIpAddressApi(4), buildIpAddressApi(6)));
 
-        instanceApi.setSshKey(buildSshKeyDetailApi());
         instanceApi.setFlavor(buildFlavorApi());
         instanceApi.setImage(buildImageApi());
 

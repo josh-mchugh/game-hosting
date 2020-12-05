@@ -1,7 +1,7 @@
 package com.example.demo.ovh.image.feign;
 
 import com.example.demo.framework.feign.FeignOvhConfig;
-import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.instance.feign.model.ImageApi;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

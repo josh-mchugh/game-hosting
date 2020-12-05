@@ -1,8 +1,5 @@
 package com.example.demo.project.aggregate.event;
 
-import com.example.demo.project.entity.ProjectMembershipRole;
-import com.example.demo.project.entity.ProjectState;
-import com.example.demo.project.entity.ProjectStatus;
 import lombok.Builder;
 import lombok.Value;
 

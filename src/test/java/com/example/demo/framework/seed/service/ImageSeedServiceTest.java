@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.instance.feign.model.ImageApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;

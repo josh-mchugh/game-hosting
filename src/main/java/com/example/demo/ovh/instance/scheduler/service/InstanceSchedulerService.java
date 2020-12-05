@@ -1,9 +1,8 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.feign.common.IpAddressApi;
-import com.example.demo.ovh.feign.instance.InstanceClient;
-import com.example.demo.ovh.feign.instance.model.InstanceApi;
+import com.example.demo.ovh.instance.feign.InstanceClient;
+import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
@@ -96,36 +95,9 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         if(!Objects.equals(instance.getName(), apiResponse.getName())) return false;
         if(!Objects.equals(instance.getStatus(), apiResponse.getStatus())) return false;
         if(!Objects.equals(instance.getInstanceCreatedDate(), apiResponse.getCreatedDate())) return false;
+        if(!Objects.equals(instance.getIp4Address(), apiResponse.getIp4Address())) return false;
 
-        String ip4Address = getIp4Address(apiResponse.getIpAddresses());
-        if(!Objects.equals(instance.getIp4Address(), ip4Address)) return false;
-
-        String ip6Address = getIp6Address(apiResponse.getIpAddresses());;
-        return Objects.equals(instance.getIp6Address(), ip6Address);
-    }
-
-    private String getIp4Address(List<IpAddressApi> ipAddresses) {
-
-        return getIpAddress(ipAddresses, 4);
-    }
-
-    private String getIp6Address(List<IpAddressApi> ipAddresses) {
-
-        return getIpAddress(ipAddresses, 6);
-    }
-
-    private String getIpAddress(List<IpAddressApi> ipAddresses, Integer version) {
-
-        if(ipAddresses == null) {
-
-            return null;
-        }
-
-        return ipAddresses.stream()
-                .filter(ipAddress -> ipAddress.getVersion().equals(version))
-                .map(IpAddressApi::getIp)
-                .findFirst()
-                .orElse(null);
+        return Objects.equals(instance.getIp6Address(), apiResponse.getIp6Address());
     }
 
     private UUID handleInstanceUpdate(String id, InstanceApi apiResponse) {
@@ -135,8 +107,8 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
                 .name(apiResponse.getName())
                 .status(apiResponse.getStatus())
                 .instanceCreatedDate(apiResponse.getCreatedDate())
-                .ip4Address(getIp4Address(apiResponse.getIpAddresses()))
-                .ip6Address(getIp6Address(apiResponse.getIpAddresses()))
+                .ip4Address(apiResponse.getIp4Address())
+                .ip6Address(apiResponse.getIp6Address())
                 .build();
 
         return commandGateway.sendAndWait(command);

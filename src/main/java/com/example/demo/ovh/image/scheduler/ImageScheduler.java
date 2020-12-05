@@ -1,6 +1,6 @@
 package com.example.demo.ovh.image.scheduler;
 
-import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.instance.feign.model.ImageApi;
 import com.example.demo.ovh.image.scheduler.service.IImageSchedulerService;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.google.common.collect.ImmutableList;
