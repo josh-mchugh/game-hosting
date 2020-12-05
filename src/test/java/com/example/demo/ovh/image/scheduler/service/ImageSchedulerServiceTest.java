@@ -3,7 +3,7 @@ package com.example.demo.ovh.image.scheduler.service;
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.service.IImageService;
 import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.instance.feign.model.ImageApi;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;

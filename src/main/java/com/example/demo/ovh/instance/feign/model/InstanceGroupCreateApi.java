@@ -1,4 +1,4 @@
-package com.example.demo.ovh.feign.instance.model;
+package com.example.demo.ovh.instance.feign.model;
 
 import lombok.Builder;
 import lombok.Value;

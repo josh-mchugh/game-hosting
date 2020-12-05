@@ -8,7 +8,7 @@ import com.example.demo.awx.host.projection.IAwxHostProjector;
 import com.example.demo.awx.host.projection.model.AwxHostHostIdProjection;
 import com.example.demo.awx.host.projection.model.AwxHostHostIdQuery;
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.feign.instance.InstanceClient;
+import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.web.project.service.model.ProjectDetails;

@@ -1,11 +1,7 @@
-package com.example.demo.ovh.feign.instance.model;
+package com.example.demo.ovh.instance.feign.model;
 
 import com.example.demo.framework.deserializer.DateTimeDeserializer;
-import com.example.demo.ovh.feign.common.SshKeyDetailApi;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.feign.common.IpAddressApi;
-import com.example.demo.ovh.feign.common.MonthlyBillingApi;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -27,8 +23,33 @@ public class InstanceApi {
     private String region;
     private FlavorApi flavor;
     private ImageApi image;
-    private SshKeyDetailApi sshKey;
-    private MonthlyBillingApi monthlyBilling;
-    private String planCode;
-    private List<String> operationIds;
+
+    public String getIp4Address() {
+
+        if(ipAddresses == null) {
+
+            return null;
+        }
+
+        return getIpAddress(4);
+    }
+
+    public String getIp6Address() {
+
+        if(ipAddresses == null) {
+
+            return null;
+        }
+
+        return getIpAddress(6);
+    }
+
+    private String getIpAddress(Integer version) {
+
+        return ipAddresses.stream()
+                .findFirst()
+                .filter(ipAddress -> ipAddress.getVersion().equals(version))
+                .map(IpAddressApi::getIp)
+                .orElse(null);
+    }
 }

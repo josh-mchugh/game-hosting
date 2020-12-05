@@ -1,7 +1,6 @@
 package com.example.demo.ovh.flavor.feign.model;
 
-import com.example.demo.ovh.feign.common.CapabilityApi;
-import com.example.demo.ovh.feign.common.PlanCodeApi;
+import com.example.demo.ovh.feign.PlanCodeApi;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
