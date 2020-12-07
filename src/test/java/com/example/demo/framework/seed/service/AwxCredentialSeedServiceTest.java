@@ -1,9 +1,9 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
+import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
+import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.credential.feign.CredentialClient;
-import com.example.demo.awx.credential.feign.model.CredentialApi;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootTest(properties = {
+        "awx.organization.id=1",
         "awx.credentials[0].name=First Credential",
         "awx.credentials[0].type=MACHINE",
         "awx.credentials[0].private-key=privatekey",
@@ -40,7 +41,7 @@ public class AwxCredentialSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private CredentialClient credentialClient;
+    private IAwxCredentialFeignService credentialClient;
 
     @Test
     public void whenAwxCredentialsExistsThenDataNotExistsReturnFalse() {
@@ -67,24 +68,24 @@ public class AwxCredentialSeedServiceTest {
                 .build()
                 .getAwxOrganization();
 
-        ListResponse<CredentialApi> credentialApiList = new ListResponse<>();
+        ListResponse<AwxCredentialApi> credentialApiList = new ListResponse<>();
         credentialApiList.setResults(Collections.emptyList());
 
-        Mockito.when(credentialClient.getCredentials(Mockito.anyLong())).thenReturn(credentialApiList);
+        Mockito.when(credentialClient.getCredentials()).thenReturn(credentialApiList);
 
-        CredentialApi firstCredentialApi = new CredentialApi();
+        AwxCredentialApi firstCredentialApi = new AwxCredentialApi();
         firstCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
         firstCredentialApi.setId(1L);
         firstCredentialApi.setName("First Credential");
         firstCredentialApi.setCredentialType(AwxCredentialType.MACHINE);
 
-        CredentialApi secondCredentialApi = new CredentialApi();
+        AwxCredentialApi secondCredentialApi = new AwxCredentialApi();
         secondCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
-        secondCredentialApi.setId(1L);
+        secondCredentialApi.setId(2L);
         secondCredentialApi.setName("Second Credential");
         secondCredentialApi.setCredentialType(AwxCredentialType.SOURCE_CONTROL);
 
-        Mockito.when(credentialClient.createCredential(Mockito.anyLong(), Mockito.any()))
+        Mockito.when(credentialClient.createCredential(Mockito.any()))
                 .thenReturn(firstCredentialApi)
                 .thenReturn(secondCredentialApi);
 
@@ -101,22 +102,22 @@ public class AwxCredentialSeedServiceTest {
                 .build()
                 .getAwxOrganization();
 
-        CredentialApi firstCredentialApi = new CredentialApi();
+        AwxCredentialApi firstCredentialApi = new AwxCredentialApi();
         firstCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
         firstCredentialApi.setId(1L);
         firstCredentialApi.setName("First Credential");
         firstCredentialApi.setCredentialType(AwxCredentialType.MACHINE);
 
-        CredentialApi secondCredentialApi = new CredentialApi();
+        AwxCredentialApi secondCredentialApi = new AwxCredentialApi();
         secondCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
         secondCredentialApi.setId(1L);
         secondCredentialApi.setName("Second Credential");
         secondCredentialApi.setCredentialType(AwxCredentialType.SOURCE_CONTROL);
 
-        ListResponse<CredentialApi> credentialApiList = new ListResponse<>();
+        ListResponse<AwxCredentialApi> credentialApiList = new ListResponse<>();
         credentialApiList.setResults(Arrays.asList(firstCredentialApi, secondCredentialApi));
 
-        Mockito.when(credentialClient.getCredentials(Mockito.anyLong())).thenReturn(credentialApiList);
+        Mockito.when(credentialClient.getCredentials()).thenReturn(credentialApiList);
 
         ImmutableList<Object> awxCredentials = awxCredentialSeedService.initializeData();
 

@@ -67,7 +67,7 @@ public class AwxProjectSeedServiceTest {
         projectApi.setId(1L);
         projectApi.setName("Game Hosting Project");
         projectApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
-        projectApi.setCredentialId(sampleData.getAwxCredential().getCredentialId());
+        projectApi.setCredentialId(sampleData.getAwxCredential().getAwxId());
         projectApi.setScmType("git");
         projectApi.setScmBranch("master");
         projectApi.setScmUrl("url");
@@ -94,7 +94,7 @@ public class AwxProjectSeedServiceTest {
         wrongProjectApi.setId(2L);
         wrongProjectApi.setName("Wrong Project");
         wrongProjectApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
-        wrongProjectApi.setCredentialId(sampleData.getAwxCredential().getCredentialId());
+        wrongProjectApi.setCredentialId(sampleData.getAwxCredential().getAwxId());
         wrongProjectApi.setScmType("git");
         wrongProjectApi.setScmBranch("master");
         wrongProjectApi.setScmUrl("url");
@@ -108,7 +108,7 @@ public class AwxProjectSeedServiceTest {
         projectApi.setId(2L);
         projectApi.setName("Game Hosting Project");
         projectApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
-        projectApi.setCredentialId(sampleData.getAwxCredential().getCredentialId());
+        projectApi.setCredentialId(sampleData.getAwxCredential().getAwxId());
         projectApi.setScmType("git");
         projectApi.setScmBranch("master");
         projectApi.setScmUrl("url");

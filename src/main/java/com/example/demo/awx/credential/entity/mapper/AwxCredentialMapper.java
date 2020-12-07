@@ -14,7 +14,7 @@ public class AwxCredentialMapper {
 
         return AwxCredential.builder()
                 .id(entity.getId())
-                .credentialId(entity.getCredentialId())
+                .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .privateKey(entity.getPrivateKey())

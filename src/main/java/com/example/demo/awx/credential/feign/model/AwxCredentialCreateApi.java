@@ -2,24 +2,24 @@ package com.example.demo.awx.credential.feign.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class CredentialCreateApi {
+public class AwxCredentialCreateApi {
 
     @NotBlank
     String name;
+    @lombok.Builder.Default
     String description = "";
     Input inputs;
 
     @JsonProperty("credential_type")
     Integer credentialType;
 
-    @Getter
+    @Value
     @lombok.Builder(builderClassName = "Builder")
     public static class Input {
 

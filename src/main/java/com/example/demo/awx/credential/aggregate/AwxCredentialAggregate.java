@@ -19,10 +19,8 @@ public class AwxCredentialAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    //TODO: Change to use AwxOrganization id instead of organizationId
-    //This requires a projection query from AwxOrganization during seed data
-    private Long awxOrganizationId;
-    private Long credentialId;
+    private String awxOrganizationId;
+    private Long awxId;
     private String name;
     private String description;
     private String privateKey;
@@ -34,8 +32,8 @@ public class AwxCredentialAggregate {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(command.getId())
-                .organizationId(command.getOrganizationId())
-                .credentialId(command.getCredentialId())
+                .awxOrganizationId(command.getAwxOrganizationId())
+                .awxId(command.getAwxId())
                 .name(command.getName())
                 .description(command.getDescription())
                 .privateKey(encryptor.encrypt(command.getPrivateKey()))
@@ -50,8 +48,8 @@ public class AwxCredentialAggregate {
     public void on(AwxCredentialCreatedEvent event) {
 
         this.id = event.getId();
-        this.awxOrganizationId = event.getOrganizationId();
-        this.credentialId = event.getCredentialId();
+        this.awxOrganizationId = event.getAwxOrganizationId();
+        this.awxId = event.getAwxId();
         this.name = event.getName();
         this.description = event.getDescription();
         this.privateKey = event.getPrivateKey();

@@ -1,10 +1,13 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateCommand;
+import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
 import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
-import com.example.demo.awx.credential.feign.CredentialClient;
-import com.example.demo.awx.credential.feign.model.CredentialApi;
-import com.example.demo.awx.credential.feign.model.CredentialCreateApi;
+import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
+import com.example.demo.awx.credential.feign.model.AwxCredentialCreateApi;
+import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
+import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
@@ -23,7 +26,8 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final IAwxCredentialProjector awxCredentialProjector;
-    private final CredentialClient credentialClient;
+    private final IAwxCredentialFeignService credentialFeignService;
+    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final CommandGateway commandGateway;
 
     @Override
@@ -35,24 +39,25 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
-        List<CredentialApi> credentialApis = credentialClient.getCredentials(awxConfig.getOrganization().getId()).getResults();
-
         List<Object> awxCredentials = new ArrayList<>();
+
+        List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
+        List<AwxCredentialApi> credentialApis = credentialFeignService.getCredentials().getResults();
+        String organizationId = getOrganizationId();
 
         for(AwxConfig.Credential credential : credentials) {
 
-            Optional<CredentialApi> credentialApi = credentialApis.stream()
+            Optional<AwxCredentialApi> credentialApi = credentialApis.stream()
                     .filter(api -> api.getName().equals(credential.getName()))
                     .findFirst();
 
             if (credentialApi.isPresent()) {
 
-                awxCredentials.add(createAwxCredential(credentialApi.get(), credential));
+                awxCredentials.add(createAwxCredential(credentialApi.get(), credential, organizationId));
 
             } else {
 
-                awxCredentials.add(createAwxCredential(createCredentialApi(credential), credential));
+                awxCredentials.add(createAwxCredential(createCredentialApi(credential), credential, organizationId));
             }
         }
 
@@ -71,34 +76,34 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
         return 8;
     }
 
-    private CredentialCreateApi.Input createCredentialApiInputs(AwxConfig.Credential credential) {
+    private AwxCredentialCreateApi.Input createCredentialApiInputs(AwxConfig.Credential credential) {
 
-        return CredentialCreateApi.Input.builder()
+        return AwxCredentialCreateApi.Input.builder()
                 .privateKey(credential.getPrivateKey().replace("\\n", "\n"))
                 .passphrase(credential.getPassphrase())
                 .build();
     }
 
-    private CredentialCreateApi createCredentialApiRequest(AwxConfig.Credential credential) {
+    private AwxCredentialCreateApi createCredentialApiRequest(AwxConfig.Credential credential) {
 
-        return CredentialCreateApi.builder()
+        return AwxCredentialCreateApi.builder()
                 .name(credential.getName())
                 .credentialType(credential.getType().getId())
                 .inputs(createCredentialApiInputs(credential))
                 .build();
     }
 
-    private CredentialApi createCredentialApi(AwxConfig.Credential credential) {
+    private AwxCredentialApi createCredentialApi(AwxConfig.Credential credential) {
 
-        return credentialClient.createCredential(awxConfig.getOrganization().getId(), createCredentialApiRequest(credential));
+        return credentialFeignService.createCredential(createCredentialApiRequest(credential));
     }
 
-    private Object createAwxCredential(CredentialApi credentialApi, AwxConfig.Credential credential) {
+    private Object createAwxCredential(AwxCredentialApi credentialApi, AwxConfig.Credential credential, String organizationId) {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(credentialApi.getOrganizationId())
-                .credentialId(credentialApi.getId())
+                .awxOrganizationId(organizationId)
+                .awxId(credentialApi.getId())
                 .name(credentialApi.getName())
                 .description(credentialApi.getDescription())
                 .privateKey(credential.getPrivateKey().replace("\\n", "\n"))
@@ -107,5 +112,13 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
                 .build();
 
         return commandGateway.sendAndWait(command);
+    }
+
+    private String getOrganizationId() {
+
+        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxConfig.getOrganization().getId());
+        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
+
+        return response.getId();
     }
 }

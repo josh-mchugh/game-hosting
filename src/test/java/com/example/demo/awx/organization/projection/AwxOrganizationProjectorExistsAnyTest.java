@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxOrganizationProjectionExistsAnyTest {
+public class AwxOrganizationProjectorExistsAnyTest {
 
     @Autowired
     private IAwxOrganizationProjection awxOrganizationProjection;

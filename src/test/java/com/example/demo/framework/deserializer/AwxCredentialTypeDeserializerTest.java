@@ -1,7 +1,7 @@
 package com.example.demo.framework.deserializer;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
-import com.example.demo.awx.credential.feign.model.CredentialApi;
+import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -17,7 +17,7 @@ public class AwxCredentialTypeDeserializerTest {
 
         String value = "{\"credential_type\": \"1\"}";
 
-        CredentialApi response = new ObjectMapper().readValue(value, CredentialApi.class);
+        AwxCredentialApi response = new ObjectMapper().readValue(value, AwxCredentialApi.class);
 
         Assertions.assertEquals(AwxCredentialType.MACHINE, response.getCredentialType());
     }
@@ -27,7 +27,7 @@ public class AwxCredentialTypeDeserializerTest {
 
         String value = "{\"credential_type\": \"999\"}";
 
-        Assertions.assertThrows(JsonMappingException.class, () -> new ObjectMapper().readValue(value, CredentialApi.class));
+        Assertions.assertThrows(JsonMappingException.class, () -> new ObjectMapper().readValue(value, AwxCredentialApi.class));
     }
 
 
@@ -36,6 +36,6 @@ public class AwxCredentialTypeDeserializerTest {
 
         String value = "{\"credential_type\": \"asdf\"}";
 
-       Assertions.assertThrows(InvalidFormatException.class, () -> new ObjectMapper().readValue(value, CredentialApi.class));
+       Assertions.assertThrows(InvalidFormatException.class, () -> new ObjectMapper().readValue(value, AwxCredentialApi.class));
     }
 }

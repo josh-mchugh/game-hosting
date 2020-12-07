@@ -108,7 +108,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
     private ProjectApi createProjectApi(AwxCredential awxCredential) {
 
         ProjectCreateApi projectCreateApi = ProjectCreateApi.builder()
-                .credentialId(awxCredential.getCredentialId())
+                .credentialId(awxCredential.getAwxId())
                 .name(awxConfig.getProject().getName())
                 .description(awxConfig.getProject().getDescription())
                 .scmType(awxConfig.getProject().getScmType())
