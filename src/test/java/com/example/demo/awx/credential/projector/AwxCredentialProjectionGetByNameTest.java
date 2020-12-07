@@ -47,8 +47,8 @@ public class AwxCredentialProjectionGetByNameTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")

@@ -482,8 +482,8 @@ public class SampleBuilder {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("Ansible")
                 .description("Ansible Credential")
                 .privateKey("private key")
@@ -498,8 +498,8 @@ public class SampleBuilder {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("Gitlab SCM")
                 .description("Gitlab SCM Credential")
                 .privateKey("private key")

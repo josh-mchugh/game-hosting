@@ -1,6 +1,7 @@
-package com.example.demo.awx.credential.entity;
+package com.example.demo.awx.credential.entity.mapper;
 
-import com.example.demo.awx.credential.entity.mapper.AwxCredentialMapper;
+import com.example.demo.awx.credential.entity.AwxCredentialEntity;
+import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,22 +40,22 @@ public class AwxCredentialMapperTest {
     }
 
     @Test
-    public void whenEntityHasCredentialIdThenReturnCredentialId() {
+    public void whenEntityHasAwxIdThenReturnAwxId() {
 
         AwxCredentialEntity entity = new AwxCredentialEntity();
-        entity.setCredentialId(1L);
+        entity.setAwxId(1L);
 
         AwxCredential awxCredential = AwxCredentialMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxCredential.getCredentialId());
+        Assertions.assertEquals(1L, awxCredential.getAwxId());
     }
 
     @Test
-    public void whenEntityHasNullCredentialIdThenReturnNull() {
+    public void whenEntityHasNullAwxIdThenReturnNull() {
 
         AwxCredential awxCredential = AwxCredentialMapper.map(new AwxCredentialEntity());
 
-        Assertions.assertNull(awxCredential.getCredentialId());
+        Assertions.assertNull(awxCredential.getAwxId());
     }
 
     @Test

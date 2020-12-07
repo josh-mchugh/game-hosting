@@ -1,8 +1,8 @@
-package com.example.demo.awx.credential.entity;
+package com.example.demo.awx.credential.entity.service;
 
 import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
+import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
-import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -43,8 +43,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -62,8 +62,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -77,12 +77,12 @@ public class AwxCredentialServiceCreatedTest {
     }
 
     @Test
-    public void whenCreateRequestHasCredentialIdThenReturnCredentialId() {
+    public void whenCreateRequestHasAwxIdThenReturnAwxId() {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -92,16 +92,16 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredential awxCredential = awxCredentialService.handleCreated(event);
 
-        Assertions.assertEquals(1L, awxCredential.getCredentialId());
+        Assertions.assertEquals(1L, awxCredential.getAwxId());
     }
 
     @Test
-    public void whenCreateRequestHasNullCredentialIdThenThrowException() {
+    public void whenCreateRequestHasNullAwxIdThenThrowException() {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(null)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(null)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -117,8 +117,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -136,8 +136,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(null)
-                .credentialId(1L)
+                .awxOrganizationId(null)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -153,8 +153,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -172,8 +172,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name(null)
                 .description("description")
                 .privateKey("private key")
@@ -189,8 +189,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -208,8 +208,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description(null)
                 .privateKey("private key")
@@ -227,8 +227,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -246,8 +246,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey(null)
@@ -263,8 +263,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -282,8 +282,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -301,8 +301,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")
@@ -320,8 +320,8 @@ public class AwxCredentialServiceCreatedTest {
 
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .credentialId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("private key")

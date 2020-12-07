@@ -9,7 +9,7 @@ import lombok.Value;
 public class AwxCredential {
 
     String id;
-    Long credentialId;
+    Long awxId;
     String name;
     String description;
     String privateKey;

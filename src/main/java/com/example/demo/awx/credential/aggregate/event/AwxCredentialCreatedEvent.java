@@ -2,20 +2,20 @@ package com.example.demo.awx.credential.aggregate.event;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxCredentialCreatedEvent {
 
-    private final UUID id;
-    private final Long organizationId;
-    private final Long credentialId;
-    private final String name;
-    private final String description;
-    private final String privateKey;
-    private final String passphrase;
-    private final AwxCredentialType type;
+    UUID id;
+    String awxOrganizationId;
+    Long awxId;
+    String name;
+    String description;
+    String privateKey;
+    String passphrase;
+    AwxCredentialType type;
 }
