@@ -1,7 +1,7 @@
-package com.example.demo.awx.host.entity;
+package com.example.demo.awx.host.entity.service;
 
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
-import com.example.demo.awx.host.aggregate.event.AwxHostEnabledEvent;
+import com.example.demo.awx.host.aggregate.event.AwxHostDisabledEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.entity.service.IAwxHostService;
 import com.example.demo.sample.SampleBuilder;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxHostServiceEnabledTest {
+public class AwxHostServiceDisabledTest {
 
     @Autowired
     private IAwxHostService awxHostService;
@@ -47,7 +47,7 @@ public class AwxHostServiceEnabledTest {
     }
 
     @Test
-    public void whenEntityEnabledIsFalseThenReturnEnabledTrue() {
+    public void whenEntityEnabledIsTrueThenReturnEnabledFalse() {
 
         UUID id = UUID.randomUUID();
 
@@ -55,54 +55,54 @@ public class AwxHostServiceEnabledTest {
                 .id(id)
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
-                .hostname("hostname")
-                .description("description")
-                .enabled(false)
-                .build();
-        AwxHost awxHost = awxHostService.handleCreated(createdEvent);
-
-        AwxHostEnabledEvent enabledEvent = new AwxHostEnabledEvent(id);
-        AwxHost updatedHost = awxHostService.handleEnabled(enabledEvent);
-
-        Assertions.assertFalse(awxHost.getEnabled());
-        Assertions.assertTrue(updatedHost.getEnabled());
-    }
-
-    @Test
-    public void whenEntityEnabledIsTrueThenReturnEnabledTrue() {
-
-        UUID id = UUID.randomUUID();
-
-        AwxHostCreatedEvent createdEvent = AwxHostCreatedEvent.builder()
-                .id(id)
-                .awxInventoryId(data.getAwxInventory().getId())
-                .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
                 .build();
         AwxHost awxHost = awxHostService.handleCreated(createdEvent);
 
-        AwxHostEnabledEvent enabledEvent = new AwxHostEnabledEvent(id);
-        AwxHost updatedHost = awxHostService.handleEnabled(enabledEvent);
+        AwxHostDisabledEvent disabledEvent = new AwxHostDisabledEvent(id);
+        AwxHost updatedHost = awxHostService.handleDisabled(disabledEvent);
 
         Assertions.assertTrue(awxHost.getEnabled());
-        Assertions.assertTrue(updatedHost.getEnabled());
+        Assertions.assertFalse(updatedHost.getEnabled());
     }
 
     @Test
-    public void whenHandleEnableHasNullParamThenThrowException() {
+    public void whenEntityEnabledIsFalseThenReturnEnabledFalse() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleEnabled(null));
+        UUID id = UUID.randomUUID();
+
+        AwxHostCreatedEvent createdEvent = AwxHostCreatedEvent.builder()
+                .id(id)
+                .awxInventoryId(data.getAwxInventory().getId())
+                .instanceId(data.getInstance().getId())
+                .awxId(1L)
+                .hostname("hostname")
+                .description("description")
+                .enabled(false)
+                .build();
+        AwxHost awxHost = awxHostService.handleCreated(createdEvent);
+
+        AwxHostDisabledEvent disabledEvent = new AwxHostDisabledEvent(id);
+        AwxHost updatedHost = awxHostService.handleDisabled(disabledEvent);
+
+        Assertions.assertFalse(awxHost.getEnabled());
+        Assertions.assertFalse(updatedHost.getEnabled());
     }
 
     @Test
-    public void whenHandleEnableHasInvalidHostIdThenThrowException() {
+    public void whenHandleDisableHasNullParamThenThrowException() {
 
-        AwxHostEnabledEvent event = new AwxHostEnabledEvent(UUID.randomUUID());
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleDisabled(null));
+    }
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleEnabled(event));
+    @Test
+    public void whenHandleDisableHasInvalidHostIdThenThrowException() {
+
+        AwxHostDisabledEvent event = new AwxHostDisabledEvent(UUID.randomUUID());
+
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleDisabled(event));
     }
 }

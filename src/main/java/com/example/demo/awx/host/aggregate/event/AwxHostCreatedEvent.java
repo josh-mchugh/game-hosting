@@ -1,19 +1,19 @@
 package com.example.demo.awx.host.aggregate.event;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxHostCreatedEvent {
 
-    private final UUID id;
-    private final String awxInventoryId;
-    private final String instanceId;
-    private final Long hostId;
-    private final String hostname;
-    private final String description;
-    private final Boolean enabled;
+    UUID id;
+    String awxInventoryId;
+    String instanceId;
+    Long awxId;
+    String hostname;
+    String description;
+    Boolean enabled;
 }

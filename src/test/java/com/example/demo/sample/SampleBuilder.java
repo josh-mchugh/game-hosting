@@ -558,7 +558,7 @@ public class SampleBuilder {
                 .id(UUID.randomUUID())
                 .awxInventoryId(awxInventory.getId())
                 .instanceId(instance.getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)

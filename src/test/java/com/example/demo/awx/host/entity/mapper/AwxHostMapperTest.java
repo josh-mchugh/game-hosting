@@ -1,6 +1,6 @@
-package com.example.demo.awx.host.entity;
+package com.example.demo.awx.host.entity.mapper;
 
-import com.example.demo.awx.host.entity.mapper.AwxHostMapper;
+import com.example.demo.awx.host.entity.AwxHostEntity;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,22 +39,22 @@ public class AwxHostMapperTest {
     }
 
     @Test
-    public void whenEntityHasHostIdThenReturnHostId() {
+    public void whenEntityHasAwxIdThenReturnAwxId() {
 
         AwxHostEntity entity = new AwxHostEntity();
-        entity.setHostId(1L);
+        entity.setAwxId(1L);
 
         AwxHost awxHost = AwxHostMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxHost.getHostId());
+        Assertions.assertEquals(1L, awxHost.getAwxId());
     }
 
     @Test
-    public void whenEntityHasNullHostIdThenReturnNull() {
+    public void whenEntityHasNullAwxIdThenReturnNull() {
 
         AwxHost awxHost = AwxHostMapper.map(new AwxHostEntity());
 
-        Assertions.assertNull(awxHost.getHostId());
+        Assertions.assertNull(awxHost.getAwxId());
     }
 
     @Test

@@ -607,7 +607,7 @@
             <column name="instance_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="host_id" type="bigint">
+            <column name="awx_id" type="bigint">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="hostname" type="nvarchar(255)">

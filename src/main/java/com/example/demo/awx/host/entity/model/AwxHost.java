@@ -8,7 +8,7 @@ import lombok.Value;
 public class AwxHost {
 
     String id;
-    Long hostId;
+    Long awxId;
     String hostname;
     String description;
     Boolean enabled;

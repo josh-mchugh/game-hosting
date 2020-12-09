@@ -1,8 +1,8 @@
 package com.example.demo.awx.host.projection;
 
 import com.example.demo.awx.host.entity.QAwxHostEntity;
-import com.example.demo.awx.host.projection.model.AwxHostHostIdProjection;
-import com.example.demo.awx.host.projection.model.AwxHostHostIdQuery;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdProjection;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdQuery;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
@@ -28,14 +28,14 @@ public class AwxHostProjector implements IAwxHostProjector {
     }
 
     @Override
-    public AwxHostHostIdProjection getHostIdProjection(AwxHostHostIdQuery query) {
+    public AwxHostAwxIdProjection getHostIdProjection(AwxHostAwxIdQuery query) {
 
         QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
         QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
 
-        return queryFactory.select(Projections.constructor(AwxHostHostIdProjection.class,
+        return queryFactory.select(Projections.constructor(AwxHostAwxIdProjection.class,
                     qAwxHost.id,
-                    qAwxHost.hostId
+                    qAwxHost.awxId
                 ))
                 .from(qAwxHost)
                 .innerJoin(qAwxHost.instanceEntity, qInstance)

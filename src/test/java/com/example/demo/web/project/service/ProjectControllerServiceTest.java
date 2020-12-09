@@ -1,6 +1,6 @@
 package com.example.demo.web.project.service;
 
-import com.example.demo.awx.host.feign.HostClient;
+import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.sample.SampleBuilder;
@@ -35,7 +35,7 @@ public class ProjectControllerServiceTest {
     private InstanceClient instanceClient;
 
     @MockBean
-    private HostClient hostClient;
+    private HostFeignService hostFeignService;
 
     private SampleData data;
 
@@ -81,7 +81,7 @@ public class ProjectControllerServiceTest {
         hostApi.setDescription("test");
         hostApi.setEnabled(true);
 
-        Mockito.when(hostClient.updateHost(Mockito.anyLong(), Mockito.any())).thenReturn(hostApi);
+        Mockito.when(hostFeignService.updateHost(Mockito.anyLong(), Mockito.any())).thenReturn(hostApi);
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId(data.getProject().getId())
@@ -116,7 +116,7 @@ public class ProjectControllerServiceTest {
         hostApi.setDescription("test");
         hostApi.setEnabled(false);
 
-        Mockito.when(hostClient.updateHost(Mockito.anyLong(), Mockito.any())).thenReturn(hostApi);
+        Mockito.when(hostFeignService.updateHost(Mockito.anyLong(), Mockito.any())).thenReturn(hostApi);
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId(data.getProject().getId())

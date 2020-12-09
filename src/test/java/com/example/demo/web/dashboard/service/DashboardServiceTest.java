@@ -1,6 +1,6 @@
 package com.example.demo.web.dashboard.service;
 
-import com.example.demo.awx.host.feign.HostClient;
+import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
@@ -65,7 +65,7 @@ public class DashboardServiceTest {
     private InstanceGroupClient instanceGroupClient;
 
     @MockBean
-    private HostClient hostClient;
+    private HostFeignService hostFeignService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -198,7 +198,7 @@ public class DashboardServiceTest {
                 .thenReturn(buildInstanceApi(InstanceStatus.BUILD))
                 .thenReturn(buildInstanceApi(InstanceStatus.ACTIVE));
 
-        Mockito.when(hostClient.createHost(Mockito.any())).thenReturn(buildHostApi());
+        Mockito.when(hostFeignService.createHost(Mockito.any())).thenReturn(buildHostApi());
 
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
 
@@ -290,7 +290,6 @@ public class DashboardServiceTest {
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);
-        hostApi.setInventoryId(1L);
         hostApi.setInventoryId(data.getAwxInventory().getInventoryId());
         hostApi.setName("0.0.0.0.0");
         hostApi.setDescription("description");

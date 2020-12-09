@@ -1,11 +1,11 @@
 package com.example.demo.awx.host.projection;
 
-import com.example.demo.awx.host.projection.model.AwxHostHostIdProjection;
-import com.example.demo.awx.host.projection.model.AwxHostHostIdQuery;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdProjection;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdQuery;
 
 public interface IAwxHostProjector {
 
     boolean existsAny();
 
-    AwxHostHostIdProjection getHostIdProjection(AwxHostHostIdQuery query);
+    AwxHostAwxIdProjection getHostIdProjection(AwxHostAwxIdQuery query);
 }

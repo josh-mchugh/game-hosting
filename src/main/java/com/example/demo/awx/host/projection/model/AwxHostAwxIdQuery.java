@@ -1,11 +1,11 @@
 package com.example.demo.awx.host.projection.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
+@Value
 @AllArgsConstructor
-public class AwxHostHostIdQuery {
+public class AwxHostAwxIdQuery {
 
-    private final String instanceId;
+    String instanceId;
 }

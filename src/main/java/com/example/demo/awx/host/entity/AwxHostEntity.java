@@ -28,8 +28,8 @@ public class AwxHostEntity extends AbstractAggregateEntity {
     @JoinColumn(name = "instance_id", nullable = false)
     private InstanceEntity instanceEntity;
 
-    @Column(name = "host_id", unique = true, nullable = false)
-    private Long hostId;
+    @Column(name = "awx_id", unique = true, nullable = false)
+    private Long awxId;
 
     @Column(name = "hostname", unique = true, nullable = false)
     private String hostname;

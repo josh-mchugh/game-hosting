@@ -1,4 +1,4 @@
-package com.example.demo.awx.host.entity;
+package com.example.demo.awx.host.entity.service;
 
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
@@ -60,7 +60,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
@@ -80,7 +80,7 @@ public class AwxHostServiceCreatedTest {
                 .id(id)
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
@@ -115,13 +115,13 @@ public class AwxHostServiceCreatedTest {
     }
 
     @Test
-    public void whenCreatedHasHostIdThenReturnHostId() {
+    public void whenCreatedHasAwxIdThenReturnAwxId() {
 
         AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
@@ -129,7 +129,7 @@ public class AwxHostServiceCreatedTest {
 
         AwxHost awxHost = awxHostService.handleCreated(event);
 
-        Assertions.assertEquals(1L, awxHost.getHostId());
+        Assertions.assertEquals(1L, awxHost.getAwxId());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(null)
+                .awxId(null)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreated(event));
@@ -152,7 +152,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
@@ -170,7 +170,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname(null)
                 .build();
 
@@ -184,7 +184,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
@@ -202,7 +202,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description(null)
                 .enabled(true)
@@ -220,7 +220,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)
@@ -238,7 +238,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(false)
@@ -256,7 +256,7 @@ public class AwxHostServiceCreatedTest {
                 .id(UUID.randomUUID())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(null)

@@ -1,7 +1,7 @@
 package com.example.demo.awx.host.projection;
 
-import com.example.demo.awx.host.projection.model.AwxHostHostIdProjection;
-import com.example.demo.awx.host.projection.model.AwxHostHostIdQuery;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdProjection;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdQuery;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -40,11 +40,11 @@ public class AwxHostProjectionHostAwxHostHostIdTest {
                 .awxHost()
                 .build();
 
-        AwxHostHostIdQuery query = new AwxHostHostIdQuery(data.getInstance().getInstanceId());
+        AwxHostAwxIdQuery query = new AwxHostAwxIdQuery(data.getInstance().getInstanceId());
 
-        AwxHostHostIdProjection projection = awxHostProjector.getHostIdProjection(query);
+        AwxHostAwxIdProjection projection = awxHostProjector.getHostIdProjection(query);
 
-        AwxHostHostIdProjection expectedProject = new AwxHostHostIdProjection(data.getAwxHost().getId(), data.getAwxHost().getHostId());
+        AwxHostAwxIdProjection expectedProject = new AwxHostAwxIdProjection(data.getAwxHost().getId(), data.getAwxHost().getAwxId());
 
         Assertions.assertEquals(expectedProject, projection);
     }
@@ -52,7 +52,7 @@ public class AwxHostProjectionHostAwxHostHostIdTest {
     @Test
     public void whenEntityDoesNotExistsByInstanceIdThenReturnNull() {
 
-        AwxHostHostIdQuery query = new AwxHostHostIdQuery("invalid instance id");
+        AwxHostAwxIdQuery query = new AwxHostAwxIdQuery("invalid instance id");
 
         Assertions.assertNull(awxHostProjector.getHostIdProjection(query));
     }

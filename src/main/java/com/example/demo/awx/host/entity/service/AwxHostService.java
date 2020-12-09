@@ -48,7 +48,7 @@ public class AwxHostService implements IAwxHostService {
         entity.setId(event.getId());
         entity.setAwxInventoryEntity(awxInventoryEntity);
         entity.setInstanceEntity(instanceEntity);
-        entity.setHostId(event.getHostId());
+        entity.setAwxId(event.getAwxId());
         entity.setHostname(event.getHostname());
         entity.setDescription(event.getDescription());
         entity.setEnabled(event.getEnabled());
