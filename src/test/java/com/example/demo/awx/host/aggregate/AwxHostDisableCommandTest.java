@@ -55,7 +55,7 @@ public class AwxHostDisableCommandTest {
                 .id(id)
                 .awxInventoryId("awx-inventory-id")
                 .instanceId("instance-id")
-                .hostId(1L)
+                .awxId(1L)
                 .hostname("hostname")
                 .description("description")
                 .enabled(true)

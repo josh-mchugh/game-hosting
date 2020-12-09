@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "hostClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
-public interface HostClient {
+public interface IHostClient {
 
     @PostMapping("/api/v2/hosts/")
     HostApi createHost(@RequestBody HostCreateApi body);

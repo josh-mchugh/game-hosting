@@ -4,15 +4,15 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;
 
 @Value
-public class AwxHostHostIdProjection {
+public class AwxHostAwxIdProjection {
 
     String awxHostId;
-    Long hostId;
+    Long awxId;
 
     @QueryProjection
-    public AwxHostHostIdProjection(String awxHostId, Long hostId) {
+    public AwxHostAwxIdProjection(String awxHostId, Long awxId) {
 
         this.awxHostId = awxHostId;
-        this.hostId = hostId;
+        this.awxId = awxId;
     }
 }

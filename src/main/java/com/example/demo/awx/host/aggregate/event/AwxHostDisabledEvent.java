@@ -1,13 +1,13 @@
 package com.example.demo.awx.host.aggregate.event;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Value;
 
 import java.util.UUID;
 
-@Getter
+@Value
 @AllArgsConstructor
 public class AwxHostDisabledEvent {
 
-    private final UUID id;
+    UUID id;
 }

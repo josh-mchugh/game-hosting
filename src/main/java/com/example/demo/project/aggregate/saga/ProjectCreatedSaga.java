@@ -103,9 +103,9 @@ public class ProjectCreatedSaga {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(id)
-                .flavorId("03f36281-02e4-462d-9129-67164e94af71")
-                .imageId("d6c4d9a0-45a7-45fc-a8b2-c725312b61d2")
-                .credentialId("7b81bede-84a2-4d3e-bca8-d274db5f8d8e")
+                .flavorId("6a61cce4-20be-4831-aa2b-65b1ec942511")
+                .imageId("57810606-5d9c-4b6b-b48f-9302800c9932")
+                .credentialId("090948a0-7cf7-432c-ac70-3ac8c36a31e2")
                 .instanceGroupId(event.getId().toString())
                 .name(instanceApi.getName())
                 .instanceId(instanceApi.getId())
@@ -115,6 +115,8 @@ public class ProjectCreatedSaga {
 
         commandGateway.send(command);
     }
+
+    // TODO: Add Instance To AwxHost
 
     @EndSaga
     @SagaEventHandler(associationProperty = "id")

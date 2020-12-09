@@ -23,7 +23,7 @@ public class AwxHostAggregate {
     private UUID id;
     private String awxInventoryId;
     private String instanceId;
-    private Long hostId;
+    private Long awxId;
     private String hostname;
     private String description;
     private Boolean enabled;
@@ -35,7 +35,7 @@ public class AwxHostAggregate {
                 .id(command.getId())
                 .awxInventoryId(command.getAwxInventoryId())
                 .instanceId(command.getInstanceId())
-                .hostId(command.getHostId())
+                .awxId(command.getAwxId())
                 .hostname(command.getHostname())
                 .description(command.getDescription())
                 .enabled(command.getEnabled())
@@ -50,7 +50,7 @@ public class AwxHostAggregate {
         this.id = event.getId();
         this.awxInventoryId = event.getAwxInventoryId();
         this.instanceId = event.getInstanceId();
-        this.hostId = event.getHostId();
+        this.awxId = event.getAwxId();
         this.hostname = event.getHostname();
         this.description = event.getDescription();
         this.enabled = event.getEnabled();

@@ -1,15 +1,15 @@
 package com.example.demo.web.project.service;
 
-import com.example.demo.awx.host.feign.HostClient;
-import com.example.demo.awx.host.feign.model.HostPatchApi;
 import com.example.demo.awx.host.aggregate.command.AwxHostDisableCommand;
 import com.example.demo.awx.host.aggregate.command.AwxHostEnableCommand;
+import com.example.demo.awx.host.feign.HostFeignService;
+import com.example.demo.awx.host.feign.model.HostPatchApi;
 import com.example.demo.awx.host.projection.IAwxHostProjector;
-import com.example.demo.awx.host.projection.model.AwxHostHostIdProjection;
-import com.example.demo.awx.host.projection.model.AwxHostHostIdQuery;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdProjection;
+import com.example.demo.awx.host.projection.model.AwxHostAwxIdQuery;
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
+import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.web.project.service.model.ProjectDetails;
 import com.example.demo.web.project.service.model.ProjectInstanceStartRequest;
@@ -32,7 +32,7 @@ public class ProjectControllerService implements IProjectControllerService {
     private final JPQLQueryFactory queryFactory;
     private final InstanceClient instanceClient;
     private final IAwxHostProjector awxHostProjector;
-    private final HostClient hostClient;
+    private final HostFeignService hostFeignService;
     private final CommandGateway commandGateway;
 
     @Override
@@ -76,14 +76,14 @@ public class ProjectControllerService implements IProjectControllerService {
         instanceClient.startInstance(ovhConfig.getProjectId(), request.getInstanceId());
 
         // Get AwxHost by OvH Instance Id
-        AwxHostHostIdQuery query = new AwxHostHostIdQuery(request.getInstanceId());
-        AwxHostHostIdProjection projection = awxHostProjector.getHostIdProjection(query);
+        AwxHostAwxIdQuery query = new AwxHostAwxIdQuery(request.getInstanceId());
+        AwxHostAwxIdProjection projection = awxHostProjector.getHostIdProjection(query);
 
         // Call AWX to set Host to enabled
         HostPatchApi updateBody = HostPatchApi.builder()
                 .enabled(true)
                 .build();
-        hostClient.updateHost(projection.getHostId(), updateBody);
+        hostFeignService.updateHost(projection.getAwxId(), updateBody);
 
         // Send command to enable AwxHost
         AwxHostEnableCommand command = new AwxHostEnableCommand(UUID.fromString(projection.getAwxHostId()));
@@ -97,14 +97,14 @@ public class ProjectControllerService implements IProjectControllerService {
         instanceClient.stopInstance(ovhConfig.getProjectId(), request.getInstanceId());
 
         // Get AwxHost by OvH Instance Id
-        AwxHostHostIdQuery query = new AwxHostHostIdQuery(request.getInstanceId());
-        AwxHostHostIdProjection projection = awxHostProjector.getHostIdProjection(query);
+        AwxHostAwxIdQuery query = new AwxHostAwxIdQuery(request.getInstanceId());
+        AwxHostAwxIdProjection projection = awxHostProjector.getHostIdProjection(query);
 
         // Call AWX to set Host to disabled
         HostPatchApi updateBody = HostPatchApi.builder()
                 .enabled(false)
                 .build();
-        hostClient.updateHost(projection.getHostId(), updateBody);
+        hostFeignService.updateHost(projection.getAwxId(), updateBody);
 
         // Send command to disable AwxHost
         AwxHostDisableCommand command = new AwxHostDisableCommand(UUID.fromString(projection.getAwxHostId()));
