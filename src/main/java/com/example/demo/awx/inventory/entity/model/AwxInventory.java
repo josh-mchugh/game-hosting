@@ -8,7 +8,7 @@ import lombok.Value;
 public class AwxInventory {
 
     String id;
-    Long inventoryId;
+    Long awxId;
     String name;
     String description;
 }

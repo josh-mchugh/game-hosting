@@ -1,6 +1,6 @@
-package com.example.demo.awx.inventory.entity;
+package com.example.demo.awx.inventory.entity.mapper;
 
-import com.example.demo.awx.inventory.entity.mapper.AwxInventoryMapper;
+import com.example.demo.awx.inventory.entity.AwxInventoryEntity;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,14 +39,14 @@ public class AwxInventoryMapperTest {
     }
 
     @Test
-    public void whenEntityHasInventoryIdThenReturnInventoryId() {
+    public void whenEntityHasAwxIdThenReturnAwxId() {
 
         AwxInventoryEntity entity = new AwxInventoryEntity();
-        entity.setInventoryId(1L);
+        entity.setAwxId(1L);
 
         AwxInventory awxInventory = AwxInventoryMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxInventory.getInventoryId());
+        Assertions.assertEquals(1L, awxInventory.getAwxId());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class AwxInventoryMapperTest {
 
         AwxInventory awxInventory = AwxInventoryMapper.map(new AwxInventoryEntity());
 
-        Assertions.assertNull(awxInventory.getInventoryId());
+        Assertions.assertNull(awxInventory.getAwxId());
     }
 
     @Test

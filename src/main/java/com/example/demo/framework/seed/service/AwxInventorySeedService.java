@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.inventory.feign.InventoryClient;
+import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.awx.inventory.feign.model.InventoryCreateApi;
 import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateCommand;
@@ -22,7 +22,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final IAwxInventoryProjector awxInventoryProjector;
-    private final InventoryClient inventoryClient;
+    private final IInventoryFeignService inventoryFeignService;
     private final CommandGateway commandGateway;
 
     @Override
@@ -34,7 +34,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        ListResponse<InventoryApi> inventoryApiListResponse = inventoryClient.getInventories(awxConfig.getOrganization().getId());
+        ListResponse<InventoryApi> inventoryApiListResponse = inventoryFeignService.getInventories();
 
         Optional<InventoryApi> inventoryApiResult = inventoryApiListResponse.getResults().stream()
                 .filter(inventory -> inventory.getName().equals(awxConfig.getInventory().getName()))
@@ -76,7 +76,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
                 .description(awxConfig.getInventory().getDescription())
                 .build();
 
-        return inventoryClient.createInventory(inventoryCreateApi);
+        return inventoryFeignService.createInventory(inventoryCreateApi);
     }
 
     private Object createAwxInventory(InventoryApi inventoryApi) {
@@ -84,7 +84,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
         AwxInventoryCreateCommand event = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .organizationId(inventoryApi.getOrganizationId())
-                .inventoryId(inventoryApi.getId())
+                .awxId(inventoryApi.getId())
                 .name(inventoryApi.getName())
                 .description(inventoryApi.getDescription())
                 .build();

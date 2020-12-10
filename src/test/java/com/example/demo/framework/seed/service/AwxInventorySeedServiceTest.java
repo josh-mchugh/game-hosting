@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.inventory.feign.InventoryClient;
+import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +29,7 @@ public class AwxInventorySeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private InventoryClient inventoryClient;
+    private IInventoryFeignService inventoryFeignService;
 
     @Test
     public void whenEntitiesExistThenDataDoesNotExistsReturnsFalse() {
@@ -55,7 +55,7 @@ public class AwxInventorySeedServiceTest {
                 .awxOrganization()
                 .build();
 
-        Mockito.when(inventoryClient.getInventories(Mockito.anyLong())).thenReturn(new ListResponse<>());
+        Mockito.when(inventoryFeignService.getInventories()).thenReturn(new ListResponse<>());
 
         InventoryApi inventoryApi = new InventoryApi();
         inventoryApi.setId(1L);
@@ -63,7 +63,7 @@ public class AwxInventorySeedServiceTest {
         inventoryApi.setName("Default");
         inventoryApi.setDescription("Default Inventory");
 
-        Mockito.when(inventoryClient.createInventory(Mockito.any())).thenReturn(inventoryApi);
+        Mockito.when(inventoryFeignService.createInventory(Mockito.any())).thenReturn(inventoryApi);
 
         ImmutableList<Object> awxInventories = awxInventorySeedService.initializeData();
 
@@ -73,7 +73,7 @@ public class AwxInventorySeedServiceTest {
     @Test
     public void whenInventoryApiListThrowsErrorThenThrowError() {
 
-        Mockito.when(inventoryClient.getInventories(Mockito.anyLong())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(inventoryFeignService.getInventories()).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.FeignClientException.class, () -> awxInventorySeedService.initializeData());
     }
@@ -81,9 +81,9 @@ public class AwxInventorySeedServiceTest {
     @Test
     public void whenInventoryApiCreateThrowsErrorThenThrowError() {
 
-        Mockito.when(inventoryClient.getInventories(Mockito.anyLong())).thenReturn(new ListResponse<>());
+        Mockito.when(inventoryFeignService.getInventories()).thenReturn(new ListResponse<>());
 
-        Mockito.when(inventoryClient.createInventory(Mockito.any())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(inventoryFeignService.createInventory(Mockito.any())).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.class, () -> awxInventorySeedService.initializeData());
     }
@@ -104,7 +104,7 @@ public class AwxInventorySeedServiceTest {
         ListResponse<InventoryApi> listResponse = new ListResponse<>();
         listResponse.setResults(Collections.singletonList(inventoryApi));
 
-        Mockito.when(inventoryClient.getInventories(Mockito.anyLong())).thenReturn(listResponse);
+        Mockito.when(inventoryFeignService.getInventories()).thenReturn(listResponse);
 
         ImmutableList<Object> awxInventories = awxInventorySeedService.initializeData();
 
