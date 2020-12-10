@@ -290,7 +290,7 @@ public class DashboardServiceTest {
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);
-        hostApi.setInventoryId(data.getAwxInventory().getInventoryId());
+        hostApi.setInventoryId(data.getAwxInventory().getAwxId());
         hostApi.setName("0.0.0.0.0");
         hostApi.setDescription("description");
         hostApi.setEnabled(true);

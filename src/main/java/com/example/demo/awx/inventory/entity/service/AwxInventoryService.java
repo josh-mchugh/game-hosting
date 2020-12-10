@@ -36,7 +36,7 @@ public class AwxInventoryService implements IAwxInventoryService {
         AwxInventoryEntity entity = new AwxInventoryEntity();
         entity.setId(event.getId());
         entity.setAwxOrganizationEntity(organizationEntity);
-        entity.setInventoryId(event.getInventoryId());
+        entity.setAwxId(event.getAwxId());
         entity.setName(event.getName());
         entity.setDescription(event.getDescription());
 

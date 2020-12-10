@@ -18,7 +18,7 @@ public class AwxInventoryAggregate {
     @AggregateIdentifier
     private UUID id;
     private Long awxOrganizationId;
-    private Long inventoryId;
+    private Long awxId;
     private String name;
     private String description;
 
@@ -28,7 +28,7 @@ public class AwxInventoryAggregate {
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(command.getId())
                 .organizationId(command.getOrganizationId())
-                .inventoryId(command.getInventoryId())
+                .awxId(command.getAwxId())
                 .name(command.getName())
                 .description(command.getDescription())
                 .build();
@@ -41,7 +41,7 @@ public class AwxInventoryAggregate {
 
         this.id = event.getId();
         this.awxOrganizationId = event.getOrganizationId();
-        this.inventoryId = event.getInventoryId();
+        this.awxId = event.getAwxId();
         this.name = event.getName();
         this.description =event.getDescription();
     }

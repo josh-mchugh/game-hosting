@@ -544,7 +544,7 @@ public class SampleBuilder {
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .organizationId(awxOrganization.getOrganizationId())
-                .inventoryId(1L)
+                .awxId(1L)
                 .name("Default")
                 .description("Default Inventory")
                 .build();

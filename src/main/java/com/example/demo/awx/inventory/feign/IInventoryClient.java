@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "inventoryClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
-public interface InventoryClient {
+public interface IInventoryClient {
 
     @GetMapping("/api/v2/organizations/{organizationId}/inventories/")
     ListResponse<InventoryApi> getInventories(@PathVariable("organizationId") Long organizationId);

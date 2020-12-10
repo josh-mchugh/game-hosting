@@ -26,8 +26,8 @@ public class AwxInventoryEntity extends AbstractAggregateEntity {
     @JoinColumn(name = "awx_organization_id", nullable = false)
     private AwxOrganizationEntity awxOrganizationEntity;
 
-    @Column(name = "inventory_id", unique = true, nullable = false)
-    private Long inventoryId;
+    @Column(name = "awx_id", unique = true, nullable = false)
+    private Long awxId;
 
     @Column(name = "name", nullable = false)
     private String name;
