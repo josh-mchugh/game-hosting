@@ -588,12 +588,11 @@ public class SampleBuilder {
 
         AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
-                .notificationId(1L)
+                .awxOrganizationId(awxOrganization.getId())
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .organizationId(1L)
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 

@@ -1,19 +1,19 @@
 package com.example.demo.awx.notification.aggregate.event;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxNotificationCreatedEvent {
 
-    private final UUID id;
-    private final Long organizationId;
-    private final Long notificationId;
-    private final String name;
-    private final String description;
-    private final String notificationType;
-    private final String webhookCallBackUrl;
+    UUID id;
+    String awxOrganizationId;
+    Long awxId;
+    String name;
+    String description;
+    String type;
+    String webhookCallBackUrl;
 }

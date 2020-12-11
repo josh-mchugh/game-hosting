@@ -1,21 +1,17 @@
 package com.example.demo.awx.notification.feign.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@NoArgsConstructor
+@Value
+@Builder(builderClassName = "Builder")
 public class NotificationConfiguration {
 
-    private String url;
-    private Map<String, Object> headers;
+    String url;
 
-    public NotificationConfiguration(String url) {
-
-        this.url = url;
-        this.headers = new HashMap<>();
-    }
+    @lombok.Builder.Default
+    Map<String, Object> headers = new HashMap<>();
 }

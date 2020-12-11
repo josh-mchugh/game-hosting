@@ -1,34 +1,34 @@
 package com.example.demo.awx.notification.aggregate.command;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxNotificationCreateCommand {
 
     @NotNull
     @TargetAggregateIdentifier
-    private final UUID id;
-
-    @NotNull
-    private final Long organizationId;
-
-    @NotNull
-    private final Long notificationId;
+    UUID id;
 
     @NotBlank
-    private final String name;
+    String awxOrganizationId;
 
-    private final String description;
+    @NotNull
+    Long awxId;
 
     @NotBlank
-    private final String notificationType;
+    String name;
 
-    private final String webhookCallBackUrl;
+    String description;
+
+    @NotBlank
+    String type;
+
+    String webhookCallBackUrl;
 }

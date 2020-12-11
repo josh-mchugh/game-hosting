@@ -8,9 +8,9 @@ import lombok.Value;
 public class AwxNotification {
 
     String id;
-    Long notificationId;
+    Long awxId;
     String name;
     String description;
-    String notificationType;
+    String type;
     String webhookCallbackUrl;
 }

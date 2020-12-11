@@ -14,10 +14,10 @@ public class AwxNotificationMapper {
 
         return AwxNotification.builder()
                 .id(entity.getId())
-                .notificationId(entity.getNotificationId())
+                .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .notificationType(entity.getNotificationType())
+                .type(entity.getType())
                 .webhookCallbackUrl(entity.getWebhookCallBackUrl())
                 .build();
     }

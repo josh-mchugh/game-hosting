@@ -29,21 +29,21 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(id)
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
         AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
                 .id(id)
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -58,11 +58,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(null)
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -72,15 +72,15 @@ public class AwxNotificationCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasNullOrganizationIdThenThrowException() {
+    public void whenCreateCommandHasNullAwxOrganizationIdThenThrowException() {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(null)
-                .notificationId(1L)
+                .awxOrganizationId(null)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -90,15 +90,33 @@ public class AwxNotificationCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasNullNotificationIdThenThrowException() {
+    public void whenCreateCommandHasBlankAwxOrganizationIdThenThrowException() {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(null)
+                .awxOrganizationId("")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
+                .webhookCallBackUrl("callback url")
+                .build();
+
+        fixture.givenNoPriorActivity()
+                .when(command)
+                .expectException(JSR303ViolationException.class);
+    }
+
+    @Test
+    public void whenCreateCommandHasNullAwxIdThenThrowException() {
+
+        AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
+                .id(UUID.randomUUID())
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(null)
+                .name("name")
+                .description("description")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -112,11 +130,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name(null)
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -130,11 +148,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -148,11 +166,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description(null)
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -166,11 +184,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -180,15 +198,15 @@ public class AwxNotificationCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasNullNotificationTypeThenThrowException() {
+    public void whenCreateCommandHasNullTypeThenThrowException() {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType(null)
+                .type(null)
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -198,15 +216,15 @@ public class AwxNotificationCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasEmptyNotificationTypeThenThrowException() {
+    public void whenCreateCommandHasEmptyTypeThenThrowException() {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("")
+                .type("")
                 .webhookCallBackUrl("callback url")
                 .build();
 
@@ -220,11 +238,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl(null)
                 .build();
 
@@ -238,11 +256,11 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
-                .notificationId(1L)
+                .awxOrganizationId("awxOrganizationId")
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .notificationType("notification type")
+                .type("type")
                 .webhookCallBackUrl("")
                 .build();
 

@@ -1,6 +1,6 @@
-package com.example.demo.awx.notification.entity;
+package com.example.demo.awx.notification.entity.mapper;
 
-import com.example.demo.awx.notification.entity.mapper.AwxNotificationMapper;
+import com.example.demo.awx.notification.entity.AwxNotificationEntity;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,22 +39,22 @@ public class AwxNotificationMapperTest {
     }
 
     @Test
-    public void whenEntityHasNotificationIdThenReturnNotificationId() {
+    public void whenEntityHasAwxIdThenReturnAwxId() {
 
         AwxNotificationEntity entity = new AwxNotificationEntity();
-        entity.setNotificationId(1L);
+        entity.setAwxId(1L);
 
         AwxNotification awxNotification = AwxNotificationMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxNotification.getNotificationId());
+        Assertions.assertEquals(1L, awxNotification.getAwxId());
     }
 
     @Test
-    public void whenEntityHasNullNotificationIdThenReturnNull() {
+    public void whenEntityHasNullAwxIdThenReturnNull() {
 
         AwxNotification awxNotification = AwxNotificationMapper.map(new AwxNotificationEntity());
 
-        Assertions.assertNull(awxNotification.getNotificationId());
+        Assertions.assertNull(awxNotification.getAwxId());
     }
 
     @Test
@@ -96,22 +96,22 @@ public class AwxNotificationMapperTest {
     }
 
     @Test
-    public void whenEntityHasNotificationTypeThenReturnNotificationType() {
+    public void whenEntityHasTypeThenReturnType() {
 
         AwxNotificationEntity entity = new AwxNotificationEntity();
-        entity.setNotificationType("notification type");
+        entity.setType("type");
 
         AwxNotification awxNotification = AwxNotificationMapper.map(entity);
 
-        Assertions.assertEquals("notification type", awxNotification.getNotificationType());
+        Assertions.assertEquals("type", awxNotification.getType());
     }
 
     @Test
-    public void whenEntityHasNullNotificationTypeThenReturnNull() {
+    public void whenEntityHasNullTypeThenReturnNull() {
 
         AwxNotification awxNotification = AwxNotificationMapper.map(new AwxNotificationEntity());
 
-        Assertions.assertNull(awxNotification.getNotificationType());
+        Assertions.assertNull(awxNotification.getType());
     }
 
     @Test
