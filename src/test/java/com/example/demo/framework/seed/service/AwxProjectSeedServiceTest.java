@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.notification.feign.NotificationClient;
+import com.example.demo.awx.notification.feign.INotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
 import com.example.demo.awx.project.feign.ProjectClient;
@@ -35,7 +35,7 @@ public class AwxProjectSeedServiceTest {
     private ProjectClient projectClient;
 
     @MockBean
-    private NotificationClient notificationClient;
+    private INotificationFeignService notificationFeignService;
 
     @Test
     public void whenAwxProjectExistsThenDataDoesNotExistsReturnFalse() {
@@ -115,15 +115,19 @@ public class AwxProjectSeedServiceTest {
 
         Mockito.when(projectClient.createProject(Mockito.anyLong(), Mockito.any())).thenReturn(projectApi);
 
+        NotificationConfiguration configuration = NotificationConfiguration.builder()
+                .url("url")
+                .build();
+
         NotificationApi notificationApi = new NotificationApi();
         notificationApi.setId(1L);
         notificationApi.setName("Notification Name");
         notificationApi.setDescription("Notification Description");
         notificationApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
-        notificationApi.setNotificationType("webhook");
-        notificationApi.setNotificationConfiguration(new NotificationConfiguration("url"));
+        notificationApi.setType("webhook");
+        notificationApi.setNotificationConfiguration(configuration);
 
-        Mockito.when(notificationClient.createSuccessNotificationForProject(Mockito.anyLong(), Mockito.any())).thenReturn(notificationApi);
+        Mockito.when(notificationFeignService.createSuccessNotificationForProject(Mockito.anyLong(), Mockito.any())).thenReturn(notificationApi);
 
         ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 

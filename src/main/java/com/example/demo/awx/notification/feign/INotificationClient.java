@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "notificationClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
-public interface NotificationClient {
+public interface INotificationClient {
 
     @PostMapping("/api/v2/projects/{projectId}/notification_templates_success/")
     NotificationApi createSuccessNotificationForProject(@PathVariable("projectId") Long projectId, @RequestBody NotificationCreateApi body);

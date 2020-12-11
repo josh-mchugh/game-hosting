@@ -17,12 +17,11 @@ public class AwxNotificationAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    //TODO: Change to use AwxOrganization id instead of organizationId
-    private Long awxOrganizationId;
-    private Long notificationId;
+    private String awxOrganizationId;
+    private Long awxId;
     private String name;
     private String description;
-    private String notificationType;
+    private String type;
     private String webhookCallBackUrl;
 
     @CommandHandler
@@ -30,11 +29,11 @@ public class AwxNotificationAggregate {
 
         AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
                 .id(command.getId())
-                .organizationId(command.getOrganizationId())
-                .notificationId(command.getNotificationId())
+                .awxOrganizationId(command.getAwxOrganizationId())
+                .awxId(command.getAwxId())
                 .name(command.getName())
                 .description(command.getDescription())
-                .notificationType(command.getNotificationType())
+                .type(command.getType())
                 .webhookCallBackUrl(command.getWebhookCallBackUrl())
                 .build();
 
@@ -45,11 +44,11 @@ public class AwxNotificationAggregate {
     public void on(AwxNotificationCreatedEvent event) {
 
         this.id = event.getId();
-        this.awxOrganizationId = event.getOrganizationId();
-        this.notificationId = event.getNotificationId();
+        this.awxOrganizationId = event.getAwxOrganizationId();
+        this.awxId = event.getAwxId();
         this.name = event.getName();
         this.description = event.getDescription();
-        this.notificationType = event.getNotificationType();
+        this.type = event.getType();
         this.webhookCallBackUrl = event.getWebhookCallBackUrl();
     }
 }

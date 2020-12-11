@@ -15,10 +15,8 @@ public class NotificationCreateApi {
     Long organizationId;
 
     @JsonProperty("notification_type")
-    String notificationType;
+    String type;
 
     @JsonProperty("notification_configuration")
     NotificationConfiguration notificationConfiguration;
-
-    String messages;
 }

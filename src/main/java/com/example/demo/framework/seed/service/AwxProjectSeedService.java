@@ -3,15 +3,18 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
 import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.notification.feign.NotificationClient;
+import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
+import com.example.demo.awx.notification.feign.INotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
 import com.example.demo.awx.notification.feign.model.NotificationCreateApi;
+import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
+import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
+import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
 import com.example.demo.awx.project.feign.ProjectClient;
 import com.example.demo.awx.project.feign.model.ProjectApi;
 import com.example.demo.awx.project.feign.model.ProjectCreateApi;
-import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
-import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
 import com.example.demo.awx.project.projection.IAwxProjectProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
@@ -30,9 +33,10 @@ public class AwxProjectSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final ProjectClient projectClient;
-    private final NotificationClient notificationClient;
+    private final INotificationFeignService notificationFeignService;
     private final IAwxCredentialProjector awxCredentialProjector;
     private final IAwxProjectProjector awxProjectProjector;
+    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final CommandGateway commandGateway;
 
     @Override
@@ -88,16 +92,19 @@ public class AwxProjectSeedService implements ISeedService<Object> {
 
         // Create Notification for success in AWX
         NotificationCreateApi notificationCreateApi = buildNotificationCreateApi(api);
-        NotificationApi notificationApi = notificationClient.createSuccessNotificationForProject(api.getId(), notificationCreateApi);
+        NotificationApi notificationApi = notificationFeignService.createSuccessNotificationForProject(api.getId(), notificationCreateApi);
+
+        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(notificationApi.getOrganizationId());
+        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
 
         // Persist AwxNotification
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .notificationId(notificationApi.getId())
-                .organizationId(notificationApi.getOrganizationId())
+                .awxId(notificationApi.getId())
+                .awxOrganizationId(response.getId())
                 .name(notificationApi.getName())
                 .description(notificationApi.getDescription())
-                .notificationType(notificationApi.getNotificationType())
+                .type(notificationApi.getType())
                 .webhookCallBackUrl(notificationApi.getNotificationConfiguration().getUrl())
                 .build();
         commandGateway.send(command);
@@ -141,10 +148,14 @@ public class AwxProjectSeedService implements ISeedService<Object> {
                 .path(String.format("/awx/notification/project/%s/success", projectApi.getId()))
                 .toUriString();
 
+        NotificationConfiguration configuration = NotificationConfiguration.builder()
+                .url(url)
+                .build();
+
         return NotificationCreateApi.builder()
                 .name(String.format("Project - %s - %s", projectApi.getName(), projectApi.getId()))
-                .notificationConfiguration(new NotificationConfiguration(url))
-                .notificationType("webhook")
+                .notificationConfiguration(configuration)
+                .type("webhook")
                 .organizationId(awxConfig.getOrganization().getId())
                 .build();
     }

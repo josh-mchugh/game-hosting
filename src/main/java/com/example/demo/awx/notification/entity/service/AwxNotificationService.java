@@ -30,16 +30,16 @@ public class AwxNotificationService implements IAwxNotificationService {
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.organizationId.eq(event.getOrganizationId()))
+                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId()))
                 .fetchOne();
 
         AwxNotificationEntity entity = new AwxNotificationEntity();
         entity.setId(event.getId());
         entity.setAwxOrganizationEntity(awxOrganizationEntity);
-        entity.setNotificationId(event.getNotificationId());
+        entity.setAwxId(event.getAwxId());
         entity.setName(event.getName());
         entity.setDescription(event.getDescription());
-        entity.setNotificationType(event.getNotificationType());
+        entity.setType(event.getType());
         entity.setWebhookCallBackUrl(event.getWebhookCallBackUrl());
 
         entityManager.persist(entity);

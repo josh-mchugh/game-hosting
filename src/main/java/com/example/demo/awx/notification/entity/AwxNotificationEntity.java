@@ -18,12 +18,12 @@ import javax.persistence.Table;
 @Table(name = "awx_notification")
 public class AwxNotificationEntity extends AbstractAggregateEntity {
 
-    @Column(name = "notification_id", unique = true, nullable = false)
-    private Long notificationId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "awx_organization_id", nullable = false)
     private AwxOrganizationEntity awxOrganizationEntity;
+
+    @Column(name = "awx_id", unique = true, nullable = false)
+    private Long awxId;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -31,8 +31,8 @@ public class AwxNotificationEntity extends AbstractAggregateEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "notification_type")
-    private String notificationType;
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "webhook_callback_url")
     private String webhookCallBackUrl;
