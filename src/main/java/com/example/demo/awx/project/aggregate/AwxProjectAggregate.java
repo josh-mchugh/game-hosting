@@ -18,6 +18,7 @@ public class AwxProjectAggregate {
 
     @AggregateIdentifier
     private UUID id;
+    // TODO Change to AwxOrganizationId
     private Long organizationId;
     private String awxCredentialId;
     private Long projectId;

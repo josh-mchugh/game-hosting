@@ -48,7 +48,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -64,7 +64,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(id)
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -76,11 +76,11 @@ public class AwxInventoryServiceCreatedTest {
     }
 
     @Test
-    public void whenCreatedHasOrganizationIdThenReturnNonNull() {
+    public void whenCreatedHasAwxOrganizationIdThenReturnNonNull() {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -92,11 +92,11 @@ public class AwxInventoryServiceCreatedTest {
     }
 
     @Test
-    public void whenCreatedHasNullOrganizationThrowException() {
+    public void whenCreatedHasNullAwxOrganizationThrowException() {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(null)
+                .awxOrganizationId(null)
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -110,7 +110,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(2L)
                 .name("name")
                 .description("description")
@@ -126,7 +126,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(null)
                 .name("name")
                 .description("description")
@@ -140,7 +140,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("test name")
                 .description("description")
@@ -156,7 +156,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name(null)
                 .description("description")
@@ -170,7 +170,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("test description")
@@ -186,7 +186,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description(null)

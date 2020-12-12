@@ -1,6 +1,6 @@
-package com.example.demo.awx.organization.entity;
+package com.example.demo.awx.organization.entity.mapper;
 
-import com.example.demo.awx.organization.entity.mapper.AwxOrganizationMapper;
+import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,22 +39,22 @@ public class AwxOrganizationMapperTest {
     }
 
     @Test
-    public void whenEntityHasOrganizationIdThenReturnOrganizationId() {
+    public void whenEntityHasAwxIdThenReturnAwxId() {
 
         AwxOrganizationEntity entity = new AwxOrganizationEntity();
-        entity.setOrganizationId(1L);
+        entity.setAwxId(1L);
 
         AwxOrganization awxOrganization = AwxOrganizationMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxOrganization.getOrganizationId());
+        Assertions.assertEquals(1L, awxOrganization.getAwxId());
     }
 
     @Test
-    public void whenEntityHasNullOrganizationThenReturnNull() {
+    public void whenEntityHasNullAwxIdThenReturnNull() {
 
         AwxOrganization awxOrganization = AwxOrganizationMapper.map(new AwxOrganizationEntity());
 
-        Assertions.assertNull(awxOrganization.getOrganizationId());
+        Assertions.assertNull(awxOrganization.getAwxId());
     }
 
     @Test

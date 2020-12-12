@@ -24,7 +24,7 @@ public class AwxOrganizationService implements IAwxOrganizationService {
 
         AwxOrganizationEntity entity = new AwxOrganizationEntity();
         entity.setId(event.getId());
-        entity.setOrganizationId(event.getOrganizationId());
+        entity.setAwxId(event.getAwxId());
         entity.setName(event.getName());
         entity.setDescription(event.getDescription());
 

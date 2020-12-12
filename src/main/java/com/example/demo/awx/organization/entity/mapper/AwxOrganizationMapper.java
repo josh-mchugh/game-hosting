@@ -14,7 +14,7 @@ public class AwxOrganizationMapper {
 
         return AwxOrganization.builder()
                 .id(entity.getId())
-                .organizationId(entity.getOrganizationId())
+                .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .build();

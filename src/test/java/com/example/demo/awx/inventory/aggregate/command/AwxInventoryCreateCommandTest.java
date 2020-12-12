@@ -23,10 +23,10 @@ public class AwxInventoryCreateCommandTest {
     public void whenCommandHasOrganizationIdThenReturnOrganizationId() {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
-                .organizationId(1L)
+                .awxOrganizationId("awxOrganizationId")
                 .build();
 
-        Assertions.assertEquals(1, command.getOrganizationId());
+        Assertions.assertEquals("awxOrganizationId", command.getAwxOrganizationId());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = command();
 
-        String expected = "AwxInventoryCreateCommand(id=7fc48e20-1917-45ec-8817-da04cc54177f, organizationId=1, awxId=1, name=name, description=description)";
+        String expected = "AwxInventoryCreateCommand(id=7fc48e20-1917-45ec-8817-da04cc54177f, awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -74,7 +74,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = command();
 
-        Assertions.assertEquals(-1160807245, command.hashCode());
+        Assertions.assertEquals(356270688, command.hashCode());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class AwxInventoryCreateCommandTest {
 
         return AwxInventoryCreateCommand.builder()
                 .id(UUID.fromString("7fc48e20-1917-45ec-8817-da04cc54177f"))
-                .organizationId(1L)
+                .awxOrganizationId("awxOrganizationId")
                 .awxId(1L)
                 .name("name")
                 .description("description")

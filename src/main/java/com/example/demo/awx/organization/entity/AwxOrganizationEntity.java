@@ -14,8 +14,8 @@ import javax.persistence.Table;
 @Table(name = "awx_organization")
 public class AwxOrganizationEntity extends AbstractAggregateEntity {
 
-    @Column(name = "organization_id", unique = true, nullable = false)
-    private Long organizationId;
+    @Column(name = "awx_id", unique = true, nullable = false)
+    private Long awxId;
 
     @Column(name = "name", nullable = false)
     private String name;

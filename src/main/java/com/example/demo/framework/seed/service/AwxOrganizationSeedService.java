@@ -1,8 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.awx.organization.feign.OrganizationClient;
-import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.awx.organization.aggregate.command.AwxOrganizationCreateCommand;
+import com.example.demo.awx.organization.feign.IOrganizationFeignService;
+import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
@@ -20,7 +20,7 @@ public class AwxOrganizationSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final IAwxOrganizationProjection awxOrganizationProjection;
-    private final OrganizationClient organizationClient;
+    private final IOrganizationFeignService organizationFeignService;
     private final CommandGateway commandGateway;
 
     @Override
@@ -32,7 +32,7 @@ public class AwxOrganizationSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        Optional<OrganizationApi> organizationApi = organizationClient.getOrganizations().getResults().stream()
+        Optional<OrganizationApi> organizationApi = organizationFeignService.getOrganizations().getResults().stream()
                 .filter(organization -> organization.getId().equals(awxConfig.getOrganization().getId()))
                 .findFirst();
 
@@ -59,7 +59,7 @@ public class AwxOrganizationSeedService implements ISeedService<Object> {
 
         return AwxOrganizationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(organization.getId())
+                .awxId(organization.getId())
                 .name(organization.getName())
                 .description(organization.getDescription())
                 .build();

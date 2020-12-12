@@ -74,13 +74,13 @@ public class AwxCredentialSeedServiceTest {
         Mockito.when(credentialClient.getCredentials()).thenReturn(credentialApiList);
 
         AwxCredentialApi firstCredentialApi = new AwxCredentialApi();
-        firstCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
+        firstCredentialApi.setOrganizationId(awxOrganization.getAwxId());
         firstCredentialApi.setId(1L);
         firstCredentialApi.setName("First Credential");
         firstCredentialApi.setCredentialType(AwxCredentialType.MACHINE);
 
         AwxCredentialApi secondCredentialApi = new AwxCredentialApi();
-        secondCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
+        secondCredentialApi.setOrganizationId(awxOrganization.getAwxId());
         secondCredentialApi.setId(2L);
         secondCredentialApi.setName("Second Credential");
         secondCredentialApi.setCredentialType(AwxCredentialType.SOURCE_CONTROL);
@@ -103,13 +103,13 @@ public class AwxCredentialSeedServiceTest {
                 .getAwxOrganization();
 
         AwxCredentialApi firstCredentialApi = new AwxCredentialApi();
-        firstCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
+        firstCredentialApi.setOrganizationId(awxOrganization.getAwxId());
         firstCredentialApi.setId(1L);
         firstCredentialApi.setName("First Credential");
         firstCredentialApi.setCredentialType(AwxCredentialType.MACHINE);
 
         AwxCredentialApi secondCredentialApi = new AwxCredentialApi();
-        secondCredentialApi.setOrganizationId(awxOrganization.getOrganizationId());
+        secondCredentialApi.setOrganizationId(awxOrganization.getAwxId());
         secondCredentialApi.setId(1L);
         secondCredentialApi.setName("Second Credential");
         secondCredentialApi.setCredentialType(AwxCredentialType.SOURCE_CONTROL);

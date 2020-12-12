@@ -16,8 +16,8 @@ public class AwxInventoryCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotNull
-    Long organizationId;
+    @NotBlank
+    String awxOrganizationId;
 
     @NotNull
     Long awxId;

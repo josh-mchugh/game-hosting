@@ -17,7 +17,7 @@ public class AwxOrganizationAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private Long organizationId;
+    private Long awxId;
     private String name;
     private String description;
 
@@ -26,7 +26,7 @@ public class AwxOrganizationAggregate {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(command.getId())
-                .organizationId(command.getOrganizationId())
+                .awxId(command.getAwxId())
                 .name(command.getName())
                 .description(command.getDescription())
                 .build();
@@ -38,7 +38,7 @@ public class AwxOrganizationAggregate {
     public void on(AwxOrganizationCreatedEvent event) {
 
         this.id = event.getId();
-        this.organizationId = event.getOrganizationId();
+        this.awxId = event.getAwxId();
         this.name = event.getName();
         this.description = event.getDescription();
     }
