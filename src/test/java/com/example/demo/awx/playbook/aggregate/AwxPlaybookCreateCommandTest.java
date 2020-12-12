@@ -28,23 +28,23 @@ public class AwxPlaybookCreateCommandTest {
 
         UUID id = UUID.randomUUID();
 
-        AwxPlaybookCreatedEvent createdEvent = AwxPlaybookCreatedEvent.builder()
+        AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
+                .id(id)
+                .awxProjectId("project-id")
+                .name("cowsay-playbook.yml")
+                .build();
+
+        AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
                 .id(id)
                 .awxProjectId("project-id")
                 .name("cowsay-playbook.yml")
                 .type(PlaybookType.COWSAY)
                 .build();
 
-        AwxPlaybookCreateCommand createCommand = AwxPlaybookCreateCommand.builder()
-                .id(id)
-                .awxProjectId("project-id")
-                .name("cowsay-playbook.yml")
-                .build();
-
         fixture.givenNoPriorActivity()
-                .when(createCommand)
+                .when(command)
                 .expectSuccessfulHandlerExecution()
-                .expectEvents(createdEvent);
+                .expectEvents(event);
     }
 
     @Test
@@ -128,5 +128,21 @@ public class AwxPlaybookCreateCommandTest {
         fixture.givenNoPriorActivity()
                 .when(command)
                 .expectException(JSR303ViolationException.class);
+    }
+
+    @Test
+    public void whenCreateCommandHasInvalidNameThenThrowException() {
+
+        UUID id = UUID.randomUUID();
+
+        AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
+                .id(id)
+                .awxProjectId("project-id")
+                .name("invalid")
+                .build();
+
+        fixture.givenNoPriorActivity()
+                .when(command)
+                .expectException(IllegalArgumentException.class);
     }
 }

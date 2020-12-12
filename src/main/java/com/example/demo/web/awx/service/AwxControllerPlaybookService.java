@@ -1,6 +1,6 @@
 package com.example.demo.web.awx.service;
 
-import com.example.demo.awx.playbook.feign.PlaybookClient;
+import com.example.demo.awx.playbook.feign.IPlaybookClient;
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
 import com.example.demo.awx.playbook.projection.IAwxPlaybookProjector;
 import com.example.demo.awx.project.entity.model.AwxProject;
@@ -23,7 +23,7 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
 
     private final IAwxProjectProjector awxProjectProjector;
     private final IAwxPlaybookProjector awxPlaybookProjector;
-    private final PlaybookClient playbookClient;
+    private final IPlaybookClient playbookClient;
     private final CommandGateway commandGateway;
 
     @Override

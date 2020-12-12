@@ -2,16 +2,16 @@ package com.example.demo.awx.playbook.aggregate.event;
 
 import com.example.demo.awx.playbook.entity.PlaybookType;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxPlaybookCreatedEvent {
 
-    private final UUID id;
-    private final String awxProjectId;
-    private final String name;
-    private final PlaybookType type;
+    UUID id;
+    String awxProjectId;
+    String name;
+    PlaybookType type;
 }

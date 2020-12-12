@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @FeignClient(name = "playbookClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
-public interface PlaybookClient {
+public interface IPlaybookClient {
 
     @GetMapping("/api/v2/projects/{projectId}/playbooks/")
     List<String> getPlaybooks(@PathVariable("projectId") Long projectId);

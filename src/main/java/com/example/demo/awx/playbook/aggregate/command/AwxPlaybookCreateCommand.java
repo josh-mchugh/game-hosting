@@ -1,24 +1,24 @@
 package com.example.demo.awx.playbook.aggregate.command;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxPlaybookCreateCommand {
 
     @NotNull
     @TargetAggregateIdentifier
-    private final UUID id;
+    UUID id;
 
     @NotBlank
-    private final String awxProjectId;
+    String awxProjectId;
 
     @NotBlank
-    private final String name;
+    String name;
 }
