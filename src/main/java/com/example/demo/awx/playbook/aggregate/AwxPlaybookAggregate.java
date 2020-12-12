@@ -47,12 +47,12 @@ public class AwxPlaybookAggregate {
 
     private PlaybookType parseType(String name) {
 
-        String value = StringUtils.substringBefore(name, "-playbook.yml");
-
-        if(value.equals(name)) {
+        if(!StringUtils.endsWith(name,"-playbook.yml")) {
 
             throw new IllegalArgumentException("Unable to parse and convert playbook name to PlaybookType");
         }
+
+        String value = StringUtils.substringBefore(name, "-playbook.yml");
 
         return PlaybookType.valueOf(value.replace("-", "_").toUpperCase());
     }

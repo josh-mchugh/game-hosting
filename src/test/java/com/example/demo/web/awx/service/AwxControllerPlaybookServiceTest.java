@@ -1,6 +1,6 @@
 package com.example.demo.web.awx.service;
 
-import com.example.demo.awx.playbook.feign.PlaybookClient;
+import com.example.demo.awx.playbook.feign.IPlaybookClient;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.web.awx.service.model.PlaybookCreateRequest;
@@ -32,7 +32,7 @@ public class AwxControllerPlaybookServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private PlaybookClient playbookClient;
+    private IPlaybookClient playbookClient;
 
     @MockBean
     private CommandGateway commandGateway;

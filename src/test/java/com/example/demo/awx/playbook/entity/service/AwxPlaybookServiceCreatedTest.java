@@ -1,8 +1,8 @@
-package com.example.demo.awx.playbook.entity;
+package com.example.demo.awx.playbook.entity.service;
 
 import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
+import com.example.demo.awx.playbook.entity.PlaybookType;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
-import com.example.demo.awx.playbook.entity.service.IAwxPlaybookService;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
