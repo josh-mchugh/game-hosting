@@ -1,8 +1,7 @@
-package com.example.demo.awx.organization.entity;
+package com.example.demo.awx.organization.entity.service;
 
 import com.example.demo.awx.organization.aggregate.event.AwxOrganizationCreatedEvent;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
-import com.example.demo.awx.organization.entity.service.IAwxOrganizationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,19 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxOrganizationServiceTest {
+public class AwxOrganizationServiceCreatedTest {
 
     @Autowired
     private IAwxOrganizationService awxOrganizationService;
 
     @Test
-    public void whenEntityHasIdThenReturnId() {
+    public void whenEventHasIdThenReturnId() {
 
         UUID id = UUID.randomUUID();
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(id)
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
@@ -39,11 +38,11 @@ public class AwxOrganizationServiceTest {
     }
 
     @Test
-    public void whenEntityHasNullIdThenThrowException() {
+    public void whenEventHasNullIdThenThrowException() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(null)
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
@@ -52,11 +51,11 @@ public class AwxOrganizationServiceTest {
     }
 
     @Test
-    public void whenEntityHasNullOrganizationIdThenThrowException() {
+    public void whenEventHasNullAwxIdThenThrowException() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(null)
+                .awxId(null)
                 .name("name")
                 .description("description")
                 .build();
@@ -65,26 +64,26 @@ public class AwxOrganizationServiceTest {
     }
 
     @Test
-    public void whenEntityHasOrganizationIdThenReturnOrganizationId() {
+    public void whenEventHasAwxIdThenReturnAwxId() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
         AwxOrganization awxOrganization = awxOrganizationService.handleCreated(event);
 
-        Assertions.assertEquals(1L, awxOrganization.getOrganizationId());
+        Assertions.assertEquals(1L, awxOrganization.getAwxId());
     }
 
     @Test
-    public void whenEntityHasNullNameThenThrowException() {
+    public void whenEventHasNullNameThenThrowException() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name(null)
                 .description("description")
                 .build();
@@ -93,11 +92,11 @@ public class AwxOrganizationServiceTest {
     }
 
     @Test
-    public void whenEntityHasNameThenReturnName() {
+    public void whenEventHasNameThenReturnName() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
@@ -108,11 +107,11 @@ public class AwxOrganizationServiceTest {
     }
 
     @Test
-    public void whenEntityHasNullDescriptionThenReturnNull() {
+    public void whenEventHasNullDescriptionThenReturnNull() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description(null)
                 .build();
@@ -123,11 +122,11 @@ public class AwxOrganizationServiceTest {
     }
 
     @Test
-    public void whenEntityHasDescriptionThenReturnDescription() {
+    public void whenEventHasDescriptionThenReturnDescription() {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();

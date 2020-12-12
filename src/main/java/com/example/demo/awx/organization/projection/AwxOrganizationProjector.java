@@ -36,7 +36,7 @@ public class AwxOrganizationProjector implements IAwxOrganizationProjection {
                     qAwxOrganization.id
                 ))
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.organizationId.eq(query.getAwxId()))
+                .where(qAwxOrganization.awxId.eq(query.getAwxId()))
                 .fetchOne();
     }
 }

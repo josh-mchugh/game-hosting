@@ -1,11 +1,14 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.feign.ListResponse;
+import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateCommand;
 import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.awx.inventory.feign.model.InventoryCreateApi;
-import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateCommand;
 import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;
+import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
+import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.google.common.collect.ImmutableList;
@@ -22,6 +25,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final IAwxInventoryProjector awxInventoryProjector;
+    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final IInventoryFeignService inventoryFeignService;
     private final CommandGateway commandGateway;
 
@@ -81,9 +85,12 @@ public class AwxInventorySeedService implements ISeedService<Object> {
 
     private Object createAwxInventory(InventoryApi inventoryApi) {
 
+        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(inventoryApi.getOrganizationId());
+        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
+
         AwxInventoryCreateCommand event = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(inventoryApi.getOrganizationId())
+                .awxOrganizationId(response.getId())
                 .awxId(inventoryApi.getId())
                 .name(inventoryApi.getName())
                 .description(inventoryApi.getDescription())

@@ -31,7 +31,7 @@ public class AwxOrganizationProjectorFetchAwxOrganizationIdByAwxIdTest {
                 .build()
                 .getAwxOrganization();
 
-        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxOrganization.getOrganizationId());
+        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxOrganization.getAwxId());
         FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjector.fetchAwxOrganizationIdByAwxId(query);
 
         Assertions.assertEquals(awxOrganization.getId(), response.getId());

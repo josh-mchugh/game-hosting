@@ -49,7 +49,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -71,7 +71,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(id)
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -91,7 +91,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -129,7 +129,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -149,7 +149,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(null)
                 .projectId(1L)
                 .name("name")
@@ -167,7 +167,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -187,7 +187,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(null)
                 .name("name")
@@ -205,7 +205,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -225,7 +225,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name(null)
@@ -243,7 +243,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -263,7 +263,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -283,7 +283,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -303,7 +303,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -321,7 +321,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -341,7 +341,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -359,7 +359,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")
@@ -379,7 +379,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getOrganizationId())
+                .organizationId(data.getAwxOrganization().getAwxId())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .projectId(1L)
                 .name("name")

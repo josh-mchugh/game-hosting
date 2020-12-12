@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.organization.feign.OrganizationClient;
+import com.example.demo.awx.organization.feign.IOrganizationFeignService;
 import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -28,7 +28,7 @@ public class AwxOrganizationSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private OrganizationClient organizationClient;
+    private IOrganizationFeignService organizationFeignService;
 
     @Test
     public void whenAwxOrganizationExistsThenDataNotExistsReturnsFalse() {
@@ -47,7 +47,7 @@ public class AwxOrganizationSeedServiceTest {
     @Test
     public void whenOrganizationClientReturnsEmptyArrayThenThrowException() {
 
-        Mockito.when(organizationClient.getOrganizations()).thenReturn(new ListResponse<>());
+        Mockito.when(organizationFeignService.getOrganizations()).thenReturn(new ListResponse<>());
 
         Assertions.assertThrows(RuntimeException.class, () -> awxOrganizationSeedService.initializeData());
     }
@@ -63,7 +63,7 @@ public class AwxOrganizationSeedServiceTest {
         ListResponse<OrganizationApi> clientResponse = new ListResponse<>();
         clientResponse.setResults(Collections.singletonList(organizationApi));
 
-        Mockito.when(organizationClient.getOrganizations()).thenReturn(clientResponse);
+        Mockito.when(organizationFeignService.getOrganizations()).thenReturn(clientResponse);
 
         Assertions.assertThrows(RuntimeException.class, () -> awxOrganizationSeedService.initializeData());
     }
@@ -78,7 +78,7 @@ public class AwxOrganizationSeedServiceTest {
         ListResponse<OrganizationApi> clientResponse = new ListResponse<>();
         clientResponse.setResults(Collections.singletonList(organizationApi));
 
-        Mockito.when(organizationClient.getOrganizations()).thenReturn(clientResponse);
+        Mockito.when(organizationFeignService.getOrganizations()).thenReturn(clientResponse);
 
         ImmutableList<Object> organizations = awxOrganizationSeedService.initializeData();
 

@@ -470,7 +470,7 @@ public class SampleBuilder {
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("Game Hosting Service")
                 .description("organization description")
                 .build();
@@ -514,7 +514,7 @@ public class SampleBuilder {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .organizationId(awxOrganization.getAwxId())
                 .awxCredentialId(awxCredential.getId())
                 .projectId(1L)
                 .name("Game Hosting Project")
@@ -543,7 +543,7 @@ public class SampleBuilder {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getOrganizationId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("Default")
                 .description("Default Inventory")

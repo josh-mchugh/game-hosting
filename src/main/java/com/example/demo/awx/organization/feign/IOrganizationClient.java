@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(name = "organizationClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
-public interface OrganizationClient {
+public interface IOrganizationClient {
 
     @GetMapping("/api/v2/organizations/")
     ListResponse<OrganizationApi> getOrganizations();

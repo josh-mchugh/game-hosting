@@ -29,14 +29,14 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(id)
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
         AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
                 .id(id)
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
@@ -52,7 +52,7 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(null)
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
@@ -63,11 +63,11 @@ public class AwxOrganizationCreateCommandTest {
     }
 
     @Test
-    public void whenCreateHasNullOrganizationIdThenThrowException() {
+    public void whenCreateHasNullAwxIdThenThrowException() {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(null)
+                .awxId(null)
                 .name("name")
                 .description("description")
                 .build();
@@ -82,7 +82,7 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name(null)
                 .description("description")
                 .build();
@@ -97,7 +97,7 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("")
                 .description("description")
                 .build();
@@ -112,7 +112,7 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description(null)
                 .build();
@@ -127,7 +127,7 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = AwxOrganizationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("")
                 .build();

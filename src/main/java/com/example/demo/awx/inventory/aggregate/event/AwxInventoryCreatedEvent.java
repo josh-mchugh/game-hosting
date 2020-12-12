@@ -10,7 +10,7 @@ import java.util.UUID;
 public class AwxInventoryCreatedEvent {
 
     UUID id;
-    Long organizationId;
+    String awxOrganizationId;
     Long awxId;
     String name;
     String description;

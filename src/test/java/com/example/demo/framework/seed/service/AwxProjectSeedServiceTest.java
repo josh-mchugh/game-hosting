@@ -66,7 +66,7 @@ public class AwxProjectSeedServiceTest {
         ProjectApi projectApi = new ProjectApi();
         projectApi.setId(1L);
         projectApi.setName("Game Hosting Project");
-        projectApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
+        projectApi.setOrganizationId(sampleData.getAwxOrganization().getAwxId());
         projectApi.setCredentialId(sampleData.getAwxCredential().getAwxId());
         projectApi.setScmType("git");
         projectApi.setScmBranch("master");
@@ -93,7 +93,7 @@ public class AwxProjectSeedServiceTest {
         ProjectApi wrongProjectApi = new ProjectApi();
         wrongProjectApi.setId(2L);
         wrongProjectApi.setName("Wrong Project");
-        wrongProjectApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
+        wrongProjectApi.setOrganizationId(sampleData.getAwxOrganization().getAwxId());
         wrongProjectApi.setCredentialId(sampleData.getAwxCredential().getAwxId());
         wrongProjectApi.setScmType("git");
         wrongProjectApi.setScmBranch("master");
@@ -107,7 +107,7 @@ public class AwxProjectSeedServiceTest {
         ProjectApi projectApi = new ProjectApi();
         projectApi.setId(2L);
         projectApi.setName("Game Hosting Project");
-        projectApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
+        projectApi.setOrganizationId(sampleData.getAwxOrganization().getAwxId());
         projectApi.setCredentialId(sampleData.getAwxCredential().getAwxId());
         projectApi.setScmType("git");
         projectApi.setScmBranch("master");
@@ -123,7 +123,7 @@ public class AwxProjectSeedServiceTest {
         notificationApi.setId(1L);
         notificationApi.setName("Notification Name");
         notificationApi.setDescription("Notification Description");
-        notificationApi.setOrganizationId(sampleData.getAwxOrganization().getOrganizationId());
+        notificationApi.setOrganizationId(sampleData.getAwxOrganization().getAwxId());
         notificationApi.setType("webhook");
         notificationApi.setNotificationConfiguration(configuration);
 

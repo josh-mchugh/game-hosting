@@ -45,7 +45,7 @@ public class AwxProjectProjectionGetByNameTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(sampleData.getAwxOrganization().getOrganizationId())
+                .organizationId(sampleData.getAwxOrganization().getAwxId())
                 .awxCredentialId(sampleData.getAwxCredential().getId())
                 .projectId(1L)
                 .name("test name")

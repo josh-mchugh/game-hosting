@@ -21,13 +21,13 @@ public class AwxInventoryCreatedEventTest {
     }
 
     @Test
-    public void whenEventHasOrganizationIdThenReturnOrganizationId() {
+    public void whenEventHasAwxOrganizationIdThenReturnAwxOrganizationId() {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .organizationId(1L)
+                .awxOrganizationId("awxOrganizationId")
                 .build();
 
-        Assertions.assertEquals(1L, event.getOrganizationId());
+        Assertions.assertEquals("awxOrganizationId", event.getAwxOrganizationId());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class AwxInventoryCreatedEventTest {
 
         AwxInventoryCreatedEvent event = event();
 
-        String expected = "AwxInventoryCreatedEvent(id=cedd3764-05ab-4544-b62e-dc8269398ca4, organizationId=1, awxId=1, name=name, description=description)";
+        String expected = "AwxInventoryCreatedEvent(id=cedd3764-05ab-4544-b62e-dc8269398ca4, awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -75,7 +75,7 @@ public class AwxInventoryCreatedEventTest {
 
         AwxInventoryCreatedEvent event = event();
 
-        Assertions.assertEquals(642921874, event.hashCode());
+        Assertions.assertEquals(-2134967489, event.hashCode());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class AwxInventoryCreatedEventTest {
 
         return AwxInventoryCreatedEvent.builder()
                 .id(UUID.fromString("cedd3764-05ab-4544-b62e-dc8269398ca4"))
-                .organizationId(1L)
+                .awxOrganizationId("awxOrganizationId")
                 .awxId(1L)
                 .name("name")
                 .description("description")

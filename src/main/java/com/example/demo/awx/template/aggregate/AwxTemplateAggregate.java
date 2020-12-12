@@ -22,9 +22,11 @@ public class AwxTemplateAggregate {
     private String awxCredentialId;
     private String awxInventoryId;
     private String awxPlaybookId;
+    //TODO Change to awxId
     private Long templateId;
     private String name;
     private String description;
+    // Todo Change to type
     private TemplateJobType jobType;
     private TemplateVerbosity verbosity;
 
