@@ -36,17 +36,16 @@ public class AwxProjectService implements IAwxProjectService {
                 .where(qAwxCredential.id.eq(event.getAwxCredentialId()))
                 .fetchOne();
 
-        // TODO User id instead of awxId
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.awxId.eq(event.getOrganizationId()))
+                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId()))
                 .fetchOne();
 
         AwxProjectEntity entity = new AwxProjectEntity();
         entity.setId(event.getId());
         entity.setAwxCredentialEntity(awxCredentialEntity);
         entity.setAwxOrganizationEntity(awxOrganizationEntity);
-        entity.setProjectId(event.getProjectId());
+        entity.setAwxId(event.getAwxId());
         entity.setName(event.getName());
         entity.setDescription(event.getDescription());
         entity.setScmType(event.getScmType());

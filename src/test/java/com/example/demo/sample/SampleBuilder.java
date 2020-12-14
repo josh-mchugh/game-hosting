@@ -514,9 +514,9 @@ public class SampleBuilder {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(awxOrganization.getAwxId())
+                .awxOrganizationId(awxOrganization.getId())
                 .awxCredentialId(awxCredential.getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("Game Hosting Project")
                 .description("Game Hosting Project")
                 .scmType("git")

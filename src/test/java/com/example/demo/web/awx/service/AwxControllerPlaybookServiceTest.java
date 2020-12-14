@@ -104,7 +104,7 @@ public class AwxControllerPlaybookServiceTest {
     private PlaybookCreateRequest createValidRequest() {
 
         return PlaybookCreateRequest.builder()
-                .projectId(awxProject.getProjectId())
+                .projectId(awxProject.getAwxId())
                 .build();
     }
 }

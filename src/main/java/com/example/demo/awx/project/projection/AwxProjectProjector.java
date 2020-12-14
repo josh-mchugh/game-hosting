@@ -33,7 +33,7 @@ public class AwxProjectProjector implements IAwxProjectProjector {
 
         AwxProjectEntity entity = queryFactory.select(qAwxProject)
                 .from(qAwxProject)
-                .where(qAwxProject.projectId.eq(projectId))
+                .where(qAwxProject.awxId.eq(projectId))
                 .fetchOne();
 
         return AwxProjectMapper.map(entity);

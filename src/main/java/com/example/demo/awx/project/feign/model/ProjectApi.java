@@ -1,20 +1,15 @@
 package com.example.demo.awx.project.feign.model;
 
-import com.example.demo.awx.feign.AbstractBase;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProjectApi extends AbstractBase {
+public class ProjectApi {
 
-    @JsonProperty("name")
+    private Long id;
     private String name;
-
-    @JsonProperty("description")
     private String description;
 
     @JsonProperty("scm_type")

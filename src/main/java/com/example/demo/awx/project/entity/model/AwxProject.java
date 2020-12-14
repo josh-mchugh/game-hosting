@@ -8,7 +8,7 @@ import lombok.Value;
 public class AwxProject {
 
     String id;
-    Long projectId;
+    Long awxId;
     String name;
     String description;
     String scmType;

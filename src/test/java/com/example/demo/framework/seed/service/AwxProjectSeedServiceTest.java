@@ -4,7 +4,7 @@ import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.notification.feign.INotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
-import com.example.demo.awx.project.feign.ProjectClient;
+import com.example.demo.awx.project.feign.IProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
@@ -32,7 +32,7 @@ public class AwxProjectSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private ProjectClient projectClient;
+    private IProjectFeignService projectFeignService;
 
     @MockBean
     private INotificationFeignService notificationFeignService;
@@ -75,7 +75,7 @@ public class AwxProjectSeedServiceTest {
         ListResponse<ProjectApi> clientResponse = new ListResponse<>();
         clientResponse.setResults(Collections.singletonList(projectApi));
 
-        Mockito.when(projectClient.getProjects(Mockito.anyLong())).thenReturn(clientResponse);
+        Mockito.when(projectFeignService.getProjects()).thenReturn(clientResponse);
 
         ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 
@@ -102,7 +102,7 @@ public class AwxProjectSeedServiceTest {
         ListResponse<ProjectApi> clientResponse = new ListResponse<>();
         clientResponse.setResults(Collections.singletonList(wrongProjectApi));
 
-        Mockito.when(projectClient.getProjects(Mockito.anyLong())).thenReturn(clientResponse);
+        Mockito.when(projectFeignService.getProjects()).thenReturn(clientResponse);
 
         ProjectApi projectApi = new ProjectApi();
         projectApi.setId(2L);
@@ -113,7 +113,7 @@ public class AwxProjectSeedServiceTest {
         projectApi.setScmBranch("master");
         projectApi.setScmUrl("url");
 
-        Mockito.when(projectClient.createProject(Mockito.anyLong(), Mockito.any())).thenReturn(projectApi);
+        Mockito.when(projectFeignService.createProject(Mockito.any())).thenReturn(projectApi);
 
         NotificationConfiguration configuration = NotificationConfiguration.builder()
                 .url("url")

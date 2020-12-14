@@ -41,7 +41,7 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
 
         AwxProject awxProject = awxProjectProjector.getByProjectId(request.getProjectId());
 
-        List<Object> awxPlaybooks = playbookClient.getPlaybooks(awxProject.getProjectId()).stream()
+        List<Object> awxPlaybooks = playbookClient.getPlaybooks(awxProject.getAwxId()).stream()
                 .map(playbook ->buildAwxPlaybookCreateCommand(playbook, awxProject.getId()))
                 .map(commandGateway::sendAndWait)
                 .collect(Collectors.toList());

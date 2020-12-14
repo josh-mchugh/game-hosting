@@ -1,6 +1,6 @@
-package com.example.demo.awx.project.entity;
+package com.example.demo.awx.project.entity.mapper;
 
-import com.example.demo.awx.project.entity.mapper.AwxProjectMapper;
+import com.example.demo.awx.project.entity.AwxProjectEntity;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,22 +39,22 @@ public class AwxProjectMapperTest {
     }
 
     @Test
-    public void whenEntityHasProjectIdThenReturnProjectId() {
+    public void whenEntityHasAwxIdThenReturnAwxId() {
 
         AwxProjectEntity entity = new AwxProjectEntity();
-        entity.setProjectId(1L);
+        entity.setAwxId(1L);
 
         AwxProject awxProject = AwxProjectMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxProject.getProjectId());
+        Assertions.assertEquals(1L, awxProject.getAwxId());
     }
 
     @Test
-    public void whenEntityHasNullProjectIdThenReturnNull() {
+    public void whenEntityHasNullAwxIdThenReturnNull() {
 
         AwxProject awxProject = AwxProjectMapper.map(new AwxProjectEntity());
 
-        Assertions.assertNull(awxProject.getProjectId());
+        Assertions.assertNull(awxProject.getAwxId());
     }
 
     @Test

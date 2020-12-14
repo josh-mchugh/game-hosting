@@ -45,9 +45,9 @@ public class AwxProjectProjectionGetByNameTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(sampleData.getAwxOrganization().getAwxId())
+                .awxOrganizationId(sampleData.getAwxOrganization().getId())
                 .awxCredentialId(sampleData.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("test name")
                 .description("description")
                 .scmType("git")
@@ -57,7 +57,7 @@ public class AwxProjectProjectionGetByNameTest {
 
         AwxProject awxProject = awxProjectService.handleCreated(event);
 
-        AwxProject retrievedProject = awxProjectProjector.getByProjectId(awxProject.getProjectId());
+        AwxProject retrievedProject = awxProjectProjector.getByProjectId(awxProject.getAwxId());
 
         Assertions.assertEquals(awxProject, retrievedProject);
     }

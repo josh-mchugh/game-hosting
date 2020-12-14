@@ -517,7 +517,7 @@
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="project_id" type="bigint">
+            <column name="awx_id" type="bigint">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="name" type="nvarchar(255)">

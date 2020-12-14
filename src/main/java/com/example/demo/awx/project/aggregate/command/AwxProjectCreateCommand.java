@@ -1,41 +1,41 @@
 package com.example.demo.awx.project.aggregate.command;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxProjectCreateCommand {
 
     @NotNull
     @TargetAggregateIdentifier
-    private final UUID id;
+    UUID id;
+
+    @NotBlank
+    String awxOrganizationId;
+
+    @NotBlank
+    String awxCredentialId;
 
     @NotNull
-    private final Long organizationId;
+    Long awxId;
 
     @NotBlank
-    private final String awxCredentialId;
+    String name;
 
-    @NotNull
-    private final Long projectId;
-
-    @NotBlank
-    private final String name;
-
-    private final String description;
+    String description;
 
     @NotBlank
-    private final String scmType;
+    String scmType;
 
     @NotBlank
-    private final String scmUrl;
+    String scmUrl;
 
     @NotBlank
-    private final String scmBranch;
+    String scmBranch;
 }

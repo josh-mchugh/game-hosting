@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "projectClient", url = "${awx.base-url}", configuration = FeignAwxConfig.class)
-public interface ProjectClient {
+public interface IProjectClient {
 
     @GetMapping("/api/v2/organizations/{organizationId}/projects/")
     ListResponse<ProjectApi> getProjects(@PathVariable("organizationId") Long organizationId);
