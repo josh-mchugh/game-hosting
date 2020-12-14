@@ -18,10 +18,9 @@ public class AwxProjectAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    // TODO Change to AwxOrganizationId
-    private Long organizationId;
+    private String awxOrganization;
     private String awxCredentialId;
-    private Long projectId;
+    private Long awxId;
     private String name;
     private String description;
     private String scmType;
@@ -33,9 +32,9 @@ public class AwxProjectAggregate {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(command.getId())
-                .organizationId(command.getOrganizationId())
+                .awxOrganizationId(command.getAwxOrganizationId())
                 .awxCredentialId(command.getAwxCredentialId())
-                .projectId(command.getProjectId())
+                .awxId(command.getAwxId())
                 .name(command.getName())
                 .description(command.getDescription())
                 .scmType(encryptor.encrypt(command.getScmType()))
@@ -50,9 +49,9 @@ public class AwxProjectAggregate {
     public void on(AwxProjectCreatedEvent event) {
 
         this.id = event.getId();
-        this.organizationId = event.getOrganizationId();
+        this.awxOrganization = event.getAwxOrganizationId();
         this.awxCredentialId = event.getAwxCredentialId();
-        this.projectId = event.getProjectId();
+        this.awxId = event.getAwxId();
         this.name = event.getName();
         this.description = event.getDescription();
         this.scmType = event.getScmType();

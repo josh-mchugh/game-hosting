@@ -14,7 +14,7 @@ public class AwxProjectMapper {
 
         return AwxProject.builder()
                 .id(entity.getId())
-                .projectId(entity.getProjectId())
+                .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .scmType(entity.getScmType())

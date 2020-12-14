@@ -27,8 +27,8 @@ public class AwxProjectEntity extends AbstractAggregateEntity {
     @JoinColumn(name = "awx_credential_id", nullable = false)
     private AwxCredentialEntity awxCredentialEntity;
 
-    @Column(name = "project_id", unique = true, nullable = false)
-    private Long projectId;
+    @Column(name = "awx_id", unique = true, nullable = false)
+    private Long awxId;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;

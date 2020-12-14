@@ -1,8 +1,7 @@
-package com.example.demo.awx.project.entity;
+package com.example.demo.awx.project.entity.service;
 
 import com.example.demo.awx.project.aggregate.event.AwxProjectCreatedEvent;
 import com.example.demo.awx.project.entity.model.AwxProject;
-import com.example.demo.awx.project.entity.service.IAwxProjectService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -49,9 +48,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -71,9 +70,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(id)
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -87,13 +86,13 @@ public class AwxProjectServiceCreatedTest {
     }
 
     @Test
-    public void whenCreateRequestHasOrganizationIdThenReturnNotNull() {
+    public void whenCreateRequestHasAwxOrganizationIdThenReturnNotNull() {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -107,13 +106,13 @@ public class AwxProjectServiceCreatedTest {
     }
 
     @Test
-    public void whenCreateRequestHasNullOrganizationIdThenThrowException() {
+    public void whenCreateRequestHasNullAwxOrganizationIdThenThrowException() {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(null)
+                .awxOrganizationId(null)
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -129,9 +128,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -149,9 +148,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(null)
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -163,13 +162,13 @@ public class AwxProjectServiceCreatedTest {
     }
 
     @Test
-    public void whenCreateRequestHasProjectIdThenReturnProjectId() {
+    public void whenCreateRequestHasAwxIdThenReturnAwxId() {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -179,17 +178,17 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProject awxProject = awxProjectService.handleCreated(event);
 
-        Assertions.assertEquals(1L, awxProject.getProjectId());
+        Assertions.assertEquals(1L, awxProject.getAwxId());
     }
 
     @Test
-    public void whenCreateRequestHasNullProjectIdThenThrowException() {
+    public void whenCreateRequestHasNullAwxIdThenThrowException() {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(null)
+                .awxId(null)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -205,9 +204,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -225,9 +224,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name(null)
                 .description("description")
                 .scmType("type")
@@ -243,9 +242,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -263,9 +262,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description(null)
                 .scmType("type")
@@ -283,9 +282,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -303,9 +302,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType(null)
@@ -321,9 +320,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -341,9 +340,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -359,9 +358,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")
@@ -379,9 +378,9 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .organizationId(data.getAwxOrganization().getAwxId())
+                .awxOrganizationId(data.getAwxOrganization().getId())
                 .awxCredentialId(data.getAwxCredential().getId())
-                .projectId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
                 .scmType("type")

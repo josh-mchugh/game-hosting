@@ -12,7 +12,7 @@ import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
 import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
 import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
-import com.example.demo.awx.project.feign.ProjectClient;
+import com.example.demo.awx.project.feign.IProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
 import com.example.demo.awx.project.feign.model.ProjectCreateApi;
 import com.example.demo.awx.project.projection.IAwxProjectProjector;
@@ -32,7 +32,7 @@ import java.util.UUID;
 public class AwxProjectSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final ProjectClient projectClient;
+    private final IProjectFeignService projectFeignService;
     private final INotificationFeignService notificationFeignService;
     private final IAwxCredentialProjector awxCredentialProjector;
     private final IAwxProjectProjector awxProjectProjector;
@@ -48,7 +48,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        ListResponse<ProjectApi> projectApis = projectClient.getProjects(awxConfig.getOrganization().getId());
+        ListResponse<ProjectApi> projectApis = projectFeignService.getProjects();
 
         Optional<ProjectApi> projectApi = projectApis.getResults().stream()
                 .filter(project -> project.getName().equals(awxConfig.getProject().getName()))
@@ -58,7 +58,9 @@ public class AwxProjectSeedService implements ISeedService<Object> {
 
             AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
 
-            AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredential, projectApi.get());
+            String awxOrganizationId = getAwxOrganizationId(projectApi.get().getOrganizationId());
+
+            AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredential, projectApi.get(), awxOrganizationId);
             UUID awxProjectId = commandGateway.sendAndWait(createCommand);
 
             return ImmutableList.of(awxProjectId);
@@ -86,22 +88,21 @@ public class AwxProjectSeedService implements ISeedService<Object> {
         // Create Project in AWX
         ProjectApi api = createProjectApi(awxCredential);
 
+        String awxOrganizationId = getAwxOrganizationId(api.getOrganizationId());
+
         // Persist AwxProject
-        AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredential, api);
+        AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredential, api, awxOrganizationId);
         UUID projectId = commandGateway.sendAndWait(projectCreateCommand);
 
         // Create Notification for success in AWX
         NotificationCreateApi notificationCreateApi = buildNotificationCreateApi(api);
         NotificationApi notificationApi = notificationFeignService.createSuccessNotificationForProject(api.getId(), notificationCreateApi);
 
-        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(notificationApi.getOrganizationId());
-        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
-
         // Persist AwxNotification
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxId(notificationApi.getId())
-                .awxOrganizationId(response.getId())
+                .awxOrganizationId(awxOrganizationId)
                 .name(notificationApi.getName())
                 .description(notificationApi.getDescription())
                 .type(notificationApi.getType())
@@ -123,16 +124,16 @@ public class AwxProjectSeedService implements ISeedService<Object> {
                 .scmBranch(awxConfig.getProject().getScmBranch())
                 .build();
 
-        return projectClient.createProject(awxConfig.getOrganization().getId(), projectCreateApi);
+        return projectFeignService.createProject(projectCreateApi);
     }
 
-    private AwxProjectCreateCommand createAwxProjectRequest(AwxCredential awxCredential, ProjectApi projectApi) {
+    private AwxProjectCreateCommand createAwxProjectRequest(AwxCredential awxCredential, ProjectApi projectApi, String awxOrganizationId) {
 
         return AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .organizationId(projectApi.getOrganizationId())
+                .awxOrganizationId(awxOrganizationId)
                 .awxCredentialId(awxCredential.getId())
-                .projectId(projectApi.getId())
+                .awxId(projectApi.getId())
                 .name(projectApi.getName())
                 .description(projectApi.getDescription())
                 .scmType(projectApi.getScmType())
@@ -158,5 +159,13 @@ public class AwxProjectSeedService implements ISeedService<Object> {
                 .type("webhook")
                 .organizationId(awxConfig.getOrganization().getId())
                 .build();
+    }
+
+    private String getAwxOrganizationId(Long organizationId) {
+
+        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(organizationId);
+        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
+
+        return response.getId();
     }
 }
