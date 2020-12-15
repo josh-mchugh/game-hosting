@@ -1,8 +1,9 @@
-package com.example.demo.awx.template.entity;
+package com.example.demo.awx.template.entity.service;
 
 import com.example.demo.awx.template.aggregate.event.AwxTemplateCreatedEvent;
+import com.example.demo.awx.template.entity.TemplateJobType;
+import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
-import com.example.demo.awx.template.entity.service.IAwxTemplateService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -55,10 +56,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -75,10 +76,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -124,37 +125,37 @@ public class AwxTemplateServiceCreateRequestTest {
     }
 
     @Test
-    public void whenCreateRequestHasTemplateIdThenReturnTemplateId() {
+    public void whenCreateRequestHasAwxIdThenReturnAwxId() {
 
         AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
         AwxTemplate awxTemplate = awxTemplateService.handleAwxTemplateCreated(event);
 
-        Assertions.assertEquals(1L, awxTemplate.getTemplateId());
+        Assertions.assertEquals(1L, awxTemplate.getAwxId());
     }
 
     @Test
-    public void whenCreateRequestHasNullTemplateIdThenThrowException() {
+    public void whenCreateRequestHasNullAwxIdThenThrowException() {
 
         AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(null)
+                .awxId(null)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -169,10 +170,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -189,10 +190,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name(null)
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -207,10 +208,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -227,10 +228,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description(null)
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -247,30 +248,30 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
         AwxTemplate awxTemplate = awxTemplateService.handleAwxTemplateCreated(event);
 
-        Assertions.assertEquals(TemplateJobType.RUN, awxTemplate.getJobType());
+        Assertions.assertEquals(TemplateJobType.RUN, awxTemplate.getType());
     }
 
     @Test
-    public void whenCreateRequestHasNullJobTypeThenThrowException() {
+    public void whenCreateRequestHasNullTypeThenThrowException() {
 
         AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(null)
+                .type(null)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -285,10 +286,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -305,10 +306,10 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(data.getAwxCredential().getId())
                 .awxInventoryId(data.getAwxInventory().getId())
                 .awxPlaybookId(data.getAwxPlaybook().getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(null)
                 .build();
 

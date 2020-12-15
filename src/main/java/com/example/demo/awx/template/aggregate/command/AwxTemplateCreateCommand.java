@@ -3,41 +3,41 @@ package com.example.demo.awx.template.aggregate.command;
 import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class AwxTemplateCreateCommand {
 
     @NotNull
     @TargetAggregateIdentifier
-    private final UUID id;
+    UUID id;
 
     @NotBlank
-    private final String awxCredentialId;
+    String awxCredentialId;
 
     @NotBlank
-    private final String awxInventoryId;
+    String awxInventoryId;
 
     @NotBlank
-    private final String awxPlaybookId;
+    String awxPlaybookId;
 
     @NotNull
-    private final Long templateId;
+    Long awxId;
 
     @NotBlank
-    private final String name;
+    String name;
 
-    private final String description;
-
-    @NotNull
-    private final TemplateJobType jobType;
+    String description;
 
     @NotNull
-    private final TemplateVerbosity verbosity;
+    TemplateJobType type;
+
+    @NotNull
+    TemplateVerbosity verbosity;
 }

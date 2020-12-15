@@ -22,12 +22,10 @@ public class AwxTemplateAggregate {
     private String awxCredentialId;
     private String awxInventoryId;
     private String awxPlaybookId;
-    //TODO Change to awxId
-    private Long templateId;
+    private Long awxId;
     private String name;
     private String description;
-    // Todo Change to type
-    private TemplateJobType jobType;
+    private TemplateJobType type;
     private TemplateVerbosity verbosity;
 
     @CommandHandler
@@ -38,10 +36,10 @@ public class AwxTemplateAggregate {
                 .awxCredentialId(command.getAwxCredentialId())
                 .awxInventoryId(command.getAwxInventoryId())
                 .awxPlaybookId(command.getAwxPlaybookId())
-                .templateId(command.getTemplateId())
+                .awxId(command.getAwxId())
                 .name(command.getName())
                 .description(command.getDescription())
-                .jobType(command.getJobType())
+                .type(command.getType())
                 .verbosity(command.getVerbosity())
                 .build();
 
@@ -55,10 +53,10 @@ public class AwxTemplateAggregate {
         this.awxCredentialId = event.getAwxCredentialId();
         this.awxInventoryId = event.getAwxInventoryId();
         this.awxPlaybookId = event.getAwxPlaybookId();
-        this.templateId = event.getTemplateId();
+        this.awxId = event.getAwxId();
         this.name = event.getName();
         this.description = event.getDescription();
-        this.jobType = event.getJobType();
+        this.type = event.getType();
         this.verbosity = event.getVerbosity();
     }
 }

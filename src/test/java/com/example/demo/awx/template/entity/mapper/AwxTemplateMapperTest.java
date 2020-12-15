@@ -1,6 +1,8 @@
-package com.example.demo.awx.template.entity;
+package com.example.demo.awx.template.entity.mapper;
 
-import com.example.demo.awx.template.entity.mapper.AwxTemplateMapper;
+import com.example.demo.awx.template.entity.AwxTemplateEntity;
+import com.example.demo.awx.template.entity.TemplateJobType;
+import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,11 +44,11 @@ public class AwxTemplateMapperTest {
     public void whenEntityHasTemplateIdThenReturnTemplateId() {
 
         AwxTemplateEntity entity = new AwxTemplateEntity();
-        entity.setTemplateId(1L);
+        entity.setAwxId(1L);
 
         AwxTemplate awxTemplate = AwxTemplateMapper.map(entity);
 
-        Assertions.assertEquals(1L, awxTemplate.getTemplateId());
+        Assertions.assertEquals(1L, awxTemplate.getAwxId());
     }
 
     @Test
@@ -54,7 +56,7 @@ public class AwxTemplateMapperTest {
 
         AwxTemplate awxTemplate = AwxTemplateMapper.map(new AwxTemplateEntity());
 
-        Assertions.assertNull(awxTemplate.getTemplateId());
+        Assertions.assertNull(awxTemplate.getAwxId());
     }
 
     @Test
@@ -99,11 +101,11 @@ public class AwxTemplateMapperTest {
     public void whenEntityHasJobTypeThenReturnJobType() {
 
         AwxTemplateEntity entity = new AwxTemplateEntity();
-        entity.setJobType(TemplateJobType.RUN);
+        entity.setType(TemplateJobType.RUN);
 
         AwxTemplate awxTemplate = AwxTemplateMapper.map(entity);
 
-        Assertions.assertEquals(TemplateJobType.RUN, awxTemplate.getJobType());
+        Assertions.assertEquals(TemplateJobType.RUN, awxTemplate.getType());
     }
 
     @Test
@@ -111,7 +113,7 @@ public class AwxTemplateMapperTest {
 
         AwxTemplate awxTemplate = AwxTemplateMapper.map(new AwxTemplateEntity());
 
-        Assertions.assertNull(awxTemplate.getJobType());
+        Assertions.assertNull(awxTemplate.getType());
     }
 
     @Test

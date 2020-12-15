@@ -54,10 +54,10 @@ public class AwxTemplateService implements IAwxTemplateService{
         entity.setAwxCredentialEntity(awxCredentialEntity);
         entity.setAwxInventoryEntity(awxInventory);
         entity.setAwxPlayBookEntity(awxPlayBookEntity);
-        entity.setTemplateId(event.getTemplateId());
+        entity.setAwxId(event.getAwxId());
         entity.setName(event.getName());
         entity.setDescription(event.getDescription());
-        entity.setJobType(event.getJobType());
+        entity.setType(event.getType());
         entity.setVerbosity(event.getVerbosity());
 
         entityManager.persist(entity);
