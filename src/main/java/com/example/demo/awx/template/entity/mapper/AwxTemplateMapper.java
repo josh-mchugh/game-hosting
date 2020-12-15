@@ -14,10 +14,10 @@ public class AwxTemplateMapper {
 
         return AwxTemplate.builder()
                 .id(entity.getId())
-                .templateId(entity.getTemplateId())
+                .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .jobType(entity.getJobType())
+                .type(entity.getType())
                 .verbosity(entity.getVerbosity())
                 .build();
     }

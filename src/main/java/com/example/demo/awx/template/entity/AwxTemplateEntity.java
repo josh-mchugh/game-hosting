@@ -34,8 +34,8 @@ public class AwxTemplateEntity extends AbstractAggregateEntity {
     @JoinColumn(name = "awx_playbook_id", nullable = false)
     private AwxPlayBookEntity awxPlayBookEntity;
 
-    @Column(name = "template_id", unique = true, nullable = false)
-    private Long templateId;
+    @Column(name = "awx_id", unique = true, nullable = false)
+    private Long awxId;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -43,9 +43,9 @@ public class AwxTemplateEntity extends AbstractAggregateEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "job_type", nullable = false)
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TemplateJobType jobType;
+    private TemplateJobType type;
 
     @Column(name = "verbosity", nullable = false)
     @Enumerated(EnumType.STRING)

@@ -34,10 +34,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credentials-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -46,10 +46,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credentials-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -67,10 +67,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credentials-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -87,10 +87,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId(null)
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -108,10 +108,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -128,10 +128,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId(null)
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -148,10 +148,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -168,10 +168,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId(null)
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -188,10 +188,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -201,17 +201,17 @@ public class AwxTemplateCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasNullTemplateIdThenThrowException() {
+    public void whenCreateCommandHasNullAwxIdThenThrowException() {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(null)
+                .awxId(null)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -228,10 +228,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name(null)
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -248,10 +248,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -268,10 +268,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description(null)
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -288,10 +288,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -301,17 +301,17 @@ public class AwxTemplateCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasNullJobTypeThenThrowException() {
+    public void whenCreateCommandHasNullTypeThenThrowException() {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(null)
+                .type(null)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
@@ -328,10 +328,10 @@ public class AwxTemplateCreateCommandTest {
                 .awxCredentialId("awx-credential-id")
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
-                .templateId(1L)
+                .awxId(1L)
                 .name("name")
                 .description("description")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(null)
                 .build();
 

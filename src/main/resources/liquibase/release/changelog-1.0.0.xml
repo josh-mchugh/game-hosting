@@ -641,14 +641,14 @@
             <column name="awx_playbook_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="template_id" type="bigint">
+            <column name="awx_id" type="bigint">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="name" type="nvarchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="description" type="nvarchar(255)"/>
-            <column name="job_type" type="varchar(255)">
+            <column name="type" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="verbosity" type="varchar(255)">

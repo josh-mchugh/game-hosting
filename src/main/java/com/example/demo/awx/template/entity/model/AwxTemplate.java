@@ -10,9 +10,9 @@ import lombok.Value;
 public class AwxTemplate {
 
     String id;
-    Long templateId;
+    Long awxId;
     String name;
     String description;
-    TemplateJobType jobType;
+    TemplateJobType type;
     TemplateVerbosity verbosity;
 }

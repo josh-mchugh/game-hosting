@@ -574,10 +574,10 @@ public class SampleBuilder {
                 .awxCredentialId(awxCredential.getId())
                 .awxInventoryId(awxInventory.getId())
                 .awxPlaybookId(awxPlaybook.getId())
-                .templateId(1L)
+                .awxId(1L)
                 .name("run job")
                 .description("runs a job")
-                .jobType(TemplateJobType.RUN)
+                .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();
 
