@@ -85,7 +85,7 @@ public class ProjectCreatedSaga {
     @SagaEventHandler(associationProperty = "id")
     public void handle(InstanceGroupCreatedEvent event) {
 
-        String sshKeyId = credentialProjector.getAnsibleSshKeyId();
+        String sshKeyId = credentialProjector.getAnsibleOvhId();
 
         InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
                 .name(event.getProjectId())

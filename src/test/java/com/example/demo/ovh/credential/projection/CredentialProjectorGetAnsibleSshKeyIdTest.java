@@ -28,17 +28,17 @@ public class CredentialProjectorGetAnsibleSshKeyIdTest {
     @Test
     public void whenEntityDoesNotExistsThenReturnNull() {
 
-        String sshKeyId = credentialProjector.getAnsibleSshKeyId();
+        String ovhId = credentialProjector.getAnsibleOvhId();
 
-        Assertions.assertNull(sshKeyId);
+        Assertions.assertNull(ovhId);
     }
 
     @Test
-    public void whenEntitiesDoExistThenReturnSshKeyId() {
+    public void whenEntitiesDoExistThenReturnOvhId() {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh key id")
+                .ovhId("ovhId")
                 .name("credential name")
                 .publicKey("public key")
                 .type(CredentialType.ANSIBLE)
@@ -46,7 +46,7 @@ public class CredentialProjectorGetAnsibleSshKeyIdTest {
 
         Credential credential = credentialService.handleCreated(event);
 
-        String sshKeyId = credentialProjector.getAnsibleSshKeyId();
+        String sshKeyId = credentialProjector.getAnsibleOvhId();
 
         Assertions.assertEquals(credential.getSshKeyId(), sshKeyId);
     }

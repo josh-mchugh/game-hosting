@@ -3,7 +3,7 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.credential.aggregate.command.CredentialCreateCommand;
-import com.example.demo.ovh.credential.feign.SshKeyClient;
+import com.example.demo.ovh.credential.feign.ISshKeyFeignService;
 import com.example.demo.ovh.credential.feign.model.SshKeyApi;
 import com.example.demo.ovh.credential.feign.model.SshKeyCreateApi;
 import com.example.demo.ovh.credential.projector.ICredentialProjector;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CredentialSeedService implements ISeedService<Object> {
 
     private final OvhConfig ovhConfig;
-    private final SshKeyClient sshKeyClient;
+    private final ISshKeyFeignService sshKeyFeignService;
     private final ICredentialProjector credentialProjector;
     private final CommandGateway commandGateway;
 
@@ -54,7 +54,7 @@ public class CredentialSeedService implements ISeedService<Object> {
 
         List<UUID> credentials = new ArrayList<>();
 
-        List<SshKeyApi> apiResponses = sshKeyClient.getSshKeys(ovhConfig.getProjectId());
+        List<SshKeyApi> apiResponses = sshKeyFeignService.getSshKeys();
 
         for(OvhConfig.SshKeyConfig config : ovhConfig.getSshKeyConfigs()) {
 
@@ -82,14 +82,14 @@ public class CredentialSeedService implements ISeedService<Object> {
                 .publicKey(config.getPublicKey())
                 .build();
 
-        return sshKeyClient.createSshKey(ovhConfig.getProjectId(), apiRequest);
+        return sshKeyFeignService.createSshKey(apiRequest);
     }
 
     private UUID createCredential(OvhConfig.SshKeyConfig config, SshKeyApi apiResponse) {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId(apiResponse.getId())
+                .ovhId(apiResponse.getId())
                 .name(apiResponse.getName())
                 .publicKey(apiResponse.getPublicKey())
                 .type(config.getType())

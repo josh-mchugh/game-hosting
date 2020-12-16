@@ -2,7 +2,6 @@ package com.example.demo.ovh.credential.entity.mapper;
 
 import com.example.demo.ovh.credential.entity.CredentialEntity;
 import com.example.demo.ovh.credential.entity.CredentialType;
-import com.example.demo.ovh.credential.entity.mapper.CredentialMapper;
 import com.example.demo.ovh.credential.entity.model.Credential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -41,14 +40,14 @@ public class CredentialMapperTest {
     }
 
     @Test
-    public void whenEntityHasSshKeyIdThenReturnSshKeyId() {
+    public void whenEntityHasOvhIdThenReturnOvhId() {
 
         CredentialEntity entity = new CredentialEntity();
-        entity.setSshKeyId("ssh key id");
+        entity.setOvhId("ovhId");
 
         Credential credential = CredentialMapper.map(entity);
 
-        Assertions.assertEquals("ssh key id", credential.getSshKeyId());
+        Assertions.assertEquals("ovhId", credential.getSshKeyId());
     }
 
     @Test

@@ -1,7 +1,6 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.credential.entity.model.Credential;
-import com.example.demo.ovh.credential.feign.SshKeyClient;
+import com.example.demo.ovh.credential.feign.ISshKeyFeignService;
 import com.example.demo.ovh.credential.feign.model.SshKeyApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -33,7 +32,7 @@ public class CredentialSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private SshKeyClient sshKeyClient;
+    private ISshKeyFeignService sshKeyFeignService;
 
     @Test
     public void whenSeedDataDoesNotExistThenReturnTrue() {
@@ -58,14 +57,14 @@ public class CredentialSeedServiceTest {
     @Test
     public void whenApiDoesNotContainSshKeyThenCreateNewCredentialReturnList() {
 
-        Mockito.when(sshKeyClient.getSshKeys(Mockito.anyString())).thenReturn(Collections.emptyList());
+        Mockito.when(sshKeyFeignService.getSshKeys()).thenReturn(Collections.emptyList());
 
         SshKeyApi sshKeyApi = new SshKeyApi();
         sshKeyApi.setId("ssh key id");
         sshKeyApi.setName("name");
         sshKeyApi.setPublicKey("public key");
 
-        Mockito.when(sshKeyClient.createSshKey(Mockito.any(), Mockito.any())).thenReturn(sshKeyApi);
+        Mockito.when(sshKeyFeignService.createSshKey(Mockito.any())).thenReturn(sshKeyApi);
 
         ImmutableList<Object> credentials = credentialSeedService.initializeData();
 
@@ -80,7 +79,7 @@ public class CredentialSeedServiceTest {
         sshKeyApi.setName("name");
         sshKeyApi.setPublicKey("public key");
 
-        Mockito.when(sshKeyClient.getSshKeys(Mockito.any())).thenReturn(Collections.singletonList(sshKeyApi));
+        Mockito.when(sshKeyFeignService.getSshKeys()).thenReturn(Collections.singletonList(sshKeyApi));
 
         ImmutableList<Object> credentials = credentialSeedService.initializeData();
 

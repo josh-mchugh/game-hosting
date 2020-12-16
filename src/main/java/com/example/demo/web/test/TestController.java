@@ -8,8 +8,6 @@ import com.example.demo.ovh.instance.feign.InstanceGroupClient;
 import com.example.demo.ovh.instance.feign.model.InstanceCreateApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupCreateApi;
 import com.example.demo.ovh.region.feign.RegionClient;
-import com.example.demo.ovh.credential.feign.SshKeyClient;
-import com.example.demo.ovh.credential.feign.model.SshKeyCreateApi;
 import com.example.demo.web.test.model.Metrics;
 import com.example.demo.web.test.model.Status;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +39,6 @@ public class TestController {
     private final RegionClient regionClient;
     private final ImageClient imageClient;
     private final FlavorClient flavorClient;
-    private final SshKeyClient sshKeyClient;
     private final InstanceGroupClient instanceGroupClient;
     private final InstanceClient instanceClient;
 
@@ -155,38 +152,6 @@ public class TestController {
     public ResponseEntity<?> getFlavor() {
 
         return new ResponseEntity<>(flavorClient.getFlavorById(ovhConfig.getProjectId(), "a64381e7-c4e7-4b01-9fbe-da405c544d2e"), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/sshkeys")
-    public ResponseEntity<?> getSshKeys() {
-
-        return new ResponseEntity<>(sshKeyClient.getSshKeys(ovhConfig.getProjectId()), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/sshkey")
-    public ResponseEntity<?> getSshKey() {
-
-        return new ResponseEntity<>(sshKeyClient.getSshKeyById(ovhConfig.getProjectId(), "5455553d"), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/sshkey/create")
-    public ResponseEntity<?> createSshKey() {
-
-        SshKeyCreateApi create = SshKeyCreateApi.builder()
-                .name("test-1")
-                .publicKey("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCc6KkpzN4TmJn2WOwjXyIU0jBOp2El/+U08uTw9hVj0GbMbU402HfHGQb24Bh6uNbE1RaMz9rY1Zs2D1S6evDgabSYJaFxJlMzsCdGrcq5c/BIaGG9EzmuPul/VMU59KqhKQ9HCGnHx/VUl0OjwhXmyB3cQRI7QJX9WjfMD8d/PVsIjLNpo15BwWsRVIpR3B2Bwnqt54PDO9dSWYxea2ppkQSiJJ1jtUtR7ViGLid7YkO/bbK1xMasJpzo3V+i/MGegWa1skVaTya6eiMnErxlKAuRcd0mEiM8LIsiT5xIv0uAL2ssTegtKUmH7rNGOJRHDGm1/G2BkKsBS8B70t/n me@ME-PC")
-                .region("US-EAST-VA-1")
-                .build();
-
-        return new ResponseEntity<>(sshKeyClient.createSshKey(ovhConfig.getProjectId(), create), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/sshkey/delete")
-    public ResponseEntity<?> deleteSshKey() {
-
-        sshKeyClient.deleteSshKeyById(ovhConfig.getProjectId(), "6447567a64433078");
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/groups")

@@ -21,13 +21,13 @@ public class CredentialCreatedEventTest {
     }
 
     @Test
-    public void whenEventHasSshKeyIdThenReturnSshKeyId() {
+    public void whenEventHasOvhIdThenReturnOvhId() {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("ssh-key-id", event.getSshKeyId());
+        Assertions.assertEquals("ovhId", event.getOvhId());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CredentialCreatedEventTest {
 
         CredentialCreatedEvent event = credentialCreatedEvent();
 
-        String toString = "CredentialCreatedEvent(id=59eb4739-2c00-494d-9959-32fbffaed0d7, sshKeyId=ssh-key-id, name=name, publicKey=public-key, type=ANSIBLE)";
+        String toString = "CredentialCreatedEvent(id=59eb4739-2c00-494d-9959-32fbffaed0d7, ovhId=ovhId, name=name, publicKey=public-key, type=ANSIBLE)";
 
         Assertions.assertEquals(toString, event.toString());
     }
@@ -76,11 +76,11 @@ public class CredentialCreatedEventTest {
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.fromString("59eb4739-2c00-494d-9959-32fbffaed0d7"))
                 .name("name")
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .publicKey("public-key")
                 .build();
 
-        Assertions.assertEquals(479641988, event.hashCode());
+        Assertions.assertEquals(581101070, event.hashCode());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class CredentialCreatedEventTest {
         return CredentialCreatedEvent.builder()
                 .id(UUID.fromString("59eb4739-2c00-494d-9959-32fbffaed0d7"))
                 .name("name")
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .publicKey("public-key")
                 .type(CredentialType.ANSIBLE)
                 .build();

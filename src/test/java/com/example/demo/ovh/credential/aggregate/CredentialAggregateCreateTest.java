@@ -33,7 +33,7 @@ public class CredentialAggregateCreateTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("public-key")
                 .type(CredentialType.ANSIBLE)
@@ -57,11 +57,11 @@ public class CredentialAggregateCreateTest {
     }
 
     @Test
-    public void whenAggregateHasNullSshKeyIdThenThrowException() {
+    public void whenAggregateHasNullOvhIdThenThrowException() {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId(null)
+                .ovhId(null)
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -70,11 +70,11 @@ public class CredentialAggregateCreateTest {
     }
 
     @Test
-    public void whenAggregateHasBlankSshKeyIdThenThrowException() {
+    public void whenAggregateHasBlankOvhIdThenThrowException() {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("")
+                .ovhId("")
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -87,7 +87,7 @@ public class CredentialAggregateCreateTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name(null)
                 .build();
 
@@ -101,7 +101,7 @@ public class CredentialAggregateCreateTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("")
                 .build();
 
@@ -115,7 +115,7 @@ public class CredentialAggregateCreateTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey(null)
                 .build();
@@ -130,7 +130,7 @@ public class CredentialAggregateCreateTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("")
                 .build();
@@ -145,7 +145,7 @@ public class CredentialAggregateCreateTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("")
                 .type(null)
