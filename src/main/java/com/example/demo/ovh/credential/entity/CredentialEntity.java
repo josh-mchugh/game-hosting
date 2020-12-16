@@ -16,8 +16,8 @@ import javax.persistence.Table;
 @Table(name = "credential")
 public class CredentialEntity extends AbstractAggregateEntity {
 
-    @Column(name = "ssh_key_id", unique = true, nullable = false)
-    private String sshKeyId;
+    @Column(name = "ovh_id", unique = true, nullable = false)
+    private String ovhId;
 
     @Column(name = "name")
     private String name;

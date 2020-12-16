@@ -408,7 +408,7 @@
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="ssh_key_id" type="nvarchar(255)">
+            <column name="ovh_id" type="nvarchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="name" type="nvarchar(255)"/>

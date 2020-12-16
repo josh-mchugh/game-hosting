@@ -26,7 +26,7 @@ public class CredentialServiceCreatedTest {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("public-key")
                 .type(CredentialType.ANSIBLE)
@@ -50,7 +50,7 @@ public class CredentialServiceCreatedTest {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(id)
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .build();
 
         Credential credential = credentialService.handleCreated(event);
@@ -63,47 +63,34 @@ public class CredentialServiceCreatedTest {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(null)
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> credentialService.handleCreated(event));
     }
 
     @Test
-    public void whenCreatedHasSshKeyIdThenReturnSshKeyId() {
+    public void whenCreatedHasOvhIdThenReturnOvhId() {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .build();
 
         Credential credential = credentialService.handleCreated(event);
 
-        Assertions.assertEquals("ssh-key-id", credential.getSshKeyId());
+        Assertions.assertEquals("ovhId", credential.getSshKeyId());
     }
 
     @Test
-    public void whenCreatedHasNullSshKeyIdThenThrowException() {
+    public void whenCreatedHasNullOvhIdThenThrowException() {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId(null)
+                .ovhId(null)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> credentialService.handleCreated(event));
-    }
-
-    @Test
-    public void whenCreatedHasSshKeyThenReturnSshKey() {
-
-        CredentialCreatedEvent event = CredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
-                .build();
-
-        Credential credential = credentialService.handleCreated(event);
-
-        Assertions.assertEquals("ssh-key-id", credential.getSshKeyId());
     }
 
     @Test
@@ -111,7 +98,7 @@ public class CredentialServiceCreatedTest {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -125,7 +112,7 @@ public class CredentialServiceCreatedTest {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("public-key")
                 .build();
@@ -140,7 +127,7 @@ public class CredentialServiceCreatedTest {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("public-key")
                 .type(CredentialType.ANSIBLE)

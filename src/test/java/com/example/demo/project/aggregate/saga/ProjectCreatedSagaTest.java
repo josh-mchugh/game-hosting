@@ -166,7 +166,7 @@ public class ProjectCreatedSagaTest {
 
     private void mockInstanceCreateApi() {
 
-        Mockito.when(credentialProjector.getAnsibleSshKeyId()).thenReturn("credentialId");
+        Mockito.when(credentialProjector.getAnsibleOvhId()).thenReturn("credentialId");
 
         InstanceApi instanceApi = new InstanceApi();
         instanceApi.setId("id");

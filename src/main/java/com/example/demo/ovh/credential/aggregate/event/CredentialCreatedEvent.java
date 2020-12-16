@@ -11,7 +11,7 @@ import java.util.UUID;
 public class CredentialCreatedEvent {
 
     UUID id;
-    String sshKeyId;
+    String ovhId;
     String name;
     String publicKey;
     CredentialType type;

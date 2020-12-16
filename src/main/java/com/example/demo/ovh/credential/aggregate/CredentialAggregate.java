@@ -19,7 +19,7 @@ public class CredentialAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String sshKeyId;
+    private String ovhId;
     private String name;
     private String publicKey;
     private CredentialType type;
@@ -29,7 +29,7 @@ public class CredentialAggregate {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(command.getId())
-                .sshKeyId(command.getSshKeyId())
+                .ovhId(command.getOvhId())
                 .name(command.getName())
                 .publicKey(encryptor.encrypt(command.getPublicKey()))
                 .type(command.getType())
@@ -42,7 +42,7 @@ public class CredentialAggregate {
     public void on(CredentialCreatedEvent event) {
 
         this.id = event.getId();
-        this.sshKeyId = event.getSshKeyId();
+        this.ovhId = event.getOvhId();
         this.name = event.getPublicKey();
         this.publicKey = event.getPublicKey();
         this.type = event.getType();

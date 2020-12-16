@@ -405,7 +405,7 @@ public class SampleBuilder {
 
         CredentialCreatedEvent event = CredentialCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .sshKeyId("ssh key id")
+                .ovhId("ovhId")
                 .name("credential name")
                 .publicKey("public key")
                 .type(CredentialType.ANSIBLE)

@@ -25,11 +25,11 @@ public class CredentialProjector implements ICredentialProjector {
     }
 
     @Override
-    public String getAnsibleSshKeyId() {
+    public String getAnsibleOvhId() {
 
         QCredentialEntity qCredential = QCredentialEntity.credentialEntity;
 
-        return queryFactory.select(qCredential.sshKeyId)
+        return queryFactory.select(qCredential.ovhId)
                 .from(qCredential)
                 .where(qCredential.type.eq(CredentialType.ANSIBLE))
                 .fetchOne();

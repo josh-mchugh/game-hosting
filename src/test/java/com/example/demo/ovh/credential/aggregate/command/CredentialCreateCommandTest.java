@@ -21,13 +21,13 @@ public class CredentialCreateCommandTest {
     }
 
     @Test
-    public void whenCommandHasSshKeyIdThenReturnSshKeyId() {
+    public void whenCommandHasOvhIdThenReturnOvhId() {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("ssh-key-id", command.getSshKeyId());
+        Assertions.assertEquals("ovhId", command.getOvhId());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CredentialCreateCommandTest {
 
         CredentialCreateCommand command = credentialCreateCommand();
 
-        String toString = "CredentialCreateCommand(id=815cd619-6369-4c8f-9c83-30710e379fae, sshKeyId=ssh-key-id, name=name, publicKey=public-key, type=ANSIBLE)";
+        String toString = "CredentialCreateCommand(id=815cd619-6369-4c8f-9c83-30710e379fae, ovhId=ovhId, name=name, publicKey=public-key, type=ANSIBLE)";
 
         Assertions.assertEquals(toString, command.toString());
     }
@@ -75,12 +75,12 @@ public class CredentialCreateCommandTest {
 
         CredentialCreateCommand command = CredentialCreateCommand.builder()
                 .id(UUID.fromString("815cd619-6369-4c8f-9c83-30710e379fae"))
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("public-key")
                 .build();
 
-        Assertions.assertEquals(2018674917, command.hashCode());
+        Assertions.assertEquals(2120133999, command.hashCode());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class CredentialCreateCommandTest {
 
         return CredentialCreateCommand.builder()
                 .id(UUID.fromString("815cd619-6369-4c8f-9c83-30710e379fae"))
-                .sshKeyId("ssh-key-id")
+                .ovhId("ovhId")
                 .name("name")
                 .publicKey("public-key")
                 .type(CredentialType.ANSIBLE)

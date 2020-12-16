@@ -24,7 +24,7 @@ public class CredentialService implements ICredentialService {
 
         CredentialEntity entity = new CredentialEntity();
         entity.setId(event.getId());
-        entity.setSshKeyId(event.getSshKeyId());
+        entity.setOvhId(event.getOvhId());
         entity.setName(event.getName());
         entity.setPublicKey(event.getPublicKey());
         entity.setType(event.getType());

@@ -18,7 +18,7 @@ public class CredentialCreateCommand {
     UUID id;
 
     @NotBlank
-    String sshKeyId;
+    String ovhId;
 
     String name;
     String publicKey;

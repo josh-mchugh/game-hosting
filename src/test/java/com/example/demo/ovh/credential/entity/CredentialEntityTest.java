@@ -1,10 +1,8 @@
 package com.example.demo.ovh.credential.entity;
 
-import com.example.demo.ovh.credential.entity.model.Credential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -80,12 +78,12 @@ public class CredentialEntityTest {
     }
 
     @Test
-    public void whenEntityHasSshKeyIdThenReturnSshKeyId() {
+    public void whenEntityHasOvhIdThenReturnOvhId() {
 
         CredentialEntity entity = new CredentialEntity();
-        entity.setSshKeyId("ssh-key-id");
+        entity.setOvhId("ovhId");
 
-        Assertions.assertEquals("ssh-key-id", entity.getSshKeyId());
+        Assertions.assertEquals("ovhId", entity.getOvhId());
     }
 
     @Test

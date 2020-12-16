@@ -4,5 +4,5 @@ public interface ICredentialProjector {
 
     boolean existsAny();
 
-    String getAnsibleSshKeyId();
+    String getAnsibleOvhId();
 }
