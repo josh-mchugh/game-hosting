@@ -3,6 +3,8 @@ package com.example.demo.ovh.flavor.projection;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.entity.service.IFlavorService;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +20,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class FlavorProjectionExistsByFlavorIdTest {
+public class FlavorProjectorFetchFlavorIdByOvhIdTest {
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -41,38 +43,41 @@ public class FlavorProjectionExistsByFlavorIdTest {
     }
 
     @Test
-    public void testGetByFlavorIdShouldBeFalse() {
+    public void whenParamIsNullThenExpectException() {
 
-        boolean exists = flavorProjectionService.existsByFlavorId("get-by-flavor-id-should-be-false");
+        Assertions.assertThrows(NullPointerException.class, () -> flavorProjectionService.fetchFlavorIdByOvhId(null));
+    }
 
-        Assertions.assertFalse(exists);
+
+    @Test
+    public void whenOvhIdIsNullThenExpectException() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> flavorProjectionService.fetchFlavorIdByOvhId(new FetchFlavorIdByOvhIdQuery(null)));
     }
 
     @Test
-    public void textGetByFlavorIdShouldBeTrue() {
+    public void whenOvhIdIsValidThenReturnId() {
 
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .flavorId("d23f7fd6-a250-4600-bb95-bb4cd12d9a01")
                 .regionId(region.getId())
-                .name("s1-8")
-                .type("ovh.vps-ssd")
-                .available(true)
-                .hourly("s1-8.consumption")
-                .monthly("s1-8.monthly")
-                .quota(3)
-                .osType("linux")
-                .vcpus(2)
-                .ram(8000)
-                .disk(40)
-                .outboundBandwidth(100)
-                .inboundBandwidth(100)
+                .ovhId("ovhId")
                 .build();
 
         Flavor flavor = flavorService.handleCreated(event);
 
-        boolean exists = flavorProjectionService.existsByFlavorId(flavor.getFlavorId());
+        FetchFlavorIdByOvhIdQuery query = new FetchFlavorIdByOvhIdQuery(flavor.getOvhId());
+        FetchFlavorIdByOvhIdProjection projection = flavorProjectionService.fetchFlavorIdByOvhId(query);
 
-        Assertions.assertTrue(exists);
+        Assertions.assertEquals(flavor.getId(), projection.getId());
+    }
+
+    @Test
+    public void whenOvhIdIsInvalidThenReturnNull() {
+
+        FetchFlavorIdByOvhIdQuery query = new FetchFlavorIdByOvhIdQuery("invalidId");
+        FetchFlavorIdByOvhIdProjection projection = flavorProjectionService.fetchFlavorIdByOvhId(query);
+
+        Assertions.assertNull(projection);
     }
 }

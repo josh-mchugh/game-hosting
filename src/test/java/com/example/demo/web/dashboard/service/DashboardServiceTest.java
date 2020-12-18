@@ -228,7 +228,7 @@ public class DashboardServiceTest {
     private FlavorApi buildFlavorApi() {
 
         FlavorApi flavorApi = new FlavorApi();
-        flavorApi.setFlavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e");
+        flavorApi.setId("a64381e7-c4e7-4b01-9fbe-da405c544d2e");
         flavorApi.setName("s1-2");
         flavorApi.setAvailable(true);
         flavorApi.setDisk(10);

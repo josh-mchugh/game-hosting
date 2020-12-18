@@ -4,12 +4,12 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;
 
 @Value
-public class FetchFlavorIdByFlavorIdResponse {
+public class FetchFlavorIdByOvhIdProjection {
 
     String id;
 
     @QueryProjection
-    public FetchFlavorIdByFlavorIdResponse(String id) {
+    public FetchFlavorIdByOvhIdProjection(String id) {
 
         this.id = id;
     }

@@ -31,7 +31,7 @@ public class FlavorService implements IFlavorService {
         FlavorEntity entity = new FlavorEntity();
         entity.setId(event.getId());
         entity.setRegionEntity(getRegionById(event.getRegionId()));
-        entity.setFlavorId(event.getFlavorId());
+        entity.setOvhId(event.getOvhId());
         entity.setName(event.getName());
         entity.setType(event.getType());
         entity.setAvailable(event.getAvailable());

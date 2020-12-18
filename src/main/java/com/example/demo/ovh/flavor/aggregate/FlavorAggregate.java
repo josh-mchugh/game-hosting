@@ -20,7 +20,7 @@ public class FlavorAggregate {
     @AggregateIdentifier
     private UUID id;
     private String regionId;
-    private String flavorId;
+    private String ovhId;
     private String name;
     private String type;
     private Boolean available;
@@ -40,7 +40,7 @@ public class FlavorAggregate {
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(command.getId())
                 .regionId(command.getRegionId())
-                .flavorId(command.getFlavorId())
+                .ovhId(command.getOvhId())
                 .name(command.getName())
                 .type(command.getType())
                 .available(command.getAvailable())
@@ -63,7 +63,7 @@ public class FlavorAggregate {
 
         this.id = event.getId();
         this.regionId = event.getRegionId();
-        this.flavorId = event.getFlavorId();
+        this.ovhId = event.getOvhId();
         this.name = event.getName();
         this.type = event.getType();
         this.available = event.getAvailable();

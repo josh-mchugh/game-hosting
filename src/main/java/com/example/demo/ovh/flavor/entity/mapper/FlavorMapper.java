@@ -14,7 +14,7 @@ public class FlavorMapper {
 
         return Flavor.builder()
                 .id(entity.getId())
-                .flavorId(entity.getFlavorId())
+                .ovhId(entity.getOvhId())
                 .name(entity.getName())
                 .type(entity.getType())
                 .available(entity.getAvailable())

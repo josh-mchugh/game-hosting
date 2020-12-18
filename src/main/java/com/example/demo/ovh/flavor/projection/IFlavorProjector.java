@@ -1,13 +1,13 @@
 package com.example.demo.ovh.flavor.projection;
 
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdQuery;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdResponse;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
 
 public interface IFlavorProjector {
 
     boolean existsAny();
 
-    boolean existsByFlavorId(String flavorId);
+    boolean existsByOvhId(String ovhId);
 
-    FetchFlavorIdByFlavorIdResponse fetchFlavorIdByFlavorId(FetchFlavorIdByFlavorIdQuery query);
+    FetchFlavorIdByOvhIdProjection fetchFlavorIdByOvhId(FetchFlavorIdByOvhIdQuery query);
 }

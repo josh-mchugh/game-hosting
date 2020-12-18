@@ -1,8 +1,8 @@
 package com.example.demo.ovh.flavor.projection;
 
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdQuery;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdResponse;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -27,28 +27,28 @@ public class FlavorProjector implements IFlavorProjector {
     }
 
     @Override
-    public boolean existsByFlavorId(String flavorId) {
+    public boolean existsByOvhId(String ovhId) {
 
         QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
 
         long count = queryFactory.selectFrom(qFlavor)
-                .where(qFlavor.flavorId.eq(flavorId))
+                .where(qFlavor.ovhId.eq(ovhId))
                 .fetchCount();
 
         return count >= 1;
     }
 
     @Override
-    public FetchFlavorIdByFlavorIdResponse fetchFlavorIdByFlavorId(FetchFlavorIdByFlavorIdQuery query) {
+    public FetchFlavorIdByOvhIdProjection fetchFlavorIdByOvhId(FetchFlavorIdByOvhIdQuery query) {
 
         QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
 
         return queryFactory.select(Projections.constructor(
-                    FetchFlavorIdByFlavorIdResponse.class,
+                    FetchFlavorIdByOvhIdProjection.class,
                     qFlavor.id
                 ))
                 .from(qFlavor)
-                .where(qFlavor.flavorId.eq(query.getFlavorId()))
+                .where(qFlavor.ovhId.eq(query.getOvhId()))
                 .fetchOne();
     }
 }

@@ -1,9 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
-import com.example.demo.ovh.flavor.feign.FlavorClient;
+import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
@@ -20,9 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FlavorSeedService implements ISeedService<Object> {
 
-    private final OvhConfig ovhConfig;
+    private final IFlavorFeignService flavorFeignService;
     private final IFlavorProjector flavorProjectionService;
-    private final FlavorClient flavorClient;
     private final IRegionProjector regionProjection;
     private final CommandGateway commandGateway;
 
@@ -35,7 +33,7 @@ public class FlavorSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        return flavorClient.getFlavors(ovhConfig.getProjectId()).stream()
+        return flavorFeignService.getFlavors().stream()
                 .map(this::buildFlavorCreateCommand)
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
@@ -65,7 +63,7 @@ public class FlavorSeedService implements ISeedService<Object> {
         return FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId(response.getId())
-                .flavorId(flavor.getFlavorId())
+                .ovhId(flavor.getId())
                 .name(flavor.getName())
                 .type(flavor.getType())
                 .hourly(flavor.getPlanCodes() != null ? flavor.getPlanCodes().getHourly() : null)

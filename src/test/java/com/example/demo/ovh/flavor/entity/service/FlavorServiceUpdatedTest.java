@@ -1,8 +1,7 @@
-package com.example.demo.ovh.flavor.entity;
+package com.example.demo.ovh.flavor.entity.service;
 
 import com.example.demo.ovh.flavor.aggregate.event.FlavorUpdatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
-import com.example.demo.ovh.flavor.entity.service.IFlavorService;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.sample.SampleBuilder;
@@ -70,7 +69,7 @@ public class FlavorServiceUpdatedTest {
 
         Flavor expected = Flavor.builder()
                 .id(flavor.getId())
-                .flavorId(flavor.getFlavorId())
+                .ovhId(flavor.getOvhId())
                 .name("name")
                 .type("type")
                 .available(true)
@@ -97,7 +96,7 @@ public class FlavorServiceUpdatedTest {
 
         Flavor expected = Flavor.builder()
                 .id(flavor.getId())
-                .flavorId(flavor.getFlavorId())
+                .ovhId(flavor.getOvhId())
                 .build();
 
         Assertions.assertEquals(expected, flavor);

@@ -4,17 +4,12 @@ import com.example.demo.ovh.feign.PlanCodeApi;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class FlavorApi {
 
-
-    @JsonProperty("id")
-    private String flavorId;
+    private String id;
     private String name;
     private boolean available;
-    private List<CapabilityApi> capabilities;
     private Integer disk;
     private Integer inboundBandwidth;
     private String osType;

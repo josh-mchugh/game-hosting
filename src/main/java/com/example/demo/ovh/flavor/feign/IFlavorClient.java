@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @FeignClient(name = "flavorClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
-public interface FlavorClient {
+public interface IFlavorClient {
 
     @GetMapping("/1.0/cloud/project/{projectId}/flavor")
     List<FlavorApi> getFlavors(@PathVariable("projectId") String projectId);
-
-    @GetMapping("/1.0/cloud/project/{projectId}/flavor/{flavorId}")
-    FlavorApi getFlavorById(@PathVariable("projectId") String projectId, @PathVariable("flavorId") String flavorId);
 }

@@ -1,8 +1,7 @@
-package com.example.demo.ovh.flavor.entity;
+package com.example.demo.ovh.flavor.entity.service;
 
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
-import com.example.demo.ovh.flavor.entity.service.IFlavorService;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -45,7 +44,7 @@ public class FlavorServiceCreatedTest {
 
         FlavorCreatedEvent event = flavorCreatedBuilder(id)
                 .regionId(region.getId())
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .available(true)
@@ -64,7 +63,7 @@ public class FlavorServiceCreatedTest {
 
         Flavor expected = Flavor.builder()
                 .id(id.toString())
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .available(true)
@@ -90,14 +89,14 @@ public class FlavorServiceCreatedTest {
 
         FlavorCreatedEvent event = flavorCreatedBuilder(id)
                 .regionId(region.getId())
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .build();
 
         Flavor flavor = flavorService.handleCreated(event);
 
         Flavor expected = Flavor.builder()
                 .id(id.toString())
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .build();
 
         Assertions.assertEquals(expected, flavor);
@@ -162,22 +161,22 @@ public class FlavorServiceCreatedTest {
     }
 
     @Test
-    public void whenCreateHasFlavorIdThenReturnFlavorId() {
+    public void whenCreateHasOvhIdThenReturnOvhId() {
 
         FlavorCreatedEvent event = flavorCreatedBuilder()
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .build();
 
         Flavor flavor = flavorService.handleCreated(event);
 
-        Assertions.assertEquals("flavor-id", flavor.getFlavorId());
+        Assertions.assertEquals("ovhId", flavor.getOvhId());
     }
 
     @Test
-    public void whenCreateHasNullFlavorIdThenThrowException() {
+    public void whenCreateHasNullOvhIdThenThrowException() {
 
         FlavorCreatedEvent event = flavorCreatedBuilder()
-                .flavorId(null)
+                .ovhId(null)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> flavorService.handleCreated(event));
@@ -336,7 +335,7 @@ public class FlavorServiceCreatedTest {
 
         return FlavorCreatedEvent.builder()
                 .id(id)
-                .flavorId("handle-flavor-create")
+                .ovhId("ovhId")
                 .regionId(region.getId());
     }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.web.test;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.flavor.feign.FlavorClient;
 import com.example.demo.ovh.image.feign.ImageClient;
 import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.ovh.instance.feign.InstanceGroupClient;
@@ -38,7 +37,6 @@ public class TestController {
     private final OvhConfig ovhConfig;
     private final RegionClient regionClient;
     private final ImageClient imageClient;
-    private final FlavorClient flavorClient;
     private final InstanceGroupClient instanceGroupClient;
     private final InstanceClient instanceClient;
 
@@ -140,18 +138,6 @@ public class TestController {
     public ResponseEntity<?> getImage() {
 
         return new ResponseEntity<>(imageClient.getImage(ovhConfig.getProjectId(), "cefc8220-ba0a-4327-b13d-591abaf4be0c"), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/flavors")
-    public ResponseEntity<?> getFlavors() {
-
-        return new ResponseEntity<>(flavorClient.getFlavors(ovhConfig.getProjectId()), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/flavor")
-    public ResponseEntity<?> getFlavor() {
-
-        return new ResponseEntity<>(flavorClient.getFlavorById(ovhConfig.getProjectId(), "a64381e7-c4e7-4b01-9fbe-da405c544d2e"), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/groups")

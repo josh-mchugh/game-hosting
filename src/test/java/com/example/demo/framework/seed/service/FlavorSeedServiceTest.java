@@ -1,6 +1,6 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.flavor.feign.FlavorClient;
+import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
@@ -29,7 +29,7 @@ public class FlavorSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    public FlavorClient flavorClient;
+    public IFlavorFeignService flavorFeignService;
 
     @Test
     public void whenFlavorsDoNotExistsThenReturnTrue() {
@@ -61,10 +61,10 @@ public class FlavorSeedServiceTest {
                 .getRegion();
 
         FlavorApi flavorApi = new FlavorApi();
-        flavorApi.setFlavorId("flavor id");
+        flavorApi.setId("id");
         flavorApi.setRegionName(region.getName());
 
-        Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenReturn(Collections.singletonList(flavorApi));
+        Mockito.when(flavorFeignService.getFlavors()).thenReturn(Collections.singletonList(flavorApi));
 
         ImmutableList<Object> flavors = flavorSeedService.initializeData();
 
@@ -74,7 +74,7 @@ public class FlavorSeedServiceTest {
     @Test
     public void whenApiReturnsEmptyListThenReturnEmptyList() {
 
-        Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenReturn(Collections.emptyList());
+        Mockito.when(flavorFeignService.getFlavors()).thenReturn(Collections.emptyList());
 
         ImmutableList<Object> flavors = flavorSeedService.initializeData();
 
@@ -84,7 +84,7 @@ public class FlavorSeedServiceTest {
     @Test
     public void whenApiThrowsExceptionThenThrowException() {
 
-        Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(flavorFeignService.getFlavors()).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.class, () -> flavorSeedService.initializeData());
     }

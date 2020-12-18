@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "credential")
+@Table(name = "ovh_credential")
 public class CredentialEntity extends AbstractAggregateEntity {
 
     @Column(name = "ovh_id", unique = true, nullable = false)

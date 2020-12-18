@@ -1,6 +1,7 @@
 package com.example.demo.ovh.flavor.projection;
 
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
+import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.entity.service.IFlavorService;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class FlavorProjectorExistsAnyTest {
+public class FlavorProjectorExistsByOvhIdTest {
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -40,15 +41,15 @@ public class FlavorProjectorExistsAnyTest {
     }
 
     @Test
-    public void testExistsAllShouldBeFalse() {
+    public void testGetByFlavorIdShouldBeFalse() {
 
-        boolean exists = flavorProjectionService.existsAny();
+        boolean exists = flavorProjectionService.existsByOvhId("invalidOvhId");
 
         Assertions.assertFalse(exists);
     }
 
     @Test
-    public void testExistsAllShouldBeTrue() {
+    public void textGetByFlavorIdShouldBeTrue() {
 
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(UUID.randomUUID())
@@ -68,11 +69,10 @@ public class FlavorProjectorExistsAnyTest {
                 .inboundBandwidth(100)
                 .build();
 
-        flavorService.handleCreated(event);
+        Flavor flavor = flavorService.handleCreated(event);
 
-        boolean exists = flavorProjectionService.existsAny();
+        boolean exists = flavorProjectionService.existsByOvhId(flavor.getOvhId());
 
         Assertions.assertTrue(exists);
     }
-
 }

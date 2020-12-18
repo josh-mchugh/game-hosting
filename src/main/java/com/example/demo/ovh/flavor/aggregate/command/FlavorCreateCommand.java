@@ -20,7 +20,7 @@ public class FlavorCreateCommand {
     String regionId;
 
     @NotBlank
-    String flavorId;
+    String ovhId;
 
     String name;
     String type;
