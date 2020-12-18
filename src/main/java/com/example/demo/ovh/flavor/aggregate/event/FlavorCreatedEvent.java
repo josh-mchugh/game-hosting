@@ -11,7 +11,7 @@ public class FlavorCreatedEvent {
 
     UUID id;
     String regionId;
-    String flavorId;
+    String ovhId;
     String name;
     String type;
     Boolean available;

@@ -1,56 +1,11 @@
-package com.example.demo.ovh.flavor.entity;
+package com.example.demo.ovh.flavor.entity.mapper;
 
-import com.example.demo.ovh.flavor.entity.mapper.FlavorMapper;
+import com.example.demo.ovh.flavor.entity.FlavorEntity;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class FlavorMapperTest {
-
-    @Test
-    public void whenEntityIsValidThenReturnExpected() {
-
-        UUID id = UUID.randomUUID();
-
-        FlavorEntity entity = new FlavorEntity();
-        entity.setId(id);
-        entity.setFlavorId("flavor-id");
-        entity.setName("name");
-        entity.setType("type");
-        entity.setAvailable(true);
-        entity.setHourly("hourly");
-        entity.setMonthly("monthly");
-        entity.setQuota(1);
-        entity.setOsType("osType");
-        entity.setVcpus(1);
-        entity.setRam(1);
-        entity.setDisk(1);
-        entity.setInboundBandwidth(1);
-        entity.setOutboundBandwidth(1);
-
-        Flavor expected = Flavor.builder()
-                .id(id.toString())
-                .flavorId("flavor-id")
-                .name("name")
-                .type("type")
-                .available(true)
-                .hourly("hourly")
-                .monthly("monthly")
-                .quota(1)
-                .osType("osType")
-                .vcpus(1)
-                .ram(1)
-                .disk(1)
-                .inboundBandwidth(1)
-                .outboundBandwidth(1)
-                .build();
-
-        Flavor flavor = FlavorMapper.map(entity);
-
-        Assertions.assertEquals(expected, flavor);
-    }
 
     @Test
     public void whenEntityIsNullThenReturnNull() {
@@ -70,14 +25,14 @@ public class FlavorMapperTest {
     }
 
     @Test
-    public void whenEntityHasFlavorIdThenReturnFlavorId() {
+    public void whenEntityHasOvhIdThenReturnOvhId() {
 
         FlavorEntity entity = new FlavorEntity();
-        entity.setFlavorId("flavor-id");
+        entity.setOvhId("ovhId");
 
         Flavor flavor = FlavorMapper.map(entity);
 
-        Assertions.assertEquals("flavor-id", flavor.getFlavorId());
+        Assertions.assertEquals("ovhId", flavor.getOvhId());
     }
 
     @Test

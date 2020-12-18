@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,15 +15,15 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "flavor")
+@Table(name = "ovh_flavor")
 public class FlavorEntity extends AbstractAggregateEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
     private RegionEntity regionEntity;
 
-    @Column(name = "flavor_id", unique = true, nullable = false)
-    private String flavorId;
+    @Column(name = "ovh_id", unique = true, nullable = false)
+    private String ovhId;
 
     @Column(name = "name")
     private String name;

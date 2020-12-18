@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 public class InstanceEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "flavor_id", nullable = false)
+    @JoinColumn(name = "ovh_flavor_id", nullable = false)
     private FlavorEntity flavorEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -38,7 +38,7 @@ public class InstanceEntity extends AbstractAggregateEntity {
     private InstanceGroupEntity instanceGroupEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "credential_id", nullable = false)
+    @JoinColumn(name = "ovh_credential_id", nullable = false)
     private CredentialEntity credentialEntity;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "instanceEntity")

@@ -153,7 +153,7 @@ public class InstanceApiTest {
 
         InstanceApi model = model();
 
-        String expected = "InstanceApi(id=id, name=name, ipAddresses=[], status=ACTIVE, createdDate=2020-12-02T22:20, region=region, flavor=FlavorApi(flavorId=null, name=null, available=false, capabilities=null, disk=null, inboundBandwidth=null, osType=null, outboundBandwidth=null, planCodes=null, quota=null, ram=null, regionName=null, type=null, vcpus=null), image=ImageApi(imageId=null, name=null, creationDate=null, flavorType=null, minDisk=null, minRam=null, planCode=null, regionName=null, size=null, status=null, type=null, user=null, visibility=null))";
+        String expected = "InstanceApi(id=id, name=name, ipAddresses=[], status=ACTIVE, createdDate=2020-12-02T22:20, region=region, flavor=FlavorApi(id=null, name=null, available=false, disk=null, inboundBandwidth=null, osType=null, outboundBandwidth=null, planCodes=null, quota=null, ram=null, regionName=null, type=null, vcpus=null), image=ImageApi(imageId=null, name=null, creationDate=null, flavorType=null, minDisk=null, minRam=null, planCode=null, regionName=null, size=null, status=null, type=null, user=null, visibility=null))";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -170,7 +170,7 @@ public class InstanceApiTest {
         model.setFlavor(new FlavorApi());
         model.setImage(new ImageApi());
 
-        Assertions.assertEquals(-380707135, model.hashCode());
+        Assertions.assertEquals(106907680, model.hashCode());
     }
 
     @Test

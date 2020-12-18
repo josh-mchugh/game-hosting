@@ -1,13 +1,12 @@
 package com.example.demo.ovh.flavor.scheduler.service;
 
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorUpdateCommand;
-import com.example.demo.ovh.flavor.feign.FlavorClient;
+import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdQuery;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByFlavorIdResponse;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
@@ -23,8 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FlavorSchedulerService implements IFlavorSchedulerService {
 
-    private final OvhConfig ovhConfig;
-    private final FlavorClient flavorClient;
+    private final IFlavorFeignService flavorFeignService;
     private final IFlavorProjector flavorProjectionService;
     private final IRegionProjector regionProjection;
     private final CommandGateway commandGateway;
@@ -32,7 +30,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     @Override
     public ImmutableList<FlavorApi> getFlavorResponses() {
 
-        return ImmutableList.copyOf(flavorClient.getFlavors(ovhConfig.getProjectId()));
+        return ImmutableList.copyOf(flavorFeignService.getFlavors());
     }
 
     @Override
@@ -42,7 +40,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
         for(FlavorApi flavorResponse : flavorResponses) {
 
-            if (flavorProjectionService.existsByFlavorId(flavorResponse.getFlavorId())) {
+            if (flavorProjectionService.existsByOvhId(flavorResponse.getId())) {
 
                 builder.updatedFlavor(handleFlavorUpdate(flavorResponse));
 
@@ -65,11 +63,8 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
         FetchRegionIdByNameResponse regionIdResponse = regionProjection.fetchIdByName(regionIdQuery);
 
-        FetchFlavorIdByFlavorIdQuery flavorIdQuery = FetchFlavorIdByFlavorIdQuery.builder()
-                .flavorId(flavorResponse.getFlavorId())
-                .build();
-
-        FetchFlavorIdByFlavorIdResponse flavorIdResponse = flavorProjectionService.fetchFlavorIdByFlavorId(flavorIdQuery);
+        FetchFlavorIdByOvhIdQuery flavorIdQuery = new FetchFlavorIdByOvhIdQuery(flavorResponse.getId());
+        FetchFlavorIdByOvhIdProjection flavorIdResponse = flavorProjectionService.fetchFlavorIdByOvhId(flavorIdQuery);
 
         String hourly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getHourly() : null;
         String monthly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getMonthly() : null;
@@ -108,7 +103,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
         FlavorCreateCommand command = FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .flavorId(flavorResponse.getFlavorId())
+                .ovhId(flavorResponse.getId())
                 .regionId(response.getId())
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())

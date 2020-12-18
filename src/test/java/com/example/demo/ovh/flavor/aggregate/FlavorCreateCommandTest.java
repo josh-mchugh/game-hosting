@@ -32,7 +32,7 @@ public class FlavorCreateCommandTest {
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(id)
                 .regionId("region-id")
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .available(true)
@@ -81,7 +81,31 @@ public class FlavorCreateCommandTest {
     public void whenCreateCommandHasBlankRegionIdThenThrowException() {
 
         FlavorCreateCommand command = createFlavorCommand()
-                .flavorId(null)
+                .regionId("")
+                .build();
+
+        fixture.givenNoPriorActivity()
+                .when(command)
+                .expectException(JSR303ViolationException.class);
+    }
+
+    @Test
+    public void whenCreateCommandHasNullOVhIdThenThrowException() {
+
+        FlavorCreateCommand command = createFlavorCommand()
+                .ovhId(null)
+                .build();
+
+        fixture.givenNoPriorActivity()
+                .when(command)
+                .expectException(JSR303ViolationException.class);
+    }
+
+    @Test
+    public void whenCreateCommandHasBlankOvhIdThenThrowException() {
+
+        FlavorCreateCommand command = createFlavorCommand()
+                .ovhId("")
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -303,7 +327,7 @@ public class FlavorCreateCommandTest {
         return FlavorCreateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .flavorId("flavor-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .available(true)

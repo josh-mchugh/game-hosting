@@ -360,7 +360,7 @@ public class SampleBuilder {
 
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
+                .ovhId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
                 .regionId(region.getId())
                 .name("s1-2")
                 .type("ovh.vps-ssd")

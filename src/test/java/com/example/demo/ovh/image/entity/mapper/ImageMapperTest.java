@@ -113,7 +113,7 @@ public class ImageMapperTest {
 
         Image image = ImageMapper.map(entity);
 
-        Assertions.assertEquals(new Double("1.0"), image.getSize());
+        Assertions.assertEquals(1.0D, image.getSize());
     }
 
     @Test

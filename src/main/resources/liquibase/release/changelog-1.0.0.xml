@@ -245,20 +245,20 @@
     </changeSet>
 
     <changeSet id="6" author="jmchugh">
-        <createTable tableName="flavor">
+        <createTable tableName="ovh_flavor">
             <column name="id" type="nvarchar(255)">
-                <constraints primaryKey="true" primaryKeyName="PK__flavor" />
+                <constraints primaryKey="true" primaryKeyName="PK__ovh_flavor" />
             </column>
             <column name="version" type="bigint"/>
             <column name="created_by" type="nvarchar(255)"/>
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="flavor_id" type="nvarchar(255)">
-                <constraints unique="true" nullable="false" />
-            </column>
             <column name="region_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="ovh_id" type="nvarchar(255)">
+                <constraints unique="true" nullable="false" />
             </column>
             <column name="name" type="nvarchar(255)"/>
             <column name="type" type="nvarchar(255)"/>
@@ -273,7 +273,7 @@
             <column name="inbound_bandwidth" type="int"/>
             <column name="outbound_bandwidth" type="int"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="flavor" baseColumnNames="region_id" constraintName="flavor_region_id__region_id"  referencedTableName="region" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="ovh_flavor" baseColumnNames="region_id" constraintName="ovh_flavor_region_id__region_id"  referencedTableName="region" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="7" author="jmchugh">
@@ -399,9 +399,9 @@
     </changeSet>
 
     <changeSet id="12" author="jmchugh">
-        <createTable tableName="credential">
+        <createTable tableName="ovh_credential">
             <column name="id" type="nvarchar(255)">
-                <constraints primaryKey="true" primaryKeyName="PK__credential" />
+                <constraints primaryKey="true" primaryKeyName="PK__ovh_credential" />
             </column>
             <column name="version" type="bigint"/>
             <column name="created_by" type="nvarchar(255)"/>
@@ -427,7 +427,7 @@
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="flavor_id" type="nvarchar(255)">
+            <column name="ovh_flavor_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="image_id" type="nvarchar(255)">
@@ -436,7 +436,7 @@
             <column name="instance_group_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="credential_id" type="nvarchar(255)">
+            <column name="ovh_credential_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="instance_id" type="nvarchar(255)">
@@ -450,10 +450,10 @@
             <column name="ip4_address" type="nvarchar(255)"/>
             <column name="ip6_address" type="nvarchar(255)"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="flavor_id" constraintName="instance_flavor_id__flavor_id" referencedTableName="flavor" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="ovh_flavor_id" constraintName="instance_ovh_flavor_id__ovh_flavor_id" referencedTableName="ovh_flavor" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="instance" baseColumnNames="image_id" constraintName="instance_image_id__image_id" referencedTableName="image" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="instance" baseColumnNames="instance_group_id" constraintName="instance_instance_group_id__instance_group_id" referencedTableName="instance_group" referencedColumnNames="id" />
-        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="credential_id" constraintName="instance_credential_id__credential_id" referencedTableName="credential" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="instance" baseColumnNames="ovh_credential_id" constraintName="instance_ovh_credential_id__ovh_credential_id" referencedTableName="ovh_credential" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="14" author="jmchugh">

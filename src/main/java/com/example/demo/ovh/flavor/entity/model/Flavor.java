@@ -8,7 +8,7 @@ import lombok.Value;
 public class Flavor {
 
     String id;
-    String flavorId;
+    String ovhId;
     String name;
     String type;
     Boolean available;
