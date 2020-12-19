@@ -39,22 +39,22 @@ public class InstanceGroupMapperTest {
     }
 
     @Test
-    public void whenEntityHasGroupIdThenReturnGroupId() {
+    public void whenEntityHasOvhIdThenReturnOvhId() {
 
         InstanceGroupEntity instanceGroupEntity = new InstanceGroupEntity();
-        instanceGroupEntity.setGroupId("group-id");
+        instanceGroupEntity.setOvhId("ovhId");
 
         InstanceGroup instanceGroup = InstanceGroupMapper.map(instanceGroupEntity);
 
-        Assertions.assertEquals("group-id", instanceGroup.getGroupId());
+        Assertions.assertEquals("ovhId", instanceGroup.getOvhId());
     }
 
     @Test
-    public void whenEntityHasNullGroupIdThenReturnNull() {
+    public void whenEntityHasNullOvhIdThenReturnNull() {
 
         InstanceGroup instanceGroup = InstanceGroupMapper.map(new InstanceGroupEntity());
 
-        Assertions.assertNull(instanceGroup.getGroupId());
+        Assertions.assertNull(instanceGroup.getOvhId());
     }
 
     @Test

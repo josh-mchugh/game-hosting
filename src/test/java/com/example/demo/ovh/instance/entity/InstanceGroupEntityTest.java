@@ -81,12 +81,12 @@ public class InstanceGroupEntityTest {
     }
 
     @Test
-    public void whenEntityHasGroupIdThenReturnGroupId() {
+    public void whenEntityHasOvhIdThenReturnOvhId() {
 
         InstanceGroupEntity entity = new InstanceGroupEntity();
-        entity.setGroupId("groupId");
+        entity.setOvhId("ovhId");
 
-        Assertions.assertEquals("groupId", entity.getGroupId());
+        Assertions.assertEquals("ovhId", entity.getOvhId());
     }
 
     @Test

@@ -18,7 +18,7 @@ public class InstanceGroupAggregate {
     @AggregateIdentifier
     private UUID id;
     private String projectId;
-    private String groupId;
+    private String ovhId;
     private String name;
     private String type;
 
@@ -28,7 +28,7 @@ public class InstanceGroupAggregate {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(command.getId())
                 .projectId(command.getProjectId())
-                .groupId(command.getGroupId())
+                .ovhId(command.getOvhId())
                 .name(command.getName())
                 .type(command.getType())
                 .build();
@@ -41,7 +41,7 @@ public class InstanceGroupAggregate {
 
         this.id = event.getId();
         this.projectId = event.getProjectId();
-        this.groupId = event.getGroupId();
+        this.ovhId = event.getOvhId();
         this.name = event.getName();
         this.type = event.getType();
     }

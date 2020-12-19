@@ -377,25 +377,25 @@
     </changeSet>
 
     <changeSet id="11" author="jmchugh">
-        <createTable tableName="instance_group">
+        <createTable tableName="ovh_instance_group">
             <column name="id" type="nvarchar(255)">
-                <constraints primaryKey="true" primaryKeyName="PK__instance_group" />
+                <constraints primaryKey="true" primaryKeyName="PK__ovh_instance_group" />
             </column>
             <column name="version" type="bigint"/>
             <column name="created_by" type="nvarchar(255)"/>
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="group_id" type="nvarchar(255)">
+            <column name="project_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ovh_id" type="nvarchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="name" type="nvarchar(255)"/>
             <column name="type" type="nvarchar(255)"/>
-            <column name="project_id" type="nvarchar(255)">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="instance_group" baseColumnNames="project_id" constraintName="instance_group_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="ovh_instance_group" baseColumnNames="project_id" constraintName="ovh_instance_group_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="12" author="jmchugh">
@@ -433,7 +433,7 @@
             <column name="ovh_image_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="instance_group_id" type="nvarchar(255)">
+            <column name="ovh_instance_group_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="ovh_credential_id" type="nvarchar(255)">
@@ -452,7 +452,7 @@
         </createTable>
         <addForeignKeyConstraint baseTableName="ovh_instance" baseColumnNames="ovh_flavor_id" constraintName="ovh_instance_ovh_flavor_id__ovh_flavor_id" referencedTableName="ovh_flavor" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="ovh_instance" baseColumnNames="ovh_image_id" constraintName="ovh_instance_ovh_image_id__ovh_id" referencedTableName="ovh_image" referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="ovh_instance" baseColumnNames="instance_group_id" constraintName="ovh_instance_instance_group_id__instance_group_id" referencedTableName="instance_group" referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="ovh_instance" baseColumnNames="ovh_instance_group_id" constraintName="ovh_instance_ovh_instance_group_id__ovh_instance_group_id" referencedTableName="ovh_instance_group" referencedColumnNames="id" />
         <addForeignKeyConstraint baseTableName="ovh_instance" baseColumnNames="ovh_credential_id" constraintName="ovh_instance_ovh_credential_id__ovh_credential_id" referencedTableName="ovh_credential" referencedColumnNames="id"/>
     </changeSet>
 

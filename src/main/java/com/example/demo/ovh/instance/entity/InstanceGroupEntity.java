@@ -18,21 +18,21 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "instance_group")
+@Table(name = "ovh_instance_group")
 public class InstanceGroupEntity extends AbstractAggregateEntity {
 
-    @Column(name = "group_id", unique = true, nullable = false)
-    private String groupId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    public ProjectEntity projectEntity;
+
+    @Column(name = "ovh_id", unique = true, nullable = false)
+    private String ovhId;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "type")
     private String type;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false)
-    public ProjectEntity projectEntity;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "instanceGroupEntity")
     private List<InstanceEntity> instanceEntities;

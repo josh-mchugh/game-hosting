@@ -8,7 +8,7 @@ import lombok.Value;
 public class InstanceGroup {
 
     String id;
-    String groupId;
+    String ovhId;
     String name;
     String type;
 }

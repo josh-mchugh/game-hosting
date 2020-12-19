@@ -74,7 +74,7 @@ public class ProjectCreatedSaga {
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(id)
                 .projectId(event.getId().toString())
-                .groupId(instanceGroupApi.getId())
+                .ovhId(instanceGroupApi.getId())
                 .name(instanceGroupApi.getName())
                 .type(instanceGroupApi.getType())
                 .build();
@@ -92,7 +92,7 @@ public class ProjectCreatedSaga {
                 .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
                 .imageId("78dd3354-4eee-4890-a29e-2b3bfcef9a2a")
                 .region("US-EAST-VA-1")
-                .groupId(event.getGroupId())
+                .groupId(event.getOvhId())
                 .sshKeyId(sshKeyId)
                 .build();
 
@@ -103,9 +103,9 @@ public class ProjectCreatedSaga {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(id)
-                .flavorId("6a61cce4-20be-4831-aa2b-65b1ec942511")
-                .imageId("57810606-5d9c-4b6b-b48f-9302800c9932")
-                .credentialId("090948a0-7cf7-432c-ac70-3ac8c36a31e2")
+                .flavorId("d1ffecbf-8776-454e-b5b3-8d5f80223c61")
+                .imageId("baa591c5-1538-46e8-9a8f-d1abf15ba744")
+                .credentialId("c3375114-2b27-4ac4-be06-e326ac74daa4")
                 .instanceGroupId(event.getId().toString())
                 .name(instanceApi.getName())
                 .ovhId(instanceApi.getId())

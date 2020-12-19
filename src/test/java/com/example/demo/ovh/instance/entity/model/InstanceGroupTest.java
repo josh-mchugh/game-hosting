@@ -16,13 +16,13 @@ public class InstanceGroupTest {
     }
 
     @Test
-    public void whenModelHasGroupIdThenReturnGroupId() {
+    public void whenModelHasOvhIdThenReturnOvhId() {
 
         InstanceGroup model = InstanceGroup.builder()
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("groupId", model.getGroupId());
+        Assertions.assertEquals("ovhId", model.getOvhId());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class InstanceGroupTest {
 
         InstanceGroup model = model();
 
-        String expected = "InstanceGroup(id=id, groupId=groupId, name=name, type=type)";
+        String expected = "InstanceGroup(id=id, ovhId=ovhId, name=name, type=type)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -60,7 +60,7 @@ public class InstanceGroupTest {
 
         InstanceGroup model = model();
 
-        Assertions.assertEquals(125198639, model.hashCode());
+        Assertions.assertEquals(969825729, model.hashCode());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class InstanceGroupTest {
 
         return InstanceGroup.builder()
                 .id("id")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
