@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.instance.feign.model.ImageApi;
+import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +29,7 @@ public class ImageSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private ImageClient imageClient;
+    private IImageClient imageClient;
 
     @Test
     public void whenImageExistsThenDataNotExistsReturnFalse() {
@@ -61,7 +61,7 @@ public class ImageSeedServiceTest {
                 .getRegion();
 
         ImageApi imageApi = new ImageApi();
-        imageApi.setImageId("image id");
+        imageApi.setId("ovhId");
         imageApi.setName("Ubuntu 20.4");
         imageApi.setRegionName(region.getName());
 

@@ -30,7 +30,7 @@ public class InstanceEntity extends AbstractAggregateEntity {
     private FlavorEntity flavorEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "image_id", nullable = false)
+    @JoinColumn(name = "ovh_image_id", nullable = false)
     private ImageEntity imageEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

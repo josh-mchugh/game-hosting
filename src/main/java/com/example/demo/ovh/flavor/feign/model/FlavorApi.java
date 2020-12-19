@@ -21,4 +21,14 @@ public class FlavorApi {
     private String regionName;
     private String type;
     private Integer vcpus;
+
+    public String getHourly() {
+
+        return planCodes != null ? planCodes.getHourly() : null;
+    }
+
+    public String getMonthly() {
+        
+        return planCodes != null ? planCodes.getMonthly() : null;
+    }
 }

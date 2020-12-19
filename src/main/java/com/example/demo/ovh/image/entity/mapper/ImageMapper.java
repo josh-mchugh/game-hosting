@@ -14,7 +14,7 @@ public class ImageMapper {
 
         return Image.builder()
                 .id(entity.getId())
-                .imageId(entity.getImageId())
+                .ovhId(entity.getOvhId())
                 .name(entity.getName())
                 .type(entity.getType())
                 .imageCreatedDate(entity.getImageCreatedDate())

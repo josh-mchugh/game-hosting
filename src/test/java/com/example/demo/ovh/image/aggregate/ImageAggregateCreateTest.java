@@ -32,7 +32,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(createdDate)
@@ -49,7 +49,7 @@ public class ImageAggregateCreateTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(createdDate)
@@ -77,14 +77,14 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -133,12 +133,12 @@ public class ImageAggregateCreateTest {
     }
 
     @Test
-    public void whenCreateHasNullImageIdThenThrowException() {
+    public void whenCreateHasNullOvhIdThenThrowException() {
 
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId(null)
+                .ovhId(null)
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -147,12 +147,12 @@ public class ImageAggregateCreateTest {
     }
 
     @Test
-    public void whenCreateHasBlankImageIdThenThrowException() {
+    public void whenCreateHasBlankOvhIdThenThrowException() {
 
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("")
+                .ovhId("")
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -166,7 +166,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name(null)
                 .build();
 
@@ -181,7 +181,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("")
                 .build();
 
@@ -196,7 +196,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type(null)
                 .build();
@@ -212,7 +212,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("")
                 .build();
@@ -228,7 +228,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .imageCreatedDate(null)
                 .build();
@@ -244,7 +244,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .flavorType(null)
                 .build();
@@ -260,7 +260,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .flavorType("")
                 .build();
@@ -276,7 +276,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .hourly(null)
                 .build();
@@ -292,7 +292,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .hourly("")
                 .build();
@@ -308,7 +308,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .monthly(null)
                 .build();
@@ -324,7 +324,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .monthly("")
                 .build();
@@ -340,7 +340,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .size(null)
                 .build();
@@ -356,7 +356,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .minRam(null)
                 .build();
@@ -372,7 +372,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .minDisk(null)
                 .build();
@@ -388,7 +388,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .username(null)
                 .build();
@@ -404,7 +404,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .username("")
                 .build();
@@ -420,7 +420,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .status(null)
                 .build();
@@ -436,7 +436,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .status("")
                 .build();
@@ -452,7 +452,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .visibility(null)
                 .build();
@@ -468,7 +468,7 @@ public class ImageAggregateCreateTest {
         ImageCreateCommand command = ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .visibility("")
                 .build();

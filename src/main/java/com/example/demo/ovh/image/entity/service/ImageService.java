@@ -36,7 +36,7 @@ public class ImageService implements IImageService {
 
         ImageEntity entity = new ImageEntity();
         entity.setId(event.getId());
-        entity.setImageId(event.getImageId());
+        entity.setOvhId(event.getOvhId());
         entity.setRegionEntity(regionEntity);
         entity.setName(event.getName());
         entity.setType(event.getType());
@@ -67,7 +67,7 @@ public class ImageService implements IImageService {
                 .fetchOne();
 
         ImageEntity entity = getById(event.getId().toString());
-        entity.setImageId(event.getImageId());
+        entity.setOvhId(event.getOvhId());
         entity.setRegionEntity(regionEntity);
         entity.setName(event.getName());
         entity.setType(event.getType());

@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "image")
+@Table(name = "ovh_image")
 public class ImageEntity extends AbstractAggregateEntity {
 
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     private RegionEntity regionEntity;
 
-    @Column(name = "image_id", unique = true, nullable = false)
-    private String imageId;
+    @Column(name = "ovh_id", unique = true, nullable = false)
+    private String ovhId;
 
     @Column(name = "name", nullable = false)
     private String name;

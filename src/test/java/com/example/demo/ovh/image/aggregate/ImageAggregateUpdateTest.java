@@ -33,7 +33,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(createdDate)
@@ -51,7 +51,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(createdDate)
@@ -80,14 +80,14 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -140,14 +140,14 @@ public class ImageAggregateUpdateTest {
     }
 
     @Test
-    public void whenUpdateHasNullImageIdThenThrowException() {
+    public void whenUpdateHasNullOvhIdThenThrowException() {
 
         UUID id = UUID.randomUUID();
 
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId(null)
+                .ovhId(null)
                 .build();
 
         fixture.givenCommands(createCommand(id))
@@ -156,14 +156,14 @@ public class ImageAggregateUpdateTest {
     }
 
     @Test
-    public void whenUpdateHasBlankImageIdThenThrowException() {
+    public void whenUpdateHasBlankOvhIdThenThrowException() {
 
         UUID id = UUID.randomUUID();
 
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("")
+                .ovhId("")
                 .build();
 
         fixture.givenCommands(createCommand(id))
@@ -179,7 +179,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name(null)
                 .build();
 
@@ -196,7 +196,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("")
                 .build();
 
@@ -213,7 +213,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type(null)
                 .build();
@@ -231,7 +231,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("")
                 .build();
@@ -249,7 +249,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .imageCreatedDate(null)
                 .build();
@@ -267,7 +267,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .flavorType(null)
                 .build();
@@ -285,7 +285,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .flavorType("")
                 .build();
@@ -303,7 +303,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .hourly(null)
                 .build();
@@ -321,7 +321,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .hourly("")
                 .build();
@@ -339,7 +339,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .monthly(null)
                 .build();
@@ -357,7 +357,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .monthly("")
                 .build();
@@ -375,7 +375,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .size(null)
                 .build();
@@ -393,7 +393,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .minRam(null)
                 .build();
@@ -411,7 +411,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .minDisk(null)
                 .build();
@@ -429,7 +429,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .username(null)
                 .build();
@@ -447,7 +447,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .username("")
                 .build();
@@ -465,7 +465,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .status(null)
                 .build();
@@ -483,7 +483,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .status("")
                 .build();
@@ -501,7 +501,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .visibility(null)
                 .build();
@@ -519,7 +519,7 @@ public class ImageAggregateUpdateTest {
         ImageUpdateCommand command = ImageUpdateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .visibility("")
                 .build();
@@ -534,7 +534,7 @@ public class ImageAggregateUpdateTest {
         return ImageCreateCommand.builder()
                 .id(id)
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
     }

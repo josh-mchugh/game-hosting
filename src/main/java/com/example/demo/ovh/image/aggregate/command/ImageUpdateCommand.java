@@ -21,7 +21,7 @@ public class ImageUpdateCommand {
     String regionId;
 
     @NotBlank
-    String imageId;
+    String ovhId;
 
     @NotBlank
     String name;

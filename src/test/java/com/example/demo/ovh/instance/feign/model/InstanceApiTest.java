@@ -1,6 +1,7 @@
 package com.example.demo.ovh.instance.feign.model;
 
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -153,7 +154,7 @@ public class InstanceApiTest {
 
         InstanceApi model = model();
 
-        String expected = "InstanceApi(id=id, name=name, ipAddresses=[], status=ACTIVE, createdDate=2020-12-02T22:20, region=region, flavor=FlavorApi(id=null, name=null, available=false, disk=null, inboundBandwidth=null, osType=null, outboundBandwidth=null, planCodes=null, quota=null, ram=null, regionName=null, type=null, vcpus=null), image=ImageApi(imageId=null, name=null, creationDate=null, flavorType=null, minDisk=null, minRam=null, planCode=null, regionName=null, size=null, status=null, type=null, user=null, visibility=null))";
+        String expected = "InstanceApi(id=id, name=name, ipAddresses=[], status=ACTIVE, createdDate=2020-12-02T22:20, region=region, flavor=FlavorApi(id=null, name=null, available=false, disk=null, inboundBandwidth=null, osType=null, outboundBandwidth=null, planCodes=null, quota=null, ram=null, regionName=null, type=null, vcpus=null), image=ImageApi(id=null, name=null, creationDate=null, flavorType=null, minDisk=null, minRam=null, planCodes=null, regionName=null, size=null, status=null, type=null, user=null, visibility=null))";
 
         Assertions.assertEquals(expected, model.toString());
     }

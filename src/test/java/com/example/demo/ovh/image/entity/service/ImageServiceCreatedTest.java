@@ -48,7 +48,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
+                .ovhId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
                 .name("Ubuntu 20.04")
                 .imageCreatedDate(LocalDateTime.of(2020, 4, 24, 9, 12, 57))
                 .flavorType(null)
@@ -79,7 +79,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -94,7 +94,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(null)
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -107,7 +107,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -122,7 +122,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(null)
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -135,13 +135,13 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
         Image image = imageService.handleCreated(event);
 
-        Assertions.assertEquals("image-id", image.getImageId());
+        Assertions.assertEquals("ovhId", image.getOvhId());
     }
 
     @Test
@@ -150,7 +150,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId(null)
+                .ovhId(null)
                 .name("name")
                 .build();
 
@@ -163,7 +163,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .build();
 
@@ -178,7 +178,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name(null)
                 .build();
 
@@ -191,7 +191,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -209,7 +209,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .imageCreatedDate(createdDate)
                 .build();
@@ -225,7 +225,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .flavorType("flavor-type")
                 .build();
@@ -241,7 +241,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .hourly("hourly")
                 .build();
@@ -257,7 +257,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .monthly("monthly")
                 .build();
@@ -273,7 +273,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .size(1.0D)
                 .build();
@@ -289,7 +289,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .minRam(1)
                 .build();
@@ -305,7 +305,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .minDisk(1)
                 .build();
@@ -321,7 +321,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .username("username")
                 .build();
@@ -337,7 +337,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .status("status")
                 .build();
@@ -353,7 +353,7 @@ public class ImageServiceCreatedTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .visibility("visibility")
                 .build();

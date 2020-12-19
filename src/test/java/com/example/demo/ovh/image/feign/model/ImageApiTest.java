@@ -1,6 +1,7 @@
-package com.example.demo.ovh.instance.feign.model;
+package com.example.demo.ovh.image.feign.model;
 
 import com.example.demo.ovh.feign.PlanCodeApi;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,12 +10,12 @@ import java.time.LocalDateTime;
 public class ImageApiTest {
 
     @Test
-    public void whenModelHasImageIdThenReturnImageId() {
+    public void whenModelHasIdThenReturnId() {
 
         ImageApi model = new ImageApi();
-        model.setImageId("id");
+        model.setId("id");
 
-        Assertions.assertEquals("id", model.getImageId());
+        Assertions.assertEquals("id", model.getId());
     }
 
     @Test
@@ -67,12 +68,12 @@ public class ImageApiTest {
     @Test
     public void whenModelHasPlanCodeThenReturnPlanCode() {
 
-        PlanCodeApi planCode = new PlanCodeApi();
+        PlanCodeApi planCodes = new PlanCodeApi();
 
         ImageApi model = new ImageApi();
-        model.setPlanCode(planCode);
+        model.setPlanCodes(planCodes);
 
-        Assertions.assertEquals(planCode, model.getPlanCode());
+        Assertions.assertEquals(planCodes, model.getPlanCodes());
     }
 
     @Test
@@ -135,7 +136,7 @@ public class ImageApiTest {
 
         ImageApi model = model();
 
-        String expected = "ImageApi(imageId=id, name=name, creationDate=2020-12-02T22:42, flavorType=flavorType, minDisk=1, minRam=1, planCode=PlanCodeApi(hourly=null, monthly=null), regionName=regionName, size=1.0, status=status, type=type, user=user, visibility=visibility)";
+        String expected = "ImageApi(id=id, name=name, creationDate=2020-12-02T22:42, flavorType=flavorType, minDisk=1, minRam=1, planCodes=PlanCodeApi(hourly=null, monthly=null), regionName=regionName, size=1.0, status=status, type=type, user=user, visibility=visibility)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -168,13 +169,13 @@ public class ImageApiTest {
     private ImageApi model() {
 
         ImageApi model = new ImageApi();
-        model.setImageId("id");
+        model.setId("id");
         model.setName("name");
         model.setCreationDate(LocalDateTime.of(2020, 12, 2, 22, 42));
         model.setFlavorType("flavorType");
         model.setMinDisk(1);
         model.setMinRam(1);
-        model.setPlanCode(new PlanCodeApi());
+        model.setPlanCodes(new PlanCodeApi());
         model.setRegionName("regionName");
         model.setSize(1.0D);
         model.setStatus("status");

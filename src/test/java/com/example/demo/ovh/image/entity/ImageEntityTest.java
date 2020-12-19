@@ -99,9 +99,9 @@ public class ImageEntityTest {
     public void whenEntityHasImageIdThenReturnImageId() {
 
         ImageEntity entity = new ImageEntity();
-        entity.setImageId("image-id");
+        entity.setOvhId("ovhId");
 
-        Assertions.assertEquals("image-id", entity.getImageId());
+        Assertions.assertEquals("ovhId", entity.getOvhId());
     }
 
     @Test

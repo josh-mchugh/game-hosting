@@ -12,7 +12,7 @@ public class ImageCreatedEvent {
 
     UUID id;
     String regionId;
-    String imageId;
+    String ovhId;
     String name;
     String type;
     LocalDateTime imageCreatedDate;

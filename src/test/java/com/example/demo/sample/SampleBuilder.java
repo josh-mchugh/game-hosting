@@ -384,7 +384,7 @@ public class SampleBuilder {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .name("Ubuntu 20.04")
-                .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
+                .ovhId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
                 .imageCreatedDate(LocalDateTime.of(2020, 4, 24, 9, 12, 57))
                 .flavorType(null)
                 .regionId(region.getId())

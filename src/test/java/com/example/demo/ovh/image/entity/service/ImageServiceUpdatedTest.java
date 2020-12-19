@@ -52,7 +52,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .imageCreatedDate(LocalDateTime.now())
                 .flavorType(null)
@@ -83,7 +83,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .build();
 
@@ -98,7 +98,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(null)
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .build();
 
@@ -111,7 +111,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .build();
 
@@ -126,25 +126,25 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(null)
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .build();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> imageService.handleUpdated(event));
     }
 
     @Test
-    public void whenUpdateHasImageIdThenReturnImageId() {
+    public void whenUpdateHasOvhIdThenReturnOvhId() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("newOvhId")
                 .name(image.getName())
                 .build();
 
         Image image = imageService.handleUpdated(event);
 
-        Assertions.assertEquals("new-image-id", image.getImageId());
+        Assertions.assertEquals("newOvhId", image.getOvhId());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .build();
 
@@ -168,7 +168,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .type("new type")
                 .build();
@@ -186,7 +186,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .imageCreatedDate(createdDate)
                 .build();
@@ -202,7 +202,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .flavorType("new flavor type")
                 .build();
@@ -218,7 +218,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .hourly("new hourly")
                 .build();
@@ -234,7 +234,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .monthly("new monthly")
                 .build();
@@ -250,7 +250,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .size(3.14D)
                 .build();
@@ -266,7 +266,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .minRam(99)
                 .build();
@@ -282,7 +282,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .minDisk(99)
                 .build();
@@ -298,7 +298,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .username("new username")
                 .build();
@@ -314,7 +314,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .status("new status")
                 .build();
@@ -330,7 +330,7 @@ public class ImageServiceUpdatedTest {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(UUID.fromString(image.getId()))
                 .regionId(region.getId())
-                .imageId("new-image-id")
+                .ovhId("ovhId")
                 .name(image.getName())
                 .visibility("new visibility")
                 .build();

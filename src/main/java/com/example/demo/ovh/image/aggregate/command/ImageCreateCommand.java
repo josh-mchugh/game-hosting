@@ -21,7 +21,7 @@ public class ImageCreateCommand {
     String regionId;
 
     @NotBlank
-    String imageId;
+    String ovhId;
 
     @NotBlank
     String name;

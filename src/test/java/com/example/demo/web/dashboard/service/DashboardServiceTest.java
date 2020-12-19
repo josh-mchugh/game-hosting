@@ -8,7 +8,7 @@ import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.ovh.instance.feign.InstanceGroupClient;
-import com.example.demo.ovh.instance.feign.model.ImageApi;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import com.example.demo.ovh.instance.feign.model.IpAddressApi;
@@ -247,7 +247,7 @@ public class DashboardServiceTest {
     private ImageApi buildImageApi() {
 
         ImageApi imageApi = new ImageApi();
-        imageApi.setImageId("cefc8220-ba0a-4327-b13d-591abaf4be0c");
+        imageApi.setId("cefc8220-ba0a-4327-b13d-591abaf4be0c");
         imageApi.setName("Ubuntu 20.04");
         imageApi.setCreationDate(LocalDateTime.now());
         imageApi.setMinDisk(0);

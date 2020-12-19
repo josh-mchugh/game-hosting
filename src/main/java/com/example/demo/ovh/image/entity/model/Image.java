@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Image {
 
     String id;
-    String imageId;
+    String ovhId;
     String name;
     String type;
     LocalDateTime imageCreatedDate;
