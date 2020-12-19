@@ -26,7 +26,7 @@ public class InstanceAggregate {
     private String instanceGroupId;
     private String credentialId;
     private String awxHostId;
-    private String instanceId;
+    private String ovhId;
     private String name;
     private InstanceStatus status;
     private LocalDateTime instanceCreatedDate;
@@ -42,7 +42,7 @@ public class InstanceAggregate {
                 .imageId(command.getImageId())
                 .instanceGroupId(command.getInstanceGroupId())
                 .credentialId(command.getCredentialId())
-                .instanceId(command.getInstanceId())
+                .ovhId(command.getOvhId())
                 .name(command.getName())
                 .status(command.getStatus())
                 .instanceCreatedDate(command.getInstanceCreatedDate())
@@ -59,7 +59,7 @@ public class InstanceAggregate {
         this.imageId = event.getImageId();
         this.instanceGroupId = event.getInstanceGroupId();
         this.credentialId = event.getCredentialId();
-        this.instanceId = event.getInstanceId();
+        this.ovhId = event.getOvhId();
         this.name = event.getName();
         this.status = event.getStatus();
         this.instanceCreatedDate = event.getInstanceCreatedDate();

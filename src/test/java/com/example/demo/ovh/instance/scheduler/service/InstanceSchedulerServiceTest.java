@@ -1,11 +1,11 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
-import com.example.demo.ovh.instance.feign.model.IpAddressApi;
-import com.example.demo.ovh.instance.feign.InstanceClient;
-import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.aggregate.event.InstanceUpdatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.service.IInstanceService;
+import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.model.InstanceApi;
+import com.example.demo.ovh.instance.feign.model.IpAddressApi;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.google.common.collect.Lists;
@@ -39,7 +39,7 @@ public class InstanceSchedulerServiceTest {
     private IInstanceService instanceService;
 
     @MockBean
-    private InstanceClient instanceClient;
+    private IInstanceFeignService instanceFeignService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -55,7 +55,7 @@ public class InstanceSchedulerServiceTest {
     @Test
     public void whenApiResponseIsEqualThenReturnEmptyArray() {
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList());
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList());
 
         List<UUID> updatedInstances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -66,13 +66,13 @@ public class InstanceSchedulerServiceTest {
     public void whenApiResponseNameIsDifferentThenArrayWithItems() {
 
         InstanceApi apiResponse = new InstanceApi();
-        apiResponse.setId(data.getInstance().getInstanceId());
+        apiResponse.setId(data.getInstance().getOvhId());
         apiResponse.setName("new-name");
         apiResponse.setStatus(data.getInstance().getStatus());
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(data.getInstance().getInstanceCreatedDate());
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList(apiResponse));
 
         List<UUID> instances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -83,13 +83,13 @@ public class InstanceSchedulerServiceTest {
     public void whenApiResponseStatusIsDifferentThenArrayWithItems() {
 
         InstanceApi apiResponse = new InstanceApi();
-        apiResponse.setId(data.getInstance().getInstanceId());
+        apiResponse.setId(data.getInstance().getOvhId());
         apiResponse.setName(data.getInstance().getName());
         apiResponse.setStatus(InstanceStatus.STOPPED);
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(data.getInstance().getInstanceCreatedDate());
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList(apiResponse));
 
         List<UUID> instances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -102,13 +102,13 @@ public class InstanceSchedulerServiceTest {
         LocalDateTime createdDate = LocalDateTime.now();
 
         InstanceApi apiResponse = new InstanceApi();
-        apiResponse.setId(data.getInstance().getInstanceId());
+        apiResponse.setId(data.getInstance().getOvhId());
         apiResponse.setName(data.getInstance().getName());
         apiResponse.setStatus(data.getInstance().getStatus());
         apiResponse.setIpAddresses(buildIpAddresses());
         apiResponse.setCreatedDate(createdDate);
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList(apiResponse));
 
         List<UUID> instances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -130,13 +130,13 @@ public class InstanceSchedulerServiceTest {
         instanceService.handleUpdated(updatedEvent);
 
         InstanceApi apiResponse = new InstanceApi();
-        apiResponse.setId(data.getInstance().getInstanceId());
+        apiResponse.setId(data.getInstance().getOvhId());
         apiResponse.setName(data.getInstance().getName());
         apiResponse.setStatus(data.getInstance().getStatus());
         apiResponse.setIpAddresses(buildIpAddresses("1.1.1.1.1", "0.0.0.0.0.0"));
         apiResponse.setCreatedDate(data.getInstance().getInstanceCreatedDate());
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList(apiResponse));
 
         List<UUID> instances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -158,13 +158,13 @@ public class InstanceSchedulerServiceTest {
         instanceService.handleUpdated(updatedEvent);
 
         InstanceApi apiResponse = new InstanceApi();
-        apiResponse.setId(data.getInstance().getInstanceId());
+        apiResponse.setId(data.getInstance().getOvhId());
         apiResponse.setName(data.getInstance().getName());
         apiResponse.setStatus(data.getInstance().getStatus());
         apiResponse.setIpAddresses(buildIpAddresses("0.0.0.0.0.0", "1.1.1.1.1"));
         apiResponse.setCreatedDate(data.getInstance().getInstanceCreatedDate());
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList(apiResponse));
 
         List<UUID> instances = instanceSchedulerService.handleInstanceUpdates();
 
@@ -186,13 +186,13 @@ public class InstanceSchedulerServiceTest {
         instanceService.handleUpdated(updatedEvent);
 
         InstanceApi apiResponse = new InstanceApi();
-        apiResponse.setId(data.getInstance().getInstanceId());
+        apiResponse.setId(data.getInstance().getOvhId());
         apiResponse.setName(data.getInstance().getName());
         apiResponse.setStatus(data.getInstance().getStatus());
         apiResponse.setIpAddresses(null);
         apiResponse.setCreatedDate(data.getInstance().getInstanceCreatedDate());
 
-        Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(Lists.newArrayList(apiResponse));
+        Mockito.when(instanceFeignService.getInstances()).thenReturn(Lists.newArrayList(apiResponse));
 
         List<UUID> instances = instanceSchedulerService.handleInstanceUpdates();
 

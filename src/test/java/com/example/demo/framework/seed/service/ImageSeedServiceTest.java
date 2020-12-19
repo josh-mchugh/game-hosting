@@ -1,6 +1,6 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
@@ -29,7 +29,7 @@ public class ImageSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IImageClient imageClient;
+    private IImageFeignService imageFeignService;
 
     @Test
     public void whenImageExistsThenDataNotExistsReturnFalse() {
@@ -45,7 +45,7 @@ public class ImageSeedServiceTest {
     @Test
     public void whenApiReturnsEmptyListThenReturnEmptyList() {
 
-        Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(Collections.emptyList());
+        Mockito.when(imageFeignService.getImages()).thenReturn(Collections.emptyList());
 
         ImmutableList<Object> images = imageSeedService.initializeData();
 
@@ -65,7 +65,7 @@ public class ImageSeedServiceTest {
         imageApi.setName("Ubuntu 20.4");
         imageApi.setRegionName(region.getName());
 
-        Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(Collections.singletonList(imageApi));
+        Mockito.when(imageFeignService.getImages()).thenReturn(Collections.singletonList(imageApi));
 
         ImmutableList<Object> images = imageSeedService.initializeData();
 
@@ -75,7 +75,7 @@ public class ImageSeedServiceTest {
     @Test
     public void whenApiThrowsExceptionThenThrowThrownException() {
 
-        Mockito.when(imageClient.getImages(Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(imageFeignService.getImages()).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.class, () -> imageSeedService.initializeData());
     }

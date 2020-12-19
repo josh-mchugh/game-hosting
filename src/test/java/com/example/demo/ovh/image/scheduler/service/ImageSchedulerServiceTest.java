@@ -2,7 +2,7 @@ package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.service.IImageService;
-import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.entity.model.Region;
@@ -37,7 +37,7 @@ public class ImageSchedulerServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IImageClient imageClient;
+    private IImageFeignService imageFeignService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -59,7 +59,7 @@ public class ImageSchedulerServiceTest {
         ImageApi imageResponse = new ImageApi();
         imageResponse.setId("ovhId");
 
-        Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(ImmutableList.of(imageResponse));
+        Mockito.when(imageFeignService.getImages()).thenReturn(ImmutableList.of(imageResponse));
 
         ImmutableList<ImageApi> imageResponses = imageSchedulerService.getImageResponses();
 

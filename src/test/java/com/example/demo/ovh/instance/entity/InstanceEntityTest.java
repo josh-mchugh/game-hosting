@@ -137,12 +137,12 @@ public class InstanceEntityTest {
     }
 
     @Test
-    public void whenEntityHasInstanceIdThenReturnInstanceId() {
+    public void whenEntityHasOvhIdThenReturnOvhId() {
 
         InstanceEntity entity = new InstanceEntity();
-        entity.setInstanceId("instanceId");
+        entity.setOvhId("ovhId");
 
-        Assertions.assertEquals("instanceId", entity.getInstanceId());
+        Assertions.assertEquals("ovhId", entity.getOvhId());
     }
 
     @Test

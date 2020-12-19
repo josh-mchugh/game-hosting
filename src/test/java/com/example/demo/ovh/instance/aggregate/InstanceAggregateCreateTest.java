@@ -36,7 +36,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(instanceCreatedDate)
@@ -48,7 +48,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(instanceCreatedDate)
@@ -69,7 +69,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -89,7 +89,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -109,7 +109,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -129,7 +129,7 @@ public class InstanceAggregateCreateTest {
                 .imageId(null)
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -149,7 +149,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -169,7 +169,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId(null)
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -189,7 +189,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -209,7 +209,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId(null)
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -229,7 +229,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -241,7 +241,7 @@ public class InstanceAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasNullInstanceIdThenExpectException() {
+    public void whenCommandHasNullOvhIdThenExpectException() {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
@@ -249,7 +249,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId(null)
+                .ovhId(null)
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -261,7 +261,7 @@ public class InstanceAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasBlankInstanceIdThenExpectException() {
+    public void whenCommandHasBlankOvhIdThenExpectException() {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
@@ -269,7 +269,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("")
+                .ovhId("")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -289,7 +289,7 @@ public class InstanceAggregateCreateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(null)
                 .instanceCreatedDate(LocalDateTime.now())

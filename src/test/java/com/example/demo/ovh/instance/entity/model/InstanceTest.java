@@ -19,13 +19,13 @@ public class InstanceTest {
     }
 
     @Test
-    public void whenModelHasInstanceIdThenReturnId() {
+    public void whenModelHasOvhIdThenReturnOvhId() {
 
         Instance model = Instance.builder()
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("instanceId", model.getInstanceId());
+        Assertions.assertEquals("ovhId", model.getOvhId());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class InstanceTest {
 
         Instance model = Instance.builder()
                 .id("id")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 27, 18,19))
@@ -93,7 +93,7 @@ public class InstanceTest {
                 .ip6Address("ip6Address")
                 .build();
 
-        String expected = "Instance(id=id, instanceId=instanceId, name=name, status=ACTIVE, instanceCreatedDate=2020-11-27T18:19, ip4Address=ip4Address, ip6Address=ip6Address)";
+        String expected = "Instance(id=id, ovhId=ovhId, name=name, status=ACTIVE, instanceCreatedDate=2020-11-27T18:19, ip4Address=ip4Address, ip6Address=ip6Address)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -103,7 +103,7 @@ public class InstanceTest {
 
         Instance model = model();
 
-        Assertions.assertEquals(476757535, model.hashCode());
+        Assertions.assertEquals(1062244323, model.hashCode());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class InstanceTest {
 
         return Instance.builder()
                 .id("id")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 27, 18,19))
                 .ip4Address("ip4Address")

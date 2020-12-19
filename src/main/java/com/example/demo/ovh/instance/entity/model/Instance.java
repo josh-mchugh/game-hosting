@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Instance {
 
     String id;
-    String instanceId;
+    String ovhId;
     String name;
     InstanceStatus status;
     LocalDateTime instanceCreatedDate;

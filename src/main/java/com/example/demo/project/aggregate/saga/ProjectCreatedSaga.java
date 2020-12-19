@@ -11,8 +11,8 @@ import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
 import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.feign.InstanceClient;
-import com.example.demo.ovh.instance.feign.InstanceGroupClient;
+import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.InstanceCreateApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
@@ -40,10 +40,10 @@ public class ProjectCreatedSaga {
     private transient OvhConfig ovhConfig;
 
     @Autowired
-    private transient InstanceGroupClient instanceGroupClient;
+    private transient IInstanceGroupFeignService instanceGroupFeignService;
 
     @Autowired
-    private transient InstanceClient instanceClient;
+    private transient IInstanceFeignService instanceFeignService;
 
     @Autowired
     private transient ICredentialProjector credentialProjector;
@@ -66,7 +66,7 @@ public class ProjectCreatedSaga {
                 .type("affinity")
                 .build();
 
-        InstanceGroupApi instanceGroupApi = instanceGroupClient.createInstanceGroup(ovhConfig.getProjectId(), groupCreateRequest);
+        InstanceGroupApi instanceGroupApi = instanceGroupFeignService.createInstanceGroup(groupCreateRequest);
 
         UUID id = UUID.randomUUID();
         SagaLifecycle.associateWith("id", id.toString());
@@ -96,7 +96,7 @@ public class ProjectCreatedSaga {
                 .sshKeyId(sshKeyId)
                 .build();
 
-        InstanceApi instanceApi = instanceClient.createInstance(ovhConfig.getProjectId(), ovhInstanceCreateRequest);
+        InstanceApi instanceApi = instanceFeignService.createInstance(ovhInstanceCreateRequest);
 
         UUID id = UUID.randomUUID();
         SagaLifecycle.associateWith("id", id.toString());
@@ -108,7 +108,7 @@ public class ProjectCreatedSaga {
                 .credentialId("090948a0-7cf7-432c-ac70-3ac8c36a31e2")
                 .instanceGroupId(event.getId().toString())
                 .name(instanceApi.getName())
-                .instanceId(instanceApi.getId())
+                .ovhId(instanceApi.getId())
                 .status(instanceApi.getStatus())
                 .instanceCreatedDate(instanceApi.getCreatedDate())
                 .build();
@@ -131,7 +131,7 @@ public class ProjectCreatedSaga {
 
     private AttemptResult<?> handleInstancePolling(InstanceCreatedEvent event) {
 
-        InstanceApi instanceApi =  instanceClient.getInstanceById(ovhConfig.getProjectId(), event.getInstanceId());
+        InstanceApi instanceApi =  instanceFeignService.getInstanceById(event.getOvhId());
 
         if(instanceApi.getStatus().equals(InstanceStatus.ACTIVE)) {
 

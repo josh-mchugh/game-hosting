@@ -62,13 +62,13 @@ public class InstanceCreateCommandTest {
     }
 
     @Test
-    public void whenCommandHasInstanceIdThenReturnInstanceId() {
+    public void whenCommandHasOvhIdThenReturnOvhId() {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("instanceId", command.getInstanceId());
+        Assertions.assertEquals("ovhId", command.getOvhId());
     }
 
     @Test
@@ -112,13 +112,13 @@ public class InstanceCreateCommandTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .status(InstanceStatus.ACTIVE)
                 .name("name")
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 28, 21, 57))
                 .build();
 
-        String expected = "InstanceCreateCommand(id=1d156e1d-993c-438a-a51d-3160d99bb373, flavorId=flavorId, imageId=imageId, credentialId=credentialId, instanceGroupId=instanceGroupId, instanceId=instanceId, status=ACTIVE, name=name, instanceCreatedDate=2020-11-28T21:57)";
+        String expected = "InstanceCreateCommand(id=1d156e1d-993c-438a-a51d-3160d99bb373, flavorId=flavorId, imageId=imageId, credentialId=credentialId, instanceGroupId=instanceGroupId, ovhId=ovhId, status=ACTIVE, name=name, instanceCreatedDate=2020-11-28T21:57)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -128,7 +128,7 @@ public class InstanceCreateCommandTest {
 
         InstanceCreateCommand command = command();
 
-        Assertions.assertEquals(1270992073, command.hashCode());
+        Assertions.assertEquals(-1159487699, command.hashCode());
     }
 
     @Test
@@ -156,7 +156,7 @@ public class InstanceCreateCommandTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 28, 21, 57))
                 .build();

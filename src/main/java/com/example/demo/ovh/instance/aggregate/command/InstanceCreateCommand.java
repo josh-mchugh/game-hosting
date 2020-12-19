@@ -31,7 +31,7 @@ public class InstanceCreateCommand {
     String instanceGroupId;
 
     @NotBlank
-    String instanceId;
+    String ovhId;
 
     @NotNull
     InstanceStatus status;

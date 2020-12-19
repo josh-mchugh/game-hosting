@@ -25,7 +25,7 @@ public class AwxHostEntity extends AbstractAggregateEntity {
     private AwxInventoryEntity awxInventoryEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instance_id", nullable = false)
+    @JoinColumn(name = "ovh_instance_id", nullable = false)
     private InstanceEntity instanceEntity;
 
     @Column(name = "awx_id", unique = true, nullable = false)

@@ -39,7 +39,7 @@ public class AwxHostProjector implements IAwxHostProjector {
                 ))
                 .from(qAwxHost)
                 .innerJoin(qAwxHost.instanceEntity, qInstance)
-                .where(qInstance.instanceId.eq(query.getInstanceId()))
+                .where(qInstance.ovhId.eq(query.getInstanceId()))
                 .fetchOne();
     }
 }

@@ -1,14 +1,13 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
-import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.instance.feign.InstanceClient;
-import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.entity.InstanceEntity;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.ovh.instance.entity.mapper.InstanceMapper;
 import com.example.demo.ovh.instance.entity.model.Instance;
+import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.querydsl.jpa.JPQLQueryFactory;
@@ -28,9 +27,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InstanceSchedulerService implements IInstanceSchedulerService {
 
-    private final OvhConfig ovhConfig;
     private final JPQLQueryFactory queryFactory;
-    private final InstanceClient instanceClient;
+    private final IInstanceFeignService instanceFeignService;
     private final CommandGateway commandGateway;
 
     @Override
@@ -50,7 +48,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
                     for (Instance instance : instances) {
 
-                        if (apiResponse.getId().equals(instance.getInstanceId()) && !instance.getStatus().equals(InstanceStatus.BUILD)) {
+                        if (apiResponse.getId().equals(instance.getOvhId()) && !instance.getStatus().equals(InstanceStatus.BUILD)) {
 
                             if (!isEqual(instance, apiResponse)) {
 
@@ -67,7 +65,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
 
     public List<List<InstanceApi>> getPartitionedApiList() {
 
-        return Lists.partition(instanceClient.getInstances(ovhConfig.getProjectId()), 20);
+        return Lists.partition(instanceFeignService.getInstances(), 20);
     }
 
     public ImmutableList<Instance> getInstances(Collection<String> ids) {
@@ -77,7 +75,7 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         //TODO: Replace with QueryGate / Projection
         List<InstanceEntity> entities = queryFactory.select(qInstance)
                 .from(qInstance)
-                .where(qInstance.instanceId.in(ids))
+                .where(qInstance.ovhId.in(ids))
                 .fetch();
 
         return InstanceMapper.map(entities);

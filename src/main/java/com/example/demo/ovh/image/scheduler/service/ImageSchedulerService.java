@@ -1,9 +1,8 @@
 package com.example.demo.ovh.image.scheduler.service;
 
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.aggregate.command.ImageUpdateCommand;
-import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
@@ -24,8 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageSchedulerService implements IImageSchedulerService {
 
-    private final OvhConfig ovhConfig;
-    private final IImageClient imageClient;
+    private final IImageFeignService imageFeignService;
     private final IImageProjector imageProjector;
     private final IRegionProjector regionProjector;
     private final CommandGateway commandGateway;
@@ -33,7 +31,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
     @Override
     public ImmutableList<ImageApi> getImageResponses() {
 
-        return ImmutableList.copyOf(imageClient.getImages(ovhConfig.getProjectId()));
+        return ImmutableList.copyOf(imageFeignService.getImages());
     }
 
     @Override

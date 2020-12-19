@@ -43,22 +43,22 @@ public class InstanceMapperTest {
     }
 
     @Test
-    public void whenEntityHasInstanceIdReturnInstanceId() {
+    public void whenEntityHasOvhIdReturnOvhId() {
 
         InstanceEntity instanceEntity = new InstanceEntity();
-        instanceEntity.setInstanceId("instance-id");
+        instanceEntity.setOvhId("ovhId");
 
         Instance instance = InstanceMapper.map(instanceEntity);
 
-        Assertions.assertEquals("instance-id", instance.getInstanceId());
+        Assertions.assertEquals("ovhId", instance.getOvhId());
     }
 
     @Test
-    public void whenEntityHasNullInstanceIdReturnInstanceId() {
+    public void whenEntityHasNullOvhIdReturnNull() {
 
         Instance instance = InstanceMapper.map(new InstanceEntity());
 
-        Assertions.assertNull(instance.getInstanceId());
+        Assertions.assertNull(instance.getOvhId());
     }
 
     @Test

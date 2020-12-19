@@ -61,7 +61,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -81,7 +81,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -99,7 +99,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -117,7 +117,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -135,7 +135,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(null)
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -153,7 +153,7 @@ public class InstanceServiceCreatedTest {
                 .imageId("invalidId")
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -171,7 +171,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(null)
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -189,7 +189,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId("invalidId")
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -207,7 +207,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(null)
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -225,7 +225,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId("invalidId")
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -235,7 +235,7 @@ public class InstanceServiceCreatedTest {
     }
 
     @Test
-    public void whenEventHasInstanceIdThenReturnInstanceId() {
+    public void whenEventHasOvhIdThenReturnOvhId() {
 
         InstanceCreatedEvent event = InstanceCreatedEvent.builder()
                 .id(UUID.randomUUID())
@@ -243,7 +243,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -251,11 +251,11 @@ public class InstanceServiceCreatedTest {
 
         Instance instance = instanceService.handleCreated(event);
 
-        Assertions.assertEquals("instanceId", instance.getInstanceId());
+        Assertions.assertEquals("ovhId", instance.getOvhId());
     }
 
     @Test
-    public void whenEventHasNullInstanceIdThenExpectException() {
+    public void whenEventHasNullOvhIdThenExpectException() {
 
         InstanceCreatedEvent event = InstanceCreatedEvent.builder()
                 .id(UUID.randomUUID())
@@ -263,7 +263,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId(null)
+                .ovhId(null)
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -281,7 +281,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -302,7 +302,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -322,7 +322,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(null)
                 .instanceCreatedDate(LocalDateTime.now())
@@ -342,7 +342,7 @@ public class InstanceServiceCreatedTest {
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
                 .credentialId(data.getCredential().getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(instanceCreatedDate)
