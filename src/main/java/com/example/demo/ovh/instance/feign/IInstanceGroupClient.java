@@ -13,16 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @FeignClient(name = "instanceGroupClient", url = "${ovh.base-url}", configuration = FeignOvhConfig.class)
-public interface InstanceGroupClient {
+public interface IInstanceGroupClient {
 
     @PostMapping("/1.0/cloud/project/{projectId}/instance/group")
     InstanceGroupApi createInstanceGroup(@PathVariable("projectId") String projectId, @RequestBody InstanceGroupCreateApi body);
 
     @GetMapping("/1.0/cloud/project/{projectId}/instance/group")
     List<InstanceGroupApi> getInstanceGroups(@PathVariable("projectId") String projectId);
-
-    @GetMapping("/1.0/cloud/project/{projectId}/instance/group/{groupId}")
-    InstanceGroupApi getInstanceGroupById(@PathVariable("projectId") String projectId, @PathVariable("groupId") String groupId);
 
     @DeleteMapping("/1.0/cloud/project/{projectId}/instance/group/{groupId}")
     void deleteInstanceGroupById(@PathVariable("projectId") String projectId, @PathVariable("groupId") String groupId);

@@ -1,6 +1,6 @@
 package com.example.demo.web.awx.service;
 
-import com.example.demo.awx.playbook.feign.IPlaybookClient;
+import com.example.demo.awx.playbook.feign.IPlaybookFeignService;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.web.awx.service.model.PlaybookCreateRequest;
@@ -32,7 +32,7 @@ public class AwxControllerPlaybookServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IPlaybookClient playbookClient;
+    private IPlaybookFeignService playbookFeignService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -53,7 +53,7 @@ public class AwxControllerPlaybookServiceTest {
     @Test
     public void whenCreatePlayBooksHasValidRequestAndNonExitsThenReturnPlaybooks() {
 
-        Mockito.when(playbookClient.getPlaybooks(Mockito.anyLong())).thenReturn(Collections.singletonList("cowsay-playbook.yml"));
+        Mockito.when(playbookFeignService.getPlaybooks(Mockito.anyLong())).thenReturn(Collections.singletonList("cowsay-playbook.yml"));
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
 
         PlaybookCreateRequest request = createValidRequest();
@@ -96,7 +96,7 @@ public class AwxControllerPlaybookServiceTest {
     @Test
     public void whenCreatePlaybooksWhenPlaybookClientThrowsFeignExceptionThenThrowException() {
 
-        Mockito.when(playbookClient.getPlaybooks(Mockito.anyLong())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(playbookFeignService.getPlaybooks(Mockito.anyLong())).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.class, () -> awxControllerPlaybookService.handleCreatePlaybooks(createValidRequest()));
     }

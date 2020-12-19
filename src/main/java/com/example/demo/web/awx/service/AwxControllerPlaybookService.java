@@ -1,7 +1,7 @@
 package com.example.demo.web.awx.service;
 
-import com.example.demo.awx.playbook.feign.IPlaybookClient;
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
+import com.example.demo.awx.playbook.feign.IPlaybookFeignService;
 import com.example.demo.awx.playbook.projection.IAwxPlaybookProjector;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.awx.project.projection.IAwxProjectProjector;
@@ -23,7 +23,7 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
 
     private final IAwxProjectProjector awxProjectProjector;
     private final IAwxPlaybookProjector awxPlaybookProjector;
-    private final IPlaybookClient playbookClient;
+    private final IPlaybookFeignService playbookFeignService;
     private final CommandGateway commandGateway;
 
     @Override
@@ -41,7 +41,7 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
 
         AwxProject awxProject = awxProjectProjector.getByProjectId(request.getProjectId());
 
-        List<Object> awxPlaybooks = playbookClient.getPlaybooks(awxProject.getAwxId()).stream()
+        List<Object> awxPlaybooks = playbookFeignService.getPlaybooks(awxProject.getAwxId()).stream()
                 .map(playbook ->buildAwxPlaybookCreateCommand(playbook, awxProject.getId()))
                 .map(commandGateway::sendAndWait)
                 .collect(Collectors.toList());

@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "instance")
+@Table(name = "ovh_instance")
 public class InstanceEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -44,8 +44,8 @@ public class InstanceEntity extends AbstractAggregateEntity {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "instanceEntity")
     private AwxHostEntity awxHostEntity;
 
-    @Column(name = "instance_id", unique = true, nullable = false)
-    private String instanceId;
+    @Column(name = "ovh_id", unique = true, nullable = false)
+    private String ovhId;
 
     @Column(name = "name")
     private String name;

@@ -8,8 +8,8 @@ import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
 import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.feign.InstanceClient;
-import com.example.demo.ovh.instance.feign.InstanceGroupClient;
+import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import com.example.demo.ovh.instance.feign.model.IpAddressApi;
@@ -27,8 +27,8 @@ import java.util.UUID;
 public class ProjectCreatedSagaTest {
 
     private SagaTestFixture<ProjectCreatedSaga> fixture;
-    private InstanceGroupClient instanceGroupClient;
-    private InstanceClient instanceClient;
+    private IInstanceGroupFeignService instanceGroupFeignService;
+    private IInstanceFeignService instanceFeignService;
     private ICredentialProjector credentialProjector;
 
     @BeforeEach
@@ -37,15 +37,15 @@ public class ProjectCreatedSagaTest {
         OvhConfig ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        instanceGroupClient = Mockito.mock(InstanceGroupClient.class);
-        instanceClient = Mockito.mock(InstanceClient.class);
+        instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        instanceFeignService = Mockito.mock(IInstanceFeignService.class);
         credentialProjector = Mockito.mock(ICredentialProjector.class);
 
         fixture = new SagaTestFixture<>(ProjectCreatedSaga.class);
         fixture.registerResource(ovhConfig);
-        fixture.registerResource(instanceGroupClient);
+        fixture.registerResource(instanceGroupFeignService);
         fixture.registerResource(credentialProjector);
-        fixture.registerResource(instanceClient);
+        fixture.registerResource(instanceFeignService);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class ProjectCreatedSagaTest {
 
         return InstanceCreatedEvent.builder()
                 .id(id)
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .build();
     }
 
@@ -161,7 +161,7 @@ public class ProjectCreatedSagaTest {
         instanceGroupApi.setName("name");
         instanceGroupApi.setType("type");
 
-        Mockito.when(instanceGroupClient.createInstanceGroup(Mockito.anyString(), Mockito.any())).thenReturn(instanceGroupApi);
+        Mockito.when(instanceGroupFeignService.createInstanceGroup(Mockito.any())).thenReturn(instanceGroupApi);
     }
 
     private void mockInstanceCreateApi() {
@@ -174,7 +174,7 @@ public class ProjectCreatedSagaTest {
         instanceApi.setStatus(InstanceStatus.BUILD);
         instanceApi.setCreatedDate(LocalDateTime.now());
 
-        Mockito.when(instanceClient.createInstance(Mockito.anyString(), Mockito.any())).thenReturn(instanceApi);
+        Mockito.when(instanceFeignService.createInstance(Mockito.any())).thenReturn(instanceApi);
     }
 
     private void mockGetInstanceById() {
@@ -197,7 +197,7 @@ public class ProjectCreatedSagaTest {
         activeResponse.setIpAddresses(Arrays.asList(ip4Address, ip6Address));
         activeResponse.setCreatedDate(LocalDateTime.now());
 
-        Mockito.when(instanceClient.getInstanceById(Mockito.anyString(), Mockito.any()))
+        Mockito.when(instanceFeignService.getInstanceById(Mockito.any()))
                 .thenReturn(buildingResponse)
                 .thenReturn(buildingResponse)
                 .thenReturn(buildingResponse)

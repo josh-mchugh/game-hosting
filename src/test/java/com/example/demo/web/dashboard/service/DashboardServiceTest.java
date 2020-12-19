@@ -5,10 +5,10 @@ import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.feign.InstanceClient;
-import com.example.demo.ovh.instance.feign.InstanceGroupClient;
 import com.example.demo.ovh.image.feign.model.ImageApi;
+import com.example.demo.ovh.instance.entity.InstanceStatus;
+import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import com.example.demo.ovh.instance.feign.model.IpAddressApi;
@@ -59,10 +59,10 @@ public class DashboardServiceTest {
     private ISessionUtil sessionUtil;
 
     @MockBean
-    private InstanceClient instanceClient;
+    private IInstanceFeignService instanceFeignService;
 
     @MockBean
-    private InstanceGroupClient instanceGroupClient;
+    private IInstanceGroupFeignService instanceGroupFeignService;
 
     @MockBean
     private HostFeignService hostFeignService;
@@ -191,10 +191,10 @@ public class DashboardServiceTest {
 
         Mockito.when(sessionUtil.getCurrentUser()).thenReturn(data.getUser());
 
-        Mockito.when(instanceGroupClient.createInstanceGroup(Mockito.anyString(), Mockito.any())).thenReturn(buildInstanceGroupApi());
+        Mockito.when(instanceGroupFeignService.createInstanceGroup(Mockito.any())).thenReturn(buildInstanceGroupApi());
 
-        Mockito.when(instanceClient.createInstance(Mockito.anyString(), Mockito.any())).thenReturn(buildInstanceApi(InstanceStatus.BUILD));
-        Mockito.when(instanceClient.getInstanceById(Mockito.anyString(), Mockito.anyString()))
+        Mockito.when(instanceFeignService.createInstance(Mockito.any())).thenReturn(buildInstanceApi(InstanceStatus.BUILD));
+        Mockito.when(instanceFeignService.getInstanceById(Mockito.anyString()))
                 .thenReturn(buildInstanceApi(InstanceStatus.BUILD))
                 .thenReturn(buildInstanceApi(InstanceStatus.ACTIVE));
 

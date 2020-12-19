@@ -1,11 +1,7 @@
 package com.example.demo.web.test;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.image.feign.IImageClient;
-import com.example.demo.ovh.instance.feign.InstanceClient;
-import com.example.demo.ovh.instance.feign.InstanceGroupClient;
-import com.example.demo.ovh.instance.feign.model.InstanceCreateApi;
-import com.example.demo.ovh.instance.feign.model.InstanceGroupCreateApi;
+import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.ovh.region.feign.RegionClient;
 import com.example.demo.web.test.model.Metrics;
 import com.example.demo.web.test.model.Status;
@@ -26,7 +22,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -36,9 +31,7 @@ public class TestController {
 
     private final OvhConfig ovhConfig;
     private final RegionClient regionClient;
-    private final IImageClient imageClient;
-    private final InstanceGroupClient instanceGroupClient;
-    private final InstanceClient instanceClient;
+    private final IInstanceGroupFeignService instanceGroupFeignService;
 
     @GetMapping("")
     public String getDefault() {
@@ -128,74 +121,16 @@ public class TestController {
         return new ResponseEntity<>(regionClient.getAvailableRegions(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
-    @GetMapping("/ovh/project/images")
-    public ResponseEntity<?> getImages() {
-
-        return new ResponseEntity<>(imageClient.getImages(ovhConfig.getProjectId()), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/image")
-    public ResponseEntity<?> getImage() {
-
-        return new ResponseEntity<>(imageClient.getImage(ovhConfig.getProjectId(), "cefc8220-ba0a-4327-b13d-591abaf4be0c"), HttpStatus.OK);
-    }
-
     @GetMapping("/ovh/project/groups")
     public ResponseEntity<?> getGroups() {
 
-        return new ResponseEntity<>(instanceGroupClient.getInstanceGroups(ovhConfig.getProjectId()), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/group/create")
-    public ResponseEntity<?> createGroup() {
-
-        InstanceGroupCreateApi create = InstanceGroupCreateApi.builder()
-                .name("test-group-1")
-                .region("US-EAST-VA-1")
-                .type("affinity")
-                .build();
-
-        return new ResponseEntity<>(instanceGroupClient.createInstanceGroup(ovhConfig.getProjectId(), create), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/group")
-    public ResponseEntity<?> getGroup() {
-
-        return new ResponseEntity<>(instanceGroupClient.getInstanceGroupById(ovhConfig.getProjectId(), "84ad0d1a-d65c-49a7-b6d4-516d1465a65e"), HttpStatus.OK);
+        return new ResponseEntity<>(instanceGroupFeignService.getInstanceGroups(), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/group/delete")
     public ResponseEntity<?> deleteGroup(@RequestParam("id") String id) {
 
-        instanceGroupClient.deleteInstanceGroupById(ovhConfig.getProjectId(), id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/instance/create")
-    public ResponseEntity<?> createInstance() {
-
-        InstanceCreateApi request = InstanceCreateApi.builder()
-                .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
-                .name(UUID.randomUUID().toString())
-                .imageId("cefc8220-ba0a-4327-b13d-591abaf4be0c")
-                .region("US-EAST-VA-1")
-                .groupId("84ad0d1a-d65c-49a7-b6d4-516d1465a65e")
-                .build();
-
-        return new ResponseEntity<>(instanceClient.createInstance(ovhConfig.getProjectId(), request), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/instance")
-    public ResponseEntity<?> getInstance() {
-
-        return new ResponseEntity<>(instanceClient.getInstanceById(ovhConfig.getProjectId(), "d0cf8308-f83c-451a-9f0e-b3cd95fbffd6"), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/instance/delete")
-    public ResponseEntity<?> deleteInstance() {
-
-        instanceClient.deleteInstance(ovhConfig.getProjectId(), "1ed3e014-aa09-43e6-b4c8-0681ebe9935e");
+        instanceGroupFeignService.deleteInstanceGroupById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

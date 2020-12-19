@@ -40,7 +40,7 @@ public class AwxHostProjectionHostAwxHostHostIdTest {
                 .awxHost()
                 .build();
 
-        AwxHostAwxIdQuery query = new AwxHostAwxIdQuery(data.getInstance().getInstanceId());
+        AwxHostAwxIdQuery query = new AwxHostAwxIdQuery(data.getInstance().getOvhId());
 
         AwxHostAwxIdProjection projection = awxHostProjector.getHostIdProjection(query);
 

@@ -457,7 +457,7 @@ public class SampleBuilder {
                 .imageId(image.getId())
                 .credentialId(credential.getId())
                 .instanceGroupId(instanceGroup.getId())
-                .instanceId("instanceId")
+                .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.now())

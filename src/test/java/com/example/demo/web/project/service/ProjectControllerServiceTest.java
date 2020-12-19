@@ -2,7 +2,7 @@ package com.example.demo.web.project.service;
 
 import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
-import com.example.demo.ovh.instance.feign.InstanceClient;
+import com.example.demo.ovh.instance.feign.IInstanceFeignService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.example.demo.web.project.service.model.ProjectDetails;
@@ -32,7 +32,7 @@ public class ProjectControllerServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private InstanceClient instanceClient;
+    private IInstanceFeignService instanceFeignService;
 
     @MockBean
     private HostFeignService hostFeignService;
@@ -72,7 +72,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStartHasValidIdThenThrowNoException() {
 
-        Mockito.doNothing().when(instanceClient).startInstance(data.getProject().getId(), data.getInstance().getInstanceId());
+        Mockito.doNothing().when(instanceFeignService).startInstance(data.getInstance().getOvhId());
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);
@@ -85,7 +85,7 @@ public class ProjectControllerServiceTest {
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId(data.getProject().getId())
-                .instanceId(data.getInstance().getInstanceId())
+                .instanceId(data.getInstance().getOvhId())
                 .build();
 
         Assertions.assertDoesNotThrow(() -> projectControllerService.handleProjectInstanceStart(request));
@@ -94,7 +94,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStartHasValidIdThenThrowException() {
 
-        Mockito.doThrow(FeignException.FeignClientException.class).when(instanceClient).startInstance(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(FeignException.FeignClientException.class).when(instanceFeignService).startInstance(Mockito.anyString());
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId("asdf")
@@ -107,7 +107,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStopHasValidIdThenThrowNoException() {
 
-        Mockito.doNothing().when(instanceClient).startInstance(data.getProject().getId(), data.getInstance().getInstanceId());
+        Mockito.doNothing().when(instanceFeignService).startInstance(data.getInstance().getOvhId());
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);
@@ -120,7 +120,7 @@ public class ProjectControllerServiceTest {
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId(data.getProject().getId())
-                .instanceId(data.getInstance().getInstanceId())
+                .instanceId(data.getInstance().getOvhId())
                 .build();
 
         Assertions.assertDoesNotThrow(() -> projectControllerService.handleProjectInstanceStop(request));
@@ -129,7 +129,7 @@ public class ProjectControllerServiceTest {
     @Test
     public void whenHandleProjectInstanceStopHasValidIdThenThrowException() {
 
-        Mockito.doThrow(FeignException.FeignClientException.class).when(instanceClient).stopInstance(Mockito.anyString(), Mockito.anyString());
+        Mockito.doThrow(FeignException.FeignClientException.class).when(instanceFeignService).stopInstance(Mockito.anyString());
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId("asdf")

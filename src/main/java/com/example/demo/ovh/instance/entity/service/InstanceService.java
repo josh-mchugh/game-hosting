@@ -62,7 +62,7 @@ public class InstanceService implements IInstanceService {
         entity.setFlavorEntity(flavorEntity);
         entity.setImageEntity(imageEntity);
         entity.setInstanceGroupEntity(instanceGroupEntity);
-        entity.setInstanceId(event.getInstanceId());
+        entity.setOvhId(event.getOvhId());
         entity.setCredentialEntity(credentialEntity);
         entity.setName(event.getName());
         entity.setStatus(event.getStatus());

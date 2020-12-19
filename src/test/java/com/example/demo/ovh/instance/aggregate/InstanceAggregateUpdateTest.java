@@ -77,7 +77,7 @@ public class InstanceAggregateUpdateTest {
                 .imageId("imageId")
                 .credentialId("credentialId")
                 .instanceGroupId("instanceGroupId")
-                .instanceId("isntanceId")
+                .ovhId("ovhId")
                 .status(InstanceStatus.ACTIVE)
                 .name("name")
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 29, 13, 12))

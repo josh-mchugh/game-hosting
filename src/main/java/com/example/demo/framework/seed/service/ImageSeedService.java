@@ -1,11 +1,9 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
-import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.image.entity.service.IImageService;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
@@ -21,10 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageSeedService implements ISeedService<Object> {
 
-    private final OvhConfig ovhConfig;
     private final IImageProjector imageProjector;
-    private final IImageService imageService;
-    private final IImageClient imageClient;
+    private final IImageFeignService imageFeignService;
     private final CommandGateway commandGateway;
     private final IRegionProjector regionProjector;
 
@@ -37,7 +33,7 @@ public class ImageSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        return imageClient.getImages(ovhConfig.getProjectId()).stream()
+        return imageFeignService.getImages().stream()
                 .map(this::imageCreateCommand)
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());

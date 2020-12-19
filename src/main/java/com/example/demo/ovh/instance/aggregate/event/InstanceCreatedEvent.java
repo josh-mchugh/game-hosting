@@ -16,7 +16,7 @@ public class InstanceCreatedEvent {
     String imageId;
     String credentialId;
     String instanceGroupId;
-    String instanceId;
+    String ovhId;
     InstanceStatus status;
     String name;
     LocalDateTime instanceCreatedDate;
