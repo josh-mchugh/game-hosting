@@ -34,7 +34,7 @@ public class InstanceEntity extends AbstractAggregateEntity {
     private ImageEntity imageEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "instance_group_id", nullable = false)
+    @JoinColumn(name = "ovh_instance_group_id", nullable = false)
     private InstanceGroupEntity instanceGroupEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

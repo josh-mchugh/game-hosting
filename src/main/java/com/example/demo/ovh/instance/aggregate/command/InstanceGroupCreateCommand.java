@@ -20,7 +20,7 @@ public class InstanceGroupCreateCommand {
     String projectId;
 
     @NotBlank
-    String groupId;
+    String ovhId;
 
     String name;
     String type;

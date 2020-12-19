@@ -436,7 +436,7 @@ public class SampleBuilder {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .projectId(project.getId())
-                .groupId("instance-group-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();

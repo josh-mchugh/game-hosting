@@ -11,7 +11,7 @@ public class InstanceGroupCreatedEvent {
 
     UUID id;
     String projectId;
-    String groupId;
+    String ovhId;
     String name;
     String type;
 }

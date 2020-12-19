@@ -35,7 +35,7 @@ public class InstanceGroupService implements IInstanceGroupService {
         InstanceGroupEntity entity = new InstanceGroupEntity();
         entity.setId(event.getId());
         entity.setProjectEntity(projectEntity);
-        entity.setGroupId(event.getGroupId());
+        entity.setOvhId(event.getOvhId());
         entity.setName(event.getName());
         entity.setType(event.getType());
 

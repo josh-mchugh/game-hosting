@@ -30,13 +30,13 @@ public class InstanceGroupCreatedEventTest {
     }
 
     @Test
-    public void whenEventHasGroupIdThenReturnGroupId() {
+    public void whenEventHasOvhIdThenReturnOvhId() {
 
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("groupId", event.getGroupId());
+        Assertions.assertEquals("ovhId", event.getOvhId());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class InstanceGroupCreatedEventTest {
 
         InstanceGroupCreatedEvent event = event();
 
-        String expected = "InstanceGroupCreatedEvent(id=64a577bf-745b-4f91-9ec2-37f463116b5a, projectId=projectId, groupId=groupId, name=name, type=type)";
+        String expected = "InstanceGroupCreatedEvent(id=64a577bf-745b-4f91-9ec2-37f463116b5a, projectId=projectId, ovhId=ovhId, name=name, type=type)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -74,7 +74,7 @@ public class InstanceGroupCreatedEventTest {
 
         InstanceGroupCreatedEvent event = event();
 
-        Assertions.assertEquals(51722356, event.hashCode());
+        Assertions.assertEquals(896349446, event.hashCode());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class InstanceGroupCreatedEventTest {
         return InstanceGroupCreatedEvent.builder()
                 .id(UUID.fromString("64a577bf-745b-4f91-9ec2-37f463116b5a"))
                 .projectId("projectId")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();

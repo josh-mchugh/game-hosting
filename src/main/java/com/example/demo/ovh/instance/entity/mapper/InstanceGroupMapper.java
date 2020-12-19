@@ -14,7 +14,7 @@ public class InstanceGroupMapper {
 
         return InstanceGroup.builder()
                 .id(entity.getId())
-                .groupId(entity.getGroupId())
+                .ovhId(entity.getOvhId())
                 .name(entity.getName())
                 .type(entity.getType())
                 .build();

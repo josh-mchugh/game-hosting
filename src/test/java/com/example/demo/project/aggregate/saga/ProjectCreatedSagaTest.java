@@ -142,7 +142,7 @@ public class ProjectCreatedSagaTest {
                 .name("name")
                 .projectId(projectId.toString())
                 .type("type")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .build();
     }
 

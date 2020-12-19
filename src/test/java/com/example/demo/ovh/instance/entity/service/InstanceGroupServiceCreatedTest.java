@@ -52,7 +52,7 @@ public class InstanceGroupServiceCreatedTest {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(id)
                 .projectId(project.getId())
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -89,7 +89,7 @@ public class InstanceGroupServiceCreatedTest {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .projectId("invalid-id")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -98,28 +98,28 @@ public class InstanceGroupServiceCreatedTest {
     }
 
     @Test
-    public void whenEventHasGroupIdThenReturnGroupId() {
+    public void whenEventHasOvhIdThenReturnOvhId() {
 
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .projectId(project.getId())
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
 
         InstanceGroup instanceGroup = instanceGroupService.handleCreated(event);
 
-        Assertions.assertEquals("groupId", instanceGroup.getGroupId());
+        Assertions.assertEquals("ovhId", instanceGroup.getOvhId());
     }
 
     @Test
-    public void whenEventHasNullGroupIdThenExpectException() {
+    public void whenEventHasNullOvhIdThenExpectException() {
 
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .projectId(project.getId())
-                .groupId(null)
+                .ovhId(null)
                 .name("name")
                 .type("type")
                 .build();
@@ -133,7 +133,7 @@ public class InstanceGroupServiceCreatedTest {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .projectId(project.getId())
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -149,7 +149,7 @@ public class InstanceGroupServiceCreatedTest {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .projectId(project.getId())
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();

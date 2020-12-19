@@ -30,7 +30,7 @@ public class InstanceGroupAggregateCreateTest {
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(id)
                 .projectId("projectId")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -38,7 +38,7 @@ public class InstanceGroupAggregateCreateTest {
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(id)
                 .projectId("projectId")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -55,7 +55,7 @@ public class InstanceGroupAggregateCreateTest {
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(null)
                 .projectId("projectId")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -71,7 +71,7 @@ public class InstanceGroupAggregateCreateTest {
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .projectId(null)
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -87,7 +87,7 @@ public class InstanceGroupAggregateCreateTest {
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .projectId("")
-                .groupId("groupId")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .build();
@@ -98,12 +98,12 @@ public class InstanceGroupAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasNullGroupIdThenExpectException() {
+    public void whenCommandHasNullOvhIdThenExpectException() {
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .projectId("projectId")
-                .groupId(null)
+                .ovhId(null)
                 .name("name")
                 .type("type")
                 .build();
@@ -114,12 +114,12 @@ public class InstanceGroupAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasBlankGroupIdThenExpectException() {
+    public void whenCommandHasBlankOvhIdThenExpectException() {
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .projectId("projectId")
-                .groupId("")
+                .ovhId("")
                 .name("name")
                 .type("type")
                 .build();
