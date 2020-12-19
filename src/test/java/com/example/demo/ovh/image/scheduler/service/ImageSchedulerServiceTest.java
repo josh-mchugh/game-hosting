@@ -2,8 +2,8 @@ package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.service.IImageService;
-import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.instance.feign.model.ImageApi;
+import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
@@ -37,7 +37,7 @@ public class ImageSchedulerServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private ImageClient imageClient;
+    private IImageClient imageClient;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -57,14 +57,14 @@ public class ImageSchedulerServiceTest {
     public void testGetImageResponsesCreated() {
 
         ImageApi imageResponse = new ImageApi();
-        imageResponse.setImageId("get-image-responses");
+        imageResponse.setId("ovhId");
 
         Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(ImmutableList.of(imageResponse));
 
         ImmutableList<ImageApi> imageResponses = imageSchedulerService.getImageResponses();
 
         Assertions.assertEquals(1, imageResponses.size());
-        Assertions.assertEquals(imageResponse.getImageId(), imageResponses.get(0).getImageId());
+        Assertions.assertEquals("ovhId", imageResponses.get(0).getId());
     }
 
     @Test
@@ -73,13 +73,13 @@ public class ImageSchedulerServiceTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhID")
                 .name("name")
                 .build();
         imageService.handleCreated(event);
 
         ImageApi imageResponse = new ImageApi();
-        imageResponse.setImageId("new-image-id");
+        imageResponse.setId("ovhId");
         imageResponse.setRegionName(region.getName());
         imageResponse.setName("name");
 
@@ -95,7 +95,7 @@ public class ImageSchedulerServiceTest {
     public void testProcessScheduledImagesCreated() {
 
         ImageApi imageResponse = new ImageApi();
-        imageResponse.setImageId("process-scheduled-image-created");
+        imageResponse.setId("ovhId");
         imageResponse.setName("name");
         imageResponse.setRegionName(region.getName());
 

@@ -3,8 +3,8 @@ package com.example.demo.ovh.image.scheduler.service;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.aggregate.command.ImageUpdateCommand;
-import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.instance.feign.model.ImageApi;
+import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
 import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjection;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class ImageSchedulerService implements IImageSchedulerService {
 
     private final OvhConfig ovhConfig;
-    private final ImageClient imageClient;
+    private final IImageClient imageClient;
     private final IImageProjector imageProjector;
     private final IRegionProjector regionProjector;
     private final CommandGateway commandGateway;
@@ -76,19 +76,16 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .build();
         FetchImageAndRegionIdProjection projection = imageProjector.fetchImageIdAndRegionIdQuery(query);
 
-        String hourly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getHourly() : null;
-        String monthly = imageResponse.getPlanCode() != null ? imageResponse.getPlanCode().getMonthly() : null;
-
         return ImageUpdateCommand.builder()
                 .id(UUID.fromString(projection.getId()))
-                .imageId(imageResponse.getImageId())
+                .ovhId(imageResponse.getId())
                 .regionId(projection.getRegionId())
                 .name(imageResponse.getName())
                 .type(imageResponse.getType())
                 .imageCreatedDate(imageResponse.getCreationDate())
                 .flavorType(imageResponse.getFlavorType())
-                .hourly(hourly)
-                .monthly(monthly)
+                .hourly(imageResponse.getHourly())
+                .monthly(imageResponse.getMonthly())
                 .size(imageResponse.getSize())
                 .minRam(imageResponse.getMinRam())
                 .minDisk(imageResponse.getMinDisk())
@@ -113,19 +110,16 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .build();
         FetchRegionIdByNameResponse regionIdByNameResponse = regionProjector.fetchIdByName(query);
 
-        String hourly = response.getPlanCode() != null ? response.getPlanCode().getHourly() : null;
-        String monthly = response.getPlanCode() != null ? response.getPlanCode().getMonthly() : null;
-
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .imageId(response.getImageId())
+                .ovhId(response.getId())
                 .regionId(regionIdByNameResponse.getId())
                 .name(response.getName())
                 .type(response.getType())
                 .imageCreatedDate(response.getCreationDate())
                 .flavorType(response.getFlavorType())
-                .hourly(hourly)
-                .monthly(monthly)
+                .hourly(response.getHourly())
+                .monthly(response.getMonthly())
                 .size(response.getSize())
                 .minRam(response.getMinRam())
                 .minDisk(response.getMinDisk())

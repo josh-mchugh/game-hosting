@@ -34,10 +34,10 @@ public class ImageCreatedEventTest {
     public void whenEventHasImageIdThenReturnImageId() {
 
         ImageCreatedEvent event = ImageCreatedEvent.builder()
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("image-id", event.getImageId());
+        Assertions.assertEquals("ovhId", event.getOvhId());
     }
 
     @Test
@@ -167,7 +167,7 @@ public class ImageCreatedEventTest {
 
         ImageCreatedEvent event = imageCreatedEvent();
 
-        String toString = "ImageCreatedEvent(id=6c37d281-4e5c-4c15-aa4e-4efd62f2e8d2, regionId=region-id, imageId=image-id, name=name, type=type, imageCreatedDate=2020-11-04T13:08, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=null, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageCreatedEvent(id=6c37d281-4e5c-4c15-aa4e-4efd62f2e8d2, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T13:08, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=null, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, event.toString());
     }
@@ -177,7 +177,7 @@ public class ImageCreatedEventTest {
 
         ImageCreatedEvent event = imageCreatedEvent();
 
-        Assertions.assertEquals(1578741683, event.hashCode());
+        Assertions.assertEquals(1806181106, event.hashCode());
     }
 
     @Test
@@ -202,7 +202,7 @@ public class ImageCreatedEventTest {
         return ImageCreatedEvent.builder()
                 .id(UUID.fromString("6c37d281-4e5c-4c15-aa4e-4efd62f2e8d2"))
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(LocalDateTime.of(2020, 11, 4, 13,8))

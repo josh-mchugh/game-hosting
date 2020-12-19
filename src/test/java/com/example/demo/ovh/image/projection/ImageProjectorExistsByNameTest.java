@@ -48,7 +48,7 @@ public class ImageProjectorExistsByNameTest {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .regionId(region.getId())
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("Test Name")
                 .build();
 

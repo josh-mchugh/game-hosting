@@ -66,17 +66,14 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         FetchFlavorIdByOvhIdQuery flavorIdQuery = new FetchFlavorIdByOvhIdQuery(flavorResponse.getId());
         FetchFlavorIdByOvhIdProjection flavorIdResponse = flavorProjectionService.fetchFlavorIdByOvhId(flavorIdQuery);
 
-        String hourly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getHourly() : null;
-        String monthly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getMonthly() : null;
-
         FlavorUpdateCommand command = FlavorUpdateCommand.builder()
                 .id(UUID.fromString(flavorIdResponse.getId()))
                 .regionId(regionIdResponse.getId())
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())
-                .hourly(hourly)
-                .monthly(monthly)
+                .hourly(flavorResponse.getHourly())
+                .monthly(flavorResponse.getMonthly())
                 .osType(flavorResponse.getOsType())
                 .quota(flavorResponse.getQuota())
                 .vcpus(flavorResponse.getVcpus())
@@ -98,9 +95,6 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
         FetchRegionIdByNameResponse response = regionProjection.fetchIdByName(query);
 
-        String hourly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getHourly() : null;
-        String monthly = flavorResponse.getPlanCodes() != null ? flavorResponse.getPlanCodes().getMonthly() : null;
-
         FlavorCreateCommand command = FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(flavorResponse.getId())
@@ -108,8 +102,8 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())
-                .hourly(hourly)
-                .monthly(monthly)
+                .hourly(flavorResponse.getHourly())
+                .monthly(flavorResponse.getMonthly())
                 .osType(flavorResponse.getOsType())
                 .quota(flavorResponse.getQuota())
                 .vcpus(flavorResponse.getVcpus())

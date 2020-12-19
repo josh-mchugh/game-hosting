@@ -21,10 +21,10 @@ public class ImageTest {
     public void whenImageHasImageIdThenImageId() {
 
         Image image = Image.builder()
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("image-id", image.getImageId());
+        Assertions.assertEquals("ovhId", image.getOvhId());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class ImageTest {
 
         Image image = image();
 
-        String toString = "Image(id=id, imageId=image-id, name=name, type=type, imageCreatedDate=2020-11-04T09:36, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "Image(id=id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T09:36, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, image.toString());
     }
@@ -164,7 +164,7 @@ public class ImageTest {
 
         Image image = image();
 
-        Assertions.assertEquals(1419180443, image.hashCode());
+        Assertions.assertEquals(1646619866, image.hashCode());
     }
 
     @Test
@@ -188,7 +188,7 @@ public class ImageTest {
 
         return Image.builder()
                 .id("id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(LocalDateTime.of(2020, 11, 4, 9, 36))

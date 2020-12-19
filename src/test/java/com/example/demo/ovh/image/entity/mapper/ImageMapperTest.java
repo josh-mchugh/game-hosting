@@ -30,11 +30,11 @@ public class ImageMapperTest {
     public void whenEntityHasImageIdThenReturnImageId() {
 
         ImageEntity entity = new ImageEntity();
-        entity.setImageId("image-id");
+        entity.setOvhId("ovhId");
 
         Image image = ImageMapper.map(entity);
 
-        Assertions.assertEquals("image-id", image.getImageId());
+        Assertions.assertEquals("ovhId", image.getOvhId());
     }
 
     @Test

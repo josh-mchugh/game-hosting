@@ -3,8 +3,8 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
-import com.example.demo.ovh.image.feign.ImageClient;
-import com.example.demo.ovh.instance.feign.model.ImageApi;
+import com.example.demo.ovh.image.feign.IImageClient;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.entity.service.IImageService;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
@@ -24,7 +24,7 @@ public class ImageSeedService implements ISeedService<Object> {
     private final OvhConfig ovhConfig;
     private final IImageProjector imageProjector;
     private final IImageService imageService;
-    private final ImageClient imageClient;
+    private final IImageClient imageClient;
     private final CommandGateway commandGateway;
     private final IRegionProjector regionProjector;
 
@@ -63,19 +63,16 @@ public class ImageSeedService implements ISeedService<Object> {
                 .build();
         FetchRegionIdByNameResponse regionIdByNameResponse = regionProjector.fetchIdByName(query);
 
-        String hourly = response.getPlanCode() != null ? response.getPlanCode().getHourly() : null;
-        String monthly = response.getPlanCode() != null ? response.getPlanCode().getHourly() : null;
-
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .regionId(regionIdByNameResponse.getId())
-                .imageId(response.getImageId())
+                .ovhId(response.getId())
                 .name(response.getName())
                 .type(response.getType())
                 .imageCreatedDate(response.getCreationDate())
                 .flavorType(response.getFlavorType())
-                .hourly(hourly)
-                .monthly(monthly)
+                .hourly(response.getHourly())
+                .monthly(response.getMonthly())
                 .size(response.getSize())
                 .minRam(response.getMinRam())
                 .minDisk(response.getMinDisk())

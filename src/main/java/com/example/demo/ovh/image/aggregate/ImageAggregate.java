@@ -21,7 +21,7 @@ public class ImageAggregate {
     @AggregateIdentifier
     private UUID id;
     private String regionId;
-    private String imageId;
+    private String ovhId;
     private String name;
     private String type;
     private LocalDateTime imageCreatedDate;
@@ -41,7 +41,7 @@ public class ImageAggregate {
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(command.getId())
                 .regionId(command.getRegionId())
-                .imageId(command.getImageId())
+                .ovhId(command.getOvhId())
                 .name(command.getName())
                 .type(command.getType())
                 .imageCreatedDate(command.getImageCreatedDate())
@@ -64,7 +64,7 @@ public class ImageAggregate {
 
         this.id = event.getId();
         this.regionId = event.getRegionId();
-        this.imageId = event.getImageId();
+        this.ovhId = event.getOvhId();
         this.name = event.getName();
         this.type = event.getType();
         this.imageCreatedDate = event.getImageCreatedDate();
@@ -85,7 +85,7 @@ public class ImageAggregate {
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(command.getId())
                 .regionId(command.getRegionId())
-                .imageId(command.getImageId())
+                .ovhId(command.getOvhId())
                 .name(command.getName())
                 .type(command.getType())
                 .imageCreatedDate(command.getImageCreatedDate())
@@ -108,7 +108,7 @@ public class ImageAggregate {
 
         this.id = event.getId();
         this.regionId = event.getRegionId();
-        this.imageId = event.getImageId();
+        this.ovhId = event.getOvhId();
         this.name = event.getName();
         this.type = event.getType();
         this.imageCreatedDate = event.getImageCreatedDate();

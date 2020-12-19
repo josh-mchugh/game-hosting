@@ -31,13 +31,13 @@ public class ImageUpdateCommandTest {
     }
 
     @Test
-    public void whenCommandHasImageIdThenReturnImageId() {
+    public void whenCommandHasOvhIdThenReturnOvhId() {
 
         ImageUpdateCommand command = ImageUpdateCommand.builder()
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("image-id", command.getImageId());
+        Assertions.assertEquals("ovhId", command.getOvhId());
     }
 
     @Test
@@ -167,7 +167,7 @@ public class ImageUpdateCommandTest {
 
         ImageUpdateCommand command = imageUpdateCommand();
 
-        String toString = "ImageUpdateCommand(id=c050327c-f03d-4ff6-8d8b-25e3d7a22542, regionId=region-id, imageId=image-id, name=name, type=type, imageCreatedDate=2020-11-03T23:00, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageUpdateCommand(id=c050327c-f03d-4ff6-8d8b-25e3d7a22542, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-03T23:00, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, command.toString());
     }
@@ -177,7 +177,7 @@ public class ImageUpdateCommandTest {
 
         ImageUpdateCommand command = imageUpdateCommand();
 
-        Assertions.assertEquals(1877694988, command.hashCode());
+        Assertions.assertEquals(2105134411, command.hashCode());
     }
 
     @Test
@@ -202,7 +202,7 @@ public class ImageUpdateCommandTest {
         return ImageUpdateCommand.builder()
                 .id(UUID.fromString("c050327c-f03d-4ff6-8d8b-25e3d7a22542"))
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(LocalDateTime.of(2020, 11, 3, 23, 0))

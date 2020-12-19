@@ -2,6 +2,7 @@ package com.example.demo.ovh.instance.feign.model;
 
 import com.example.demo.framework.deserializer.DateTimeDeserializer;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
+import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

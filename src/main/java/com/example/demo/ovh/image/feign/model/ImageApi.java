@@ -1,4 +1,4 @@
-package com.example.demo.ovh.instance.feign.model;
+package com.example.demo.ovh.image.feign.model;
 
 import com.example.demo.framework.deserializer.DateTimeDeserializer;
 import com.example.demo.ovh.feign.PlanCodeApi;
@@ -11,15 +11,14 @@ import java.time.LocalDateTime;
 @Data
 public class ImageApi {
 
-    @JsonProperty("id")
-    private String imageId;
+    private String id;
     private String name;
     @JsonDeserialize(using = DateTimeDeserializer.class)
     private LocalDateTime creationDate;
     private String flavorType;
     private Integer minDisk;
     private Integer minRam;
-    private PlanCodeApi planCode;
+    private PlanCodeApi planCodes;
     @JsonProperty("region")
     private String regionName;
     private Double size;
@@ -27,4 +26,14 @@ public class ImageApi {
     private String type;
     private String user;
     private String visibility;
+
+    public String getHourly() {
+
+        return planCodes != null ? planCodes.getHourly() : null;
+    }
+
+    public String getMonthly() {
+
+        return planCodes != null ? planCodes.getMonthly() : null;
+    }
 }

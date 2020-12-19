@@ -34,10 +34,10 @@ public class ImageCreateCommandTest {
     public void whenCommandHasImageIdThenReturnImageId() {
 
         ImageCreateCommand command = ImageCreateCommand.builder()
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .build();
 
-        Assertions.assertEquals("image-id", command.getImageId());
+        Assertions.assertEquals("ovhId", command.getOvhId());
     }
 
     @Test
@@ -167,7 +167,7 @@ public class ImageCreateCommandTest {
 
         ImageCreateCommand imageCreateCommand = imageCreateCommand();
 
-        String toString = "ImageCreateCommand(id=cbe91fcc-b7ec-4310-8852-9b444fe9526b, regionId=region-id, imageId=image-id, name=name, type=type, imageCreatedDate=2020-11-03T21:31, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageCreateCommand(id=cbe91fcc-b7ec-4310-8852-9b444fe9526b, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-03T21:31, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, imageCreateCommand.toString());
     }
@@ -177,7 +177,7 @@ public class ImageCreateCommandTest {
 
         ImageCreateCommand imageCreateCommand = imageCreateCommand();
 
-        Assertions.assertEquals(908220165, imageCreateCommand.hashCode());
+        Assertions.assertEquals(1135659588, imageCreateCommand.hashCode());
     }
 
     @Test
@@ -203,7 +203,7 @@ public class ImageCreateCommandTest {
         return ImageCreateCommand.builder()
                 .id(UUID.fromString("cbe91fcc-b7ec-4310-8852-9b444fe9526b"))
                 .regionId("region-id")
-                .imageId("image-id")
+                .ovhId("ovhId")
                 .name("name")
                 .type("type")
                 .imageCreatedDate(LocalDateTime.of(2020, 11, 3, 21, 31))

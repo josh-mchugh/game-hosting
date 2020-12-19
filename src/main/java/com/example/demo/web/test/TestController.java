@@ -1,7 +1,7 @@
 package com.example.demo.web.test;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.image.feign.ImageClient;
+import com.example.demo.ovh.image.feign.IImageClient;
 import com.example.demo.ovh.instance.feign.InstanceClient;
 import com.example.demo.ovh.instance.feign.InstanceGroupClient;
 import com.example.demo.ovh.instance.feign.model.InstanceCreateApi;
@@ -36,7 +36,7 @@ public class TestController {
 
     private final OvhConfig ovhConfig;
     private final RegionClient regionClient;
-    private final ImageClient imageClient;
+    private final IImageClient imageClient;
     private final InstanceGroupClient instanceGroupClient;
     private final InstanceClient instanceClient;
 
