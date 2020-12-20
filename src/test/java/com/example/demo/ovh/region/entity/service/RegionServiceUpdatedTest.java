@@ -1,9 +1,9 @@
-package com.example.demo.ovh.region.entity;
+package com.example.demo.ovh.region.entity.service;
 
 import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.aggregate.event.RegionUpdatedEvent;
+import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
-import com.example.demo.ovh.region.entity.service.IRegionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

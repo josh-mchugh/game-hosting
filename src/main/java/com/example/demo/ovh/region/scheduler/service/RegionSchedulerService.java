@@ -1,13 +1,12 @@
 package com.example.demo.ovh.region.scheduler.service;
 
-import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.ovh.region.feign.RegionClient;
-import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.aggregate.command.RegionUpdateCommand;
+import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -23,15 +22,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RegionSchedulerService implements IRegionSchedulerService {
 
-    private final OvhConfig ovhConfig;
-    private final RegionClient regionClient;
+    private final IRegionFeignService regionFeignService;
     private final IRegionProjector regionProjection;
     private final CommandGateway commandGateway;
 
     @Override
     public ImmutableList<String> getRegionNames() {
 
-        return ImmutableList.copyOf(regionClient.getRegions(ovhConfig.getProjectId()));
+        return ImmutableList.copyOf(regionFeignService.getRegions());
     }
 
     @Override
@@ -41,7 +39,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
         for(String name : regionNames) {
 
-            RegionApi regionResponse = regionClient.getRegion(ovhConfig.getProjectId(), name);
+            RegionApi regionResponse = regionFeignService.getRegion(name);
 
             if(regionProjection.existsByName(name)) {
 
@@ -58,11 +56,8 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
     private Object handleUpdateRegion(RegionApi region) {
 
-        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
-                .name(region.getName())
-                .build();
-
-        FetchRegionIdByNameResponse response = regionProjection.fetchIdByName(query);
+        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(region.getName());
+        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
 
         RegionUpdateCommand command = RegionUpdateCommand.builder()
                 .id(UUID.fromString(response.getId()))

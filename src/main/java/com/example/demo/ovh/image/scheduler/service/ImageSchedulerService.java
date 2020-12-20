@@ -10,8 +10,8 @@ import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjecti
 import com.example.demo.ovh.image.projection.model.FetchImageIdAndRegionIdQuery;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -103,10 +103,8 @@ public class ImageSchedulerService implements IImageSchedulerService {
     private ImageCreateCommand imageCreateCommand(ImageApi response) {
 
         //TODO: Replace to prevent excess call in loop
-        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
-                .name(response.getRegionName())
-                .build();
-        FetchRegionIdByNameResponse regionIdByNameResponse = regionProjector.fetchIdByName(query);
+        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(response.getRegionName());
+        FetchRegionIdByNameProjection regionIdByNameResponse = regionProjector.fetchIdByName(query);
 
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())

@@ -1,8 +1,6 @@
 package com.example.demo.web.test;
 
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
-import com.example.demo.ovh.region.feign.RegionClient;
 import com.example.demo.web.test.model.Metrics;
 import com.example.demo.web.test.model.Status;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +27,6 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final OvhConfig ovhConfig;
-    private final RegionClient regionClient;
     private final IInstanceGroupFeignService instanceGroupFeignService;
 
     @GetMapping("")
@@ -101,24 +97,6 @@ public class TestController {
                         .event("event-status")
                         .data(getStatus(serverAddress))
                         .build());
-    }
-
-    @GetMapping("/ovh/project/regions")
-    public ResponseEntity<?> getRegions() {
-
-        return new ResponseEntity<>(regionClient.getRegions(ovhConfig.getProjectId()), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/region")
-    public ResponseEntity<?> getRegion() {
-
-        return new ResponseEntity<>(regionClient.getRegion(ovhConfig.getProjectId(), "US-EAST-VA-1"), HttpStatus.OK);
-    }
-
-    @GetMapping("/ovh/project/availableRegions")
-    public ResponseEntity<?> getAvailableRegions() {
-
-        return new ResponseEntity<>(regionClient.getAvailableRegions(ovhConfig.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/ovh/project/groups")

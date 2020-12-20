@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "region")
+@Table(name = "ovh_region")
 public class RegionEntity extends AbstractAggregateEntity {
 
     @Column(name = "name", unique = true, nullable = false)

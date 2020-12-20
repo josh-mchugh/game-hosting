@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class ImageEntity extends AbstractAggregateEntity {
 
     @ManyToOne
-    @JoinColumn(name = "region_id", nullable = false)
+    @JoinColumn(name = "ovh_region_id", nullable = false)
     private RegionEntity regionEntity;
 
     @Column(name = "ovh_id", unique = true, nullable = false)

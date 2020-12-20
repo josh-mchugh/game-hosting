@@ -1,10 +1,10 @@
 package com.example.demo.ovh.region.projection.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Value;
 
 @Value
-@Builder(builderClassName = "Builder")
+@AllArgsConstructor
 public class FetchRegionIdByNameQuery {
 
     String name;

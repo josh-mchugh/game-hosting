@@ -1,10 +1,9 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.framework.seed.ISeedService;
-import com.example.demo.ovh.region.feign.RegionClient;
-import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
+import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -20,9 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RegionSeedService implements ISeedService<Object> {
 
-    private final OvhConfig ovhConfig;
     private final IRegionProjector regionProjection;
-    private final RegionClient regionClient;
+    private final IRegionFeignService regionFeignService;
     private final CommandGateway commandGateway;
 
     @Override
@@ -34,8 +32,8 @@ public class RegionSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
-        return regionClient.getRegions(ovhConfig.getProjectId()).stream()
-                .map(name -> regionClient.getRegion(ovhConfig.getProjectId(), name))
+        return regionFeignService.getRegions().stream()
+                .map(regionFeignService::getRegion)
                 .map(this::createCommand)
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());

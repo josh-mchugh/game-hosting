@@ -225,9 +225,9 @@
     </changeSet>
 
     <changeSet id="5" author="jmchugh">
-        <createTable tableName="region">
+        <createTable tableName="ovh_region">
             <column name="id" type="nvarchar(255)">
-                <constraints primaryKey="true" primaryKeyName="PK__region" />
+                <constraints primaryKey="true" primaryKeyName="PK__ovh_region" />
             </column>
             <column name="version" type="bigint"/>
             <column name="created_by" type="nvarchar(255)"/>
@@ -254,7 +254,7 @@
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="region_id" type="nvarchar(255)">
+            <column name="ovh_region_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="ovh_id" type="nvarchar(255)">
@@ -273,7 +273,7 @@
             <column name="inbound_bandwidth" type="int"/>
             <column name="outbound_bandwidth" type="int"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="ovh_flavor" baseColumnNames="region_id" constraintName="ovh_flavor_region_id__region_id"  referencedTableName="region" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="ovh_flavor" baseColumnNames="ovh_region_id" constraintName="ovh_flavor_ovh_region_id__ovh_region_id"  referencedTableName="ovh_region" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="7" author="jmchugh">
@@ -286,7 +286,7 @@
             <column name="created_date" type="timestamp"/>
             <column name="last_modified_by" type="nvarchar(255)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="region_id" type="nvarchar(255)">
+            <column name="ovh_region_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="ovh_id" type="nvarchar(255)">
@@ -307,7 +307,7 @@
             <column name="status" type="nvarchar(255)"/>
             <column name="visibility" type="nvarchar(255)"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="ovh_image" baseColumnNames="region_id" constraintName="ovh_image_region_id__region_id" referencedTableName="region" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="ovh_image" baseColumnNames="ovh_region_id" constraintName="ovh_image_ovh_region_id__ovh_region_id" referencedTableName="ovh_region" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="8" author="jmchugh">

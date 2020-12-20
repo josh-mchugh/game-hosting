@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class FlavorEntity extends AbstractAggregateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id", nullable = false)
+    @JoinColumn(name = "ovh_region_id", nullable = false)
     private RegionEntity regionEntity;
 
     @Column(name = "ovh_id", unique = true, nullable = false)

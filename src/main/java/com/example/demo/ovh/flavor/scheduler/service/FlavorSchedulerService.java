@@ -5,12 +5,12 @@ import com.example.demo.ovh.flavor.aggregate.command.FlavorUpdateCommand;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
+import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -57,11 +57,8 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     private Object handleFlavorUpdate(FlavorApi flavorResponse) {
 
         // TODO: Simplify, for loop above and the love of simplicity
-        FetchRegionIdByNameQuery regionIdQuery = FetchRegionIdByNameQuery.builder()
-                .name(flavorResponse.getRegionName())
-                .build();
-
-        FetchRegionIdByNameResponse regionIdResponse = regionProjection.fetchIdByName(regionIdQuery);
+        FetchRegionIdByNameQuery regionIdQuery = new FetchRegionIdByNameQuery(flavorResponse.getRegionName());
+        FetchRegionIdByNameProjection regionIdResponse = regionProjection.fetchIdByName(regionIdQuery);
 
         FetchFlavorIdByOvhIdQuery flavorIdQuery = new FetchFlavorIdByOvhIdQuery(flavorResponse.getId());
         FetchFlavorIdByOvhIdProjection flavorIdResponse = flavorProjectionService.fetchFlavorIdByOvhId(flavorIdQuery);
@@ -89,11 +86,8 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     private Object handleFlavorCreate(FlavorApi flavorResponse) {
 
         // TODO: Make more efficient for loop
-        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
-                .name(flavorResponse.getRegionName())
-                .build();
-
-        FetchRegionIdByNameResponse response = regionProjection.fetchIdByName(query);
+        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(flavorResponse.getRegionName());
+        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
 
         FlavorCreateCommand command = FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
