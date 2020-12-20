@@ -1,6 +1,7 @@
-package com.example.demo.ovh.region.entity;
+package com.example.demo.ovh.region.entity.mapper;
 
-import com.example.demo.ovh.region.entity.mapper.RegionMapper;
+import com.example.demo.ovh.region.entity.RegionEntity;
+import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,33 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 public class RegionMapperTest {
-
-    @Test
-    public void whenEntityIsValidThenReturnExpected() {
-
-        UUID id = UUID.randomUUID();
-
-        RegionEntity entity = new RegionEntity();
-        entity.setId(id);
-        entity.setName("name");
-        entity.setContinentCode("continent code");
-        entity.setCountryCodes("country codes");
-        entity.setDataCenterLocation("datacenter location");
-        entity.setStatus(RegionStatus.UP);
-
-        Region region = RegionMapper.map(entity);
-
-        Region expectedRegion = Region.builder()
-                .id(id.toString())
-                .name("name")
-                .continentCode("continent code")
-                .countryCodes("country codes")
-                .dataCenterLocation("datacenter location")
-                .status(RegionStatus.UP)
-                .build();
-
-        Assertions.assertEquals(region, expectedRegion);
-    }
 
     @Test
     public void whenEntityIsNullThenReturnNull() {

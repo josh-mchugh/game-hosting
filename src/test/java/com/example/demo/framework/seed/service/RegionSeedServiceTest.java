@@ -1,8 +1,8 @@
 package com.example.demo.framework.seed.service;
 
-import com.example.demo.ovh.region.feign.RegionClient;
-import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.entity.RegionStatus;
+import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
@@ -30,7 +30,7 @@ public class RegionSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    public RegionClient regionClient;
+    public IRegionFeignService regionFeignService;
 
     @Test
     public void whenRegionExistsThenDoesNotExistsReturnsFalse() {
@@ -51,7 +51,7 @@ public class RegionSeedServiceTest {
     @Test
     public void whenRegionsApiReturnsEmptyArrayThenReturnEmptyArray() {
 
-        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.emptyList());
+        Mockito.when(regionFeignService.getRegions()).thenReturn(Collections.emptyList());
 
         ImmutableList<Object> regions = regionSeedService.initializeData();
 
@@ -61,14 +61,14 @@ public class RegionSeedServiceTest {
     @Test
     public void whenRegionApiReturnsIsValidThenReturnArrayList() {
 
-        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.singletonList("us-east"));
+        Mockito.when(regionFeignService.getRegions()).thenReturn(Collections.singletonList("us-east"));
 
         RegionApi regionApi = new RegionApi();
         regionApi.setName("name");
         regionApi.setStatus(RegionStatus.UP);
         regionApi.setIpCountries(Arrays.asList("uk", "us", "ca"));
 
-        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionApi);
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
 
         ImmutableList<Object> regions = regionSeedService.initializeData();
 
@@ -78,7 +78,7 @@ public class RegionSeedServiceTest {
     @Test
     public void whenRegionsApiThrowsErrorThenThrowError() {
 
-        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(regionFeignService.getRegions()).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.class, () -> regionSeedService.initializeData());
     }
@@ -86,9 +86,9 @@ public class RegionSeedServiceTest {
     @Test
     public void whenRegionApiThrowsErrorThenThrowError() {
 
-        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Collections.singletonList("us-east"));
+        Mockito.when(regionFeignService.getRegions()).thenReturn(Collections.singletonList("us-east"));
 
-        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenThrow(FeignException.FeignClientException.class);
 
         Assertions.assertThrows(FeignException.FeignClientException.class, () -> regionSeedService.initializeData());
     }

@@ -7,7 +7,7 @@ import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -54,10 +54,8 @@ public class ImageSeedService implements ISeedService<Object> {
     private ImageCreateCommand imageCreateCommand(ImageApi response) {
 
         //TODO: Replace to prevent excess call in loop
-        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
-                .name(response.getRegionName())
-                .build();
-        FetchRegionIdByNameResponse regionIdByNameResponse = regionProjector.fetchIdByName(query);
+        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(response.getRegionName());
+        FetchRegionIdByNameProjection regionIdByNameResponse = regionProjector.fetchIdByName(query);
 
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())

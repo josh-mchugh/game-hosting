@@ -7,7 +7,7 @@ import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameResponse;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -54,11 +54,8 @@ public class FlavorSeedService implements ISeedService<Object> {
     private FlavorCreateCommand buildFlavorCreateCommand(FlavorApi flavor) {
 
         // TODO: Make more efficient for loop
-        FetchRegionIdByNameQuery query = FetchRegionIdByNameQuery.builder()
-                .name(flavor.getRegionName())
-                .build();
-
-        FetchRegionIdByNameResponse response = regionProjection.fetchIdByName(query);
+        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(flavor.getRegionName());
+        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
 
         return FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())

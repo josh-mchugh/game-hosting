@@ -4,12 +4,12 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;
 
 @Value
-public class FetchRegionIdByNameResponse {
+public class FetchRegionIdByNameProjection {
 
     String id;
 
     @QueryProjection
-    public FetchRegionIdByNameResponse(String id) {
+    public FetchRegionIdByNameProjection(String id) {
 
         this.id = id;
     }

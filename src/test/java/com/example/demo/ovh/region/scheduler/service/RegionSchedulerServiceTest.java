@@ -1,12 +1,11 @@
-package com.example.demo.ovh.region.scheduler;
+package com.example.demo.ovh.region.scheduler.service;
 
-import com.example.demo.ovh.region.feign.RegionClient;
-import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
-import com.example.demo.ovh.region.scheduler.service.IRegionSchedulerService;
+import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.collect.ImmutableList;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -38,13 +37,13 @@ public class RegionSchedulerServiceTest {
     private CommandGateway commandGateway;
 
     @MockBean
-    private RegionClient regionClient;
+    private IRegionFeignService regionFeignService;
 
     @Test
     public void testGetRegionNames() {
 
         List<String> names = Arrays.asList("get-region-names-1", "get-region-names-2");
-        Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(names);
+        Mockito.when(regionFeignService.getRegions()).thenReturn(names);
 
         List<String> regionNames = regionSchedulerService.getRegionNames();
 
@@ -71,7 +70,7 @@ public class RegionSchedulerServiceTest {
         regionResponse.setStatus(RegionStatus.DOWN);
 
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
-        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionResponse);
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionResponse);
 
         ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of(region.getName()));
 
@@ -87,7 +86,7 @@ public class RegionSchedulerServiceTest {
         regionResponse.setIpCountries(Arrays.asList("uk", "us", "ca"));
         regionResponse.setStatus(RegionStatus.UP);
 
-        Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(regionResponse);
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionResponse);
 
         ProcessRegionResponse processedResponse = regionSchedulerService.processRegions(ImmutableList.of("not-existing-region"));
 
