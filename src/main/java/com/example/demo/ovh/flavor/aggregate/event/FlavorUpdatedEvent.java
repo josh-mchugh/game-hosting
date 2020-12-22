@@ -10,7 +10,6 @@ import lombok.Value;
 public class FlavorUpdatedEvent {
 
     UUID id;
-    String regionId;
     String name;
     String type;
     Boolean available;

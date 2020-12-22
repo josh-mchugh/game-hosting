@@ -2,17 +2,17 @@ package com.example.demo.ovh.flavor.scheduler.service;
 
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorUpdateCommand;
+import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
@@ -37,16 +37,22 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     public ProcessedFlavorsResponse processFlavors(ImmutableList<FlavorApi> flavorResponses) {
 
         ProcessedFlavorsResponse.Builder builder = ProcessedFlavorsResponse.builder();
+        FetchRegionIdsGroupByNameProjection projection = regionProjection.fetchRegionIdsGroupedByName();
 
         for(FlavorApi flavorResponse : flavorResponses) {
 
             if (flavorProjectionService.existsByOvhId(flavorResponse.getId())) {
 
-                builder.updatedFlavor(handleFlavorUpdate(flavorResponse));
+                Flavor flavor = flavorProjectionService.fetchFlavorByOvhId(flavorResponse.getId());
+
+                if(isDifferent(flavor, flavorResponse)) {
+
+                    builder.updatedFlavor(handleFlavorUpdate(flavor.getId(), flavorResponse));
+                }
 
             } else {
 
-                builder.createdFlavor(handleFlavorCreate(flavorResponse));
+                builder.createdFlavor(handleFlavorCreate(flavorResponse, projection.getRegionMap()));
             }
 
         }
@@ -54,18 +60,10 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return builder.build();
     }
 
-    private Object handleFlavorUpdate(FlavorApi flavorResponse) {
-
-        // TODO: Simplify, for loop above and the love of simplicity
-        FetchRegionIdByNameQuery regionIdQuery = new FetchRegionIdByNameQuery(flavorResponse.getRegionName());
-        FetchRegionIdByNameProjection regionIdResponse = regionProjection.fetchIdByName(regionIdQuery);
-
-        FetchFlavorIdByOvhIdQuery flavorIdQuery = new FetchFlavorIdByOvhIdQuery(flavorResponse.getId());
-        FetchFlavorIdByOvhIdProjection flavorIdResponse = flavorProjectionService.fetchFlavorIdByOvhId(flavorIdQuery);
+    private Object handleFlavorUpdate(String id, FlavorApi flavorResponse) {
 
         FlavorUpdateCommand command = FlavorUpdateCommand.builder()
-                .id(UUID.fromString(flavorIdResponse.getId()))
-                .regionId(regionIdResponse.getId())
+                .id(UUID.fromString(id))
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())
@@ -83,16 +81,12 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return commandGateway.sendAndWait(command);
     }
 
-    private Object handleFlavorCreate(FlavorApi flavorResponse) {
-
-        // TODO: Make more efficient for loop
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(flavorResponse.getRegionName());
-        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
+    private Object handleFlavorCreate(FlavorApi flavorResponse, ImmutableMap<String, String> regionsMap) {
 
         FlavorCreateCommand command = FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(flavorResponse.getId())
-                .regionId(response.getId())
+                .regionId(regionsMap.get(flavorResponse.getRegionName()))
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())
@@ -108,5 +102,22 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
                 .build();
 
         return commandGateway.sendAndWait(command);
+    }
+
+    private boolean isDifferent(Flavor flavor, FlavorApi flavorApi) {
+
+        if (!StringUtils.equals(flavor.getName(), flavorApi.getName())) return true;
+        if (!StringUtils.equals(flavor.getType(), flavorApi.getType())) return true;
+        if (!flavor.getAvailable().equals(flavorApi.isAvailable())) return true;
+        if (!StringUtils.equals(flavor.getHourly(), flavorApi.getHourly())) return true;
+        if (!StringUtils.equals(flavor.getMonthly(), flavorApi.getMonthly())) return true;
+        if (!StringUtils.equals(flavor.getOsType(), flavorApi.getOsType())) return true;
+        if (!flavor.getQuota().equals(flavorApi.getQuota())) return true;
+        if (!flavor.getVcpus().equals(flavorApi.getVcpus())) return true;
+        if (!flavor.getRam().equals(flavorApi.getRam())) return true;
+        if (!flavor.getDisk().equals(flavorApi.getDisk())) return true;
+        if (!flavor.getInboundBandwidth().equals(flavorApi.getInboundBandwidth())) return true;
+
+        return !flavor.getOutboundBandwidth().equals(flavorApi.getOutboundBandwidth());
     }
 }

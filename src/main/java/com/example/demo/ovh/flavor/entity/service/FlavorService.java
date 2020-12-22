@@ -55,7 +55,6 @@ public class FlavorService implements IFlavorService {
     public Flavor handleUpdated(FlavorUpdatedEvent event) {
 
         FlavorEntity entity = getById(event.getId().toString());
-        entity.setRegionEntity(getRegionById(event.getRegionId()));
         entity.setName(event.getName());
         entity.setType(event.getType());
         entity.setAvailable(event.getAvailable());

@@ -10,9 +10,9 @@ import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjecti
 import com.example.demo.ovh.image.projection.model.FetchImageIdAndRegionIdQuery;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
@@ -38,6 +38,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
     public ProcessedImagesResponse processScheduledImages(ImmutableList<ImageApi> imageResponses) {
 
         ProcessedImagesResponse.Builder builder = ProcessedImagesResponse.builder();
+        FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
 
         for (ImageApi response : imageResponses) {
 
@@ -52,7 +53,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
             } else {
 
-                builder.createdImage(processImageCreate(response));
+                builder.createdImage(processImageCreate(response, projection.getRegionMap()));
             }
         }
 
@@ -93,23 +94,19 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .build();
     }
 
-    private Object processImageCreate(ImageApi imageResponse) {
+    private Object processImageCreate(ImageApi imageResponse, ImmutableMap<String, String> regionMap) {
 
-        ImageCreateCommand command = imageCreateCommand(imageResponse);
+        ImageCreateCommand command = imageCreateCommand(imageResponse, regionMap);
 
         return commandGateway.sendAndWait(command);
     }
 
-    private ImageCreateCommand imageCreateCommand(ImageApi response) {
-
-        //TODO: Replace to prevent excess call in loop
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(response.getRegionName());
-        FetchRegionIdByNameProjection regionIdByNameResponse = regionProjector.fetchIdByName(query);
+    private ImageCreateCommand imageCreateCommand(ImageApi response, ImmutableMap<String, String>regionMap) {
 
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(response.getId())
-                .regionId(regionIdByNameResponse.getId())
+                .regionId(regionMap.get(response.getRegionName()))
                 .name(response.getName())
                 .type(response.getType())
                 .imageCreatedDate(response.getCreationDate())
