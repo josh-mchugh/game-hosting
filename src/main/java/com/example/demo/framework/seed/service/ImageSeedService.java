@@ -6,9 +6,9 @@ import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
@@ -33,8 +33,10 @@ public class ImageSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
+        FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
+
         return imageFeignService.getImages().stream()
-                .map(this::imageCreateCommand)
+                .map(response -> this.imageCreateCommand(response, projection.getRegionMap()))
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
     }
@@ -51,15 +53,11 @@ public class ImageSeedService implements ISeedService<Object> {
         return 4;
     }
 
-    private ImageCreateCommand imageCreateCommand(ImageApi response) {
-
-        //TODO: Replace to prevent excess call in loop
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(response.getRegionName());
-        FetchRegionIdByNameProjection regionIdByNameResponse = regionProjector.fetchIdByName(query);
+    private ImageCreateCommand imageCreateCommand(ImageApi response, ImmutableMap<String, String> regionMap) {
 
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .regionId(regionIdByNameResponse.getId())
+                .regionId(regionMap.get(response.getRegionName()))
                 .ovhId(response.getId())
                 .name(response.getName())
                 .type(response.getType())

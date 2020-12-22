@@ -83,7 +83,6 @@ public class FlavorAggregate {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
                 .id(command.getId())
-                .regionId(command.getRegionId())
                 .name(command.getName())
                 .type(command.getType())
                 .available(command.getAvailable())
@@ -105,7 +104,6 @@ public class FlavorAggregate {
     public void on(FlavorUpdatedEvent event) {
 
         this.id = event.getId();
-        this.regionId = event.getRegionId();
         this.name = event.getName();
         this.type = event.getType();
         this.available = event.getAvailable();

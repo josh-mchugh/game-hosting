@@ -6,9 +6,9 @@ import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
+import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class FlavorSeedService implements ISeedService<Object> {
 
     private final IFlavorFeignService flavorFeignService;
     private final IFlavorProjector flavorProjectionService;
-    private final IRegionProjector regionProjection;
+    private final IRegionProjector regionProjector;
     private final CommandGateway commandGateway;
 
     @Override
@@ -33,8 +33,10 @@ public class FlavorSeedService implements ISeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() {
 
+       FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
+
         return flavorFeignService.getFlavors().stream()
-                .map(this::buildFlavorCreateCommand)
+                .map(response -> this.buildFlavorCreateCommand(response, projection.getRegionMap()))
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
     }
@@ -51,15 +53,11 @@ public class FlavorSeedService implements ISeedService<Object> {
         return 3;
     }
 
-    private FlavorCreateCommand buildFlavorCreateCommand(FlavorApi flavor) {
-
-        // TODO: Make more efficient for loop
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(flavor.getRegionName());
-        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
+    private FlavorCreateCommand buildFlavorCreateCommand(FlavorApi flavor, ImmutableMap<String, String> regionMap) {
 
         return FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .regionId(response.getId())
+                .regionId(regionMap.get(flavor.getRegionName()))
                 .ovhId(flavor.getId())
                 .name(flavor.getName())
                 .type(flavor.getType())

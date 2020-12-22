@@ -20,17 +20,9 @@ public class FlavorScheduler {
     @Scheduled(fixedDelayString = "${ovh.flavor-scheduler-delay}", initialDelayString = "${ovh.flavor-scheduler-initial-delay}")
     public void scheduledFlavorUpdater() {
 
-        log.info("Start: Flavor Updates");
-
         ImmutableList<FlavorApi> flavorResponses = flavorSchedulerService.getFlavorResponses();
-
-        log.info("Retrieved Flavors: {}", CollectionUtils.size(flavorResponses));
-
         ProcessedFlavorsResponse response = flavorSchedulerService.processFlavors(flavorResponses);
 
-        log.info("Crated created: {}", CollectionUtils.size(response.getCreatedFlavors()));
-        log.info("Updated Flavors: {}", CollectionUtils.size(response.getUpdatedFlavors()));
-
-        log.info("Finished: Flavor Updates");
+        log.info("Ovh Flavors - Total: {}, Created: {}, Updated: {}", CollectionUtils.size(flavorResponses), CollectionUtils.size(response.getCreatedFlavors()), CollectionUtils.size(response.getUpdatedFlavors()));
     }
 }

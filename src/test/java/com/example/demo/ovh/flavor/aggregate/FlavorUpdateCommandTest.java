@@ -34,7 +34,6 @@ public class FlavorUpdateCommandTest {
 
         FlavorUpdatedEvent updatedEvent = FlavorUpdatedEvent.builder()
                 .id(id)
-                .regionId("region-id")
                 .name("name")
                 .type("type")
                 .available(true)
@@ -62,38 +61,6 @@ public class FlavorUpdateCommandTest {
 
         FlavorUpdateCommand updateCommand = flavorUpdateCommand()
                 .id(null)
-                .build();
-
-        fixture.givenCommands(createCommand)
-                .when(updateCommand)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
-    public void whenUpdateCommandHasNullRegionIdThenThrowException() {
-
-        UUID id = UUID.randomUUID();
-
-        FlavorCreateCommand createCommand = flavorCreateCommand(id);
-
-        FlavorUpdateCommand updateCommand = flavorUpdateCommand(id)
-                .regionId(null)
-                .build();
-
-        fixture.givenCommands(createCommand)
-                .when(updateCommand)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
-    public void whenUpdateCommandHasBlankRegionIdThenThrowException() {
-
-        UUID id = UUID.randomUUID();
-
-        FlavorCreateCommand createCommand = flavorCreateCommand(id);
-
-        FlavorUpdateCommand updateCommand = flavorUpdateCommand(id)
-                .regionId("")
                 .build();
 
         fixture.givenCommands(createCommand)
@@ -382,7 +349,6 @@ public class FlavorUpdateCommandTest {
 
         return FlavorUpdateCommand.builder()
                 .id(id)
-                .regionId("region-id")
                 .name("name")
                 .type("type")
                 .available(true)

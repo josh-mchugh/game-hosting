@@ -20,16 +20,6 @@ public class FlavorUpdatedEventTest {
     }
 
     @Test
-    public void whenEventHasRegionIdThenReturnRegionId() {
-
-        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .regionId("regionId")
-                .build();
-
-        Assertions.assertEquals("regionId", event.getRegionId());
-    }
-
-    @Test
     public void whenEventHasNameThenReturnName() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
@@ -154,7 +144,7 @@ public class FlavorUpdatedEventTest {
 
         FlavorUpdatedEvent event = event();
 
-        String expected = "FlavorUpdatedEvent(id=d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc, regionId=regionId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
+        String expected = "FlavorUpdatedEvent(id=d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -164,7 +154,7 @@ public class FlavorUpdatedEventTest {
 
         FlavorUpdatedEvent event = event();
 
-        Assertions.assertEquals(259438805, event.hashCode());
+        Assertions.assertEquals(-2019563462, event.hashCode());
     }
 
     @Test
@@ -188,7 +178,6 @@ public class FlavorUpdatedEventTest {
 
         return FlavorUpdatedEvent.builder()
                 .id(UUID.fromString("d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc"))
-                .regionId("regionId")
                 .name("name")
                 .type("type")
                 .available(true)

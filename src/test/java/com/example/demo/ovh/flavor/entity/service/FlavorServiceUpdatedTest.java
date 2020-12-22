@@ -48,9 +48,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateIsValidThenReturnExpected() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
                 .id(UUID.fromString(flavor.getId()))
-                .regionId(region.getId())
                 .name("name")
                 .type("type")
                 .available(true)
@@ -90,7 +89,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateIsMinValidThenReturnExpected() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder().build();
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId())).build();
 
         Flavor flavor = flavorService.handleUpdated(event);
 
@@ -111,7 +111,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasIdThenReturnId() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder().build();
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId())).build();
 
         Flavor flavor = flavorService.handleUpdated(event);
 
@@ -121,7 +122,7 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasNullIdThenThrowException() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder(null).build();
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder().build();
 
         Assertions.assertThrows(NullPointerException.class, () -> flavorService.handleUpdated(event));
     }
@@ -129,37 +130,18 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasInvalidIdThenThrowException() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder(UUID.randomUUID()).build();
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.randomUUID())
+                .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> flavorService.handleUpdated(event));
     }
 
     @Test
-    public void whenUpdateHasRegionIdThenReturnNotNull() {
-
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
-                .regionId(region.getId())
-                .build();
-
-        Flavor flavor = flavorService.handleUpdated(event);
-
-        Assertions.assertNotNull(flavor);
-    }
-
-    @Test
-    public void whenUpdateHasNullRegionIdThenThrowException() {
-
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
-                .regionId(null)
-                .build();
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> flavorService.handleUpdated(event));
-    }
-
-    @Test
     public void whenUpdateHasNameThenReturnName() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .name("name")
                 .build();
 
@@ -171,7 +153,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasTypeThenReturnType() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .type("type")
                 .build();
 
@@ -183,7 +166,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasAvailableThenReturnAvailable() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .available(true)
                 .build();
 
@@ -195,7 +179,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasHourlyThenReturnHourly() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .hourly("hourly")
                 .build();
 
@@ -207,7 +192,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasMonthlyThenReturnMonthly() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .monthly("monthly")
                 .build();
 
@@ -219,7 +205,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasQuotaThenReturnQuota() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .quota(1)
                 .build();
 
@@ -231,7 +218,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasOsTypeThenReturnOsType() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .osType("osType")
                 .build();
 
@@ -243,7 +231,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasVCpusThenReturnVCpus() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .vcpus(1)
                 .build();
 
@@ -255,7 +244,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasRamThenReturnRam() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .ram(1)
                 .build();
 
@@ -267,7 +257,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasDiskThenReturnDisk() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .disk(1)
                 .build();
 
@@ -279,7 +270,8 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasInboundBandwidthThenReturnInboundBandwidth() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .inboundBandwidth(1)
                 .build();
 
@@ -291,24 +283,13 @@ public class FlavorServiceUpdatedTest {
     @Test
     public void whenUpdateHasOutboundBandwidthThenReturnOutboundBandwidth() {
 
-        FlavorUpdatedEvent event = flavorUpdatedBuilder()
+        FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
+                .id(UUID.fromString(flavor.getId()))
                 .outboundBandwidth(1)
                 .build();
 
         Flavor flavor = flavorService.handleUpdated(event);
 
         Assertions.assertEquals(1, flavor.getOutboundBandwidth());
-    }
-
-    private FlavorUpdatedEvent.Builder flavorUpdatedBuilder() {
-
-        return flavorUpdatedBuilder(UUID.fromString(flavor.getId()));
-    }
-
-    private FlavorUpdatedEvent.Builder flavorUpdatedBuilder(UUID id) {
-
-        return FlavorUpdatedEvent.builder()
-                .id(id)
-                .regionId(region.getId());
     }
 }

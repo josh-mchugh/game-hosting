@@ -3,8 +3,6 @@ package com.example.demo.ovh.flavor.projection;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.entity.service.IFlavorService;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdProjection;
-import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +18,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class FlavorProjectorFetchFlavorIdByOvhIdTest {
+public class FlavorProjectorFetchFlavorByOvhIdTest {
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -45,18 +43,11 @@ public class FlavorProjectorFetchFlavorIdByOvhIdTest {
     @Test
     public void whenParamIsNullThenExpectException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> flavorProjector.fetchFlavorIdByOvhId(null));
-    }
-
-
-    @Test
-    public void whenOvhIdIsNullThenExpectException() {
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> flavorProjector.fetchFlavorIdByOvhId(new FetchFlavorIdByOvhIdQuery(null)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> flavorProjector.fetchFlavorByOvhId(null));
     }
 
     @Test
-    public void whenOvhIdIsValidThenReturnId() {
+    public void whenFlavorExistsThenReturnFlavorWithMatchingId() {
 
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(UUID.randomUUID())
@@ -66,18 +57,30 @@ public class FlavorProjectorFetchFlavorIdByOvhIdTest {
 
         Flavor flavor = flavorService.handleCreated(event);
 
-        FetchFlavorIdByOvhIdQuery query = new FetchFlavorIdByOvhIdQuery(flavor.getOvhId());
-        FetchFlavorIdByOvhIdProjection projection = flavorProjector.fetchFlavorIdByOvhId(query);
+        Flavor response = flavorProjector.fetchFlavorByOvhId("ovhId");
 
-        Assertions.assertEquals(flavor.getId(), projection.getId());
+        Assertions.assertEquals(flavor.getId(), response.getId());
     }
 
     @Test
-    public void whenOvhIdIsInvalidThenReturnNull() {
+    public void whenFlavorExistsThenReturnFlavorWithMatchingOvId() {
 
-        FetchFlavorIdByOvhIdQuery query = new FetchFlavorIdByOvhIdQuery("invalidId");
-        FetchFlavorIdByOvhIdProjection projection = flavorProjector.fetchFlavorIdByOvhId(query);
+        FlavorCreatedEvent event = FlavorCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .regionId(region.getId())
+                .ovhId("ovhId")
+                .build();
 
-        Assertions.assertNull(projection);
+        flavorService.handleCreated(event);
+
+        Flavor response = flavorProjector.fetchFlavorByOvhId("ovhId");
+
+        Assertions.assertEquals("ovhId", response.getOvhId());
+    }
+
+    @Test
+    public void whenFlavorDoesNotExistsThenReturnNull() {
+
+        Assertions.assertNull(flavorProjector.fetchFlavorByOvhId("ovhId"));
     }
 }

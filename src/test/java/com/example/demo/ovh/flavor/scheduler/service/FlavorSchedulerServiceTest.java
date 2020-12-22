@@ -1,5 +1,6 @@
 package com.example.demo.ovh.flavor.scheduler.service;
 
+import com.example.demo.ovh.feign.PlanCodeApi;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.entity.service.IFlavorService;
@@ -66,7 +67,6 @@ public class FlavorSchedulerServiceTest {
         ImmutableList<FlavorApi> flavorResponses = flavorSchedulerService.getFlavorResponses();
 
         Assertions.assertEquals(1, flavorResponses.size());
-        Assertions.assertEquals(flavorResponse.getId(), flavorResponses.get(0).getId());
     }
 
     @Test
@@ -81,13 +81,42 @@ public class FlavorSchedulerServiceTest {
         ProcessedFlavorsResponse response = flavorSchedulerService.processFlavors(ImmutableList.of(flavorResponse));
 
         Assertions.assertEquals(1, CollectionUtils.size(response.getCreatedFlavors()));
+    }
+
+    @Test
+    public void whenFlavorResponseIsNotDifferentThenNoUpdatedFlavors() {
+
+        FlavorCreatedEvent event = flavorCreatedEvent();
+        Flavor flavor = flavorService.handleCreated(event);
+
+        FlavorApi flavorResponse = flavorApi(flavor.getOvhId());
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
+
+        ProcessedFlavorsResponse response = flavorSchedulerService.processFlavors(ImmutableList.of(flavorResponse));
+
         Assertions.assertEquals(0, CollectionUtils.size(response.getUpdatedFlavors()));
     }
 
     @Test
-    public void testProcessorFlavorsUpdated() {
+    public void whenFlavorResponseIsDifferentThenExpectUpdatedFlavors() {
 
-        FlavorCreatedEvent event = FlavorCreatedEvent.builder()
+        FlavorCreatedEvent event = flavorCreatedEvent();
+        Flavor flavor = flavorService.handleCreated(event);
+
+        FlavorApi flavorResponse = flavorApi(flavor.getOvhId());
+        flavorResponse.setAvailable(false);
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
+
+        ProcessedFlavorsResponse response = flavorSchedulerService.processFlavors(ImmutableList.of(flavorResponse));
+
+        Assertions.assertEquals(1, CollectionUtils.size(response.getUpdatedFlavors()));
+    }
+
+    private FlavorCreatedEvent flavorCreatedEvent() {
+
+        return FlavorCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .ovhId("d23f7fd6-a250-4600-bb95-bb4cd12d9a01")
                 .regionId(region.getId())
@@ -104,18 +133,29 @@ public class FlavorSchedulerServiceTest {
                 .outboundBandwidth(100)
                 .inboundBandwidth(100)
                 .build();
+    }
 
-        Flavor flavor = flavorService.handleCreated(event);
+    private FlavorApi flavorApi(String ovhId) {
+
+        PlanCodeApi planCodes = new PlanCodeApi();
+        planCodes.setHourly("s1-8.consumption");
+        planCodes.setMonthly("s1-8.monthly");
 
         FlavorApi flavorResponse = new FlavorApi();
-        flavorResponse.setId(flavor.getOvhId());
+        flavorResponse.setId(ovhId);
         flavorResponse.setRegionName(region.getName());
+        flavorResponse.setName("s1-8");
+        flavorResponse.setType("ovh.vps-ssd");
+        flavorResponse.setAvailable(true);
+        flavorResponse.setPlanCodes(planCodes);
+        flavorResponse.setQuota(3);
+        flavorResponse.setOsType("linux");
+        flavorResponse.setVcpus(2);
+        flavorResponse.setRam(8000);
+        flavorResponse.setDisk(40);
+        flavorResponse.setOutboundBandwidth(100);
+        flavorResponse.setInboundBandwidth(100);
 
-        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
-
-        ProcessedFlavorsResponse response = flavorSchedulerService.processFlavors(ImmutableList.of(flavorResponse));
-
-        Assertions.assertEquals(0, CollectionUtils.size(response.getCreatedFlavors()));
-        Assertions.assertEquals(1, CollectionUtils.size(response.getUpdatedFlavors()));
+        return flavorResponse;
     }
 }
