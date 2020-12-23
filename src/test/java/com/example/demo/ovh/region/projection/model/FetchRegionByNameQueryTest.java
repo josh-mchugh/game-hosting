@@ -3,12 +3,12 @@ package com.example.demo.ovh.region.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FetchRegionIdByNameQueryTest {
+public class FetchRegionByNameQueryTest {
 
     @Test
     public void whenQueryHasNameThenReturnName() {
 
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery("name");
+        FetchRegionByNameQuery query = new FetchRegionByNameQuery("name");
 
         Assertions.assertEquals("name", query.getName());
     }
@@ -16,9 +16,9 @@ public class FetchRegionIdByNameQueryTest {
     @Test
     public void whenQueryToString() {
 
-        FetchRegionIdByNameQuery query = query();
+        FetchRegionByNameQuery query = query();
 
-        String expected = "FetchRegionIdByNameQuery(name=name)";
+        String expected = "FetchRegionByNameQuery(name=name)";
 
         Assertions.assertEquals(expected, query.toString());
     }
@@ -26,7 +26,7 @@ public class FetchRegionIdByNameQueryTest {
     @Test
     public void whenQueryHashCode() {
 
-        FetchRegionIdByNameQuery query = query();
+        FetchRegionByNameQuery query = query();
 
         Assertions.assertEquals(3373766, query.hashCode());
     }
@@ -34,8 +34,8 @@ public class FetchRegionIdByNameQueryTest {
     @Test
     public void whenQueryEquals() {
 
-        FetchRegionIdByNameQuery query1 = query();
-        FetchRegionIdByNameQuery query2 = query();
+        FetchRegionByNameQuery query1 = query();
+        FetchRegionByNameQuery query2 = query();
 
         Assertions.assertEquals(query1, query2);
     }
@@ -43,13 +43,13 @@ public class FetchRegionIdByNameQueryTest {
     @Test
     public void whenQueryNotEquals() {
 
-        FetchRegionIdByNameQuery query = query();
+        FetchRegionByNameQuery query = query();
 
-        Assertions.assertNotEquals(query, new FetchRegionIdByNameQuery("diffName"));
+        Assertions.assertNotEquals(query, new FetchRegionByNameQuery("diffName"));
     }
 
-    private FetchRegionIdByNameQuery query() {
+    private FetchRegionByNameQuery query() {
 
-        return new FetchRegionIdByNameQuery("name");
+        return new FetchRegionByNameQuery("name");
     }
 }

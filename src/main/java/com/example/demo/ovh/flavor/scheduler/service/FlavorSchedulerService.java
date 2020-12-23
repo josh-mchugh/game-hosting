@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -108,16 +109,16 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
         if (!StringUtils.equals(flavor.getName(), flavorApi.getName())) return true;
         if (!StringUtils.equals(flavor.getType(), flavorApi.getType())) return true;
-        if (!flavor.getAvailable().equals(flavorApi.isAvailable())) return true;
+        if (!Objects.equals(flavor.getAvailable(), flavorApi.isAvailable())) return true;
         if (!StringUtils.equals(flavor.getHourly(), flavorApi.getHourly())) return true;
         if (!StringUtils.equals(flavor.getMonthly(), flavorApi.getMonthly())) return true;
         if (!StringUtils.equals(flavor.getOsType(), flavorApi.getOsType())) return true;
-        if (!flavor.getQuota().equals(flavorApi.getQuota())) return true;
-        if (!flavor.getVcpus().equals(flavorApi.getVcpus())) return true;
-        if (!flavor.getRam().equals(flavorApi.getRam())) return true;
-        if (!flavor.getDisk().equals(flavorApi.getDisk())) return true;
-        if (!flavor.getInboundBandwidth().equals(flavorApi.getInboundBandwidth())) return true;
+        if (!Objects.equals(flavor.getQuota(), flavorApi.getQuota())) return true;
+        if (!Objects.equals(flavor.getVcpus(), flavorApi.getVcpus())) return true;
+        if (!Objects.equals(flavor.getRam(), flavorApi.getRam())) return true;
+        if (!Objects.equals(flavor.getDisk(), flavorApi.getDisk())) return true;
+        if (!Objects.equals(flavor.getInboundBandwidth(), flavorApi.getInboundBandwidth())) return true;
 
-        return !flavor.getOutboundBandwidth().equals(flavorApi.getOutboundBandwidth());
+        return !Objects.equals(flavor.getOutboundBandwidth(), flavorApi.getOutboundBandwidth());
     }
 }

@@ -1,9 +1,9 @@
 package com.example.demo.ovh.region.projection;
 
 import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
+import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.projection.model.FetchRegionByNameQuery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class RegionProjectFetchIdByNameTest {
+public class RegionProjectFetchRegionByNameTest {
 
     @Autowired
     private IRegionProjector regionProjection;
@@ -27,7 +27,7 @@ public class RegionProjectFetchIdByNameTest {
     @Test
     public void whenParamIsNullThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> regionProjection.fetchIdByName(null));
+        Assertions.assertThrows(NullPointerException.class, () -> regionProjection.fetchRegionByName(null));
     }
 
     @Test
@@ -42,19 +42,17 @@ public class RegionProjectFetchIdByNameTest {
 
         regionService.handleCreated(event);
 
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery("name");
-        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
+        FetchRegionByNameQuery query = new FetchRegionByNameQuery("name");
+        Region response = regionProjection.fetchRegionByName(query);
 
-        FetchRegionIdByNameProjection expectedResponse = new FetchRegionIdByNameProjection(id.toString());
-
-        Assertions.assertEquals(expectedResponse, response);
+        Assertions.assertEquals(id.toString(), response.getId());
     }
 
     @Test
     public void whenRegionDoesNotExistThenReturnNull() {
 
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery("name");
-        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
+        FetchRegionByNameQuery query = new FetchRegionByNameQuery("name");
+        Region response = regionProjection.fetchRegionByName(query);
 
         Assertions.assertNull(response);
     }

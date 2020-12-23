@@ -1,12 +1,13 @@
 package com.example.demo.ovh.region.projection;
 
 import com.example.demo.ovh.region.entity.QRegionEntity;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
+import com.example.demo.ovh.region.entity.RegionEntity;
+import com.example.demo.ovh.region.entity.mapper.RegionMapper;
+import com.example.demo.ovh.region.entity.model.Region;
+import com.example.demo.ovh.region.projection.model.FetchRegionByNameQuery;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.group.GroupBy;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -45,17 +46,16 @@ public class RegionProjector implements IRegionProjector {
     }
 
     @Override
-    public FetchRegionIdByNameProjection fetchIdByName(FetchRegionIdByNameQuery query) {
+    public Region fetchRegionByName(FetchRegionByNameQuery query) {
 
         QRegionEntity qRegion = QRegionEntity.regionEntity;
 
-        return queryFactory.select(Projections.constructor(
-                    FetchRegionIdByNameProjection.class,
-                    qRegion.id
-                ))
+        RegionEntity entity = queryFactory.select(qRegion)
                 .from(qRegion)
                 .where(qRegion.name.eq(query.getName()))
                 .fetchOne();
+
+        return RegionMapper.map(entity);
     }
 
     @Override

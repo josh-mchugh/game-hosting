@@ -2,20 +2,22 @@ package com.example.demo.ovh.region.scheduler.service;
 
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.aggregate.command.RegionUpdateCommand;
+import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.feign.IRegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameQuery;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdByNameProjection;
+import com.example.demo.ovh.region.projection.model.FetchRegionByNameQuery;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -39,28 +41,31 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
         for(String name : regionNames) {
 
-            RegionApi regionResponse = regionFeignService.getRegion(name);
+            RegionApi api = regionFeignService.getRegion(name);
 
             if(regionProjection.existsByName(name)) {
 
-                builder.updatedRegion(handleUpdateRegion(regionResponse));
+                FetchRegionByNameQuery query = new FetchRegionByNameQuery(name);
+                Region region = regionProjection.fetchRegionByName(query);
+
+                if(isDifferent(region, api)) {
+
+                    builder.updatedRegion(handleUpdateRegion(region.getId(), api));
+                }
 
             }else {
 
-                builder.createdRegion(handleCreateRegion(regionResponse));
+                builder.createdRegion(handleCreateRegion(api));
             }
         }
 
         return builder.build();
     }
 
-    private Object handleUpdateRegion(RegionApi region) {
-
-        FetchRegionIdByNameQuery query = new FetchRegionIdByNameQuery(region.getName());
-        FetchRegionIdByNameProjection response = regionProjection.fetchIdByName(query);
+    private Object handleUpdateRegion(String id, RegionApi region) {
 
         RegionUpdateCommand command = RegionUpdateCommand.builder()
-                .id(UUID.fromString(response.getId()))
+                .id(UUID.fromString(id))
                 .continentCode(region.getContinentCode())
                 .countryCodes(joinCountryCodes(region.getIpCountries()))
                 .dataCenterLocation(region.getDataCenterLocation())
@@ -92,5 +97,14 @@ public class RegionSchedulerService implements IRegionSchedulerService {
         }
 
         return null;
+    }
+
+    private boolean isDifferent(Region region, RegionApi api) {
+
+        if (!StringUtils.equals(region.getCountryCodes(), joinCountryCodes(api.getIpCountries()))) return true;
+        if (!StringUtils.equals(region.getContinentCode(), api.getContinentCode())) return true;
+        if (!StringUtils.equals(region.getDataCenterLocation(), api.getDataCenterLocation())) return true;
+
+        return !Objects.equals(region.getStatus(), api.getStatus());
     }
 }

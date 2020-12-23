@@ -29,15 +29,15 @@ public class ImageScheduler {
         ImmutableList<ImageApi> imageResponses = imageSchedulerService.getImageResponses();
         ProcessedImagesResponse response = imageSchedulerService.processScheduledImages(imageResponses);
 
-        LocalDateTime endTime = LocalDateTime.now();
+        LocalDateTime stopTime = LocalDateTime.now();
 
         log.info("Ovh Images | Stats - Total: {}, Created: {}, Updated: {} | Time - Start Time: {}, End Time: {}, Elapsed: {}ms",
                 CollectionUtils.size(imageResponses),
                 CollectionUtils.size(response.getCreatedImages()),
                 CollectionUtils.size(response.getUpdatedImages()),
                 startTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                endTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                Duration.between(startTime, endTime).toMillis()
+                stopTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                Duration.between(startTime, stopTime).toMillis()
         );
     }
 }

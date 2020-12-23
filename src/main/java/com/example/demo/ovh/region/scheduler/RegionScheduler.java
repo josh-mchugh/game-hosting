@@ -9,6 +9,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -19,17 +23,20 @@ public class RegionScheduler {
     @Scheduled(fixedDelayString = "${ovh.region-scheduler-delay}", initialDelayString = "${ovh.region-scheduler-initial-delay}")
     public void scheduledRegionUpdater() {
 
-        log.info("Start: Regions Updates");
+        LocalDateTime startTime = LocalDateTime.now();
 
         ImmutableList<String> regionNames = regionSchedulerService.getRegionNames();
-
-        log.info("Retrieved Regions: {}", CollectionUtils.size(regionNames));
-
         ProcessRegionResponse response = regionSchedulerService.processRegions(regionNames);
 
-        log.info("Created Regions: {}", CollectionUtils.size(response.getCreatedRegions()));
-        log.info("Updated Regions: {}", CollectionUtils.size(response.getUpdatedRegions()));
+        LocalDateTime stopTime = LocalDateTime.now();
 
-        log.info("Finished: Regions Updates");
+        log.info("Ovh Regions | Stats - Total: {}, Created: {}, Updated: {} | Time - Start Time: {}, End Time: {}, Elapsed: {}ms",
+                CollectionUtils.size(regionNames),
+                CollectionUtils.size(response.getCreatedRegions()),
+                CollectionUtils.size(response.getUpdatedRegions()),
+                startTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                stopTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                Duration.between(startTime, stopTime).toMillis()
+        );
     }
 }
