@@ -2,10 +2,9 @@ package com.example.demo.ovh.image.projection;
 
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.service.IImageService;
-import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
+import com.example.demo.ovh.image.projection.model.ExistByNameAndRegionNameQuery;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-@RequiredArgsConstructor
 public class ImageProjectorExistsByNameTest {
 
     @Autowired
@@ -54,7 +52,7 @@ public class ImageProjectorExistsByNameTest {
 
         imageService.handleCreated(event);
 
-        ExistImageNameAndRegionNameQuery query = ExistImageNameAndRegionNameQuery.builder()
+        ExistByNameAndRegionNameQuery query = ExistByNameAndRegionNameQuery.builder()
                 .name("Test Name")
                 .regionName(region.getName())
                 .build();
@@ -67,7 +65,7 @@ public class ImageProjectorExistsByNameTest {
     @Test
     public void whenImageDoesNotExistsThenReturnFalse() {
 
-        ExistImageNameAndRegionNameQuery query = ExistImageNameAndRegionNameQuery.builder()
+        ExistByNameAndRegionNameQuery query = ExistByNameAndRegionNameQuery.builder()
                 .name("Test Name")
                 .regionName(region.getName())
                 .build();

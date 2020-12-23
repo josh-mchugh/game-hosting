@@ -84,9 +84,7 @@ public class ImageAggregate {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
                 .id(command.getId())
-                .regionId(command.getRegionId())
                 .ovhId(command.getOvhId())
-                .name(command.getName())
                 .type(command.getType())
                 .imageCreatedDate(command.getImageCreatedDate())
                 .flavorType(command.getFlavorType())
@@ -107,9 +105,7 @@ public class ImageAggregate {
     public void on(ImageUpdatedEvent event) {
 
         this.id = event.getId();
-        this.regionId = event.getRegionId();
         this.ovhId = event.getOvhId();
-        this.name = event.getName();
         this.type = event.getType();
         this.imageCreatedDate = event.getImageCreatedDate();
         this.flavorType = event.getFlavorType();

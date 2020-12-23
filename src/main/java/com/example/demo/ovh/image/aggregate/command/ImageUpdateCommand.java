@@ -18,13 +18,7 @@ public class ImageUpdateCommand {
     UUID id;
 
     @NotBlank
-    String regionId;
-
-    @NotBlank
     String ovhId;
-
-    @NotBlank
-    String name;
 
     String type;
     LocalDateTime imageCreatedDate;

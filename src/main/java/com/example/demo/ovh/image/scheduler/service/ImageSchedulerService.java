@@ -2,21 +2,23 @@ package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.aggregate.command.ImageUpdateCommand;
+import com.example.demo.ovh.image.entity.model.Image;
 import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
-import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjection;
-import com.example.demo.ovh.image.projection.model.FetchImageIdAndRegionIdQuery;
+import com.example.demo.ovh.image.projection.model.ExistByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.projection.model.FetchImageByNameAndRegionNameQuery;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -40,46 +42,31 @@ public class ImageSchedulerService implements IImageSchedulerService {
         ProcessedImagesResponse.Builder builder = ProcessedImagesResponse.builder();
         FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
 
-        for (ImageApi response : imageResponses) {
+        for (ImageApi api : imageResponses) {
 
-            ExistImageNameAndRegionNameQuery query = ExistImageNameAndRegionNameQuery.builder()
-                    .name(response.getName())
-                    .regionName(response.getRegionName())
-                    .build();
+            if(imageProjector.existsByNameAndRegionName(existsByNameAndRegionNameQuery(api))) {
 
-            if(imageProjector.existsByNameAndRegionName(query)) {
+                Image image = fetchImageByNameAndRegionName(api);
 
-                builder.updatedImage(processImageUpdate(response));
+                if(isDifferent(image, api)) {
+
+                    builder.updatedImage(processImageUpdate(image.getId(), api));
+                }
 
             } else {
 
-                builder.createdImage(processImageCreate(response, projection.getRegionMap()));
+                builder.createdImage(processImageCreate(api, projection.getRegionMap()));
             }
         }
 
         return builder.build();
     }
 
-    private Object processImageUpdate(ImageApi imageResponse) {
+    private Object processImageUpdate(String id, ImageApi imageResponse) {
 
-        ImageUpdateCommand command = imageUpdateCommand(imageResponse);
-
-        return commandGateway.sendAndWait(command);
-    }
-
-    private ImageUpdateCommand imageUpdateCommand(ImageApi imageResponse) {
-
-        FetchImageIdAndRegionIdQuery query = FetchImageIdAndRegionIdQuery.builder()
-                .imageName(imageResponse.getName())
-                .regionName(imageResponse.getRegionName())
-                .build();
-        FetchImageAndRegionIdProjection projection = imageProjector.fetchImageIdAndRegionIdQuery(query);
-
-        return ImageUpdateCommand.builder()
-                .id(UUID.fromString(projection.getId()))
+        ImageUpdateCommand command = ImageUpdateCommand.builder()
+                .id(UUID.fromString(id))
                 .ovhId(imageResponse.getId())
-                .regionId(projection.getRegionId())
-                .name(imageResponse.getName())
                 .type(imageResponse.getType())
                 .imageCreatedDate(imageResponse.getCreationDate())
                 .flavorType(imageResponse.getFlavorType())
@@ -92,6 +79,8 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .status(imageResponse.getStatus())
                 .visibility(imageResponse.getVisibility())
                 .build();
+
+        return commandGateway.sendAndWait(command);
     }
 
     private Object processImageCreate(ImageApi imageResponse, ImmutableMap<String, String> regionMap) {
@@ -120,5 +109,40 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .status(response.getStatus())
                 .visibility(response.getVisibility())
                 .build();
+    }
+
+    private ExistByNameAndRegionNameQuery existsByNameAndRegionNameQuery(ImageApi api) {
+
+        return ExistByNameAndRegionNameQuery.builder()
+                .name(api.getName())
+                .regionName(api.getRegionName())
+                .build();
+    }
+
+    private Image fetchImageByNameAndRegionName(ImageApi api) {
+
+        FetchImageByNameAndRegionNameQuery query = FetchImageByNameAndRegionNameQuery.builder()
+                .name(api.getName())
+                .regionName(api.getRegionName())
+                .build();
+
+        return imageProjector.fetchImageByNameAndRegionName(query);
+    }
+
+    private boolean isDifferent(Image image, ImageApi api) {
+
+        if (!StringUtils.equals(image.getOvhId(), api.getId())) return true;
+        if (!StringUtils.equals(image.getType(), api.getType())) return true;
+        if (!Objects.equals(image.getImageCreatedDate(), api.getCreationDate())) return true;
+        if (!StringUtils.equals(image.getFlavorType(), api.getFlavorType())) return true;
+        if (!StringUtils.equals(image.getHourly(), api.getHourly())) return true;
+        if (!StringUtils.equals(image.getMonthly(), api.getMonthly())) return true;
+        if (!Objects.equals(image.getSize(), api.getSize())) return true;
+        if (!Objects.equals(image.getMinRam(), api.getMinRam())) return true;
+        if (!Objects.equals(image.getMinDisk(), api.getMinDisk())) return true;
+        if (!StringUtils.equals(image.getUsername(), api.getUser())) return true;
+        if (!StringUtils.equals(image.getStatus(), api.getStatus())) return true;
+
+        return !StringUtils.equals(image.getVisibility(), api.getVisibility());
     }
 }

@@ -64,31 +64,6 @@ public class ImageSchedulerServiceTest {
         ImmutableList<ImageApi> imageResponses = imageSchedulerService.getImageResponses();
 
         Assertions.assertEquals(1, imageResponses.size());
-        Assertions.assertEquals("ovhId", imageResponses.get(0).getId());
-    }
-
-    @Test
-    public void testProcessScheduledImagesUpdated() {
-
-        ImageCreatedEvent event = ImageCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .regionId(region.getId())
-                .ovhId("ovhID")
-                .name("name")
-                .build();
-        imageService.handleCreated(event);
-
-        ImageApi imageResponse = new ImageApi();
-        imageResponse.setId("ovhId");
-        imageResponse.setRegionName(region.getName());
-        imageResponse.setName("name");
-
-        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
-
-        ProcessedImagesResponse responses = imageSchedulerService.processScheduledImages(ImmutableList.of(imageResponse));
-
-        Assertions.assertEquals(0, CollectionUtils.size(responses.getCreatedImages()));
-        Assertions.assertEquals(1, CollectionUtils.size(responses.getUpdatedImages()));
     }
 
     @Test
@@ -104,6 +79,56 @@ public class ImageSchedulerServiceTest {
         ProcessedImagesResponse responses = imageSchedulerService.processScheduledImages(ImmutableList.of(imageResponse));
 
         Assertions.assertEquals(1, CollectionUtils.size(responses.getCreatedImages()));
+    }
+
+    @Test
+    public void whenProcessScheduledHasUpdatesThenReturnUpdates() {
+
+        ImageCreatedEvent event = imageCreatedEvent();
+        imageService.handleCreated(event);
+
+        ImageApi imageApi = imageApi();
+        imageApi.setId("newOvhId");
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
+
+        ProcessedImagesResponse responses = imageSchedulerService.processScheduledImages(ImmutableList.of(imageApi));
+
+        Assertions.assertEquals(1, CollectionUtils.size(responses.getUpdatedImages()));
+    }
+
+    @Test
+    public void whenProcessScheduledHasNoUpdatesThenReturnEmptyList() {
+
+        ImageCreatedEvent event = imageCreatedEvent();
+        imageService.handleCreated(event);
+
+        ImageApi imageApi = imageApi();
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
+
+        ProcessedImagesResponse responses = imageSchedulerService.processScheduledImages(ImmutableList.of(imageApi));
+
         Assertions.assertEquals(0, CollectionUtils.size(responses.getUpdatedImages()));
+    }
+
+    private ImageCreatedEvent imageCreatedEvent() {
+
+        return ImageCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .regionId(region.getId())
+                .ovhId("ovhId")
+                .name("name")
+                .build();
+    }
+
+    private ImageApi imageApi() {
+
+        ImageApi imageApi = new ImageApi();
+        imageApi.setId("ovhId");
+        imageApi.setRegionName(region.getName());
+        imageApi.setName("name");
+
+        return imageApi;
     }
 }

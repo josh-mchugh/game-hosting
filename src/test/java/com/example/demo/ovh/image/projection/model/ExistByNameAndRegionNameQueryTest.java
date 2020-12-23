@@ -3,12 +3,12 @@ package com.example.demo.ovh.image.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ExistImageNameAndRegionNameQueryTest {
+public class ExistByNameAndRegionNameQueryTest {
 
     @Test
     public void whenQueryHasNameThenReturnName() {
 
-        ExistImageNameAndRegionNameQuery query = ExistImageNameAndRegionNameQuery.builder()
+        ExistByNameAndRegionNameQuery query = ExistByNameAndRegionNameQuery.builder()
                 .name("name")
                 .build();
 
@@ -18,7 +18,7 @@ public class ExistImageNameAndRegionNameQueryTest {
     @Test
     public void whenQueryHasRegionNameThenReturnRegionName() {
 
-        ExistImageNameAndRegionNameQuery query = ExistImageNameAndRegionNameQuery.builder()
+        ExistByNameAndRegionNameQuery query = ExistByNameAndRegionNameQuery.builder()
                 .regionName("region-name")
                 .build();
 
@@ -28,9 +28,9 @@ public class ExistImageNameAndRegionNameQueryTest {
     @Test
     public void whenQueryToString() {
 
-        ExistImageNameAndRegionNameQuery query = query();
+        ExistByNameAndRegionNameQuery query = query();
 
-        String toString = "ExistImageNameAndRegionNameQuery(name=name, regionName=region-name)";
+        String toString = "ExistByNameAndRegionNameQuery(name=name, regionName=region-name)";
 
         Assertions.assertEquals(toString, query.toString());
     }
@@ -38,7 +38,7 @@ public class ExistImageNameAndRegionNameQueryTest {
     @Test
     public void whenQueryHashCode() {
 
-        ExistImageNameAndRegionNameQuery query = query();
+        ExistByNameAndRegionNameQuery query = query();
 
         Assertions.assertEquals(-1412892314, query.hashCode());
     }
@@ -46,8 +46,8 @@ public class ExistImageNameAndRegionNameQueryTest {
     @Test
     public void whenQueryEquals() {
 
-        ExistImageNameAndRegionNameQuery query1 = query();
-        ExistImageNameAndRegionNameQuery query2 = query();
+        ExistByNameAndRegionNameQuery query1 = query();
+        ExistByNameAndRegionNameQuery query2 = query();
 
         Assertions.assertEquals(query1, query2);
     }
@@ -55,13 +55,13 @@ public class ExistImageNameAndRegionNameQueryTest {
     @Test
     public void whenQueryNotEquals() {
 
-        ExistImageNameAndRegionNameQuery query = query();
+        ExistByNameAndRegionNameQuery query = query();
 
-        Assertions.assertNotEquals(query, new ExistImageNameAndRegionNameQuery("",""));
+        Assertions.assertNotEquals(query, new ExistByNameAndRegionNameQuery("",""));
     }
 
-    private ExistImageNameAndRegionNameQuery query() {
+    private ExistByNameAndRegionNameQuery query() {
 
-        return new ExistImageNameAndRegionNameQuery("name", "region-name");
+        return new ExistByNameAndRegionNameQuery("name", "region-name");
     }
 }

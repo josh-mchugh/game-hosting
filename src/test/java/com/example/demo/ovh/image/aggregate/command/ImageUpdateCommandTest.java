@@ -21,16 +21,6 @@ public class ImageUpdateCommandTest {
     }
 
     @Test
-    public void whenCommandHasRegionIdThenReturnRegionId() {
-
-        ImageUpdateCommand command = ImageUpdateCommand.builder()
-                .regionId("region-id")
-                .build();
-
-        Assertions.assertEquals("region-id", command.getRegionId());
-    }
-
-    @Test
     public void whenCommandHasOvhIdThenReturnOvhId() {
 
         ImageUpdateCommand command = ImageUpdateCommand.builder()
@@ -38,16 +28,6 @@ public class ImageUpdateCommandTest {
                 .build();
 
         Assertions.assertEquals("ovhId", command.getOvhId());
-    }
-
-    @Test
-    public void whenCommandHasNameThenReturnName() {
-
-        ImageUpdateCommand command = ImageUpdateCommand.builder()
-                .name("name")
-                .build();
-
-        Assertions.assertEquals("name", command.getName());
     }
 
     @Test
@@ -167,7 +147,7 @@ public class ImageUpdateCommandTest {
 
         ImageUpdateCommand command = imageUpdateCommand();
 
-        String toString = "ImageUpdateCommand(id=c050327c-f03d-4ff6-8d8b-25e3d7a22542, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-03T23:00, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageUpdateCommand(id=c050327c-f03d-4ff6-8d8b-25e3d7a22542, ovhId=ovhId, type=type, imageCreatedDate=2020-11-03T23:00, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, command.toString());
     }
@@ -177,7 +157,7 @@ public class ImageUpdateCommandTest {
 
         ImageUpdateCommand command = imageUpdateCommand();
 
-        Assertions.assertEquals(2105134411, command.hashCode());
+        Assertions.assertEquals(-773337834, command.hashCode());
     }
 
     @Test
@@ -201,9 +181,7 @@ public class ImageUpdateCommandTest {
 
         return ImageUpdateCommand.builder()
                 .id(UUID.fromString("c050327c-f03d-4ff6-8d8b-25e3d7a22542"))
-                .regionId("region-id")
                 .ovhId("ovhId")
-                .name("name")
                 .type("type")
                 .imageCreatedDate(LocalDateTime.of(2020, 11, 3, 23, 0))
                 .flavorType("flavor-type")
