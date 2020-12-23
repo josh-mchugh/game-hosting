@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @AllArgsConstructor
-public class FetchRegionIdByNameQuery {
+public class FetchRegionByNameQuery {
 
     String name;
 }

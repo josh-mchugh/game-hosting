@@ -29,15 +29,15 @@ public class FlavorScheduler {
         ImmutableList<FlavorApi> flavorResponses = flavorSchedulerService.getFlavorResponses();
         ProcessedFlavorsResponse response = flavorSchedulerService.processFlavors(flavorResponses);
 
-        LocalDateTime endTime = LocalDateTime.now();
+        LocalDateTime stopTime = LocalDateTime.now();
 
         log.info("Ovh Flavors | Stats - Total: {}, Created: {}, Updated: {} | Time - Start Time: {}, End Time: {}, Elapsed: {}ms",
                 CollectionUtils.size(flavorResponses),
                 CollectionUtils.size(response.getCreatedFlavors()),
                 CollectionUtils.size(response.getUpdatedFlavors()),
                 startTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                endTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                Duration.between(startTime, endTime).toMillis()
+                stopTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                Duration.between(startTime, stopTime).toMillis()
         );
     }
 }

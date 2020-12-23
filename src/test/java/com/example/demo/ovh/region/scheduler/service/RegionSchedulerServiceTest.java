@@ -47,35 +47,7 @@ public class RegionSchedulerServiceTest {
 
         List<String> regionNames = regionSchedulerService.getRegionNames();
 
-        Assertions.assertEquals(2, regionNames.size());
         Assertions.assertTrue(regionNames.containsAll(names));
-    }
-
-    @Test
-    public void testProcessedUpdateRegionsExisting() {
-
-        RegionCreatedEvent event = RegionCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .name("US-EAST-VA-1")
-                .continentCode("US")
-                .countryCodes("us")
-                .dataCenterLocation("US-EAST-VA")
-                .status(RegionStatus.UP)
-                .build();
-
-        Region region = regionService.handleCreated(event);
-
-        RegionApi regionResponse = new RegionApi();
-        regionResponse.setName(region.getName());
-        regionResponse.setStatus(RegionStatus.DOWN);
-
-        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
-        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionResponse);
-
-        ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of(region.getName()));
-
-        Assertions.assertEquals(1, processResponse.getUpdatedRegions().size());
-        Assertions.assertEquals(0, processResponse.getCreatedRegions().size());
     }
 
     @Test
@@ -83,7 +55,6 @@ public class RegionSchedulerServiceTest {
 
         RegionApi regionResponse = new RegionApi();
         regionResponse.setName("processed-create-regions");
-        regionResponse.setIpCountries(Arrays.asList("uk", "us", "ca"));
         regionResponse.setStatus(RegionStatus.UP);
 
         Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionResponse);
@@ -91,6 +62,62 @@ public class RegionSchedulerServiceTest {
         ProcessRegionResponse processedResponse = regionSchedulerService.processRegions(ImmutableList.of("not-existing-region"));
 
         Assertions.assertEquals(1, processedResponse.getCreatedRegions().size());
-        Assertions.assertEquals(0, processedResponse.getUpdatedRegions().size());
+    }
+
+    @Test
+    public void whenRegionSchedulerHasUpdatesThenExpectPopulatedList() {
+
+        RegionCreatedEvent event = regionCreatedEvent();
+        regionService.handleCreated(event);
+
+        RegionApi regionApi = regionApi();
+        regionApi.setStatus(RegionStatus.DOWN);
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
+
+        ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of("US-EAST-VA-1"));
+
+        Assertions.assertEquals(1, processResponse.getUpdatedRegions().size());
+    }
+
+    @Test
+    public void whenRegionSchedulerHasNoUpdatesThenExpectEmptyList() {
+
+        RegionCreatedEvent event = regionCreatedEvent();
+        regionService.handleCreated(event);
+
+        RegionApi regionApi = regionApi();
+
+        Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
+
+        ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of("US-EAST-VA-1"));
+
+        Assertions.assertEquals(0, processResponse.getUpdatedRegions().size());
+    }
+
+    private RegionCreatedEvent regionCreatedEvent() {
+
+        return RegionCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("US-EAST-VA-1")
+                .continentCode("US")
+                .countryCodes("us,ca")
+                .dataCenterLocation("US-EAST-VA")
+                .status(RegionStatus.UP)
+                .build();
+    }
+
+    private RegionApi regionApi() {
+
+        RegionApi regionApi = new RegionApi();
+        regionApi.setName("US-EAST-VA-1");
+        regionApi.setContinentCode("US");
+        regionApi.setIpCountries(Arrays.asList("us", "ca"));
+        regionApi.setDataCenterLocation("US-EAST-VA");
+        regionApi.setStatus(RegionStatus.UP);
+
+        return regionApi;
     }
 }
