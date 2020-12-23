@@ -60,16 +60,8 @@ public class ImageService implements IImageService {
     @EventHandler
     public Image handleUpdated(ImageUpdatedEvent event) {
 
-        QRegionEntity qRegion = QRegionEntity.regionEntity;
-
-        RegionEntity regionEntity = queryFactory.selectFrom(qRegion)
-                .where(qRegion.id.eq(event.getRegionId()))
-                .fetchOne();
-
         ImageEntity entity = getById(event.getId().toString());
         entity.setOvhId(event.getOvhId());
-        entity.setRegionEntity(regionEntity);
-        entity.setName(event.getName());
         entity.setType(event.getType());
         entity.setImageCreatedDate(event.getImageCreatedDate());
         entity.setFlavorType(event.getFlavorType());

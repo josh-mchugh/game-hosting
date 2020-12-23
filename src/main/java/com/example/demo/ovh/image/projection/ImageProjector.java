@@ -1,12 +1,13 @@
 package com.example.demo.ovh.image.projection;
 
+import com.example.demo.ovh.image.entity.ImageEntity;
 import com.example.demo.ovh.image.entity.QImageEntity;
-import com.example.demo.ovh.image.projection.model.ExistImageNameAndRegionNameQuery;
-import com.example.demo.ovh.image.projection.model.FetchImageAndRegionIdProjection;
-import com.example.demo.ovh.image.projection.model.FetchImageIdAndRegionIdQuery;
+import com.example.demo.ovh.image.entity.mapper.ImageMapper;
+import com.example.demo.ovh.image.entity.model.Image;
+import com.example.demo.ovh.image.projection.model.ExistByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.projection.model.FetchImageByNameAndRegionNameQuery;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class ImageProjector implements IImageProjector {
     }
 
     @Override
-    public boolean existsByNameAndRegionName(ExistImageNameAndRegionNameQuery query) {
+    public boolean existsByNameAndRegionName(ExistByNameAndRegionNameQuery query) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
         QRegionEntity qRegion = QRegionEntity.regionEntity;
@@ -49,22 +50,21 @@ public class ImageProjector implements IImageProjector {
     }
 
     @Override
-    public FetchImageAndRegionIdProjection fetchImageIdAndRegionIdQuery(FetchImageIdAndRegionIdQuery query) {
+    public Image fetchImageByNameAndRegionName(FetchImageByNameAndRegionNameQuery query) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
         QRegionEntity qRegion = QRegionEntity.regionEntity;
 
         BooleanBuilder predicate = new BooleanBuilder();
-        predicate.and(qImage.name.eq(query.getImageName()));
+        predicate.and(qImage.name.eq(query.getName()));
         predicate.and(qRegion.name.eq(query.getRegionName()));
 
-        return queryFactory.select(Projections.constructor(
-                    FetchImageAndRegionIdProjection.class,
-                    qImage.id,
-                    qRegion.id
-                )).from(qImage)
+        ImageEntity entity = queryFactory.select(qImage)
+                .from(qImage)
                 .innerJoin(qImage.regionEntity, qRegion)
                 .where(predicate)
                 .fetchOne();
+
+        return ImageMapper.map(entity);
     }
 }

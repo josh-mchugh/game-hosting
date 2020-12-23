@@ -5,8 +5,8 @@ import lombok.Value;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class FetchImageIdAndRegionIdQuery {
+public class FetchImageByNameAndRegionNameQuery {
 
-    String imageName;
+    String name;
     String regionName;
 }

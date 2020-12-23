@@ -11,9 +11,7 @@ import java.util.UUID;
 public class ImageUpdatedEvent {
 
     UUID id;
-    String regionId;
     String ovhId;
-    String name;
     String type;
     LocalDateTime imageCreatedDate;
     String flavorType;

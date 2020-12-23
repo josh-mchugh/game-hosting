@@ -21,16 +21,6 @@ public class ImageUpdatedEventTest {
     }
 
     @Test
-    public void whenEventHasRegionIdThenReturnRegionId() {
-
-        ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .regionId("region-id")
-                .build();
-
-        Assertions.assertEquals("region-id", event.getRegionId());
-    }
-
-    @Test
     public void whenEventHasOvhIdThenReturnOvhId() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
@@ -38,16 +28,6 @@ public class ImageUpdatedEventTest {
                 .build();
 
         Assertions.assertEquals("ovhId", event.getOvhId());
-    }
-
-    @Test
-    public void whenEventHasNameThenReturnName() {
-
-        ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .name("name")
-                .build();
-
-        Assertions.assertEquals("name", event.getName());
     }
 
     @Test
@@ -167,7 +147,7 @@ public class ImageUpdatedEventTest {
 
         ImageUpdatedEvent event = imageUpdatedEvent();
 
-        String toString = "ImageUpdatedEvent(id=2ab2fb8d-fa62-4039-9c49-dd89d19631d0, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T09:10, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageUpdatedEvent(id=2ab2fb8d-fa62-4039-9c49-dd89d19631d0, ovhId=ovhId, type=type, imageCreatedDate=2020-11-04T09:10, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, event.toString());
     }
@@ -177,7 +157,7 @@ public class ImageUpdatedEventTest {
 
         ImageUpdatedEvent event = imageUpdatedEvent();
 
-        Assertions.assertEquals(-428772997, event.hashCode());
+        Assertions.assertEquals(-1450703594, event.hashCode());
     }
 
     @Test
@@ -201,9 +181,7 @@ public class ImageUpdatedEventTest {
 
         return ImageUpdatedEvent.builder()
                 .id(UUID.fromString("2ab2fb8d-fa62-4039-9c49-dd89d19631d0"))
-                .regionId("region-id")
                 .ovhId("ovhId")
-                .name("name")
                 .type("type")
                 .imageCreatedDate(LocalDateTime.of(2020, 11, 4, 9, 10))
                 .flavorType("flavor-type")

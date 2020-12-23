@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class ExistImageNameAndRegionNameQuery {
+public class ExistByNameAndRegionNameQuery {
 
     String name;
     String regionName;
