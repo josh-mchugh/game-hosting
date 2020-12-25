@@ -1,58 +1,60 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
 import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
-import com.example.demo.ovh.instance.entity.InstanceEntity;
-import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.entity.QInstanceEntity;
-import com.example.demo.ovh.instance.entity.mapper.InstanceMapper;
 import com.example.demo.ovh.instance.entity.model.Instance;
 import com.example.demo.ovh.instance.feign.IInstanceFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
+import com.example.demo.ovh.instance.projection.IInstanceProjector;
+import com.example.demo.ovh.instance.projection.model.FetchInstancesByOvhIdsQuery;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class InstanceSchedulerService implements IInstanceSchedulerService {
 
-    private final JPQLQueryFactory queryFactory;
+    private final IInstanceProjector instanceProjector;
     private final IInstanceFeignService instanceFeignService;
     private final CommandGateway commandGateway;
 
     @Override
-    public List<UUID> handleInstanceUpdates() {
+    public ImmutableList<InstanceApi> getInstanceApis() {
+
+        return ImmutableList.copyOf(instanceFeignService.getInstances());
+    }
+
+    @Override
+    public List<UUID> handleInstanceUpdates(ImmutableList<InstanceApi> instanceApis) {
 
         List<UUID> updatedInstances = new ArrayList<>();
 
-        for(List<InstanceApi> apiResponses : getPartitionedApiList()) {
+        for(List<InstanceApi> apiResponses : getPartitionedApiList(instanceApis)) {
 
-            List<String> instanceIds = getInstanceIds(apiResponses);
+            ImmutableList<String> instanceIds = getInstanceIds(apiResponses);
 
             ImmutableList<Instance> instances = getInstances(instanceIds);
 
             if(CollectionUtils.isNotEmpty(instances)) {
 
-                for(InstanceApi apiResponse : apiResponses) {
+                for(InstanceApi api : apiResponses) {
 
                     for (Instance instance : instances) {
 
-                        if (apiResponse.getId().equals(instance.getOvhId()) && !instance.getStatus().equals(InstanceStatus.BUILD)) {
+                        if (api.getId().equals(instance.getOvhId())) {
 
-                            if (!isEqual(instance, apiResponse)) {
+                            if (isDifferent(instance, api)) {
 
-                                updatedInstances.add(handleInstanceUpdate(instance.getId(), apiResponse));
+                                updatedInstances.add(handleInstanceUpdate(instance.getId(), api));
                             }
                         }
                     }
@@ -63,39 +65,33 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         return updatedInstances;
     }
 
-    public List<List<InstanceApi>> getPartitionedApiList() {
+    public List<List<InstanceApi>> getPartitionedApiList(List<InstanceApi> instanceApis) {
 
-        return Lists.partition(instanceFeignService.getInstances(), 20);
+        return Lists.partition(instanceApis, 20);
     }
 
-    public ImmutableList<Instance> getInstances(Collection<String> ids) {
+    public ImmutableList<Instance> getInstances(ImmutableList<String> ids) {
 
-        QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
+        FetchInstancesByOvhIdsQuery query = new FetchInstancesByOvhIdsQuery(ids);
 
-        //TODO: Replace with QueryGate / Projection
-        List<InstanceEntity> entities = queryFactory.select(qInstance)
-                .from(qInstance)
-                .where(qInstance.ovhId.in(ids))
-                .fetch();
-
-        return InstanceMapper.map(entities);
+        return instanceProjector.fetchInstancesByIds(query).getInstances();
     }
 
-    private List<String> getInstanceIds(List<InstanceApi> apiResponses) {
+    private ImmutableList<String> getInstanceIds(List<InstanceApi> apiResponses) {
 
         return apiResponses.stream()
                 .map(InstanceApi::getId)
-                .collect(Collectors.toList());
+                .collect(ImmutableList.toImmutableList());
     }
 
-    private boolean isEqual(Instance instance, InstanceApi apiResponse) {
+    private boolean isDifferent(Instance instance, InstanceApi api) {
 
-        if(!Objects.equals(instance.getName(), apiResponse.getName())) return false;
-        if(!Objects.equals(instance.getStatus(), apiResponse.getStatus())) return false;
-        if(!Objects.equals(instance.getInstanceCreatedDate(), apiResponse.getCreatedDate())) return false;
-        if(!Objects.equals(instance.getIp4Address(), apiResponse.getIp4Address())) return false;
+        if(!StringUtils.equals(instance.getName(), api.getName())) return true;
+        if(!Objects.equals(instance.getInstanceCreatedDate(), api.getCreatedDate())) return true;
+        if(!Objects.equals(instance.getStatus(), api.getStatus())) return true;
+        if(!StringUtils.equals(instance.getIp4Address(), api.getIp4Address())) return true;
 
-        return Objects.equals(instance.getIp6Address(), apiResponse.getIp6Address());
+        return !StringUtils.equals(instance.getIp6Address(), api.getIp6Address());
     }
 
     private UUID handleInstanceUpdate(String id, InstanceApi apiResponse) {

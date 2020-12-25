@@ -14,7 +14,7 @@ public class InstanceUpdateSchedulerTest {
     public void whenInstanceUpdateSchedulerExecutes() {
 
         IInstanceSchedulerService service = Mockito.mock(IInstanceSchedulerService.class);
-        Mockito.when(service.handleInstanceUpdates()).thenReturn(Lists.newArrayList(UUID.randomUUID()));
+        Mockito.when(service.handleInstanceUpdates(Mockito.any())).thenReturn(Lists.newArrayList(UUID.randomUUID()));
 
         InstanceUpdateScheduler scheduler = new InstanceUpdateScheduler(service);
 
