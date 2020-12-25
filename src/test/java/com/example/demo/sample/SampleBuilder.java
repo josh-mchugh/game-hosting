@@ -460,7 +460,7 @@ public class SampleBuilder {
                 .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
-                .instanceCreatedDate(LocalDateTime.now())
+                .instanceCreatedDate(LocalDateTime.of(2020, 12, 23, 22, 30))
                 .build();
 
         return instanceService.handleCreated(event);

@@ -27,8 +27,8 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -90,7 +90,7 @@ public class ProjectCreatedSaga {
         InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
                 .name(event.getProjectId())
                 .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
-                .imageId("78dd3354-4eee-4890-a29e-2b3bfcef9a2a")
+                .imageId("03155da7-81d5-4eb1-9254-c2869d1c5a14")
                 .region("US-EAST-VA-1")
                 .groupId(event.getOvhId())
                 .sshKeyId(sshKeyId)
@@ -103,9 +103,9 @@ public class ProjectCreatedSaga {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(id)
-                .flavorId("d1ffecbf-8776-454e-b5b3-8d5f80223c61")
-                .imageId("baa591c5-1538-46e8-9a8f-d1abf15ba744")
-                .credentialId("c3375114-2b27-4ac4-be06-e326ac74daa4")
+                .flavorId("d4baaace-7329-4111-940d-b334deea6f69")
+                .imageId("de136f93-9198-4799-86f7-d36f3891aba6")
+                .credentialId("d8e4a374-7f29-4225-ab6a-2f23f7eccd5b")
                 .instanceGroupId(event.getId().toString())
                 .name(instanceApi.getName())
                 .ovhId(instanceApi.getId())
@@ -123,10 +123,11 @@ public class ProjectCreatedSaga {
     public void handle(InstanceCreatedEvent event) {
 
         Polling.waitPeriodly(1, TimeUnit.SECONDS)
-                .stopAfterAttempt(30)
+                .stopAfterAttempt(60)
+                .stopIfException(false)
                 .run(() -> this.handleInstancePolling(event));
 
-        log.info("Finished handleDashboardProjectCreate. Total Time: {} seconds", ChronoUnit.SECONDS.between(startTime, LocalDateTime.now()));
+        log.info("Finished handleDashboardProjectCreate. Total Time: {}s", Duration.between(startTime, LocalDateTime.now()).toSeconds());
     }
 
     private AttemptResult<?> handleInstancePolling(InstanceCreatedEvent event) {
