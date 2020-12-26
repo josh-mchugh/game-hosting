@@ -56,7 +56,7 @@ public class AwxControllerPlaybookServiceTest {
         Mockito.when(playbookFeignService.getPlaybooks(Mockito.anyLong())).thenReturn(Collections.singletonList("cowsay-playbook.yml"));
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
 
-        PlaybookCreateRequest request = createValidRequest();
+        PlaybookCreateRequest request = new PlaybookCreateRequest(awxProject.getAwxId());
 
         ImmutableList<Object> awxPlaybooks = awxControllerPlaybookService.handleCreatePlaybooks(request);
 
@@ -70,7 +70,7 @@ public class AwxControllerPlaybookServiceTest {
                 .awxPlaybook()
                 .build();
 
-        PlaybookCreateRequest request = createValidRequest();
+        PlaybookCreateRequest request = new PlaybookCreateRequest(awxProject.getAwxId());
 
         ImmutableList<Object> awxPlaybooks = awxControllerPlaybookService.handleCreatePlaybooks(request);
 
@@ -80,9 +80,7 @@ public class AwxControllerPlaybookServiceTest {
     @Test
     public void whenCreatePlaybooksWithNullProjectIdThenThrowException() {
 
-        PlaybookCreateRequest request = PlaybookCreateRequest.builder()
-                .projectId(null)
-                .build();
+        PlaybookCreateRequest request = new PlaybookCreateRequest(null);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> awxControllerPlaybookService.handleCreatePlaybooks(request));
     }
@@ -98,13 +96,8 @@ public class AwxControllerPlaybookServiceTest {
 
         Mockito.when(playbookFeignService.getPlaybooks(Mockito.anyLong())).thenThrow(FeignException.FeignClientException.class);
 
-        Assertions.assertThrows(FeignException.FeignClientException.class, () -> awxControllerPlaybookService.handleCreatePlaybooks(createValidRequest()));
-    }
+        PlaybookCreateRequest request = new PlaybookCreateRequest(awxProject.getAwxId());
 
-    private PlaybookCreateRequest createValidRequest() {
-
-        return PlaybookCreateRequest.builder()
-                .projectId(awxProject.getAwxId())
-                .build();
+        Assertions.assertThrows(FeignException.FeignClientException.class, () -> awxControllerPlaybookService.handleCreatePlaybooks(request));
     }
 }

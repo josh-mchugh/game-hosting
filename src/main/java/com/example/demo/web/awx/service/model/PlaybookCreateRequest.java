@@ -1,10 +1,10 @@
 package com.example.demo.web.awx.service.model;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Value;
 
-@Getter
-@Builder(builderClassName = "Builder")
+@Value
+@AllArgsConstructor
 public class PlaybookCreateRequest {
 
     Long projectId;
