@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin/dashboard")
 @RequiredArgsConstructor
-public class AdminDashboard {
+public class AdminDashboardProjectionController {
 
     @GetMapping("")
     public String getDefault() {

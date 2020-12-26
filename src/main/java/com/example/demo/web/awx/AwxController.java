@@ -22,14 +22,9 @@ public class AwxController {
     @PostMapping("/notification/project/{projectId}/success")
     public ResponseEntity<Void> notificationProjectCallback(@PathVariable("projectId") Long projectId) {
 
-        PlaybookCreateRequest request = PlaybookCreateRequest.builder()
-                .projectId(projectId)
-                .build();
-
+        PlaybookCreateRequest request = new PlaybookCreateRequest(projectId);
         awxControllerPlaybookService.handleCreatePlaybooks(request);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }
