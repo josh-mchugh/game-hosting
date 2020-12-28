@@ -1,12 +1,11 @@
-package com.example.demo.web.password.reset.service;
+package com.example.demo.web.password.forgot.command.service;
 
+import com.example.demo.user.aggregate.command.UserRecoveryTokenCreateCommandTest;
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
-import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.user.entity.service.IUserService;
-import com.example.demo.web.password.reset.service.model.PasswordResetRequest;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,19 +20,19 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class ResetPasswordServiceTest {
+public class ForgotPasswordCommandServiceForgotPasswordTest {
+
+    @Autowired
+    private IForgotPasswordCommandService forgotPasswordService;
 
     @Autowired
     private IUserService userService;
-
-    @Autowired
-    private IResetPasswordService resetPasswordService;
 
     @MockBean
     private CommandGateway commandGateway;
 
     @Test
-    public void testHandleResetPassword() {
+    public void testForgotPasswordExistingUser() {
 
         UserCreatedEvent event = UserCreatedEvent.builder()
                 .id(UUID.randomUUID())
@@ -46,20 +45,16 @@ public class ResetPasswordServiceTest {
 
         User user = userService.handleCreated(event);
 
-        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
-                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
-                .build();
-
-        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
-
-        PasswordResetRequest resetRequest = PasswordResetRequest.builder()
-                .password("newPassword1!")
-                .token(user.getRecoveryToken().getToken())
-                .build();
-
-        resetPasswordService.handlePasswordReset(resetRequest);
+        forgotPasswordService.handleForgotPassword(user.getEmail());
 
         Mockito.verify(commandGateway, Mockito.times(1)).send(Mockito.any());
+    }
+
+    @Test
+    public void testForgotPasswordNonExistingUser() {
+
+        forgotPasswordService.handleForgotPassword("non-existing@forgot-password-service.com");
+
+        Mockito.verify(commandGateway, Mockito.times(0)).send(Mockito.any(UserRecoveryTokenCreateCommandTest.class));
     }
 }

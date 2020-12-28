@@ -1,4 +1,4 @@
-package com.example.demo.web.password.reset;
+package com.example.demo.web.password.reset.command;
 
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
 import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
@@ -25,55 +25,13 @@ import java.util.UUID;
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ResetPasswordControllerTest {
+public class ResetPasswordCommandControllerTest {
 
     @Autowired
     private IUserService userService;
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Test
-    public void testResetPasswordWithValidId() throws Exception {
-
-        UserCreatedEvent event = UserCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .email("test@test")
-                .password("password")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .verification(UserCreatedEvent.createVerification())
-                .build();
-
-        User user = userService.handleCreated(event);
-
-        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
-                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
-                .build();
-
-        user = userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/reset-password/%s", user.getRecoveryToken().getToken()));
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attribute("hasValidToken", true));
-    }
-
-    @Test
-    public void testResetPasswordWithInvalidId() throws Exception {
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/asdfaasdf");
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attribute("hasValidToken", false));
-    }
 
     @Test
     public void testResetPasswordEmptyPasswords() throws Exception {
@@ -205,16 +163,5 @@ public class ResetPasswordControllerTest {
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/reset-password/success"));
-    }
-
-    @Test
-    public void testResetPasswordSuccessDefault() throws Exception {
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/success");
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("password/reset/view-success"));
     }
 }
