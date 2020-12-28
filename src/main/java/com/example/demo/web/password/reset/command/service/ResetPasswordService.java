@@ -1,10 +1,10 @@
-package com.example.demo.web.password.reset.service;
+package com.example.demo.web.password.reset.command.service;
 
 import com.example.demo.user.aggregate.command.UserPasswordChangeCommand;
 import com.example.demo.user.projection.IUserProjector;
 import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenProjection;
 import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenQuery;
-import com.example.demo.web.password.reset.service.model.PasswordResetRequest;
+import com.example.demo.web.password.reset.command.service.model.PasswordResetRequest;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;

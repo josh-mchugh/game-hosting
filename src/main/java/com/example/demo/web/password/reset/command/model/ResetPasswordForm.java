@@ -1,8 +1,6 @@
-package com.example.demo.web.password.reset.model;
+package com.example.demo.web.password.reset.command.model;
 
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
 
 @Data
 public class ResetPasswordForm {

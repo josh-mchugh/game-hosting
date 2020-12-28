@@ -1,4 +1,4 @@
-package com.example.demo.web.password.forgot.service;
+package com.example.demo.web.password.forgot.command.service;
 
 import com.example.demo.user.aggregate.command.UserRecoveryTokenCreateCommand;
 import com.example.demo.user.projection.IUserProjector;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ForgotPasswordService implements IForgotPasswordService {
+public class ForgotPasswordCommandService implements IForgotPasswordCommandService {
 
     private final IUserProjector userProjector;
     private final CommandGateway commandGateway;

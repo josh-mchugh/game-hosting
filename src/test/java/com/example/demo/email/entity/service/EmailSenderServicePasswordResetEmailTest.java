@@ -81,7 +81,7 @@ public class EmailSenderServicePasswordResetEmailTest {
         MimeMessage[] messages = smtpServer.getReceivedMessages();
         MimeMessage message = messages[messages.length - 1];
 
-        String expected = "Your password reset is complete for password-reset@email-sender.com. You may sign in into your account with your new password. Sign In Copyable link: http://localhost:8080/login If you did not perform this action, you can recover access by completing the reset password form at http://localhost:8080/forgot-password. If you run into problems, please contact support by replying to this email. Please do not reply to this email with your password. We will never ask for your password, and we strongly discourage you from sharing it with anyone.";
+        String expected = "Your password reset is complete for password-reset@email-sender.com. You may sign in into your account with your new password. Sign In Copyable link: http://localhost:8080/login If you did not perform this action, you can recover access by completing the reset password form at http://localhost:8080/forgot-password If you run into problems, please contact support by replying to this email. Please do not reply to this email with your password. We will never ask for your password, and we strongly discourage you from sharing it with anyone.";
 
         Assertions.assertEquals(expected, Jsoup.parse(String.valueOf(message.getContent())).body().text());
     }

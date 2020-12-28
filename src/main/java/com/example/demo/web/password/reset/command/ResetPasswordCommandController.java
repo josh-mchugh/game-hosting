@@ -1,17 +1,15 @@
-package com.example.demo.web.password.reset;
+package com.example.demo.web.password.reset.command;
 
-import com.example.demo.user.projection.IUserProjector;
 import com.example.demo.util.PasswordUtil;
-import com.example.demo.web.password.reset.model.ResetPasswordForm;
-import com.example.demo.web.password.reset.service.IResetPasswordService;
-import com.example.demo.web.password.reset.service.model.PasswordResetRequest;
+import com.example.demo.web.password.reset.command.model.ResetPasswordForm;
+import com.example.demo.web.password.reset.command.service.IResetPasswordService;
+import com.example.demo.web.password.reset.command.service.model.PasswordResetRequest;
 import com.example.demo.web.registration.service.model.ValidatePasswordRequest;
 import com.example.demo.web.registration.service.model.ValidatePasswordResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,26 +20,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/reset-password")
 @RequiredArgsConstructor
-public class ResetPasswordController {
+public class ResetPasswordCommandController {
 
     private final IResetPasswordService resetPasswordService;
-    private final IUserProjector userProjector;
-
-    @GetMapping("/{token}")
-    public String getResetPassword(@PathVariable("token") String token, Model model) {
-
-        if (!userProjector.existsByRecoveryToken(token)) {
-
-            model.addAttribute("hasValidToken", false);
-
-        }else {
-
-            model.addAttribute("hasValidToken", true);
-            model.addAttribute("form", new ResetPasswordForm());
-        }
-
-        return "password/reset/view-default";
-    }
 
     @PostMapping("/{token}")
     public String postResetPassword(@PathVariable("token") String token, Model model, @Valid @ModelAttribute("form") ResetPasswordForm form, BindingResult results) {
@@ -69,11 +50,5 @@ public class ResetPasswordController {
         resetPasswordService.handlePasswordReset(passwordResetRequest);
 
         return "redirect:/reset-password/success";
-    }
-
-    @GetMapping("/success")
-    public String getPasswordResetSuccess() {
-
-        return "password/reset/view-success";
     }
 }

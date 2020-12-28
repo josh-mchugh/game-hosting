@@ -1,4 +1,4 @@
-package com.example.demo.web.password.forgot.model;
+package com.example.demo.web.password.forgot.command.model;
 
 import lombok.Data;
 

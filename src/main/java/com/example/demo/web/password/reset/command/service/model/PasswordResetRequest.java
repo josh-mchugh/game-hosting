@@ -1,4 +1,4 @@
-package com.example.demo.web.password.reset.service.model;
+package com.example.demo.web.password.reset.command.service.model;
 
 import lombok.Builder;
 import lombok.Value;
