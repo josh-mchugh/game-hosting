@@ -1,4 +1,4 @@
-package com.example.demo.web.registration.model;
+package com.example.demo.web.registration.form;
 
 import lombok.Data;
 

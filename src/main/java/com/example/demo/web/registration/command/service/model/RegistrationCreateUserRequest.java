@@ -1,4 +1,4 @@
-package com.example.demo.web.registration.service.model;
+package com.example.demo.web.registration.command.service.model;
 
 import lombok.Builder;
 import lombok.Value;

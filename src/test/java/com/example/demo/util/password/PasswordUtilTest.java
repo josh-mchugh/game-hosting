@@ -1,7 +1,7 @@
-package com.example.demo.util;
+package com.example.demo.util.password;
 
-import com.example.demo.web.registration.service.model.ValidatePasswordRequest;
-import com.example.demo.web.registration.service.model.ValidatePasswordResponse;
+import com.example.demo.util.password.model.ValidatePasswordRequest;
+import com.example.demo.util.password.model.ValidatePasswordResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

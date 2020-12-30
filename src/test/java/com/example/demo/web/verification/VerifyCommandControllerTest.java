@@ -1,4 +1,4 @@
-package com.example.demo.web.verify;
+package com.example.demo.web.verification;
 
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
 import com.example.demo.user.entity.UserState;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class VerifyControllerTest {
+public class VerifyCommandControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
