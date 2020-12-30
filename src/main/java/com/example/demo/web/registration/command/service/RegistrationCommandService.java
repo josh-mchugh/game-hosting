@@ -1,7 +1,7 @@
-package com.example.demo.web.registration.service;
+package com.example.demo.web.registration.command.service;
 
 import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
-import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
+import com.example.demo.web.registration.command.service.model.RegistrationCreateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrationService implements IRegistrationService{
+public class RegistrationCommandService implements IRegistrationCommandService {
 
     private final CommandGateway commandGateway;
 

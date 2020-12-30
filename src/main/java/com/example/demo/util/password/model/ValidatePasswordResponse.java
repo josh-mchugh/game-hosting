@@ -1,4 +1,4 @@
-package com.example.demo.web.registration.service.model;
+package com.example.demo.util.password.model;
 
 import lombok.Builder;
 import lombok.Value;

@@ -1,7 +1,7 @@
-package com.example.demo.web.registration.service;
+package com.example.demo.web.registration.command.service;
 
 import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
-import com.example.demo.web.registration.service.model.RegistrationCreateUserRequest;
+import com.example.demo.web.registration.command.service.model.RegistrationCreateUserRequest;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,15 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.transaction.Transactional;
-
 @ActiveProfiles("test")
-@Transactional
 @SpringBootTest
-public class RegistrationServiceTest {
+public class RegistrationCommandServiceCreateNewUserTest {
 
     @Autowired
-    private IRegistrationService registrationService;
+    private IRegistrationCommandService registrationService;
 
     @MockBean
     private CommandGateway commandGateway;

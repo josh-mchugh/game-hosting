@@ -1,12 +1,8 @@
-package com.example.demo.web.verify.service;
+package com.example.demo.web.verification.service;
 
+import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.command.UserVerifyResetCommand;
-import com.example.demo.user.aggregate.event.UserCreatedEvent;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.entity.service.IUserService;
-import com.example.demo.web.verification.service.IVerifyService;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,18 +12,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class VerifyServiceTest {
+public class VerifyCommandServiceResendVerificationTest {
 
     @Autowired
-    private IUserService userService;
+    private SampleBuilder sampleBuilder;
 
     @Autowired
-    private IVerifyService verifyService;
+    private IVerifyCommandService verifyService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -35,16 +30,10 @@ public class VerifyServiceTest {
     @Test
     public void testHandleResendVerificationEmail() {
 
-        UserCreatedEvent event = UserCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .email("test@test")
-                .password("password")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .verification(UserCreatedEvent.createVerification())
-                .build();
-
-        User user = userService.handleCreated(event);
+        User user = sampleBuilder.builder()
+                .user()
+                .build()
+                .getUser();
 
         verifyService.handleResendVerificationEmail(user.getId());
 

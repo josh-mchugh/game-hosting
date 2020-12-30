@@ -1,11 +1,11 @@
 package com.example.demo.web.password.reset.command;
 
-import com.example.demo.util.PasswordUtil;
+import com.example.demo.util.password.PasswordUtil;
 import com.example.demo.web.password.reset.command.model.ResetPasswordForm;
 import com.example.demo.web.password.reset.command.service.IResetPasswordService;
 import com.example.demo.web.password.reset.command.service.model.PasswordResetRequest;
-import com.example.demo.web.registration.service.model.ValidatePasswordRequest;
-import com.example.demo.web.registration.service.model.ValidatePasswordResponse;
+import com.example.demo.util.password.model.ValidatePasswordRequest;
+import com.example.demo.util.password.model.ValidatePasswordResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

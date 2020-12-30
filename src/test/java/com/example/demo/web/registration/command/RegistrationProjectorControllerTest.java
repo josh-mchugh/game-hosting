@@ -1,10 +1,9 @@
-package com.example.demo.web.registration;
+package com.example.demo.web.registration.command;
 
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.service.IUserService;
-import com.example.demo.web.registration.model.RegistrationForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,25 +23,13 @@ import java.util.UUID;
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RegistrationControllerTest {
+public class RegistrationProjectorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private IUserService userService;
-
-    @Test
-    public void testRegistrationDefault() throws Exception {
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/registration");
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attribute("form", new RegistrationForm()));
-    }
 
     @Test
     public void testPostRegistrationEmptyForm() throws Exception {
@@ -161,16 +148,5 @@ public class RegistrationControllerTest {
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/registration/success"));
-    }
-
-    @Test
-    public void testRegistrationSuccessDefault() throws Exception {
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/registration/success");
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-success"));
     }
 }
