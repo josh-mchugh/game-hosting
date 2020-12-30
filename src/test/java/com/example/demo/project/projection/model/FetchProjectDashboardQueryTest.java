@@ -3,7 +3,7 @@ package com.example.demo.project.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class fetchProjectDashboardQueryTest {
+public class FetchProjectDashboardQueryTest {
 
     @Test
     public void whenModelHasEmailThenReturnEmail() {

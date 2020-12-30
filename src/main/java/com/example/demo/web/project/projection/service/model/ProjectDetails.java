@@ -1,4 +1,4 @@
-package com.example.demo.web.project.service.model;
+package com.example.demo.web.project.projection.service.model;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
