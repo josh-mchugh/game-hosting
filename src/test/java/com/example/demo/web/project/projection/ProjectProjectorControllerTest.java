@@ -1,9 +1,9 @@
-package com.example.demo.web.project;
+package com.example.demo.web.project.projection;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.web.project.service.IProjectControllerService;
-import com.example.demo.web.project.service.model.ProjectDetails;
+import com.example.demo.web.project.projection.service.IProjectProjectorService;
+import com.example.demo.web.project.projection.service.model.ProjectDetails;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,13 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class ProjectControllerTest {
+public class ProjectProjectorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private IProjectControllerService projectControllerService;
+    private IProjectProjectorService projectControllerService;
 
     @Test
     public void whenDefaultViewAuthenticatedThenReturnOk() throws Exception {
@@ -53,29 +53,5 @@ public class ProjectControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("project/view-default"))
                 .andExpect(MockMvcResultMatchers.model().attribute("details", projectDetails));
-    }
-
-    @Test
-    public void whenDefaultPostStartInstanceThenReturnOk() throws Exception {
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/project/asdfasdf/instance/asdasdf/start")
-                .with(SecurityMockMvcRequestPostProcessors.user("test@test"))
-                .with(SecurityMockMvcRequestPostProcessors.csrf());
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    public void whenDefaultPostStopInstanceThenReturnOk() throws Exception {
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/project/asdfasdf/instance/asdasdf/stop")
-                .with(SecurityMockMvcRequestPostProcessors.user("test@test"))
-                .with(SecurityMockMvcRequestPostProcessors.csrf());
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

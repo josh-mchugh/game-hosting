@@ -1,14 +1,12 @@
-package com.example.demo.web.project;
+package com.example.demo.web.project.command;
 
-import com.example.demo.web.project.service.IProjectControllerService;
-import com.example.demo.web.project.service.model.ProjectInstanceStartRequest;
-import com.example.demo.web.project.service.model.ProjectInstanceStopRequest;
+import com.example.demo.web.project.command.service.IProjectCommandService;
+import com.example.demo.web.project.command.service.model.ProjectInstanceStartRequest;
+import com.example.demo.web.project.command.service.model.ProjectInstanceStopRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,17 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/project")
 @RequiredArgsConstructor
-public class ProjectController {
+public class ProjectCommandController {
 
-    private final IProjectControllerService projectControllerService;
-
-    @GetMapping("/{id}")
-    public String getDefault(Model model, @PathVariable("id") String id) {
-
-        model.addAttribute("details", projectControllerService.getProjectDetails(id));
-
-        return "project/view-default";
-    }
+    private final IProjectCommandService projectCommandService;
 
     @ResponseBody
     @PostMapping("/{id}/instance/{instanceId}/start")
@@ -38,7 +28,7 @@ public class ProjectController {
                 .instanceId(instanceId)
                 .build();
 
-        projectControllerService.handleProjectInstanceStart(request);
+        projectCommandService.handleProjectInstanceStart(request);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -52,7 +42,7 @@ public class ProjectController {
                 .instanceId(instanceId)
                 .build();
 
-        projectControllerService.handleProjectInstanceStop(request);
+        projectCommandService.handleProjectInstanceStop(request);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

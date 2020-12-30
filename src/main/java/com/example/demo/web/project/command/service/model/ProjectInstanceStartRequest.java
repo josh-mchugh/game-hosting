@@ -1,9 +1,9 @@
-package com.example.demo.web.project.service.model;
+package com.example.demo.web.project.command.service.model;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
+@Value
 @Builder(builderClassName = "Builder")
 public class ProjectInstanceStartRequest {
 
