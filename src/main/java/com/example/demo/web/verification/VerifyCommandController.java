@@ -36,7 +36,7 @@ public class VerifyCommandController {
             verifyService.handleUserVerified(token);
         }
 
-        return "verify/view-default";
+        return "verification/view-default";
     }
 
     @ResponseBody

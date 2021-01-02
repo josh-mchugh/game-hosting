@@ -51,7 +51,7 @@ public class VerifyCommandControllerTest {
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("verify/view-default"))
+                .andExpect(MockMvcResultMatchers.view().name("verification/view-default"))
                 .andExpect(MockMvcResultMatchers.model().attribute("validToken", true))
                 .andExpect(MockMvcResultMatchers.model().attribute("authenticated", false));
     }
@@ -64,7 +64,7 @@ public class VerifyCommandControllerTest {
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("verify/view-default"))
+                .andExpect(MockMvcResultMatchers.view().name("verification/view-default"))
                 .andExpect(MockMvcResultMatchers.model().attribute("validToken", false))
                 .andExpect(MockMvcResultMatchers.model().attribute("authenticated", false));
     }

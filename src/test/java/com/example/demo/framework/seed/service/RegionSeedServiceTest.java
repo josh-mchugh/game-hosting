@@ -76,6 +76,23 @@ public class RegionSeedServiceTest {
     }
 
     @Test
+    public void whenRegionApiReturnsIsValidWithNullIpCountriesThenReturnArrayList() {
+
+        Mockito.when(regionFeignService.getRegions()).thenReturn(Collections.singletonList("us-east"));
+
+        RegionApi regionApi = new RegionApi();
+        regionApi.setName("name");
+        regionApi.setStatus(RegionStatus.UP);
+        regionApi.setIpCountries(null);
+
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
+
+        ImmutableList<Object> regions = regionSeedService.initializeData();
+
+        Assertions.assertEquals(1, regions.size());
+    }
+
+    @Test
     public void whenRegionsApiThrowsErrorThenThrowError() {
 
         Mockito.when(regionFeignService.getRegions()).thenThrow(FeignException.FeignClientException.class);

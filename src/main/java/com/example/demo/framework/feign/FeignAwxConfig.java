@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 
 public class FeignAwxConfig {
 
-
     @Bean
     public RequestInterceptor authRequestInterceptor(AwxConfig awxConfig) {
 

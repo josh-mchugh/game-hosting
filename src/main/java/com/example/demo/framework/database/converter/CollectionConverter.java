@@ -25,7 +25,7 @@ public class CollectionConverter implements AttributeConverter<Collection<Object
         return new ObjectMapper().writeValueAsString(attribute);
     }
 
-    @SneakyThrows(value = JsonProcessingException.class)
+    @SneakyThrows(JsonProcessingException.class)
     @Override
     public Collection<Object> convertToEntityAttribute(String json) {
 
@@ -34,7 +34,7 @@ public class CollectionConverter implements AttributeConverter<Collection<Object
             return null;
         }
 
-        TypeReference<Collection<Object>> type = new TypeReference<Collection<Object>>() {};
+        TypeReference<Collection<Object>> type = new TypeReference<>() {};
 
         return new ObjectMapper().readValue(json, type);
     }

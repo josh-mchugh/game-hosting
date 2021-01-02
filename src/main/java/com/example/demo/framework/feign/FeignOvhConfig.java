@@ -10,7 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class FeignOvhConfig {
 
     @Bean
-    public RequestInterceptor authRequestInterceptor(OvhConfig ovhConfig) {
+    public RequestInterceptor authRequestInterceptor(OvhConfig ovhConfig, RestTemplate restTemplate) {
 
         return requestTemplate -> {
 
@@ -18,7 +18,7 @@ public class FeignOvhConfig {
                     .path(requestTemplate.url())
                     .toUriString();
 
-            String timestamp = new RestTemplate().getForObject(String.format("%s%s", ovhConfig.getBaseUrl(), "/1.0/auth/time"), String.class);
+            String timestamp = restTemplate.getForObject(String.format("%s%s", ovhConfig.getBaseUrl(), "/1.0/auth/time"), String.class);
             String signature = getSignature(ovhConfig.getAppSecret(), ovhConfig.getCustomerKey(), requestTemplate.method(), url, requestTemplate.body(), timestamp);
 
             requestTemplate.header("X-Ovh-Application", ovhConfig.getAppKey());
