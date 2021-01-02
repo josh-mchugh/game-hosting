@@ -103,9 +103,9 @@ public class ProjectCreatedSaga {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(id)
-                .flavorId("d4baaace-7329-4111-940d-b334deea6f69")
-                .imageId("de136f93-9198-4799-86f7-d36f3891aba6")
-                .credentialId("d8e4a374-7f29-4225-ab6a-2f23f7eccd5b")
+                .flavorId("d90200d8-eca0-481a-8f7e-920cb49f0e98")
+                .imageId("9fec15d6-bd82-40d6-9cf1-f88df3da44c9")
+                .credentialId("5948ce48-683b-467f-b7d3-3c485ec7a586")
                 .instanceGroupId(event.getId().toString())
                 .name(instanceApi.getName())
                 .ovhId(instanceApi.getId())

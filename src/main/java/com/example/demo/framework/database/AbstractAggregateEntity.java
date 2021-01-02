@@ -56,6 +56,7 @@ public class AbstractAggregateEntity {
         this.id = id.toString();
     }
 
+    // TODO: replace calls to id and turned to UUID
     public UUID getUUID() {
 
         return UUID.fromString(id);
