@@ -2,10 +2,7 @@ package com.example.demo.ovh.flavor.entity.service;
 
 import com.example.demo.ovh.flavor.aggregate.event.FlavorUpdatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
-import com.example.demo.ovh.region.entity.model.Region;
-import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.sample.SampleBuilder;
-import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,24 +22,18 @@ public class FlavorServiceUpdatedTest {
     private IFlavorService flavorService;
 
     @Autowired
-    private IRegionService regionService;
-
-    @Autowired
     private SampleBuilder sampleBuilder;
 
-    private Region region;
     private Flavor flavor;
 
     @BeforeEach
     public void setup() {
 
-        SampleData data = sampleBuilder.builder()
+        flavor = sampleBuilder.builder()
                 .region()
                 .flavor()
-                .build();
-
-        region = data.getRegion();
-        flavor = data.getFlavor();
+                .build()
+                .getFlavor();
     }
 
     @Test

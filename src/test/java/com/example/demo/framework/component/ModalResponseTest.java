@@ -17,7 +17,7 @@ public class ModalResponseTest {
     public void testRedirectUrl() {
 
         Model model = new ConcurrentModel();
-        ModalResponse modalResponse = new ModalResponse(model)
+        new ModalResponse(model)
                 .redirect("/test-path");
 
         Assertions.assertTrue(model.containsAttribute("redirectUrl"));
@@ -28,7 +28,7 @@ public class ModalResponseTest {
     public void testModalResponseEvent() {
 
         Model model = new ConcurrentModel();
-        ModalResponse modalResponse = new ModalResponse(model)
+        new ModalResponse(model)
                 .event("contentId", "eventName");
 
         Assertions.assertTrue(model.containsAttribute("event"));
@@ -39,7 +39,7 @@ public class ModalResponseTest {
     public void testModalResponseToastSuccess() {
 
         Model model = new ConcurrentModel();
-        ModalResponse modalResponse = new ModalResponse(model)
+        new ModalResponse(model)
                 .toast("success test", ModalResponse.Type.SUCCESS);
 
         Assertions.assertTrue(model.containsAttribute("message"));
@@ -52,7 +52,7 @@ public class ModalResponseTest {
     public void testModalResponseToastInfo() {
 
         Model model = new ConcurrentModel();
-        ModalResponse modalResponse = new ModalResponse(model)
+        new ModalResponse(model)
                 .toast("info test", ModalResponse.Type.INFO);
 
         Assertions.assertTrue(model.containsAttribute("message"));
@@ -65,7 +65,7 @@ public class ModalResponseTest {
     public void testModalResponseToastWarning() {
 
         Model model = new ConcurrentModel();
-        ModalResponse modalResponse = new ModalResponse(model)
+        new ModalResponse(model)
                 .toast("warning test", ModalResponse.Type.WARNING);
 
         Assertions.assertTrue(model.containsAttribute("message"));
@@ -78,7 +78,7 @@ public class ModalResponseTest {
     public void testModalResponseToastError() {
 
         Model model = new ConcurrentModel();
-        ModalResponse modalResponse = new ModalResponse(model)
+        new ModalResponse(model)
                 .toast("error test", ModalResponse.Type.ERROR);
 
         Assertions.assertTrue(model.containsAttribute("message"));

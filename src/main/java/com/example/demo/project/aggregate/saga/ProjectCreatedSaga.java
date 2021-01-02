@@ -3,7 +3,6 @@ package com.example.demo.project.aggregate.saga;
 import com.dyngr.Polling;
 import com.dyngr.core.AttemptResult;
 import com.dyngr.core.AttemptResults;
-import com.example.demo.framework.properties.OvhConfig;
 import com.example.demo.ovh.credential.projector.ICredentialProjector;
 import com.example.demo.ovh.instance.aggregate.command.InstanceCreateCommand;
 import com.example.demo.ovh.instance.aggregate.command.InstanceGroupCreateCommand;
@@ -35,9 +34,6 @@ import java.util.concurrent.TimeUnit;
 @Saga
 @Slf4j
 public class ProjectCreatedSaga {
-
-    @Autowired
-    private transient OvhConfig ovhConfig;
 
     @Autowired
     private transient IInstanceGroupFeignService instanceGroupFeignService;

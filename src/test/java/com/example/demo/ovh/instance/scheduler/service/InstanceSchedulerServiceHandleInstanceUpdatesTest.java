@@ -10,7 +10,6 @@ import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,12 +36,6 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
 
     @Autowired
     private IInstanceService instanceService;
-
-    @MockBean
-    private IInstanceFeignService instanceFeignService;
-
-    @MockBean
-    private CommandGateway commandGateway;
 
     private SampleData data;
 

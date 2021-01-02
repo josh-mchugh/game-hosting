@@ -1,7 +1,6 @@
 package com.example.demo.ovh.region.projection;
 
 import com.example.demo.ovh.region.entity.model.Region;
-import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.example.demo.sample.SampleBuilder;
 import org.apache.commons.collections4.MapUtils;
@@ -17,9 +16,6 @@ import javax.transaction.Transactional;
 @Transactional
 @ActiveProfiles("test")
 public class RegionProjectorFetchRegionIdsGroupedByNameTest {
-
-    @Autowired
-    private IRegionService regionService;
 
     @Autowired
     private IRegionProjector regionProjection;

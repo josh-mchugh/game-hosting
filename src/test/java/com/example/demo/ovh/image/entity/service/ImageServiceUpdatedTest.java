@@ -2,7 +2,6 @@ package com.example.demo.ovh.image.entity.service;
 
 import com.example.demo.ovh.image.aggregate.event.ImageUpdatedEvent;
 import com.example.demo.ovh.image.entity.model.Image;
-import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;

@@ -4,8 +4,6 @@ import com.example.demo.game.entity.GameType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class GameTest {
 
     @Test

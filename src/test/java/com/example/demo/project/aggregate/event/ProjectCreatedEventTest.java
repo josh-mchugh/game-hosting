@@ -1,6 +1,5 @@
 package com.example.demo.project.aggregate.event;
 
-import com.example.demo.project.entity.ProjectMembershipRole;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

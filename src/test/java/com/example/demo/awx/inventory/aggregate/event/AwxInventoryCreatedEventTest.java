@@ -1,6 +1,5 @@
 package com.example.demo.awx.inventory.aggregate.event;
 
-import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
