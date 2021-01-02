@@ -3,7 +3,6 @@ package com.example.demo.ovh.image.entity.service;
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.model.Image;
 import com.example.demo.ovh.region.entity.model.Region;
-import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +23,6 @@ public class ImageServiceCreatedTest {
 
     @Autowired
     private IImageService imageService;
-
-    @Autowired
-    private IRegionService regionService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

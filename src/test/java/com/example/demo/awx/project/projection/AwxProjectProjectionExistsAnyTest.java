@@ -1,6 +1,5 @@
 package com.example.demo.awx.project.projection;
 
-import com.example.demo.awx.project.entity.service.IAwxProjectService;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,9 +13,6 @@ import javax.transaction.Transactional;
 @Transactional
 @ActiveProfiles("test")
 public class AwxProjectProjectionExistsAnyTest {
-
-    @Autowired
-    private IAwxProjectService awxProjectService;
 
     @Autowired
     private IAwxProjectProjector awxProjectProjector;

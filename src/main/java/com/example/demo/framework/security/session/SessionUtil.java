@@ -16,7 +16,7 @@ public class SessionUtil implements ISessionUtil {
     @Override
     public boolean isAuthenticated() {
 
-        return !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser");
+        return !"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
     @Override
@@ -25,6 +25,7 @@ public class SessionUtil implements ISessionUtil {
         return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
 
+    @Override
     public User getCurrentUser() {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

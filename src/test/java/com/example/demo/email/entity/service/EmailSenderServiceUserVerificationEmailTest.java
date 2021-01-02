@@ -5,7 +5,6 @@ import com.example.demo.email.entity.EmailTemplate;
 import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.mail.MessagingException;
@@ -29,9 +27,6 @@ public class EmailSenderServiceUserVerificationEmailTest {
 
     @Autowired
     private IEmailSenderService emailSenderService;
-
-    @MockBean
-    private CommandGateway commandGateway;
 
     private GreenMail smtpServer;
 

@@ -1,7 +1,6 @@
 package com.example.demo.game.projection;
 
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
-import com.example.demo.game.aggregate.event.GameCreatedEventTest;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.service.IGameService;
 import org.junit.jupiter.api.Assertions;

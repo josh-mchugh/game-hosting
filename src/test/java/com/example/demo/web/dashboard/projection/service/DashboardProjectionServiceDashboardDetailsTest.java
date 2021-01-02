@@ -1,9 +1,6 @@
 package com.example.demo.web.dashboard.projection.service;
 
-import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.framework.security.session.ISessionUtil;
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
-import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.entity.model.Project;
 import com.example.demo.project.entity.service.IProjectService;
@@ -13,7 +10,6 @@ import com.example.demo.sample.SampleData;
 import com.example.demo.user.aggregate.event.UserVerifiedEvent;
 import com.example.demo.user.entity.service.IUserService;
 import com.example.demo.web.dashboard.projection.service.model.DashboardDetailsResponse;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,18 +42,6 @@ public class DashboardProjectionServiceDashboardDetailsTest {
 
     @MockBean
     private ISessionUtil sessionUtil;
-
-    @MockBean
-    private IInstanceFeignService instanceFeignService;
-
-    @MockBean
-    private IInstanceGroupFeignService instanceGroupFeignService;
-
-    @MockBean
-    private HostFeignService hostFeignService;
-
-    @MockBean
-    private CommandGateway commandGateway;
 
     private SampleData data;
 

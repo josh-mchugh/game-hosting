@@ -9,11 +9,11 @@ import org.springframework.data.domain.AuditorAware;
 @RequiredArgsConstructor
 public class AuditingConfig {
 
-    private final AuditorAwareImpl auditorAware;
+    private final AuditorAwareImpl auditorAwareImpl;
 
     @Bean
     public AuditorAware<String> auditorAware() {
 
-        return auditorAware;
+        return auditorAwareImpl;
     }
 }

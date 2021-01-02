@@ -3,7 +3,6 @@ package com.example.demo.awx.inventory.feign;
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.framework.properties.AwxConfig;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

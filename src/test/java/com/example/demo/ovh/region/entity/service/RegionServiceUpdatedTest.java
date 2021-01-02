@@ -25,7 +25,7 @@ public class RegionServiceUpdatedTest {
     private Region region;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
 
         RegionCreatedEvent event = RegionCreatedEvent.builder()
                 .id(UUID.randomUUID())
