@@ -7,6 +7,9 @@ import com.example.demo.user.entity.UserEntity;
 import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.user.entity.mapper.UserMapper;
 import com.example.demo.user.entity.model.User;
+import com.example.demo.user.projection.model.AdminUserProjection;
+import com.example.demo.user.projection.model.FetchAdminUserPageableProjection;
+import com.example.demo.user.projection.model.FetchAdminUserPageableQuery;
 import com.example.demo.user.projection.model.FetchUserDashboardProjection;
 import com.example.demo.user.projection.model.FetchUserDashboardQuery;
 import com.example.demo.user.projection.model.FetchUserIdByEmailProjection;
@@ -15,16 +18,25 @@ import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenPro
 import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenQuery;
 import com.example.demo.user.projection.model.FetchUserIdByVerificationTokenProjection;
 import com.example.demo.user.projection.model.FetchUserIdByVerificationTokenQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -173,5 +185,71 @@ public class UserProjector implements IUserProjector {
                 .from(qUser)
                 .where(qUser.email.eq(query.getEmail()))
                 .fetchOne();
+    }
+
+    @Override
+    public FetchAdminUserPageableProjection fetchAdminUserPageable(FetchAdminUserPageableQuery query) {
+
+        QUserEntity qUser = QUserEntity.userEntity;
+        QProjectMembershipEntity qProjectMembership = QProjectMembershipEntity.projectMembershipEntity;
+        QProjectEntity qProject = QProjectEntity.projectEntity;
+
+        BooleanBuilder predicate = new BooleanBuilder();
+
+        if(StringUtils.isNotBlank(query.getEmail())) {
+
+            predicate.and(qUser.email.containsIgnoreCase(query.getEmail()));
+        }
+
+        if(CollectionUtils.isNotEmpty(query.getStates())) {
+
+            predicate.and(qUser.state.in(query.getStates()));
+        }
+
+        if(CollectionUtils.isNotEmpty(query.getTypes())) {
+
+            predicate.and(qUser.type.in(query.getTypes()));
+        }
+
+        Expression<Long> selectQuery = ExpressionUtils.as(JPAExpressions.select(qProject.id.count())
+                .from(qProject)
+                .innerJoin(qProject.projectMembershipsEntities, qProjectMembership)
+                .where(qProjectMembership.userEntity.eq(qUser)), "projectCount");
+
+        JPQLQuery<AdminUserProjection> jpqlQuery = queryFactory.select(Projections.constructor(
+                    AdminUserProjection.class,
+                    qUser.email,
+                    qUser.state,
+                    qUser.type,
+                    selectQuery
+                ))
+                .from(qUser)
+                .where(predicate)
+                .offset(query.getPageable().getOffset())
+                .limit(query.getPageable().getPageSize());
+
+        if(query.getPageable().getSort().isSorted()) {
+
+            Sort.Order order = query.getPageable().getSort().iterator().next();
+
+            switch (order.getProperty()) {
+                case "email":
+                    jpqlQuery.orderBy(order.isAscending() ? qUser.email.asc() : qUser.email.desc());
+                    break;
+                case "state":
+                    jpqlQuery.orderBy(order.isAscending() ? qUser.state.asc() : qUser.state.desc());
+                    break;
+                case "type":
+                    jpqlQuery.orderBy(order.isAscending() ? qUser.type.asc() : qUser.type.desc());
+                    break;
+                case "projectCount":
+                    jpqlQuery.orderBy(order.isAscending()
+                            ? new OrderSpecifier<>(Order.ASC, new PathBuilder<>(Long.class, "projectCount"))
+                            : new OrderSpecifier<>(Order.DESC, new PathBuilder<>(Long.class, "projectCount")));
+                    break;
+            }
+        }
+
+        return new FetchAdminUserPageableProjection(new PageImpl<>(jpqlQuery.fetch(), query.getPageable(), jpqlQuery.fetchCount()));
     }
 }

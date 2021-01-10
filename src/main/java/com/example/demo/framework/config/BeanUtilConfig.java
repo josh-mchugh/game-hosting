@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -51,5 +52,11 @@ public class BeanUtilConfig {
     public RestTemplate restTemplate() {
 
         return new RestTemplate();
+    }
+
+    @Bean
+    public SpringDataDialect springDataDialect() {
+
+        return new SpringDataDialect();
     }
 }

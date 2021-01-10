@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +20,9 @@ public class SecurityConfigTest {
         UserDetailsServiceImpl userDetailsService = Mockito.mock(UserDetailsServiceImpl.class);
         AuthenticationSuccessHandlerImpl authenticationSuccessHandler = Mockito.mock(AuthenticationSuccessHandlerImpl.class);
         PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+        SwitchUserFilter switchUserFilter = Mockito.mock(SwitchUserFilter.class);
 
-        SecurityConfig config = new SecurityConfig(userDetailsService, authenticationSuccessHandler, passwordEncoder);
+        SecurityConfig config = new SecurityConfig(userDetailsService, authenticationSuccessHandler, passwordEncoder, switchUserFilter);
 
         ObjectPostProcessor objectPostProcessor = Mockito.mock(ObjectPostProcessor.class);
 
@@ -33,8 +35,9 @@ public class SecurityConfigTest {
         UserDetailsServiceImpl userDetailsService = Mockito.mock(UserDetailsServiceImpl.class);
         AuthenticationSuccessHandlerImpl authenticationSuccessHandler = Mockito.mock(AuthenticationSuccessHandlerImpl.class);
         PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+        SwitchUserFilter switchUserFilter = Mockito.mock(SwitchUserFilter.class);
 
-        SecurityConfig config = new SecurityConfig(userDetailsService, authenticationSuccessHandler, passwordEncoder);
+        SecurityConfig config = new SecurityConfig(userDetailsService, authenticationSuccessHandler, passwordEncoder, switchUserFilter);
 
         ObjectPostProcessor objectPostProcessor = Mockito.mock(ObjectPostProcessor.class);
         AuthenticationManagerBuilder authenticationManagerBuilder = new AuthenticationManagerBuilder(objectPostProcessor);

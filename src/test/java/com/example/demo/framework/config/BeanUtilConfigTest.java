@@ -33,4 +33,10 @@ public class BeanUtilConfigTest {
 
         Assertions.assertNotNull(config.restTemplate());
     }
+
+    @Test
+    public void whenConfigHasSpringDataDialectThenReturnSpringDataDialect() {
+
+        Assertions.assertNotNull(config.springDataDialect());
+    }
 }

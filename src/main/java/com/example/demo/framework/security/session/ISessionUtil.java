@@ -6,6 +6,10 @@ public interface ISessionUtil {
 
     boolean isAuthenticated();
 
+    boolean isAdmin();
+
+    boolean isImpersonating();
+
     String getCurrentUserEmail();
 
     User getCurrentUser();

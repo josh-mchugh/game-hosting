@@ -119,5 +119,90 @@
                 };
             });
         </script>
+        <!--/* Ajax Table Content Scripts */-->
+        <script type="text/javascript">
+            $(function() {
+
+                function updateTable(container, url) {
+                    var form = $(container).find("form:first");
+                    $.ajax({
+                        url: url ? url : $(form).attr("action"),
+                        type: $(form).attr("method"),
+                        data: url ? null : $(form).serialize()
+                    }).done(function(res) {
+                        history.pushState({containerId: $(container).attr("data-content-id")}, document.title, "?" + $(this)[0].url.split("?")[1]);
+                        $(container).html(res);
+                    }).fail(function() {
+                        console.log("Unable to refresh table content");
+                    });
+                };
+
+                function getContainer(el) {
+                    return $(el).parents("[data-content-type='table']:first");
+                };
+
+                // Handle submit of table form
+                $(document).on("submit", "[data-content-type='table'] form", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    updateTable(getContainer($(this)));
+                    return false;
+                });
+
+                // Handle table page selection
+                $(document).on("click", "[data-content-type='table'] form a.page-link", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    updateTable(getContainer($(this)), $(this).attr("href"));
+                    return false;
+                });
+
+                // Handle table sort selection
+                $(document).on("click", "[data-content-type='table'] form th .sorted", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    updateTable(getContainer($(this)), $(this).attr("href"));
+                    return false;
+                });
+
+                // Handle table form checkbox change
+                $(document).on("change", "[data-content-type='table'] form [type='checkbox']", function(event) {
+                    $(this).parents("form:first").submit();
+                });
+            });
+        </script>
+        <!--/* Navigation History Scripts */-->
+        <script type="text/javascript">
+            window.onpopstate = function(event) {
+
+                if (event.state && event.state.containerId) {
+
+                    var container = $("[data-content-id='" + event.state.containerId + "']");
+                    $.ajax({
+                        url: $(container).attr('data-content-url') + document.location.search,
+                        method: "GET"
+                    }).done(function(res) {
+                        $(container).html(res);
+                    }).fail(function() {
+                        console.log("Unable to reload navigation content");
+                    });
+
+                } else {
+
+                    var containers = $("[data-content-id]");
+                    $(containers).each(function() {
+                        var container = $(this);
+                        $.ajax({
+                            url: $(this).attr("data-content-url"),
+                            method: "GET"
+                        }).done(function(res) {
+                            $(container).html(res);
+                        }).fail(function() {
+                            console.log("Unable to reload navigation content");
+                        });
+                    });
+                }
+            };
+        </script>
     </body>
 </html>

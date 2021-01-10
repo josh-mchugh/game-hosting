@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
+    <head>
+        <title>[[#{admin.users.title}]]</title>
+    </head>
+    <body layout:fragment="content">
+        <div>
+            <div data-content-id="usersTable" data-content-type="table" th:data-content-url="@{/admin/users/table}"></div>
+        </div>
+    </body>
+</html>

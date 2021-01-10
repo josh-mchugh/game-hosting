@@ -1,4 +1,4 @@
-package com.example.demo.web.admin;
+package com.example.demo.web.admin.dashboard;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AdminDashboardProjectionControllerTest {
+public class AdminDashboardProjectorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -29,6 +29,17 @@ public class AdminDashboardProjectionControllerTest {
                 .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
+    public void whenUserIsRegularUserThenExpectForbidden() throws Exception {
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/dashboard")
+                .with(SecurityMockMvcRequestPostProcessors.user("regular").roles("REGULAR"));
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test
