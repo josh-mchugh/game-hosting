@@ -1,6 +1,8 @@
 package com.example.demo.user.projection;
 
 import com.example.demo.user.entity.model.User;
+import com.example.demo.user.projection.model.FetchAdminUserPageableProjection;
+import com.example.demo.user.projection.model.FetchAdminUserPageableQuery;
 import com.example.demo.user.projection.model.FetchUserDashboardQuery;
 import com.example.demo.user.projection.model.FetchUserIdByEmailProjection;
 import com.example.demo.user.projection.model.FetchUserIdByEmailQuery;
@@ -31,4 +33,6 @@ public interface IUserProjector {
     Page<User> getByRecoveryTokensExpired(Pageable pageable);
 
     FetchUserDashboardProjection fetchUserDashboard(FetchUserDashboardQuery query);
+
+    FetchAdminUserPageableProjection fetchAdminUserPageable(FetchAdminUserPageableQuery query);
 }

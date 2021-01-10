@@ -1,0 +1,23 @@
+.sorted {
+
+    &:after{
+        display: inline-block;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f0dc";
+        opacity: 0.8;
+        margin-left: 1em;
+	}
+
+    &.sorted-asc {
+        &:after {
+            content: "\f0de";
+        }
+    }
+
+	&.sorted-desc {
+	    &:after {
+	        content: "\f0dd";
+	    }
+	}
+}

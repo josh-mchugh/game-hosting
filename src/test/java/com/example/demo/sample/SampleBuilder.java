@@ -175,6 +175,13 @@ public class SampleBuilder {
             return this;
         }
 
+        public Builder adminUser() {
+
+            user = createAdminUser();
+
+            return this;
+        }
+
         public Builder game() {
 
             game = createDefaultGame();
@@ -325,6 +332,20 @@ public class SampleBuilder {
                 .email("test@test")
                 .password("password")
                 .type(UserType.REGULAR)
+                .state(UserState.ACTIVE)
+                .verification(UserCreatedEvent.createVerification())
+                .build();
+
+        return userService.handleCreated(event);
+    }
+
+    private User createAdminUser() {
+
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .email("admin@admin")
+                .password("password")
+                .type(UserType.ADMIN)
                 .state(UserState.ACTIVE)
                 .verification(UserCreatedEvent.createVerification())
                 .build();
