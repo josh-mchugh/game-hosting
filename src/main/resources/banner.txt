@@ -6,5 +6,6 @@
  \______  (____  /__|_|  /\___  >\___|_  / \____/____  > |__| |__|___|  /\___  /
         \/     \/      \/     \/       \/            \/               \//_____/
 
-Spring Boot Version: ${spring-boot.formatted-version}
+Spring Boot Version:${spring-boot.formatted-version}
+Application version: ${maven.artifact.id}:${maven.artifact.version}
 

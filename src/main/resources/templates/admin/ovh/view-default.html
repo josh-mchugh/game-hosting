@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
+    <head>
+        <title>[[#{message.admin.ovh.utils.title}]]</title>
+    </head>
+    <body layout:fragment="content">
+        <div>
+            <h1>[[#{message.admin.ovh.utils.header}]]</h1>
+            <div class="row flex-lg-row-reverse flex-sm-column">
+                <div class="col-sm-12 col-lg-9 mt-4 mr-auto ml-4">
+                    <div class="table-content">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <th>
+                                        <a>[[#{message.admin.ovh.utils.table.header.api}]]</a>
+                                    </th>
+                                    <th>
+                                        <a>[[#{message.admin.ovh.utils.table.header.statistics}]]</a>
+                                    </th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <!-- Instance Group Statistics -->
+                                    <tr>
+                                        <td>[[#{message.admin.ovh.utils.instance.group}]]</td>
+                                        <td>
+                                            <div id="instanceGroupStatistics">
+                                                [[#{message.loading}]]...
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary" onclick="refreshInstanceGroup()">[[#{message.admin.ovh.utils.refresh}]]</a>
+                                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" onclick="deleteInstanceGroup()">[[#{message.admin.ovh.utils.delete.all}]]</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:inline="javascript">
+
+            function refreshInstanceGroup() {
+                $('#instanceGroupStatistics').html('[(#{message.loading})]...');
+                $.get('/admin/ovh-utils/instance-group/refresh')
+                       .done(function(resp){
+                           $('#instanceGroupStatistics').html(resp.total);
+                       });
+            }
+
+            function deleteInstanceGroup() {
+                $('#instanceGroupStatistics').html('[(#{message.loading})]...');
+                $.post('/admin/ovh-utils/instance-group/delete')
+                       .done(function(resp){
+                           $('#instanceGroupStatistics').html(resp.total);
+                       });
+            }
+
+            $(function(){
+
+                refreshInstanceGroup();
+            });
+
+        </script>
+    </body>
+</html>

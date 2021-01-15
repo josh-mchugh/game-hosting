@@ -8,14 +8,14 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="filter">
-                                    <div class="filter__header">[[#{admin.users.filter.title}]]</div>
+                                    <div class="filter__header">[[#{message.admin.users.filter.title}]]</div>
                                     <div class="filter__search">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" th:placeholder="#{admin.users.filter.email}" th:field="*{email}" />
+                                            <input class="form-control" type="text" th:placeholder="#{message.admin.users.filter.email}" th:field="*{email}" />
                                         </div>
                                     </div>
                                     <div class="filter__group">
-                                        <div class="filter__title">[[#{admin.users.filter.state}]]</div>
+                                        <div class="filter__title">[[#{message.admin.users.filter.state}]]</div>
                                         <th:block th:each="state : ${filter.allStates}">
                                             <div class="filter__option">
                                                 <div class="form-group">
@@ -28,7 +28,7 @@
                                         </th:block>
                                     </div>
                                     <div class="filter__group">
-                                        <div class="filter__title">[[#{admin.users.filter.type}]]</div>
+                                        <div class="filter__title">[[#{message.admin.users.filter.type}]]</div>
                                         <th:block th:each="type : ${filter.allTypes}">
                                             <div class="filter__option">
                                                 <div class="form-group">
@@ -51,16 +51,16 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <th>
-                                        <a class="sorted" sd:pagination-sort="email">[[#{admin.users.table.header.email}]]</a>
+                                        <a class="sorted" sd:pagination-sort="email">[[#{message.admin.users.table.header.email}]]</a>
                                     </th>
                                     <th>
-                                        <a class="sorted" sd:pagination-sort="projectCount">[[#{admin.users.table.header.projects}]]</a>
+                                        <a class="sorted" sd:pagination-sort="projectCount">[[#{message.admin.users.table.header.projects}]]</a>
                                     </th>
                                     <th>
-                                        <a class="sorted" sd:pagination-sort="state">[[#{admin.users.table.header.state}]]</a>
+                                        <a class="sorted" sd:pagination-sort="state">[[#{message.admin.users.table.header.state}]]</a>
                                     </th>
                                     <th>
-                                        <a class="sorted" sd:pagination-sort="type">[[#{admin.users.table.type.type}]]</a>
+                                        <a class="sorted" sd:pagination-sort="type">[[#{message.admin.users.table.type.type}]]</a>
                                     </th>
                                     <th></th>
                                 </thead>
