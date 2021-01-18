@@ -2,6 +2,7 @@ package com.example.demo.framework.database;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -59,6 +60,6 @@ public class AbstractAggregateEntity {
     // TODO: replace calls to id and turned to UUID
     public UUID getUUID() {
 
-        return UUID.fromString(id);
+        return StringUtils.isNotBlank(id) ? UUID.fromString(id) : null;
     }
 }
