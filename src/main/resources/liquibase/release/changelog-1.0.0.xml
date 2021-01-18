@@ -327,6 +327,39 @@
     </changeSet>
 
     <changeSet id="9" author="jmchugh">
+        <createTable tableName="game_server">
+            <column name="id" type="nvarchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK__game_server" />
+            </column>
+            <column name="version" type="bigint"/>
+            <column name="created_by" type="nvarchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="nvarchar(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="game_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ovh_region_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ovh_flavor_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ovh_image_id" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="game_server" baseColumnNames="game_id" constraintName="game_server_game_id__game_id" referencedTableName="game" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="game_server" baseColumnNames="ovh_region_id" constraintName="game_server_ovh_region_id__ovh_region_id" referencedTableName="ovh_region" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="game_server" baseColumnNames="ovh_flavor_id" constraintName="game_server_ovh_flavor_id__ovh_flavor_id" referencedTableName="ovh_flavor" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="game_server" baseColumnNames="ovh_image_id" constraintName="game_server_ovh_image_id__ovh_image_id" referencedTableName="ovh_image" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="10" author="jmchugh">
         <createTable tableName="project">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__project" />
@@ -352,7 +385,7 @@
         <addForeignKeyConstraint baseTableName="project" baseColumnNames="game_id" constraintName="project_game_id__game_id" referencedTableName="game" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="10" author="jmchugh">
+    <changeSet id="11" author="jmchugh">
         <createTable tableName="project_membership">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__project_membership" />
@@ -376,7 +409,7 @@
         <addForeignKeyConstraint baseTableName="project_membership" baseColumnNames="user_id" constraintName="project_membership_user_id__users_id" referencedTableName="users" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="11" author="jmchugh">
+    <changeSet id="12" author="jmchugh">
         <createTable tableName="ovh_instance_group">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__ovh_instance_group" />
@@ -398,7 +431,7 @@
         <addForeignKeyConstraint baseTableName="ovh_instance_group" baseColumnNames="project_id" constraintName="ovh_instance_group_project_id__project_id" referencedTableName="project" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="12" author="jmchugh">
+    <changeSet id="13" author="jmchugh">
         <createTable tableName="ovh_credential">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__ovh_credential" />
@@ -417,7 +450,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="13" author="jmchugh">
+    <changeSet id="14" author="jmchugh">
         <createTable tableName="ovh_instance">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__ovh_instance" />
@@ -456,7 +489,7 @@
         <addForeignKeyConstraint baseTableName="ovh_instance" baseColumnNames="ovh_credential_id" constraintName="ovh_instance_ovh_credential_id__ovh_credential_id" referencedTableName="ovh_credential" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="14" author="jmchugh">
+    <changeSet id="15" author="jmchugh">
         <createTable tableName="awx_organization">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_organization" />
@@ -476,7 +509,7 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="15" author="jmchugh">
+    <changeSet id="16" author="jmchugh">
         <createTable tableName="awx_credential">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_credential" />
@@ -507,7 +540,7 @@
         <addForeignKeyConstraint baseTableName="awx_credential" baseColumnNames="awx_organization_id" constraintName="awx_credential_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="16" author="jmchugh">
+    <changeSet id="17" author="jmchugh">
         <createTable tableName="awx_project">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_project" />
@@ -544,7 +577,7 @@
         <addForeignKeyConstraint baseTableName="awx_project" baseColumnNames="awx_credential_id" constraintName="awx_project_awx_credential_id__awx_credential_id" referencedTableName="awx_credential" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="17" author="jmchugh">
+    <changeSet id="18" author="jmchugh">
         <createTable tableName="awx_playbook">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_playbook" />
@@ -567,7 +600,7 @@
         <addForeignKeyConstraint baseTableName="awx_playbook" baseColumnNames="awx_project_id" constraintName="awx_playbook_awx_project_id__awx_project_id" referencedTableName="awx_project" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="18" author="jmchugh">
+    <changeSet id="19" author="jmchugh">
         <createTable tableName="awx_inventory">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_inventory" />
@@ -591,7 +624,7 @@
         <addForeignKeyConstraint baseTableName="awx_inventory" baseColumnNames="awx_organization_id" constraintName="awx_inventory_awx_organization_id__awx_organization_id" referencedTableName="awx_organization" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="19" author="jmchugh">
+    <changeSet id="20" author="jmchugh">
         <createTable tableName="awx_host">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_host" />
@@ -622,7 +655,7 @@
         <addForeignKeyConstraint baseTableName="awx_host" baseColumnNames="ovh_instance_id" constraintName="awx_host_ovh_instance_id__instance_id" referencedTableName="ovh_instance" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="20" author="jmchugh">
+    <changeSet id="21" author="jmchugh">
         <createTable tableName="awx_template">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_template" />
@@ -660,7 +693,7 @@
         <addForeignKeyConstraint baseTableName="awx_template" baseColumnNames="awx_playbook_id" constraintName="awx_template_awx_playbook_id__awx_playbook_id" referencedTableName="awx_playbook" referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="21" author="jmchugh">
+    <changeSet id="22" author="jmchugh">
         <createTable tableName="awx_notification">
             <column name="id" type="nvarchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK__awx_notification" />
