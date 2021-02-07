@@ -7,15 +7,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MessageUtil {
+public class MessageUtil implements IMessageUtil {
 
     private final MessageSource messageSource;
 
+    @Override
     public String getMessage(String key) {
 
         return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
     }
 
+    @Override
     public String getMessage(String key, Object... args) {
 
         return messageSource.getMessage(key, args, LocaleContextHolder.getLocale());

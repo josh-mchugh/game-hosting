@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 public class MassageUtilTest {
 
     @Autowired
-    private MessageUtil messageUtil;
+    private IMessageUtil messageUtil;
 
     @Test
     public void whenMessageWithKeyReturnMessage() {

@@ -153,4 +153,13 @@ public class GameServerEntityTest {
 
         Assertions.assertEquals("description", entity.getDescription());
     }
+
+    @Test
+    public void whenEntityHasStatusThenReturnStatus() {
+
+        GameServerEntity entity = new GameServerEntity();
+        entity.setStatus(GameServerStatus.ACTIVE);
+
+        Assertions.assertEquals(GameServerStatus.ACTIVE, entity.getStatus());
+    }
 }

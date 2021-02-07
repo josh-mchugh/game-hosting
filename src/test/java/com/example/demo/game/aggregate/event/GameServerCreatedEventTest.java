@@ -1,5 +1,6 @@
 package com.example.demo.game.aggregate.event;
 
+import com.example.demo.game.entity.GameServerStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -88,11 +89,21 @@ public class GameServerCreatedEventTest {
     }
 
     @Test
+    public void whenModelHasStatusThenReturnStatus() {
+
+        GameServerCreatedEvent event = GameServerCreatedEvent.builder()
+                .status(GameServerStatus.ACTIVE)
+                .build();
+
+        Assertions.assertEquals(GameServerStatus.ACTIVE, event.getStatus());
+    }
+
+    @Test
     public void whenModelToString() {
 
         GameServerCreatedEvent model = model();
 
-        String expected = "GameServerCreatedEvent(id=43bf0199-2b55-463f-97d4-1b0a1c3e883d, gameId=03109481-9808-4982-8857-839f6e3357a3, regionId=7a3fb601-a36e-46b9-ae96-3be4e1205534, flavorId=70abc11e-07bc-4f18-a934-f5c737911179, imageId=37f8a2c3-16e1-4565-ba41-9c37706ec844, name=name, description=description)";
+        String expected = "GameServerCreatedEvent(id=43bf0199-2b55-463f-97d4-1b0a1c3e883d, gameId=03109481-9808-4982-8857-839f6e3357a3, regionId=7a3fb601-a36e-46b9-ae96-3be4e1205534, flavorId=70abc11e-07bc-4f18-a934-f5c737911179, imageId=37f8a2c3-16e1-4565-ba41-9c37706ec844, name=name, description=description, status=ACTIVE)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -100,9 +111,17 @@ public class GameServerCreatedEventTest {
     @Test
     public void whenModelHashCode() {
 
-        GameServerCreatedEvent model = model();
+        GameServerCreatedEvent model = GameServerCreatedEvent.builder()
+                .id(UUID.fromString("43bf0199-2b55-463f-97d4-1b0a1c3e883d"))
+                .gameId(UUID.fromString("03109481-9808-4982-8857-839f6e3357a3"))
+                .regionId(UUID.fromString("7a3fb601-a36e-46b9-ae96-3be4e1205534"))
+                .flavorId(UUID.fromString("70abc11e-07bc-4f18-a934-f5c737911179"))
+                .imageId(UUID.fromString("37f8a2c3-16e1-4565-ba41-9c37706ec844"))
+                .name("name")
+                .description("description")
+                .build();
 
-        Assertions.assertEquals(447684931, model.hashCode());
+        Assertions.assertEquals(643607196, model.hashCode());
     }
 
     @Test
@@ -132,6 +151,7 @@ public class GameServerCreatedEventTest {
                 .imageId(UUID.fromString("37f8a2c3-16e1-4565-ba41-9c37706ec844"))
                 .name("name")
                 .description("description")
+                .status(GameServerStatus.ACTIVE)
                 .build();
     }
 }

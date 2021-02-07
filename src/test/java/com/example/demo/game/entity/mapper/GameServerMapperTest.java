@@ -1,6 +1,7 @@
 package com.example.demo.game.entity.mapper;
 
 import com.example.demo.game.entity.GameServerEntity;
+import com.example.demo.game.entity.GameServerStatus;
 import com.example.demo.game.entity.model.GameServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -48,5 +49,16 @@ public class GameServerMapperTest {
         GameServer model = GameServerMapper.map(entity);
 
         Assertions.assertEquals("description", model.getDescription());
+    }
+
+    @Test
+    public void whenEntityHasStatusThenReturnStatus() {
+
+        GameServerEntity entity = new GameServerEntity();
+        entity.setStatus(GameServerStatus.ACTIVE);
+
+        GameServer model = GameServerMapper.map(entity);
+
+        Assertions.assertEquals(GameServerStatus.ACTIVE, model.getStatus());
     }
 }

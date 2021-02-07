@@ -39,6 +39,7 @@ public class GameServerService implements IGameServerService {
         entity.setImageEntity(findImageEntity(event.getImageId()));
         entity.setName(event.getName());
         entity.setDescription(event.getDescription());
+        entity.setStatus(event.getStatus());
 
         entityManager.persist(entity);
 

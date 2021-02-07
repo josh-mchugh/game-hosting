@@ -5,7 +5,7 @@ import com.example.demo.email.aggregate.command.EmailSentCommand;
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
 import com.example.demo.email.entity.EmailTemplate;
 import com.example.demo.email.templates.IEmailTemplate;
-import com.example.demo.util.MessageUtil;
+import com.example.demo.util.IMessageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -27,7 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmailSenderService implements IEmailSenderService{
 
-    private final MessageUtil messageUtil;
+    private final IMessageUtil messageUtil;
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
     private final Map<EmailTemplate, IEmailTemplate> emailTemplates;

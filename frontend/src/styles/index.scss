@@ -6,6 +6,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~toastr/toastr.scss";
+@import "~select2/dist/css/select2.css";
+@import "~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css";
 
 @import "./app.scss";
 @import "./dashboard.scss";

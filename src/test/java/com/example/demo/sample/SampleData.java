@@ -9,6 +9,7 @@ import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import com.example.demo.awx.project.entity.model.AwxProject;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.game.entity.model.Game;
+import com.example.demo.game.entity.model.GameServer;
 import com.example.demo.ovh.credential.entity.model.Credential;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.image.entity.model.Image;
@@ -29,6 +30,7 @@ public class SampleData {
     private final Region region;
     private final Flavor flavor;
     private final Image image;
+    private final GameServer gameServer;
     private final Credential credential;
     private final Project project;
     private final InstanceGroup instanceGroup;
