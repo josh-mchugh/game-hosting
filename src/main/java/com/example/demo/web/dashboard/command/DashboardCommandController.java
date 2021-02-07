@@ -1,6 +1,6 @@
 package com.example.demo.web.dashboard.command;
 
-import com.example.demo.framework.component.ModalResponse;
+import com.example.demo.framework.web.ModalResponse;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.web.dashboard.command.service.IDashboardCommandService;
 import com.example.demo.web.dashboard.command.model.DashboardProjectCreateForm;

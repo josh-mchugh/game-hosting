@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,4 +43,8 @@ public class GameServerEntity extends AbstractAggregateEntity  {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private GameServerStatus status;
 }

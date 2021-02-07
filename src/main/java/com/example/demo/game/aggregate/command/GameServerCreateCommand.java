@@ -1,5 +1,6 @@
 package com.example.demo.game.aggregate.command;
 
+import com.example.demo.game.entity.GameServerStatus;
 import lombok.Builder;
 import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
@@ -32,4 +33,7 @@ public class GameServerCreateCommand {
     String name;
 
     String description;
+
+    @NotNull
+    GameServerStatus status;
 }

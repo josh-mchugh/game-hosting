@@ -352,6 +352,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="nvarchar(255)"/>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="game_server" baseColumnNames="game_id" constraintName="game_server_game_id__game_id" referencedTableName="game" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="game_server" baseColumnNames="ovh_region_id" constraintName="game_server_ovh_region_id__ovh_region_id" referencedTableName="ovh_region" referencedColumnNames="id"/>

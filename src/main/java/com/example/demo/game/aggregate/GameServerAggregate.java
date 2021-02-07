@@ -2,6 +2,7 @@ package com.example.demo.game.aggregate;
 
 import com.example.demo.game.aggregate.command.GameServerCreateCommand;
 import com.example.demo.game.aggregate.event.GameServerCreatedEvent;
+import com.example.demo.game.entity.GameServerStatus;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -23,6 +24,7 @@ public class GameServerAggregate {
     private UUID imageId;
     private String name;
     private String description;
+    private GameServerStatus status;
 
     @CommandHandler
     public GameServerAggregate(GameServerCreateCommand command) {
@@ -35,6 +37,7 @@ public class GameServerAggregate {
                 .imageId(command.getImageId())
                 .name(command.getName())
                 .description(command.getDescription())
+                .status(command.getStatus())
                 .build();
 
         AggregateLifecycle.apply(event);
@@ -50,5 +53,6 @@ public class GameServerAggregate {
         this.imageId = event.getImageId();
         this.name = event.getName();
         this.description = event.getDescription();
+        this.status = event.getStatus();
     }
 }

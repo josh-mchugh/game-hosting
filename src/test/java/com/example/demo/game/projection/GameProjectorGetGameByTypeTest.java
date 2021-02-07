@@ -19,7 +19,7 @@ import java.util.UUID;
 public class GameProjectorGetGameByTypeTest {
 
     @Autowired
-    private IGameProjection gameProjection;
+    private IGameProjector gameProjection;
 
     @Autowired
     private IGameService gameService;

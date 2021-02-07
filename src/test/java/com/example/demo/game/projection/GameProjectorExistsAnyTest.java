@@ -18,7 +18,7 @@ import java.util.UUID;
 public class GameProjectorExistsAnyTest {
 
     @Autowired
-    private IGameProjection gameProjection;
+    private IGameProjector gameProjection;
 
     @Autowired
     private IGameService gameService;

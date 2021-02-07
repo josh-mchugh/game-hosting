@@ -16,6 +16,7 @@ public class GameServerMapper {
                 .id(entity.getUUID())
                 .name(entity.getName())
                 .description(entity.getDescription())
+                .status(entity.getStatus())
                 .build();
     }
 }

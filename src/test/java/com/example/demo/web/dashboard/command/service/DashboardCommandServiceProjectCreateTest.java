@@ -3,7 +3,7 @@ package com.example.demo.web.dashboard.command.service;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
-import com.example.demo.game.projection.IGameProjection;
+import com.example.demo.game.projection.IGameProjector;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateRequest;
@@ -29,7 +29,7 @@ public class DashboardCommandServiceProjectCreateTest {
     private IDashboardCommandService dashboardService;
 
     @MockBean
-    private IGameProjection gameProjection;
+    private IGameProjector gameProjection;
 
     @MockBean
     private ISessionUtil sessionUtil;

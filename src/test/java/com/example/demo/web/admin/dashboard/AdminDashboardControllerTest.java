@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AdminDashboardProjectorControllerTest {
+public class AdminDashboardControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

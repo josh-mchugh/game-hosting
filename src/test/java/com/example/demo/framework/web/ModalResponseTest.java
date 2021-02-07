@@ -1,4 +1,4 @@
-package com.example.demo.framework.component;
+package com.example.demo.framework.web;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

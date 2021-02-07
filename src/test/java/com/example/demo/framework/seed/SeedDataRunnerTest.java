@@ -4,7 +4,7 @@ import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.framework.seed.service.GameSeedService;
 import com.example.demo.game.aggregate.command.GameCreateCommand;
 import com.example.demo.game.entity.GameType;
-import com.example.demo.game.projection.IGameProjection;
+import com.example.demo.game.projection.IGameProjector;
 import com.google.common.collect.ImmutableMap;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ public class SeedDataRunnerTest {
         AppConfig config = new AppConfig();
         config.setEnableSeedData(true);
 
-        IGameProjection gameProjection = Mockito.mock(IGameProjection.class);
+        IGameProjector gameProjection = Mockito.mock(IGameProjector.class);
         Mockito.when(gameProjection.existsAny()).thenReturn(false);
 
         CommandGateway commandGateway = Mockito.mock(CommandGateway.class);

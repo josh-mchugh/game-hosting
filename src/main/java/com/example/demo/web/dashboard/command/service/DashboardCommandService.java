@@ -2,7 +2,7 @@ package com.example.demo.web.dashboard.command.service;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.game.entity.model.Game;
-import com.example.demo.game.projection.IGameProjection;
+import com.example.demo.game.projection.IGameProjector;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateRequest;
 import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateResponse;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class DashboardCommandService implements IDashboardCommandService {
 
     private final ISessionUtil sessionUtil;
-    private final IGameProjection gameProjection;
+    private final IGameProjector gameProjection;
     private final CommandGateway commandGateway;
 
     @Override

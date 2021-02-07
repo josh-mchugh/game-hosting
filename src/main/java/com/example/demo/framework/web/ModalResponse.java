@@ -1,4 +1,4 @@
-package com.example.demo.framework.component;
+package com.example.demo.framework.web;
 
 import lombok.Value;
 import org.springframework.ui.Model;

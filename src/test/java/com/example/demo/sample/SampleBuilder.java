@@ -29,8 +29,12 @@ import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
 import com.example.demo.awx.template.entity.service.IAwxTemplateService;
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
+import com.example.demo.game.aggregate.event.GameServerCreatedEvent;
+import com.example.demo.game.entity.GameServerStatus;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
+import com.example.demo.game.entity.model.GameServer;
+import com.example.demo.game.entity.service.IGameServerService;
 import com.example.demo.game.entity.service.IGameService;
 import com.example.demo.ovh.credential.aggregate.event.CredentialCreatedEvent;
 import com.example.demo.ovh.credential.entity.CredentialType;
@@ -62,12 +66,15 @@ import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.user.entity.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SampleBuilder {
 
     @Autowired
@@ -84,6 +91,9 @@ public class SampleBuilder {
 
     @Autowired
     private IImageService imageService;
+
+    @Autowired
+    private IGameServerService gameServerService;
 
     @Autowired
     private ICredentialService credentialService;
@@ -126,6 +136,7 @@ public class SampleBuilder {
     private Region region;
     private Flavor flavor;
     private Image image;
+    private GameServer gameServer;
     private Credential credential;
     private Project project;
     private InstanceGroup instanceGroup;
@@ -152,6 +163,7 @@ public class SampleBuilder {
                 .region()
                 .flavor()
                 .image()
+                .gameServer()
                 .credential()
                 .project()
                 .instanceGroup()
@@ -206,6 +218,13 @@ public class SampleBuilder {
         public Builder image() {
 
             image = createDefaultImage();
+
+            return this;
+        }
+
+        public Builder gameServer() {
+
+            gameServer = createDefaultGameServer();
 
             return this;
         }
@@ -420,6 +439,26 @@ public class SampleBuilder {
                 .build();
 
         return imageService.handleCreated(event);
+    }
+
+    private GameServer createDefaultGameServer() {
+
+        if (game == null) game = createDefaultGame();
+        if (region == null) region = createDefaultRegion();
+        if (flavor == null) flavor = createDefaultFlavor();
+        if (image == null) image = createDefaultImage();
+
+        GameServerCreatedEvent event = GameServerCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .name("name")
+                .status(GameServerStatus.ACTIVE)
+                .gameId(UUID.fromString(game.getId()))
+                .regionId(UUID.fromString(region.getId()))
+                .flavorId(UUID.fromString(flavor.getId()))
+                .imageId(UUID.fromString(image.getId()))
+                .build();
+
+        return gameServerService.handleCreated(event);
     }
 
     private Credential createDefaultCredential() {

@@ -3,9 +3,12 @@ import './styles/index.scss';
 var $ = require('jquery');
 var toastr = require('toastr');
 var bootstrap = require('bootstrap');
+var select2 = require('select2');
+var handlebars = require('handlebars');
 
 window.jQuery = $;
 window.$ = $;
+window.Handlebars = handlebars;
 
 window.toastr = toastr;
 window.toastr.options =  {

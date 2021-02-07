@@ -1,6 +1,7 @@
 package com.example.demo.game.entity.service;
 
 import com.example.demo.game.aggregate.event.GameServerCreatedEvent;
+import com.example.demo.game.entity.GameServerStatus;
 import com.example.demo.game.entity.model.GameServer;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
@@ -51,6 +52,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         GameServer gameServer = gameServerService.handleCreated(event);
@@ -68,6 +70,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         GameServer gameServer = gameServerService.handleCreated(event);
@@ -86,11 +89,48 @@ public class GameServerServiceCreatedTest {
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
                 .description("description")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         GameServer gameServer = gameServerService.handleCreated(event);
 
         Assertions.assertEquals("description", gameServer.getDescription());
+    }
+
+    @Test
+    public void whenEventHasStatusThenReturnStatus() {
+
+        GameServerCreatedEvent event = GameServerCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .gameId(UUID.fromString(data.getGame().getId()))
+                .regionId(UUID.fromString(data.getRegion().getId()))
+                .flavorId(UUID.fromString(data.getFlavor().getId()))
+                .imageId(UUID.fromString(data.getImage().getId()))
+                .name("name")
+                .description("description")
+                .status(GameServerStatus.ACTIVE)
+                .build();
+
+        GameServer gameServer = gameServerService.handleCreated(event);
+
+        Assertions.assertEquals(GameServerStatus.ACTIVE, gameServer.getStatus());
+    }
+
+    @Test
+    public void whenEventHasNullStatusThenExpectException() {
+
+        GameServerCreatedEvent event = GameServerCreatedEvent.builder()
+                .id(UUID.randomUUID())
+                .gameId(UUID.fromString(data.getGame().getId()))
+                .regionId(UUID.fromString(data.getRegion().getId()))
+                .flavorId(UUID.fromString(data.getFlavor().getId()))
+                .imageId(UUID.fromString(data.getImage().getId()))
+                .name("name")
+                .description("description")
+                .status(null)
+                .build();
+
+        Assertions.assertThrows(PersistenceException.class, () ->gameServerService.handleCreated(event));
     }
 
     @Test
@@ -120,6 +160,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> gameServerService.handleCreated(event));
@@ -135,6 +176,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> gameServerService.handleCreated(event));
@@ -150,6 +192,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> gameServerService.handleCreated(event));
@@ -178,6 +221,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.randomUUID())
                 .imageId(UUID.fromString(data.getImage().getId()))
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> gameServerService.handleCreated(event));
@@ -192,6 +236,7 @@ public class GameServerServiceCreatedTest {
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(null)
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> gameServerService.handleCreated(event));
@@ -207,6 +252,7 @@ public class GameServerServiceCreatedTest {
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.randomUUID())
                 .name("name")
+                .status(GameServerStatus.ACTIVE)
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> gameServerService.handleCreated(event));

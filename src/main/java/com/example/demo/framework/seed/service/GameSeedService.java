@@ -3,7 +3,7 @@ package com.example.demo.framework.seed.service;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.game.aggregate.command.GameCreateCommand;
 import com.example.demo.game.entity.GameType;
-import com.example.demo.game.projection.IGameProjection;
+import com.example.demo.game.projection.IGameProjector;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GameSeedService implements ISeedService<Object> {
 
-    private final IGameProjection gameProjection;
+    private final IGameProjector gameProjection;
     private final CommandGateway commandGateway;
 
     @Override

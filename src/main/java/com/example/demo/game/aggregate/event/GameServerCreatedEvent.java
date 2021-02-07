@@ -1,5 +1,6 @@
 package com.example.demo.game.aggregate.event;
 
+import com.example.demo.game.entity.GameServerStatus;
 import lombok.Builder;
 import lombok.Value;
 
@@ -16,4 +17,5 @@ public class GameServerCreatedEvent {
     UUID imageId;
     String name;
     String description;
+    GameServerStatus status;
 }

@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
+    <head>
+        <title>[[#{message.admin.game.server.title}]]</title>
+        <style>
+            .actions {
+                display: flex;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        </style>
+    </head>
+    <body layout:fragment="content">
+        <div>
+            <h1>[[#{message.admin.game.server.header}]]</h1>
+            <div class="actions">
+                <button class="btn btn-primary" th:data-modal-url="@{/admin/game-servers/create}">
+                    [[#{message.add}]]
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

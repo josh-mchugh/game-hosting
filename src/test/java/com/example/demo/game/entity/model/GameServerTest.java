@@ -1,5 +1,6 @@
 package com.example.demo.game.entity.model;
 
+import com.example.demo.game.entity.GameServerStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -40,11 +41,21 @@ public class GameServerTest {
     }
 
     @Test
+    public void whenModelHasStatusThenReturnStatus() {
+
+        GameServer model = GameServer.builder()
+                .status(GameServerStatus.ACTIVE)
+                .build();
+
+        Assertions.assertEquals(GameServerStatus.ACTIVE, model.getStatus());
+    }
+
+    @Test
     public void whenModelToString() {
 
         GameServer model = model();
 
-        String expected = "GameServer(id=7770aa9c-bbdc-4193-b57f-3126386a226b, name=name, description=description)";
+        String expected = "GameServer(id=7770aa9c-bbdc-4193-b57f-3126386a226b, name=name, description=description, status=ACTIVE)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -52,9 +63,13 @@ public class GameServerTest {
     @Test
     public void whenModelHashCode() {
 
-        GameServer model = model();
+        GameServer model = GameServer.builder()
+                .id(UUID.fromString("7770aa9c-bbdc-4193-b57f-3126386a226b"))
+                .name("name")
+                .description("description")
+                .build();
 
-        Assertions.assertEquals(1591123386, model.hashCode());
+        Assertions.assertEquals(-613000695, model.hashCode());
     }
 
     @Test
@@ -80,6 +95,7 @@ public class GameServerTest {
                 .id(UUID.fromString("7770aa9c-bbdc-4193-b57f-3126386a226b"))
                 .name("name")
                 .description("description")
+                .status(GameServerStatus.ACTIVE)
                 .build();
     }
 }

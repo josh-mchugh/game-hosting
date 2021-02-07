@@ -22,7 +22,6 @@ public class AwxHostAggregate {
     @AggregateIdentifier
     private UUID id;
     private String awxInventoryId;
-    //TODO Change to OvhInstanceId after OVH Refactor
     private String instanceId;
     private Long awxId;
     private String hostname;
