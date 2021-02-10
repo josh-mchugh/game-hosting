@@ -4,7 +4,6 @@ import com.example.demo.framework.web.ModalResponse;
 import com.example.demo.util.IMessageUtil;
 import com.example.demo.web.admin.game.command.service.IAdminGameServerCommandService;
 import com.example.demo.web.admin.game.command.service.model.GameServerCreateRequest;
-import com.example.demo.web.admin.game.command.service.model.GameServerExistsByConfig;
 import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -37,17 +36,6 @@ public class AdminGameServerCommandController {
             }
         }
 
-        if(!result.hasErrors()) {
-
-            if(existsByConfig(form)) {
-
-                result.rejectValue("gameId", "error.configuration.exists", "Configuration already exists");
-                result.rejectValue("regionId", "error.configuration.exists", "Configuration already exists");
-                result.rejectValue("flavorId", "error.configuration.exists", "Configuration already exists");
-                result.rejectValue("imageId", "error.configuration.exists", "Configuration already exists");
-            }
-        }
-
         if(result.hasErrors()) {
 
             return "admin/game/partial/modal-game-server-create";
@@ -68,17 +56,5 @@ public class AdminGameServerCommandController {
         return new ModalResponse(model)
                 .toast(messageUtil.getMessage("message.admin.game.server.create.modal.success"), ModalResponse.Type.SUCCESS)
                 .build();
-    }
-
-    private boolean existsByConfig(AdminGameServerCreateForm form) {
-
-        GameServerExistsByConfig request = GameServerExistsByConfig.builder()
-                .gameId(form.getGameId())
-                .regionId(form.getRegionId())
-                .flavorId(form.getFlavorId())
-                .imageId(form.getImageId())
-                .build();
-
-        return gameServerService.existsByConfig(request);
     }
 }

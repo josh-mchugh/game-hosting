@@ -8,6 +8,7 @@ import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProjection;
 import com.example.demo.ovh.region.projection.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.ovh.region.projection.model.FetchAdminGameServerRegionsResponse;
+import com.querydsl.jpa.JPQLQueryFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,7 +24,9 @@ public class AdminGameServerProjectorServiceGetRegionsTest {
         IRegionProjector regionProjector = Mockito.mock(IRegionProjector.class);
         IFlavorProjector flavorProjector = Mockito.mock(IFlavorProjector.class);
         IImageProjector imageProjector = Mockito.mock(IImageProjector.class);
-        AdminGameServerProjectorService service = new AdminGameServerProjectorService(gameProjector, regionProjector, flavorProjector, imageProjector);
+        JPQLQueryFactory queryFactory = Mockito.mock(JPQLQueryFactory.class);
+
+        AdminGameServerProjectorService service = new AdminGameServerProjectorService(gameProjector, regionProjector, flavorProjector, imageProjector, queryFactory);
 
         FetchAdminGameServerRegionsResponse response = new FetchAdminGameServerRegionsResponse(new ArrayList<>());
         Mockito.when(regionProjector.fetchRegions(Mockito.any(FetchAdminGameServerRegionsQuery.class))).thenReturn(response);
