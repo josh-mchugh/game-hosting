@@ -6,9 +6,12 @@ import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProject
 import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
 import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProjection;
 import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
+import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerSelect2Request;
 import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,14 @@ public class AdminGameServerProjectorController {
     public String getDefault() {
 
         return "admin/game/view-default";
+    }
+
+    @GetMapping("/table")
+    public String getTable(Model model, @PageableDefault(size = 20) Pageable pageable) {
+
+        model.addAttribute("pageable", gameServerService.getPage(new AdminGameServerPageRequest(pageable)));
+
+        return "admin/game/partial/partial-table";
     }
 
     @GetMapping("/create")

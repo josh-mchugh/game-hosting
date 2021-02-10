@@ -1,7 +1,6 @@
 package com.example.demo.web.admin.game.command;
 
 import com.example.demo.web.admin.game.command.service.IAdminGameServerCommandService;
-import com.example.demo.web.admin.game.command.service.model.GameServerExistsByConfig;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,26 +96,9 @@ public class AdminGameServerCommandControllerCreateTest {
     }
 
     @Test
-    public void whenRequestIsValidAndConfigAlreadyExistsThenExpectErrors() throws Exception {
-
-        Mockito.when(service.existsByConfig(Mockito.any(GameServerExistsByConfig.class))).thenReturn(true);
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .params(validForm())
-                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"))
-                .with(SecurityMockMvcRequestPostProcessors.csrf());
-
-        this.mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("form", "gameId", "regionId", "flavorId", "imageId"));
-    }
-
-    @Test
     public void whenRequestIsValidThenExpectNoErrors() throws Exception {
 
         Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
-        Mockito.when(service.existsByConfig(Mockito.any(GameServerExistsByConfig.class))).thenReturn(false);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -133,7 +115,6 @@ public class AdminGameServerCommandControllerCreateTest {
     public void whenRequestIsValidThenExpectSuccessModelTemplate() throws Exception {
 
         Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
-        Mockito.when(service.existsByConfig(Mockito.any(GameServerExistsByConfig.class))).thenReturn(false);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
