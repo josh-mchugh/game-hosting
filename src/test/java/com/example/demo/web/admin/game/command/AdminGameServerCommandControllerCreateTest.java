@@ -127,6 +127,38 @@ public class AdminGameServerCommandControllerCreateTest {
                 .andExpect(MockMvcResultMatchers.view().name("component/modal-response"));
     }
 
+    @Test
+    public void whenRequestIsValidThenExpectModelMessage() throws Exception {
+
+        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .params(validForm())
+                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"))
+                .with(SecurityMockMvcRequestPostProcessors.csrf());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("message"));
+    }
+
+    @Test
+    public void whenRequestIsValidThenExpectEvent() throws Exception {
+
+        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .params(validForm())
+                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"))
+                .with(SecurityMockMvcRequestPostProcessors.csrf());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("event"));
+    }
+
     private MultiValueMap<String, String> validForm() {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

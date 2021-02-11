@@ -54,7 +54,8 @@ public class AdminGameServerCommandController {
         gameServerService.handleGameServerCreate(request);
 
         return new ModalResponse(model)
-                .toast(messageUtil.getMessage("message.admin.game.server.create.modal.success"), ModalResponse.Type.SUCCESS)
+                .toast(ModalResponse.Type.SUCCESS, messageUtil.getMessage("message.admin.game.server.create.modal.success"))
+                .event(ModalResponse.RELOAD, "gameServersTable")
                 .build();
     }
 }

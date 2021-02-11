@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 
 public class ModalResponse {
 
+    public static final String RELOAD = "reload";
+
     public enum Type {
         SUCCESS,
         INFO,
@@ -19,7 +21,7 @@ public class ModalResponse {
         this.model = model;
     }
 
-    public ModalResponse toast(String message, Type type) {
+    public ModalResponse toast(Type type, String message) {
 
         model.addAttribute("message", message);
         model.addAttribute("type", type);
@@ -27,7 +29,7 @@ public class ModalResponse {
         return this;
     }
 
-    public ModalResponse event(String contentId, String eventName) {
+    public ModalResponse event(String eventName, String contentId) {
 
         model.addAttribute("event", new Event(contentId, eventName));
 
