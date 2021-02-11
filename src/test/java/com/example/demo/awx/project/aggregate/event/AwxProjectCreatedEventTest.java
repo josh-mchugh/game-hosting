@@ -32,11 +32,13 @@ public class AwxProjectCreatedEventTest {
     @Test
     public void whenEventHasAwxCredentialIdThenReturnAwxCredentialId() {
 
+        UUID awxCredentialId = UUID.randomUUID();
+
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
-                .awxCredentialId("awxCredentialId")
+                .awxCredentialId(awxCredentialId)
                 .build();
 
-        Assertions.assertEquals("awxCredentialId", event.getAwxCredentialId());
+        Assertions.assertEquals(awxCredentialId, event.getAwxCredentialId());
     }
 
     @Test
@@ -104,7 +106,7 @@ public class AwxProjectCreatedEventTest {
 
         AwxProjectCreatedEvent event = event();
 
-        String expected = "AwxProjectCreatedEvent(id=05d0f4cb-55f7-4e6f-9662-a99874a037f1, awxOrganizationId=awxOrganizationId, awxCredentialId=awxCredentialId, awxId=1, name=name, description=description, scmType=scmType, scmUrl=scmUrl, scmBranch=scmBranch)";
+        String expected = "AwxProjectCreatedEvent(id=05d0f4cb-55f7-4e6f-9662-a99874a037f1, awxOrganizationId=awxOrganizationId, awxCredentialId=813c883b-a360-425d-bdf7-c9b0210dd432, awxId=1, name=name, description=description, scmType=scmType, scmUrl=scmUrl, scmBranch=scmBranch)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -114,7 +116,7 @@ public class AwxProjectCreatedEventTest {
 
         AwxProjectCreatedEvent event = event();
 
-        Assertions.assertEquals(-1650579510, event.hashCode());
+        Assertions.assertEquals(-1123437766, event.hashCode());
     }
 
     @Test
@@ -139,7 +141,7 @@ public class AwxProjectCreatedEventTest {
         return AwxProjectCreatedEvent.builder()
                 .id(UUID.fromString("05d0f4cb-55f7-4e6f-9662-a99874a037f1"))
                 .awxOrganizationId("awxOrganizationId")
-                .awxCredentialId("awxCredentialId")
+                .awxCredentialId(UUID.fromString("813c883b-a360-425d-bdf7-c9b0210dd432"))
                 .awxId(1L)
                 .name("name")
                 .description("description")

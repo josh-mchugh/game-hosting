@@ -11,7 +11,7 @@ public class AwxProjectCreatedEvent {
 
     UUID id;
     String awxOrganizationId;
-    String awxCredentialId;
+    UUID awxCredentialId;
     Long awxId;
     String name;
     String description;

@@ -24,11 +24,13 @@ public class AwxTemplateCreateCommandTest {
     @Test
     public void whenCommandHasAwxCredentialIdThenAwxCredentialId() {
 
+        UUID awxCredentialId = UUID.randomUUID();
+
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
-                .awxCredentialId("awxCredentialId")
+                .awxCredentialId(awxCredentialId)
                 .build();
 
-        Assertions.assertEquals("awxCredentialId", command.getAwxCredentialId());
+        Assertions.assertEquals(awxCredentialId, command.getAwxCredentialId());
     }
 
     @Test
@@ -104,19 +106,9 @@ public class AwxTemplateCreateCommandTest {
     @Test
     public void whenCommandToString() {
 
-        AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
-                .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
-                .awxCredentialId("awxCredentialId")
-                .awxInventoryId("awxInventoryId")
-                .awxPlaybookId("awxPlaybookId")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .type(TemplateJobType.RUN)
-                .verbosity(TemplateVerbosity.NORMAL)
-                .build();
+        AwxTemplateCreateCommand command = command();
 
-        String expected = "AwxTemplateCreateCommand(id=e0273a31-54c3-424a-b42a-cd2ab4532384, awxCredentialId=awxCredentialId, awxInventoryId=awxInventoryId, awxPlaybookId=awxPlaybookId, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
+        String expected = "AwxTemplateCreateCommand(id=e0273a31-54c3-424a-b42a-cd2ab4532384, awxCredentialId=9158639a-8098-45d3-958f-b4458765b9b4, awxInventoryId=awxInventoryId, awxPlaybookId=awxPlaybookId, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -124,9 +116,17 @@ public class AwxTemplateCreateCommandTest {
     @Test
     public void whenCommandHashCode() {
 
-        AwxTemplateCreateCommand command = command();
+        AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
+                .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
+                .awxCredentialId(UUID.fromString("9158639a-8098-45d3-958f-b4458765b9b4"))
+                .awxInventoryId("awxInventoryId")
+                .awxPlaybookId("awxPlaybookId")
+                .awxId(1L)
+                .name("name")
+                .description("description")
+                .build();
 
-        Assertions.assertEquals(890870793, command.hashCode());
+        Assertions.assertEquals(-1667139179, command.hashCode());
     }
 
     @Test
@@ -150,12 +150,14 @@ public class AwxTemplateCreateCommandTest {
 
         return AwxTemplateCreateCommand.builder()
                 .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
-                .awxCredentialId("awxCredentialId")
+                .awxCredentialId(UUID.fromString("9158639a-8098-45d3-958f-b4458765b9b4"))
                 .awxInventoryId("awxInventoryId")
                 .awxPlaybookId("awxPlaybookId")
                 .awxId(1L)
                 .name("name")
                 .description("description")
+                .type(TemplateJobType.RUN)
+                .verbosity(TemplateVerbosity.NORMAL)
                 .build();
     }
 }

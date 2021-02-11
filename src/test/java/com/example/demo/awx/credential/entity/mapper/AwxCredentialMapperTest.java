@@ -6,6 +6,8 @@ import com.example.demo.awx.credential.entity.model.AwxCredential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxCredentialMapperTest {
 
     @Test
@@ -23,12 +25,14 @@ public class AwxCredentialMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxCredentialEntity entity = new AwxCredentialEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxCredential awxCredential = AwxCredentialMapper.map(entity);
 
-        Assertions.assertEquals("id", awxCredential.getId());
+        Assertions.assertEquals(id, awxCredential.getId());
     }
 
     @Test

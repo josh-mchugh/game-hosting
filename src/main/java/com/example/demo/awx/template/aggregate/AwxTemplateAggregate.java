@@ -19,7 +19,7 @@ public class AwxTemplateAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String awxCredentialId;
+    private UUID awxCredentialId;
     private String awxInventoryId;
     private String awxPlaybookId;
     private Long awxId;
