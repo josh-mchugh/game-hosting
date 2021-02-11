@@ -33,7 +33,7 @@ public class AwxProjectService implements IAwxProjectService {
 
         AwxCredentialEntity awxCredentialEntity = queryFactory.select(qAwxCredential)
                 .from(qAwxCredential)
-                .where(qAwxCredential.id.eq(event.getAwxCredentialId()))
+                .where(qAwxCredential.id.eq(event.getAwxCredentialId().toString()))
                 .fetchOne();
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)

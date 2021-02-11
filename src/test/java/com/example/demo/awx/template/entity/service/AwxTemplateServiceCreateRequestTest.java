@@ -96,7 +96,7 @@ public class AwxTemplateServiceCreateRequestTest {
                 .awxCredentialId(null)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxTemplateService.handleAwxTemplateCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxTemplateService.handleAwxTemplateCreated(event));
     }
 
     @Test

@@ -36,7 +36,7 @@ public class AwxTemplateService implements IAwxTemplateService{
 
         AwxCredentialEntity awxCredentialEntity = queryFactory.select(qAwxCredential)
                 .from(qAwxCredential)
-                .where(qAwxCredential.id.eq(event.getAwxCredentialId()))
+                .where(qAwxCredential.id.eq(event.getAwxCredentialId().toString()))
                 .fetchOne();
 
         AwxInventoryEntity awxInventory = queryFactory.select(qAwxInventory)

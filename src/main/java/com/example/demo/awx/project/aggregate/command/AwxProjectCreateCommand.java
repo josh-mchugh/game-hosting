@@ -19,8 +19,8 @@ public class AwxProjectCreateCommand {
     @NotBlank
     String awxOrganizationId;
 
-    @NotBlank
-    String awxCredentialId;
+    @NotNull
+    UUID awxCredentialId;
 
     @NotNull
     Long awxId;

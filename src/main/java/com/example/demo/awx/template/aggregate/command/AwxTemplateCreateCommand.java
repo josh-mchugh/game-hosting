@@ -18,8 +18,8 @@ public class AwxTemplateCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String awxCredentialId;
+    @NotNull
+    UUID awxCredentialId;
 
     @NotBlank
     String awxInventoryId;

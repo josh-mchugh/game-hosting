@@ -4,16 +4,20 @@ import com.example.demo.awx.credential.entity.AwxCredentialType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxCredentialTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxCredential model = AwxCredential.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -79,17 +83,9 @@ public class AwxCredentialTest {
     @Test
     public void whenModelToString() {
 
-        AwxCredential model = AwxCredential.builder()
-                .id("id")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .privateKey("privateKey")
-                .passphrase("passPhrase")
-                .type(AwxCredentialType.MACHINE)
-                .build();
+        AwxCredential model = model();
 
-        String expected = "AwxCredential(id=id, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
+        String expected = "AwxCredential(id=e0746f72-a03f-4f1e-9b34-902602d197c3, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -97,9 +93,16 @@ public class AwxCredentialTest {
     @Test
     public void whenModelHashCode() {
 
-        AwxCredential model = model();
+        AwxCredential model = AwxCredential.builder()
+                .id(UUID.fromString("e0746f72-a03f-4f1e-9b34-902602d197c3"))
+                .awxId(1L)
+                .name("name")
+                .description("description")
+                .privateKey("privateKey")
+                .passphrase("passPhrase")
+                .build();
 
-        Assertions.assertEquals(-1899840587, model.hashCode());
+        Assertions.assertEquals(-1669212525, model.hashCode());
     }
 
     @Test
@@ -122,12 +125,13 @@ public class AwxCredentialTest {
     private AwxCredential model() {
 
         return AwxCredential.builder()
-                .id("id")
+                .id(UUID.fromString("e0746f72-a03f-4f1e-9b34-902602d197c3"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("privateKey")
                 .passphrase("passPhrase")
+                .type(AwxCredentialType.MACHINE)
                 .build();
     }
 }

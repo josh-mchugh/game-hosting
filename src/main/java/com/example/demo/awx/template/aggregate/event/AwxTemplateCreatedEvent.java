@@ -12,7 +12,7 @@ import java.util.UUID;
 public class AwxTemplateCreatedEvent {
 
     UUID id;
-    String awxCredentialId;
+    UUID awxCredentialId;
     String awxInventoryId;
     String awxPlaybookId;
     Long awxId;

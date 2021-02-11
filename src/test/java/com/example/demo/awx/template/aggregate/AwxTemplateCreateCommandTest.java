@@ -28,10 +28,11 @@ public class AwxTemplateCreateCommandTest {
     public void whenCreateCommandIsValidThenExecuteCreatedEvent() {
 
         UUID id = UUID.randomUUID();
+        UUID awxCredentialId = UUID.randomUUID();
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(id)
-                .awxCredentialId("awx-credentials-id")
+                .awxCredentialId(awxCredentialId)
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -43,7 +44,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
                 .id(id)
-                .awxCredentialId("awx-credentials-id")
+                .awxCredentialId(awxCredentialId)
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -64,7 +65,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(null)
-                .awxCredentialId("awx-credentials-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -101,31 +102,11 @@ public class AwxTemplateCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasBlankAwxCredentialsIdThenThrowException() {
-
-        AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .awxCredentialId("")
-                .awxPlaybookId("awx-playbook-id")
-                .awxInventoryId("awx-inventory-id")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .type(TemplateJobType.RUN)
-                .verbosity(TemplateVerbosity.NORMAL)
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCreateCommandHasNullAwxInventoryIdThenThrowException() {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId(null)
                 .awxId(1L)
@@ -145,7 +126,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("")
                 .awxId(1L)
@@ -165,7 +146,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId(null)
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -185,7 +166,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("")
                 .awxId(1L)
@@ -205,7 +186,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(null)
@@ -225,7 +206,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -245,7 +226,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -265,7 +246,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -285,7 +266,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -305,7 +286,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
@@ -325,7 +306,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId("awx-credential-id")
+                .awxCredentialId(UUID.randomUUID())
                 .awxPlaybookId("awx-playbook-id")
                 .awxInventoryId("awx-inventory-id")
                 .awxId(1L)
