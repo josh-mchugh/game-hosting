@@ -88,7 +88,7 @@ public class AwxHostServiceCreatedTest {
 
         AwxHost awxHost = awxHostService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), awxHost.getId());
+        Assertions.assertEquals(id.toString(), awxHost.getId().toString());
     }
 
     @Test
