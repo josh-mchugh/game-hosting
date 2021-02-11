@@ -44,7 +44,7 @@ public class AwxHostProjectionHostAwxHostHostIdTest {
 
         AwxHostAwxIdProjection projection = awxHostProjector.getHostIdProjection(query);
 
-        AwxHostAwxIdProjection expectedProject = new AwxHostAwxIdProjection(data.getAwxHost().getId(), data.getAwxHost().getAwxId());
+        AwxHostAwxIdProjection expectedProject = new AwxHostAwxIdProjection(data.getAwxHost().getId().toString(), data.getAwxHost().getAwxId());
 
         Assertions.assertEquals(expectedProject, projection);
     }

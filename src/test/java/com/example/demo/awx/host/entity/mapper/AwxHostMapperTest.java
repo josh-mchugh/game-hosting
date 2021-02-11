@@ -5,6 +5,8 @@ import com.example.demo.awx.host.entity.model.AwxHost;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxHostMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class AwxHostMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxHostEntity entity = new AwxHostEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxHost awxHost = AwxHostMapper.map(entity);
 
-        Assertions.assertEquals("id", awxHost.getId());
+        Assertions.assertEquals(id, awxHost.getId());
     }
 
     @Test

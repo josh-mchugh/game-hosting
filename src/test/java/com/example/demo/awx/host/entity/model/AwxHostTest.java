@@ -3,16 +3,20 @@ package com.example.demo.awx.host.entity.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxHostTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxHost model = AwxHost.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -60,7 +64,7 @@ public class AwxHostTest {
 
         AwxHost model = model();
 
-        String expected = "AwxHost(id=id, awxId=1, hostname=hostname, description=description, enabled=true)";
+        String expected = "AwxHost(id=0d52cc1a-70a1-453e-9400-e5a63c722cdc, awxId=1, hostname=hostname, description=description, enabled=true)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -70,7 +74,7 @@ public class AwxHostTest {
 
         AwxHost model = model();
 
-        Assertions.assertEquals(-189066089, model.hashCode());
+        Assertions.assertEquals(-1647991766, model.hashCode());
     }
 
     @Test
@@ -93,7 +97,7 @@ public class AwxHostTest {
     private AwxHost model() {
 
         return AwxHost.builder()
-                .id("id")
+                .id(UUID.fromString("0d52cc1a-70a1-453e-9400-e5a63c722cdc"))
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")
