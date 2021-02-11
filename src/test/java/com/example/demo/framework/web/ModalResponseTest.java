@@ -29,7 +29,7 @@ public class ModalResponseTest {
 
         Model model = new ConcurrentModel();
         new ModalResponse(model)
-                .event("contentId", "eventName");
+                .event("eventName","contentId");
 
         Assertions.assertTrue(model.containsAttribute("event"));
         Assertions.assertEquals(new ModalResponse.Event("contentId", "eventName"), model.getAttribute("event"));
@@ -40,7 +40,7 @@ public class ModalResponseTest {
 
         Model model = new ConcurrentModel();
         new ModalResponse(model)
-                .toast("success test", ModalResponse.Type.SUCCESS);
+                .toast(ModalResponse.Type.SUCCESS,"success test");
 
         Assertions.assertTrue(model.containsAttribute("message"));
         Assertions.assertTrue(model.containsAttribute("type"));
@@ -53,7 +53,7 @@ public class ModalResponseTest {
 
         Model model = new ConcurrentModel();
         new ModalResponse(model)
-                .toast("info test", ModalResponse.Type.INFO);
+                .toast(ModalResponse.Type.INFO,"info test");
 
         Assertions.assertTrue(model.containsAttribute("message"));
         Assertions.assertTrue(model.containsAttribute("type"));
@@ -66,7 +66,7 @@ public class ModalResponseTest {
 
         Model model = new ConcurrentModel();
         new ModalResponse(model)
-                .toast("warning test", ModalResponse.Type.WARNING);
+                .toast(ModalResponse.Type.WARNING,"warning test");
 
         Assertions.assertTrue(model.containsAttribute("message"));
         Assertions.assertTrue(model.containsAttribute("type"));
@@ -79,7 +79,7 @@ public class ModalResponseTest {
 
         Model model = new ConcurrentModel();
         new ModalResponse(model)
-                .toast("error test", ModalResponse.Type.ERROR);
+                .toast(ModalResponse.Type.ERROR, "error test");
 
         Assertions.assertTrue(model.containsAttribute("message"));
         Assertions.assertTrue(model.containsAttribute("type"));
