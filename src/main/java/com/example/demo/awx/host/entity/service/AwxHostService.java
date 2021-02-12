@@ -36,7 +36,7 @@ public class AwxHostService implements IAwxHostService {
 
         AwxInventoryEntity awxInventoryEntity = queryFactory.select(qAwxInventory)
                 .from(qAwxInventory)
-                .where(qAwxInventory.id.eq(event.getAwxInventoryId()))
+                .where(qAwxInventory.id.eq(event.getAwxInventoryId().toString()))
                 .fetchOne();
 
         InstanceEntity instanceEntity = queryFactory.select(qInstance)

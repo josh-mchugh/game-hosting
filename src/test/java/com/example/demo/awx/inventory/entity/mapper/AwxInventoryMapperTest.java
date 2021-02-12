@@ -5,6 +5,8 @@ import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxInventoryMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class AwxInventoryMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxInventoryEntity entity = new AwxInventoryEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxInventory awxInventory = AwxInventoryMapper.map(entity);
 
-        Assertions.assertEquals("id", awxInventory.getId());
+        Assertions.assertEquals(id, awxInventory.getId());
     }
 
     @Test

@@ -22,11 +22,13 @@ public class AwxHostCreateCommandTest {
     @Test
     public void whenCommandHasAwxInventoryIdThenReturnAwxInventoryId() {
 
+        UUID awxInventoryId = UUID.randomUUID();
+
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
-                .awxInventoryId("awxInventoryId")
+                .awxInventoryId(awxInventoryId)
                 .build();
 
-        Assertions.assertEquals("awxInventoryId", command.getAwxInventoryId());
+        Assertions.assertEquals(awxInventoryId, command.getAwxInventoryId());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class AwxHostCreateCommandTest {
 
         AwxHostCreateCommand command = command();
 
-        String expected = "AwxHostCreateCommand(id=ecf182f8-be26-49fe-b8d4-3e21b47417a4, awxInventoryId=awxInventoryId, instanceId=instanceId, awxId=1, hostname=hostname, description=description, enabled=true)";
+        String expected = "AwxHostCreateCommand(id=ecf182f8-be26-49fe-b8d4-3e21b47417a4, awxInventoryId=7bfc6d33-8ed8-45e6-8b0c-56aa5130de8c, instanceId=instanceId, awxId=1, hostname=hostname, description=description, enabled=true)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -94,7 +96,7 @@ public class AwxHostCreateCommandTest {
 
         AwxHostCreateCommand command = command();
 
-        Assertions.assertEquals(919954726, command.hashCode());
+        Assertions.assertEquals(1297234512, command.hashCode());
     }
 
     @Test
@@ -118,7 +120,7 @@ public class AwxHostCreateCommandTest {
 
         return  AwxHostCreateCommand.builder()
                 .id(UUID.fromString("ecf182f8-be26-49fe-b8d4-3e21b47417a4"))
-                .awxInventoryId("awxInventoryId")
+                .awxInventoryId(UUID.fromString("7bfc6d33-8ed8-45e6-8b0c-56aa5130de8c"))
                 .instanceId("instanceId")
                 .awxId(1L)
                 .hostname("hostname")

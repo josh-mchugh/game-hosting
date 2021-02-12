@@ -10,7 +10,7 @@ import java.util.UUID;
 public class AwxHostCreatedEvent {
 
     UUID id;
-    String awxInventoryId;
+    UUID awxInventoryId;
     String instanceId;
     Long awxId;
     String hostname;

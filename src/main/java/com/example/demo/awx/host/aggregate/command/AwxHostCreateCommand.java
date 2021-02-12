@@ -16,8 +16,8 @@ public class AwxHostCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String awxInventoryId;
+    @NotNull
+    UUID awxInventoryId;
 
     @NotBlank
     String instanceId;
