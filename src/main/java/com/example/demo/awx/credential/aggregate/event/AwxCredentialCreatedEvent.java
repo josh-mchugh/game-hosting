@@ -11,7 +11,7 @@ import java.util.UUID;
 public class AwxCredentialCreatedEvent {
 
     UUID id;
-    String awxOrganizationId;
+    UUID awxOrganizationId;
     Long awxId;
     String name;
     String description;

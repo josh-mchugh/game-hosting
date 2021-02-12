@@ -30,7 +30,7 @@ public class AwxNotificationService implements IAwxNotificationService {
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId()))
+                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId().toString()))
                 .fetchOne();
 
         AwxNotificationEntity entity = new AwxNotificationEntity();

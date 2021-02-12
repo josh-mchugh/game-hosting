@@ -22,11 +22,13 @@ public class AwxProjectCreatedEventTest {
     @Test
     public void whenEventHasAwxOrganizationIdThenReturnAwxOrganizationId() {
 
+        UUID awxOrganizationId = UUID.randomUUID();
+
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .build();
 
-        Assertions.assertEquals("awxOrganizationId", event.getAwxOrganizationId());
+        Assertions.assertEquals(awxOrganizationId, event.getAwxOrganizationId());
     }
 
     @Test
@@ -106,7 +108,7 @@ public class AwxProjectCreatedEventTest {
 
         AwxProjectCreatedEvent event = event();
 
-        String expected = "AwxProjectCreatedEvent(id=05d0f4cb-55f7-4e6f-9662-a99874a037f1, awxOrganizationId=awxOrganizationId, awxCredentialId=813c883b-a360-425d-bdf7-c9b0210dd432, awxId=1, name=name, description=description, scmType=scmType, scmUrl=scmUrl, scmBranch=scmBranch)";
+        String expected = "AwxProjectCreatedEvent(id=05d0f4cb-55f7-4e6f-9662-a99874a037f1, awxOrganizationId=c984578f-1b32-4725-a9ec-32529b183e25, awxCredentialId=813c883b-a360-425d-bdf7-c9b0210dd432, awxId=1, name=name, description=description, scmType=scmType, scmUrl=scmUrl, scmBranch=scmBranch)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -116,7 +118,7 @@ public class AwxProjectCreatedEventTest {
 
         AwxProjectCreatedEvent event = event();
 
-        Assertions.assertEquals(-1123437766, event.hashCode());
+        Assertions.assertEquals(-1566225615, event.hashCode());
     }
 
     @Test
@@ -140,7 +142,7 @@ public class AwxProjectCreatedEventTest {
 
         return AwxProjectCreatedEvent.builder()
                 .id(UUID.fromString("05d0f4cb-55f7-4e6f-9662-a99874a037f1"))
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.fromString("c984578f-1b32-4725-a9ec-32529b183e25"))
                 .awxCredentialId(UUID.fromString("813c883b-a360-425d-bdf7-c9b0210dd432"))
                 .awxId(1L)
                 .name("name")

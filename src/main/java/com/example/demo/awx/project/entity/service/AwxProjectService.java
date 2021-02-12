@@ -38,7 +38,7 @@ public class AwxProjectService implements IAwxProjectService {
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId()))
+                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId().toString()))
                 .fetchOne();
 
         AwxProjectEntity entity = new AwxProjectEntity();

@@ -23,11 +23,13 @@ public class AwxCredentialCreateCommandTest {
     @Test
     public void whenCommandHasOrganizationIdThenReturnOrganizationId() {
 
+        UUID awxOrganizationId = UUID.randomUUID();
+
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
-                .awxOrganizationId("id")
+                .awxOrganizationId(awxOrganizationId)
                 .build();
 
-        Assertions.assertEquals("id", command.getAwxOrganizationId());
+        Assertions.assertEquals(awxOrganizationId, command.getAwxOrganizationId());
     }
 
     @Test
@@ -93,18 +95,9 @@ public class AwxCredentialCreateCommandTest {
     @Test
     public void whenCommandToString() {
 
-        AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
-                .id(UUID.fromString("614ac740-10e9-4c0a-b8d3-2c35ba46bd1b"))
-                .awxOrganizationId("awxOrganizationId")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .privateKey("privateKey")
-                .passphrase("passPhrase")
-                .type(AwxCredentialType.MACHINE)
-                .build();
+        AwxCredentialCreateCommand command = command();
 
-        String expected = "AwxCredentialCreateCommand(id=614ac740-10e9-4c0a-b8d3-2c35ba46bd1b, awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
+        String expected = "AwxCredentialCreateCommand(id=614ac740-10e9-4c0a-b8d3-2c35ba46bd1b, awxOrganizationId=e25619be-7b4d-41ea-af35-d0058ab1bb37, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -112,9 +105,17 @@ public class AwxCredentialCreateCommandTest {
     @Test
     public void whenCommandHashCode() {
 
-        AwxCredentialCreateCommand command = command();
+        AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
+                .id(UUID.fromString("614ac740-10e9-4c0a-b8d3-2c35ba46bd1b"))
+                .awxOrganizationId(UUID.fromString("e25619be-7b4d-41ea-af35-d0058ab1bb37"))
+                .awxId(1L)
+                .name("name")
+                .description("description")
+                .privateKey("privateKey")
+                .passphrase("passPhrase")
+                .build();
 
-        Assertions.assertEquals(995879372, command.hashCode());
+        Assertions.assertEquals(-594549358, command.hashCode());
     }
 
     @Test
@@ -138,12 +139,13 @@ public class AwxCredentialCreateCommandTest {
 
         return AwxCredentialCreateCommand.builder()
                 .id(UUID.fromString("614ac740-10e9-4c0a-b8d3-2c35ba46bd1b"))
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.fromString("e25619be-7b4d-41ea-af35-d0058ab1bb37"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("privateKey")
                 .passphrase("passPhrase")
+                .type(AwxCredentialType.MACHINE)
                 .build();
     }
 

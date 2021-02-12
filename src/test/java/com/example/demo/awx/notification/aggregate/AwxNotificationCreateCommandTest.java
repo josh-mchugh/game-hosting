@@ -26,10 +26,11 @@ public class AwxNotificationCreateCommandTest {
     public void whenCreateCommandIsValidThenExecuteCreatedEvent() {
 
         UUID id = UUID.randomUUID();
+        UUID awxOrganizationId = UUID.randomUUID();
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(id)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -39,7 +40,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
                 .id(id)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -58,7 +59,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(null)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -90,29 +91,11 @@ public class AwxNotificationCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasBlankAwxOrganizationIdThenThrowException() {
-
-        AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .awxOrganizationId("")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .type("type")
-                .webhookCallBackUrl("callback url")
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCreateCommandHasNullAwxIdThenThrowException() {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(null)
                 .name("name")
                 .description("description")
@@ -130,7 +113,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name(null)
                 .description("description")
@@ -148,7 +131,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("")
                 .description("description")
@@ -166,7 +149,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description(null)
@@ -184,7 +167,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("")
@@ -202,7 +185,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -220,7 +203,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -238,7 +221,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -256,7 +239,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")

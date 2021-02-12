@@ -120,7 +120,7 @@ public class AwxProjectServiceCreatedTest {
                 .scmUrl("url")
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxProjectService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxProjectService.handleCreated(event));
     }
 
     @Test

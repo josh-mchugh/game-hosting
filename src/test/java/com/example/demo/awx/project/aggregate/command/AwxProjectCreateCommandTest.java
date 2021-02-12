@@ -22,11 +22,13 @@ public class AwxProjectCreateCommandTest {
     @Test
     public void whenCommandHasAwxOrganizationIdThenReturnAwxOrganizationId(){
 
+        UUID awxOrganizationId = UUID.randomUUID();
+
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .build();
 
-        Assertions.assertEquals("awxOrganizationId", command.getAwxOrganizationId());
+        Assertions.assertEquals(awxOrganizationId, command.getAwxOrganizationId());
     }
 
     @Test
@@ -106,7 +108,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = command();
 
-        String expected = "AwxProjectCreateCommand(id=e55f95e5-a060-4a9e-9026-f95eb7fa5305, awxOrganizationId=awxOrganizationId, awxCredentialId=7b445f93-37ef-4ea8-97dd-12cb882e44d7, awxId=1, name=name, description=description, scmType=type, scmUrl=url, scmBranch=scmBranch)";
+        String expected = "AwxProjectCreateCommand(id=e55f95e5-a060-4a9e-9026-f95eb7fa5305, awxOrganizationId=b0697b6f-68c0-40f6-954d-fcb993096611, awxCredentialId=7b445f93-37ef-4ea8-97dd-12cb882e44d7, awxId=1, name=name, description=description, scmType=type, scmUrl=url, scmBranch=scmBranch)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -116,7 +118,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = command();
 
-        Assertions.assertEquals(-2047987582, command.hashCode());
+        Assertions.assertEquals(1157848245, command.hashCode());
     }
 
     @Test
@@ -140,7 +142,7 @@ public class AwxProjectCreateCommandTest {
 
         return AwxProjectCreateCommand.builder()
                 .id(UUID.fromString("e55f95e5-a060-4a9e-9026-f95eb7fa5305"))
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.fromString("b0697b6f-68c0-40f6-954d-fcb993096611"))
                 .awxCredentialId(UUID.fromString("7b445f93-37ef-4ea8-97dd-12cb882e44d7"))
                 .awxId(1L)
                 .name("name")

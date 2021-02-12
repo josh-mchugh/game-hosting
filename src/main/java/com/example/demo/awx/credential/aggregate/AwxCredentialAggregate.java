@@ -19,7 +19,7 @@ public class AwxCredentialAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String awxOrganizationId;
+    private UUID awxOrganizationId;
     private Long awxId;
     private String name;
     private String description;

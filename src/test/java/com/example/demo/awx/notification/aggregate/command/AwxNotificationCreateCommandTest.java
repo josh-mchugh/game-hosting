@@ -22,11 +22,13 @@ public class AwxNotificationCreateCommandTest {
     @Test
     public void whenCommandHasAwxOrganizationIdThenReturnAwxOrganizationId() {
 
+        UUID awxOrganizationId = UUID.randomUUID();
+
         AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .build();
 
-        Assertions.assertEquals("awxOrganizationId", command.getAwxOrganizationId());
+        Assertions.assertEquals(awxOrganizationId, command.getAwxOrganizationId());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = command();
 
-        String expected = "AwxNotificationCreateCommand(id=6c02ea5d-300c-4af2-adb9-906abaa4bbb8, awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description, type=type, webhookCallBackUrl=url)";
+        String expected = "AwxNotificationCreateCommand(id=6c02ea5d-300c-4af2-adb9-906abaa4bbb8, awxOrganizationId=2bde1336-68b5-4121-a1b6-ca4f21a123a3, awxId=1, name=name, description=description, type=type, webhookCallBackUrl=url)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -94,7 +96,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = command();
 
-        Assertions.assertEquals(-1423814877, command.hashCode());
+        Assertions.assertEquals(-1308545156, command.hashCode());
     }
 
     @Test
@@ -118,7 +120,7 @@ public class AwxNotificationCreateCommandTest {
 
         return AwxNotificationCreateCommand.builder()
                 .id(UUID.fromString("6c02ea5d-300c-4af2-adb9-906abaa4bbb8"))
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.fromString("2bde1336-68b5-4121-a1b6-ca4f21a123a3"))
                 .awxId(1L)
                 .name("name")
                 .description("description")

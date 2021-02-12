@@ -22,11 +22,13 @@ public class AwxNotificationCreatedEventTest {
     @Test
     public void whenEventHasAwxOrganizationIdThenReturnAwxOrganizationId() {
 
+        UUID awxOrganizationUId = UUID.randomUUID();
+
         AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationUId)
                 .build();
 
-        Assertions.assertEquals("awxOrganizationId", event.getAwxOrganizationId());
+        Assertions.assertEquals(awxOrganizationUId, event.getAwxOrganizationId());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class AwxNotificationCreatedEventTest {
 
         AwxNotificationCreatedEvent event = event();
 
-        String expected = "AwxNotificationCreatedEvent(id=f67bc48b-8dbb-46a2-89d5-a67c85ef7073, awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description, type=type, webhookCallBackUrl=url)";
+        String expected = "AwxNotificationCreatedEvent(id=f67bc48b-8dbb-46a2-89d5-a67c85ef7073, awxOrganizationId=e8575c27-5368-4782-9b41-e94081471d22, awxId=1, name=name, description=description, type=type, webhookCallBackUrl=url)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -94,7 +96,7 @@ public class AwxNotificationCreatedEventTest {
 
         AwxNotificationCreatedEvent event = event();
 
-        Assertions.assertEquals(563910292, event.hashCode());
+        Assertions.assertEquals(41090225, event.hashCode());
     }
 
     @Test
@@ -118,7 +120,7 @@ public class AwxNotificationCreatedEventTest {
 
         return AwxNotificationCreatedEvent.builder()
                 .id(UUID.fromString("f67bc48b-8dbb-46a2-89d5-a67c85ef7073"))
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.fromString("e8575c27-5368-4782-9b41-e94081471d22"))
                 .awxId(1L)
                 .name("name")
                 .description("description")

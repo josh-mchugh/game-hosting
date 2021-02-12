@@ -58,7 +58,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
 
             AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
 
-            String awxOrganizationId = getAwxOrganizationId(projectApi.get().getOrganizationId());
+            UUID awxOrganizationId = getAwxOrganizationId(projectApi.get().getOrganizationId());
 
             AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredential, projectApi.get(), awxOrganizationId);
             UUID awxProjectId = commandGateway.sendAndWait(createCommand);
@@ -88,7 +88,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
         // Create Project in AWX
         ProjectApi api = createProjectApi(awxCredential);
 
-        String awxOrganizationId = getAwxOrganizationId(api.getOrganizationId());
+        UUID awxOrganizationId = getAwxOrganizationId(api.getOrganizationId());
 
         // Persist AwxProject
         AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredential, api, awxOrganizationId);
@@ -127,7 +127,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
         return projectFeignService.createProject(projectCreateApi);
     }
 
-    private AwxProjectCreateCommand createAwxProjectRequest(AwxCredential awxCredential, ProjectApi projectApi, String awxOrganizationId) {
+    private AwxProjectCreateCommand createAwxProjectRequest(AwxCredential awxCredential, ProjectApi projectApi, UUID awxOrganizationId) {
 
         return AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
@@ -161,7 +161,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
                 .build();
     }
 
-    private String getAwxOrganizationId(Long organizationId) {
+    private UUID getAwxOrganizationId(Long organizationId) {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(organizationId);
         FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);

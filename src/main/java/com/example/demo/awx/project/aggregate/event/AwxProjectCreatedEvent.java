@@ -10,7 +10,7 @@ import java.util.UUID;
 public class AwxProjectCreatedEvent {
 
     UUID id;
-    String awxOrganizationId;
+    UUID awxOrganizationId;
     UUID awxCredentialId;
     Long awxId;
     String name;

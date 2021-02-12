@@ -23,11 +23,13 @@ public class AwxCredentialCreatedEventTest {
     @Test
     public void whenEventHasOrganizationIdThenReturnOrganizationId() {
 
+        UUID awxOrganizationId = UUID.randomUUID();
+
         AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .awxOrganizationId("id")
+                .awxOrganizationId(awxOrganizationId)
                 .build();
 
-        Assertions.assertEquals("id", event.getAwxOrganizationId());
+        Assertions.assertEquals(awxOrganizationId, event.getAwxOrganizationId());
     }
 
     @Test
@@ -93,18 +95,9 @@ public class AwxCredentialCreatedEventTest {
     @Test
     public void whenEventToString() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.fromString("9299005e-cc23-48dc-bf5d-47a4f38f3dd4"))
-                .awxOrganizationId("awxOrganizationId")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .privateKey("privateKey")
-                .passphrase("passPhrase")
-                .type(AwxCredentialType.MACHINE)
-                .build();
+        AwxCredentialCreatedEvent event = event();
 
-        String expected = "AwxCredentialCreatedEvent(id=9299005e-cc23-48dc-bf5d-47a4f38f3dd4, awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
+        String expected = "AwxCredentialCreatedEvent(id=9299005e-cc23-48dc-bf5d-47a4f38f3dd4, awxOrganizationId=4d5d2786-4755-447f-9816-2f5fdb7d557a, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -112,9 +105,17 @@ public class AwxCredentialCreatedEventTest {
     @Test
     public void whenEventHashCode() {
 
-        AwxCredentialCreatedEvent event = event();
+        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
+                .id(UUID.fromString("9299005e-cc23-48dc-bf5d-47a4f38f3dd4"))
+                .awxOrganizationId(UUID.fromString("4d5d2786-4755-447f-9816-2f5fdb7d557a"))
+                .awxId(1L)
+                .name("name")
+                .description("description")
+                .privateKey("privateKey")
+                .passphrase("passPhrase")
+                .build();
 
-        Assertions.assertEquals(-1894267050, event.hashCode());
+        Assertions.assertEquals(-1961888190, event.hashCode());
     }
 
     @Test
@@ -138,12 +139,13 @@ public class AwxCredentialCreatedEventTest {
 
         return AwxCredentialCreatedEvent.builder()
                 .id(UUID.fromString("9299005e-cc23-48dc-bf5d-47a4f38f3dd4"))
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.fromString("4d5d2786-4755-447f-9816-2f5fdb7d557a"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .privateKey("privateKey")
                 .passphrase("passPhrase")
+                .type(AwxCredentialType.MACHINE)
                 .build();
     }
 }
