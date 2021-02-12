@@ -5,6 +5,8 @@ import com.example.demo.awx.notification.entity.model.AwxNotification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxNotificationMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class AwxNotificationMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxNotificationEntity entity = new AwxNotificationEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxNotification awxNotification = AwxNotificationMapper.map(entity);
 
-        Assertions.assertEquals("id", awxNotification.getId());
+        Assertions.assertEquals(id, awxNotification.getId());
     }
 
     @Test

@@ -78,7 +78,7 @@ public class AwxNotificationServiceCreatedTest {
 
         AwxNotification awxNotification = awxNotificationService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), awxNotification.getId());
+        Assertions.assertEquals(id, awxNotification.getId());
     }
 
     @Test
