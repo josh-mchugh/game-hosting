@@ -18,7 +18,7 @@ public class AwxProjectAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String awxOrganization;
+    private UUID awxOrganization;
     private UUID awxCredentialId;
     private Long awxId;
     private String name;

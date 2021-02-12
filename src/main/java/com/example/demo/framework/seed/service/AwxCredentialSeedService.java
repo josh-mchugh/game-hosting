@@ -43,7 +43,7 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
 
         List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
         List<AwxCredentialApi> credentialApis = credentialFeignService.getCredentials().getResults();
-        String organizationId = getOrganizationId();
+        UUID organizationId = getOrganizationId();
 
         for(AwxConfig.Credential credential : credentials) {
 
@@ -98,7 +98,7 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
         return credentialFeignService.createCredential(createCredentialApiRequest(credential));
     }
 
-    private Object createAwxCredential(AwxCredentialApi credentialApi, AwxConfig.Credential credential, String organizationId) {
+    private Object createAwxCredential(AwxCredentialApi credentialApi, AwxConfig.Credential credential, UUID organizationId) {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
@@ -114,7 +114,7 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
         return commandGateway.sendAndWait(command);
     }
 
-    private String getOrganizationId() {
+    private UUID getOrganizationId() {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxConfig.getOrganization().getId());
         FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);

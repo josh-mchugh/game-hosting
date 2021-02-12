@@ -26,10 +26,11 @@ public class AwxInventoryCreateCommandTest {
     public void whenCreateIsValidThenExecuteCreatedEvent() {
 
         UUID id = UUID.randomUUID();
+        UUID awxOrganizationId = UUID.randomUUID();
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(id)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -37,7 +38,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(id)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(awxOrganizationId)
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -54,7 +55,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(null)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -82,27 +83,11 @@ public class AwxInventoryCreateCommandTest {
     }
 
     @Test
-    public void whenCreateHasBlankAwxOrganizationIdThenThrowException() {
-
-        AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .awxOrganizationId("")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCreateHasNullInventoryIdThenThrowException() {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(null)
                 .name("name")
                 .description("description")
@@ -118,7 +103,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name(null)
                 .description("description")
@@ -134,7 +119,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("")
                 .description("description")
@@ -150,7 +135,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description(null)
@@ -166,7 +151,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")

@@ -30,7 +30,7 @@ public class AwxInventoryService implements IAwxInventoryService {
 
         AwxOrganizationEntity organizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId()))
+                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId().toString()))
                 .fetchOne();
 
         AwxInventoryEntity entity = new AwxInventoryEntity();

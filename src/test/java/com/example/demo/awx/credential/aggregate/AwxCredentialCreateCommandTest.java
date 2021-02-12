@@ -33,7 +33,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -52,7 +52,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(null)
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -86,30 +86,11 @@ public class AwxCredentialCreateCommandTest {
     }
 
     @Test
-    public void whenCreateCommandHasBlankOrganizationIdThenThrowException() {
-
-        AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .awxOrganizationId("")
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .privateKey("private key")
-                .passphrase("passphrase")
-                .type(AwxCredentialType.MACHINE)
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCreateCommandHasNullAwxIdThenThrowException() {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(null)
                 .name("name")
                 .description("description")
@@ -128,7 +109,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name(null)
                 .description("description")
@@ -147,7 +128,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("")
                 .description("description")
@@ -166,7 +147,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description(null)
@@ -185,7 +166,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("")
@@ -204,7 +185,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -223,7 +204,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -242,7 +223,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -261,7 +242,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -280,7 +261,7 @@ public class AwxCredentialCreateCommandTest {
 
         AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId("awxOrganizationId")
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")

@@ -30,7 +30,7 @@ public class AwxCredentialService implements IAwxCredentialService {
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId()))
+                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId().toString()))
                 .fetchOne();
 
         AwxCredentialEntity entity = new AwxCredentialEntity();

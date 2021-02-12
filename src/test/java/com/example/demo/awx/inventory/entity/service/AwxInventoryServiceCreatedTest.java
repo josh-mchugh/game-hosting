@@ -102,7 +102,7 @@ public class AwxInventoryServiceCreatedTest {
                 .description("description")
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxInventoryService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxInventoryService.handleCreated(event));
     }
 
     @Test

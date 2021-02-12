@@ -16,8 +16,8 @@ public class AwxNotificationCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String awxOrganizationId;
+    @NotNull
+    UUID awxOrganizationId;
 
     @NotNull
     Long awxId;

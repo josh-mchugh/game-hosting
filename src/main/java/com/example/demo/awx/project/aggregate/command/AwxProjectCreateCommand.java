@@ -16,8 +16,8 @@ public class AwxProjectCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String awxOrganizationId;
+    @NotNull
+    UUID awxOrganizationId;
 
     @NotNull
     UUID awxCredentialId;

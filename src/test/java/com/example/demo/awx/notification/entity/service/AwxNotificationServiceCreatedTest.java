@@ -94,7 +94,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxNotificationService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxNotificationService.handleCreated(event));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class AwxNotificationServiceCreatedTest {
 
         AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId(UUID.randomUUID().toString())
+                .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
                 .description("description")

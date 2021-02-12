@@ -34,7 +34,7 @@ public class AwxOrganizationServiceCreatedTest {
 
         AwxOrganization awxOrganization = awxOrganizationService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), awxOrganization.getId());
+        Assertions.assertEquals(id, awxOrganization.getId());
     }
 
     @Test

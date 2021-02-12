@@ -5,6 +5,8 @@ import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxOrganizationMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class AwxOrganizationMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxOrganizationEntity entity = new AwxOrganizationEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxOrganization awxOrganization = AwxOrganizationMapper.map(entity);
 
-        Assertions.assertEquals("id", awxOrganization.getId());
+        Assertions.assertEquals(id, awxOrganization.getId());
     }
 
     @Test
