@@ -13,7 +13,7 @@ public class AwxTemplateCreatedEvent {
 
     UUID id;
     UUID awxCredentialId;
-    String awxInventoryId;
+    UUID awxInventoryId;
     String awxPlaybookId;
     Long awxId;
     String name;

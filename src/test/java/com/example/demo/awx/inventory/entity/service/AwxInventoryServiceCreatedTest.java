@@ -72,7 +72,7 @@ public class AwxInventoryServiceCreatedTest {
 
         AwxInventory awxInventory = awxInventoryService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), awxInventory.getId());
+        Assertions.assertEquals(id, awxInventory.getId());
     }
 
     @Test

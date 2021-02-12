@@ -41,7 +41,7 @@ public class AwxTemplateService implements IAwxTemplateService{
 
         AwxInventoryEntity awxInventory = queryFactory.select(qAwxInventory)
                 .from(qAwxInventory)
-                .where(qAwxInventory.id.eq(event.getAwxInventoryId()))
+                .where(qAwxInventory.id.eq(event.getAwxInventoryId().toString()))
                 .fetchOne();
 
         AwxPlayBookEntity awxPlayBookEntity = queryFactory.select(qAwxPlayBook)

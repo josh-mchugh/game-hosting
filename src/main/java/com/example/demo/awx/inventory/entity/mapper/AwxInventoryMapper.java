@@ -13,7 +13,7 @@ public class AwxInventoryMapper {
         }
 
         return AwxInventory.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())

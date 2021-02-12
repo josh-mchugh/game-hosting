@@ -99,7 +99,7 @@ public class AwxHostServiceCreatedTest {
                 .awxInventoryId(null)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxHostService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreated(event));
     }
 
     @Test

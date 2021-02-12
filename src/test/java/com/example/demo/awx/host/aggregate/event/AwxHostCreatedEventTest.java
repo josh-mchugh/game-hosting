@@ -22,11 +22,13 @@ public class AwxHostCreatedEventTest {
     @Test
     public void whenEventHasAwxInventoryIdThenReturnAwxInventoryId() {
 
+        UUID awxInventoryId = UUID.randomUUID();
+
         AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .awxInventoryId("awxInventoryId")
+                .awxInventoryId(awxInventoryId)
                 .build();
 
-        Assertions.assertEquals("awxInventoryId", event.getAwxInventoryId());
+        Assertions.assertEquals(awxInventoryId, event.getAwxInventoryId());
     }
 
     @Test
@@ -84,7 +86,7 @@ public class AwxHostCreatedEventTest {
 
         AwxHostCreatedEvent event = event();
 
-        String expected = "AwxHostCreatedEvent(id=96859caf-c3ae-4841-a17f-abb50732864c, awxInventoryId=awxInventoryId, instanceId=instanceId, awxId=1, hostname=hostname, description=description, enabled=true)";
+        String expected = "AwxHostCreatedEvent(id=96859caf-c3ae-4841-a17f-abb50732864c, awxInventoryId=e8f827a2-1fc8-4536-a6f9-8ff2785ccca1, instanceId=instanceId, awxId=1, hostname=hostname, description=description, enabled=true)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -94,7 +96,7 @@ public class AwxHostCreatedEventTest {
 
         AwxHostCreatedEvent event = event();
 
-        Assertions.assertEquals(701644378, event.hashCode());
+        Assertions.assertEquals(-1173163872, event.hashCode());
     }
 
     @Test
@@ -118,7 +120,7 @@ public class AwxHostCreatedEventTest {
 
         return AwxHostCreatedEvent.builder()
                 .id(UUID.fromString("96859caf-c3ae-4841-a17f-abb50732864c"))
-                .awxInventoryId("awxInventoryId")
+                .awxInventoryId(UUID.fromString("e8f827a2-1fc8-4536-a6f9-8ff2785ccca1"))
                 .instanceId("instanceId")
                 .awxId(1L)
                 .hostname("hostname")
