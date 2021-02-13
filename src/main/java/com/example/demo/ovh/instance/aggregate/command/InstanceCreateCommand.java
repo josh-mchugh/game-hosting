@@ -24,8 +24,8 @@ public class InstanceCreateCommand {
     @NotBlank
     String imageId;
 
-    @NotBlank
-    String credentialId;
+    @NotNull
+    UUID credentialId;
 
     @NotBlank
     String instanceGroupId;

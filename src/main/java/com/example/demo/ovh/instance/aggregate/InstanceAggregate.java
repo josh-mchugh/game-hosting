@@ -24,7 +24,7 @@ public class InstanceAggregate {
     private String flavorId;
     private String imageId;
     private String instanceGroupId;
-    private String credentialId;
+    private UUID credentialId;
     private String awxHostId;
     private String ovhId;
     private String name;

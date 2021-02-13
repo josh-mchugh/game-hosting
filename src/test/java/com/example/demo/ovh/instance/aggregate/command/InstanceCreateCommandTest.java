@@ -44,11 +44,13 @@ public class InstanceCreateCommandTest {
     @Test
     public void whenCommandHasCredentialIdThenReturnCredentialId() {
 
+        UUID credentialId = UUID.randomUUID();
+
         InstanceCreateCommand command = InstanceCreateCommand.builder()
-                .credentialId("credentialId")
+                .credentialId(credentialId)
                 .build();
 
-        Assertions.assertEquals("credentialId", command.getCredentialId());
+        Assertions.assertEquals(credentialId, command.getCredentialId());
     }
 
     @Test
@@ -106,19 +108,9 @@ public class InstanceCreateCommandTest {
     @Test
     public void whenCommandToString() {
 
-        InstanceCreateCommand command = InstanceCreateCommand.builder()
-                .id(UUID.fromString("1d156e1d-993c-438a-a51d-3160d99bb373"))
-                .flavorId("flavorId")
-                .imageId("imageId")
-                .credentialId("credentialId")
-                .instanceGroupId("instanceGroupId")
-                .ovhId("ovhId")
-                .status(InstanceStatus.ACTIVE)
-                .name("name")
-                .instanceCreatedDate(LocalDateTime.of(2020, 11, 28, 21, 57))
-                .build();
+        InstanceCreateCommand command = command();
 
-        String expected = "InstanceCreateCommand(id=1d156e1d-993c-438a-a51d-3160d99bb373, flavorId=flavorId, imageId=imageId, credentialId=credentialId, instanceGroupId=instanceGroupId, ovhId=ovhId, status=ACTIVE, name=name, instanceCreatedDate=2020-11-28T21:57)";
+        String expected = "InstanceCreateCommand(id=1d156e1d-993c-438a-a51d-3160d99bb373, flavorId=flavorId, imageId=imageId, credentialId=97935b99-0e20-40f9-b336-b9294924f430, instanceGroupId=instanceGroupId, ovhId=ovhId, status=ACTIVE, name=name, instanceCreatedDate=2020-11-28T21:57)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -126,9 +118,18 @@ public class InstanceCreateCommandTest {
     @Test
     public void whenCommandHashCode() {
 
-        InstanceCreateCommand command = command();
+        InstanceCreateCommand command = InstanceCreateCommand.builder()
+                .id(UUID.fromString("1d156e1d-993c-438a-a51d-3160d99bb373"))
+                .flavorId("flavorId")
+                .imageId("imageId")
+                .credentialId(UUID.fromString("97935b99-0e20-40f9-b336-b9294924f430"))
+                .instanceGroupId("instanceGroupId")
+                .ovhId("ovhId")
+                .name("name")
+                .instanceCreatedDate(LocalDateTime.of(2020, 11, 28, 21, 57))
+                .build();
 
-        Assertions.assertEquals(-1159487699, command.hashCode());
+        Assertions.assertEquals(913028954, command.hashCode());
     }
 
     @Test
@@ -154,9 +155,10 @@ public class InstanceCreateCommandTest {
                 .id(UUID.fromString("1d156e1d-993c-438a-a51d-3160d99bb373"))
                 .flavorId("flavorId")
                 .imageId("imageId")
-                .credentialId("credentialId")
+                .credentialId(UUID.fromString("97935b99-0e20-40f9-b336-b9294924f430"))
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")
+                .status(InstanceStatus.ACTIVE)
                 .name("name")
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 28, 21, 57))
                 .build();
