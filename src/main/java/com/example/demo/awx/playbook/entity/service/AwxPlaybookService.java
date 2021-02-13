@@ -30,7 +30,7 @@ public class AwxPlaybookService implements IAwxPlaybookService {
 
         AwxProjectEntity awxProjectEntity = queryFactory.select(qAwxProject)
                 .from(qAwxProject)
-                .where(qAwxProject.id.eq(event.getAwxProjectId()))
+                .where(qAwxProject.id.eq(event.getAwxProjectId().toString()))
                 .fetchOne();
 
         AwxPlayBookEntity entity = new AwxPlayBookEntity();

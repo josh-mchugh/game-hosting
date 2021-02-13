@@ -11,7 +11,7 @@ import java.util.UUID;
 public class AwxPlaybookCreatedEvent {
 
     UUID id;
-    String awxProjectId;
+    UUID awxProjectId;
     String name;
     PlaybookType type;
 }

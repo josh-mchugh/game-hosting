@@ -51,7 +51,7 @@ public class AwxControllerPlaybookService implements IAwxControllerPlaybookServi
         return ImmutableList.copyOf(awxPlaybooks);
     }
 
-    private AwxPlaybookCreateCommand buildAwxPlaybookCreateCommand(String name, String awxProjectId) {
+    private AwxPlaybookCreateCommand buildAwxPlaybookCreateCommand(String name, UUID awxProjectId) {
 
         return AwxPlaybookCreateCommand.builder()
                 .id(UUID.randomUUID())

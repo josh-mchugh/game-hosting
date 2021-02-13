@@ -19,7 +19,7 @@ public class AwxPlaybookAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String awxProjectId;
+    private UUID awxProjectId;
     private String name;
     private PlaybookType type;
 
