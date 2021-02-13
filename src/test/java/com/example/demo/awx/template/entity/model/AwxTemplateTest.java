@@ -5,16 +5,20 @@ import com.example.demo.awx.template.entity.TemplateVerbosity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxTemplateTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxTemplate model = AwxTemplate.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -72,7 +76,7 @@ public class AwxTemplateTest {
 
         AwxTemplate model = model();
 
-        String expected = "AwxTemplate(id=id, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
+        String expected = "AwxTemplate(id=1d171a9c-d6eb-4ac3-86f4-e3f723bd5e42, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -81,13 +85,13 @@ public class AwxTemplateTest {
     public void whenModelHashCode() {
 
         AwxTemplate model = AwxTemplate.builder()
-                .id("id")
+                .id(UUID.fromString("1d171a9c-d6eb-4ac3-86f4-e3f723bd5e42"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(-454406604, model.hashCode());
+        Assertions.assertEquals(1970595353, model.hashCode());
     }
 
     @Test
@@ -110,11 +114,10 @@ public class AwxTemplateTest {
     private AwxTemplate model() {
 
         return AwxTemplate.builder()
-                .id("id")
+                .id(UUID.fromString("1d171a9c-d6eb-4ac3-86f4-e3f723bd5e42"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
-
                 .type(TemplateJobType.RUN)
                 .verbosity(TemplateVerbosity.NORMAL)
                 .build();

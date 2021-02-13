@@ -5,11 +5,13 @@ import com.example.demo.awx.template.entity.TemplateVerbosity;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 @Builder(builderClassName = "Builder")
 public class AwxTemplate {
 
-    String id;
+    UUID id;
     Long awxId;
     String name;
     String description;

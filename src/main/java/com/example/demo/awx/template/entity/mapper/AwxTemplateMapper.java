@@ -13,7 +13,7 @@ public class AwxTemplateMapper {
         }
 
         return AwxTemplate.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())
