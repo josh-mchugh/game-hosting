@@ -13,7 +13,7 @@ public class GameMapper {
         }
 
         return Game.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .type(entity.getType())
                 .build();
     }

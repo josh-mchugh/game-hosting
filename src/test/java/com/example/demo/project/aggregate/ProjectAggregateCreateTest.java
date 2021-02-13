@@ -28,7 +28,7 @@ public class ProjectAggregateCreateTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .userId("userId")
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -43,7 +43,7 @@ public class ProjectAggregateCreateTest {
                 .id(null)
                 .name("name")
                 .userId("userId")
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -58,7 +58,7 @@ public class ProjectAggregateCreateTest {
                 .id(UUID.randomUUID())
                 .name(null)
                 .userId("userId")
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -73,7 +73,7 @@ public class ProjectAggregateCreateTest {
                 .id(UUID.randomUUID())
                 .name("")
                 .userId("userId")
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -88,7 +88,7 @@ public class ProjectAggregateCreateTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .userId(null)
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -103,7 +103,7 @@ public class ProjectAggregateCreateTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .userId("")
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -119,21 +119,6 @@ public class ProjectAggregateCreateTest {
                 .name("name")
                 .userId("userId")
                 .gameId(null)
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
-    public void whenCommandHasBlankGameIdThenExpectException() {
-
-        ProjectCreateCommand command = ProjectCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .name("name")
-                .userId("userId")
-                .gameId("")
                 .build();
 
         fixture.givenNoPriorActivity()

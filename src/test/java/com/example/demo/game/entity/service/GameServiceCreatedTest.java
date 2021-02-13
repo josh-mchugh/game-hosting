@@ -52,7 +52,7 @@ public class GameServiceCreatedTest {
 
         Game game = gameService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), game.getId());
+        Assertions.assertEquals(id, game.getId());
     }
 
     @Test
