@@ -42,7 +42,7 @@ public class EmailServiceSentTest {
     public void whenSentIsValidThenReturnNonNull() {
 
         EmailSentEvent event = EmailSentEvent.builder()
-                .id(UUID.fromString(email.getId()))
+                .id(email.getId())
                 .sentDate(LocalDateTime.now())
                 .build();
 
@@ -81,7 +81,7 @@ public class EmailServiceSentTest {
     public void whenSentIsValidThenExpectStatusSent() {
 
         EmailSentEvent event = EmailSentEvent.builder()
-                .id(UUID.fromString(email.getId()))
+                .id(email.getId())
                 .build();
 
         Email email = emailService.handleSent(event);
@@ -95,7 +95,7 @@ public class EmailServiceSentTest {
         LocalDateTime sentDate = LocalDateTime.now();
 
         EmailSentEvent event = EmailSentEvent.builder()
-                .id(UUID.fromString(email.getId()))
+                .id(email.getId())
                 .sentDate(sentDate)
                 .build();
 
