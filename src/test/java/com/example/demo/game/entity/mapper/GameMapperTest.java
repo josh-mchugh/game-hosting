@@ -7,6 +7,8 @@ import com.example.demo.game.entity.model.Game;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class GameMapperTest {
 
     @Test
@@ -24,12 +26,14 @@ public class GameMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         GameEntity gameEntity = new GameEntity();
-        gameEntity.setId("id");
+        gameEntity.setId(id);
 
         Game game = GameMapper.map(gameEntity);
 
-        Assertions.assertEquals("id", game.getId());
+        Assertions.assertEquals(id, game.getId());
     }
 
     @Test

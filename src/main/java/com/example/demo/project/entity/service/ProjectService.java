@@ -38,7 +38,7 @@ public class ProjectService implements IProjectService {
 
         GameEntity gameEntity = queryFactory.select(qGame)
                 .from(qGame)
-                .where(qGame.id.eq(event.getGameId()))
+                .where(qGame.id.eq(event.getGameId().toString()))
                 .fetchOne();
 
         UserEntity userEntity = queryFactory.selectFrom(qUser)

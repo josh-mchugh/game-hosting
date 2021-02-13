@@ -47,7 +47,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(id)
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -65,7 +65,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -83,7 +83,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -102,7 +102,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -121,7 +121,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -171,7 +171,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(null)
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -187,7 +187,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.randomUUID())
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -203,7 +203,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(null)
                 .build();
@@ -216,7 +216,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.randomUUID())
                 .imageId(UUID.fromString(data.getImage().getId()))
@@ -232,7 +232,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(null)
@@ -247,7 +247,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.randomUUID())
@@ -263,7 +263,7 @@ public class GameServerServiceCreatedTest {
 
         GameServerCreatedEvent event = GameServerCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .gameId(UUID.fromString(data.getGame().getId()))
+                .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.fromString(data.getFlavor().getId()))
                 .imageId(UUID.fromString(data.getImage().getId()))

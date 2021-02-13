@@ -11,7 +11,7 @@ public class ProjectCreatedEvent {
 
     UUID id;
     String name;
-    String gameId;
+    UUID gameId;
     Member member;
 
     @Value

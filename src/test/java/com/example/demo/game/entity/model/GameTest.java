@@ -4,16 +4,20 @@ import com.example.demo.game.entity.GameType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class GameTest {
 
     @Test
     public void whenGameHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Game game = Game.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", game.getId());
+        Assertions.assertEquals(id, game.getId());
     }
 
     @Test
@@ -29,12 +33,9 @@ public class GameTest {
     @Test
     public void whenGameToString() {
 
-        Game game = Game.builder()
-                .id("id")
-                .type(GameType.MINECRAFT_JAVA)
-                .build();
+        Game game = game();
 
-        String toString = "Game(id=id, type=MINECRAFT_JAVA)";
+        String toString = "Game(id=e85abb3c-69ba-4c52-98c9-7df63b9bc2ed, type=MINECRAFT_JAVA)";
 
         Assertions.assertEquals(toString, game.toString());
     }
@@ -42,9 +43,11 @@ public class GameTest {
     @Test
     public void whenGameHashCode() {
 
-        Game game = game();
+        Game game = Game.builder()
+                .id(UUID.fromString("e85abb3c-69ba-4c52-98c9-7df63b9bc2ed"))
+                .build();
 
-        Assertions.assertEquals(201469, game.hashCode());
+        Assertions.assertEquals(-15286085, game.hashCode());
     }
 
     @Test
@@ -67,7 +70,8 @@ public class GameTest {
     private Game game() {
 
         return Game.builder()
-                .id("id")
+                .id(UUID.fromString("e85abb3c-69ba-4c52-98c9-7df63b9bc2ed"))
+                .type(GameType.MINECRAFT_JAVA)
                 .build();
     }
 }

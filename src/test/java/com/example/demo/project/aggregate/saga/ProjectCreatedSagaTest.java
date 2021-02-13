@@ -130,7 +130,7 @@ public class ProjectCreatedSagaTest {
         return ProjectCreatedEvent.builder()
                 .id(id)
                 .name("name")
-                .gameId("gameId")
+                .gameId(UUID.randomUUID())
                 .member(ProjectCreatedEvent.createMember("userId"))
                 .build();
     }

@@ -156,7 +156,7 @@ public class ProjectServiceHandleCreatedTest {
                 .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> projectService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> projectService.handleCreated(event));
     }
 
     @Test

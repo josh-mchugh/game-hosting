@@ -24,7 +24,7 @@ public class ProjectAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String gameId;
+    private UUID gameId;
     private String instanceGroupId;
     private String name;
     private ProjectStatus status;

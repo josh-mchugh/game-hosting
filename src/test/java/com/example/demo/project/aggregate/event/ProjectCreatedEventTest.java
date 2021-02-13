@@ -32,11 +32,13 @@ public class ProjectCreatedEventTest {
     @Test
     public void whenEventHasGameIdThenReturnGameId() {
 
+        UUID gameId = UUID.randomUUID();
+
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
-                .gameId("gameId")
+                .gameId(gameId)
                 .build();
 
-        Assertions.assertEquals("gameId", event.getGameId());
+        Assertions.assertEquals(gameId, event.getGameId());
     }
 
     @Test
@@ -127,7 +129,7 @@ public class ProjectCreatedEventTest {
 
         ProjectCreatedEvent event = event();
 
-        String expected = "ProjectCreatedEvent(id=28245910-9ea6-4d67-8849-65d982e4af78, name=name, gameId=gameId, member=ProjectCreatedEvent.Member(id=26fe10e0-dce0-4293-943e-67541bd1159d, userId=userId))";
+        String expected = "ProjectCreatedEvent(id=28245910-9ea6-4d67-8849-65d982e4af78, name=name, gameId=a5bc7b4e-f252-49e6-9311-da3311f1e466, member=ProjectCreatedEvent.Member(id=26fe10e0-dce0-4293-943e-67541bd1159d, userId=userId))";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -137,7 +139,7 @@ public class ProjectCreatedEventTest {
 
         ProjectCreatedEvent event = event();
 
-        Assertions.assertEquals(-1159971294, event.hashCode());
+        Assertions.assertEquals(206746770, event.hashCode());
     }
 
     @Test
@@ -161,8 +163,8 @@ public class ProjectCreatedEventTest {
 
         return ProjectCreatedEvent.builder()
                 .id(UUID.fromString("28245910-9ea6-4d67-8849-65d982e4af78"))
+                .gameId(UUID.fromString("a5bc7b4e-f252-49e6-9311-da3311f1e466"))
                 .name("name")
-                .gameId("gameId")
                 .member(member())
                 .build();
     }
