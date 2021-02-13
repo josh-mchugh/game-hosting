@@ -96,13 +96,14 @@ public class ProjectCreatedSaga {
 
         UUID id = UUID.randomUUID();
         UUID flavorId = UUID.fromString("d90200d8-eca0-481a-8f7e-920cb49f0e98");
+        UUID imageId = UUID.fromString("9fec15d6-bd82-40d6-9cf1-f88df3da44c9");
         UUID credentialId = UUID.fromString("5948ce48-683b-467f-b7d3-3c485ec7a586");
         SagaLifecycle.associateWith("id", id.toString());
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(id)
                 .flavorId(flavorId)
-                .imageId("9fec15d6-bd82-40d6-9cf1-f88df3da44c9")
+                .imageId(imageId)
                 .credentialId(credentialId)
                 .instanceGroupId(event.getId().toString())
                 .name(instanceApi.getName())

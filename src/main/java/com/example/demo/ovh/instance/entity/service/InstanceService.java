@@ -45,7 +45,7 @@ public class InstanceService implements IInstanceService {
                 .fetchOne();
 
         ImageEntity imageEntity = queryFactory.selectFrom(qImage)
-                .where(qImage.id.eq(event.getImageId()))
+                .where(qImage.id.eq(event.getImageId().toString()))
                 .fetchOne();
 
         InstanceGroupEntity instanceGroupEntity = queryFactory.selectFrom(qInstanceGroup)

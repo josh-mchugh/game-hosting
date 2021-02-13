@@ -29,13 +29,14 @@ public class InstanceAggregateCreateTest {
 
         UUID id = UUID.randomUUID();
         UUID flavorId = UUID.randomUUID();
+        UUID imageId = UUID.randomUUID();
         UUID credentialId = UUID.randomUUID();
         LocalDateTime instanceCreatedDate = LocalDateTime.now();
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(id)
                 .flavorId(flavorId)
-                .imageId("imageId")
+                .imageId(imageId)
                 .credentialId(credentialId)
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")
@@ -47,7 +48,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreatedEvent event = InstanceCreatedEvent.builder()
                 .id(id)
                 .flavorId(flavorId)
-                .imageId("imageId")
+                .imageId(imageId)
                 .credentialId(credentialId)
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")
@@ -68,7 +69,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(null)
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")
@@ -88,7 +89,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(null)
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")
@@ -123,32 +124,12 @@ public class InstanceAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasBlankImageIdThenExpectException() {
-
-        InstanceCreateCommand command = InstanceCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .flavorId(UUID.randomUUID())
-                .imageId("")
-                .credentialId(UUID.randomUUID())
-                .instanceGroupId("instanceGroupId")
-                .ovhId("ovhId")
-                .name("name")
-                .status(InstanceStatus.ACTIVE)
-                .instanceCreatedDate(LocalDateTime.now())
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCommandHasNullCredentialIdThenExpectException() {
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(null)
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")
@@ -168,7 +149,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId(null)
                 .ovhId("ovhId")
@@ -188,7 +169,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("")
                 .ovhId("ovhId")
@@ -208,7 +189,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("instanceGroupId")
                 .ovhId(null)
@@ -228,7 +209,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("instanceGroupId")
                 .ovhId("")
@@ -248,7 +229,7 @@ public class InstanceAggregateCreateTest {
         InstanceCreateCommand command = InstanceCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")

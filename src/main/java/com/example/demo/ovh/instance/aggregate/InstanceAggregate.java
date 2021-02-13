@@ -22,10 +22,9 @@ public class InstanceAggregate {
     @AggregateIdentifier
     private UUID id;
     private UUID flavorId;
-    private String imageId;
+    private UUID imageId;
     private String instanceGroupId;
     private UUID credentialId;
-    private String awxHostId;
     private String ovhId;
     private String name;
     private InstanceStatus status;

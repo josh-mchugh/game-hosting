@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ImageMapperTest {
 
@@ -18,12 +19,14 @@ public class ImageMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         ImageEntity entity = new ImageEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         Image image = ImageMapper.map(entity);
 
-        Assertions.assertEquals("id", image.getId());
+        Assertions.assertEquals(id, image.getId());
     }
 
     @Test

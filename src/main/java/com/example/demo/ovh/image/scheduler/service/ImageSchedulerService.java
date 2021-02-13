@@ -62,10 +62,10 @@ public class ImageSchedulerService implements IImageSchedulerService {
         return builder.build();
     }
 
-    private Object processImageUpdate(String id, ImageApi imageResponse) {
+    private Object processImageUpdate(UUID id, ImageApi imageResponse) {
 
         ImageUpdateCommand command = ImageUpdateCommand.builder()
-                .id(UUID.fromString(id))
+                .id(id)
                 .ovhId(imageResponse.getId())
                 .type(imageResponse.getType())
                 .imageCreatedDate(imageResponse.getCreationDate())

@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class Image {
 
-    String id;
+    UUID id;
     String ovhId;
     String name;
     String type;

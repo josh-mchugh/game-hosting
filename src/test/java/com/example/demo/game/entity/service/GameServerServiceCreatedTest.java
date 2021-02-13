@@ -50,7 +50,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .build();
@@ -68,7 +68,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .build();
@@ -86,7 +86,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .description("description")
                 .status(GameServerStatus.ACTIVE)
@@ -105,7 +105,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .description("description")
                 .status(GameServerStatus.ACTIVE)
@@ -124,7 +124,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .description("description")
                 .status(null)
@@ -158,7 +158,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(UUID.randomUUID())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .build();
@@ -174,7 +174,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(null)
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .build();
@@ -190,7 +190,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.randomUUID())
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .build();
@@ -219,7 +219,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(UUID.randomUUID())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .build();
@@ -266,7 +266,7 @@ public class GameServerServiceCreatedTest {
                 .gameId(data.getGame().getId())
                 .regionId(UUID.fromString(data.getRegion().getId()))
                 .flavorId(data.getFlavor().getId())
-                .imageId(UUID.fromString(data.getImage().getId()))
+                .imageId(data.getImage().getId())
                 .name(null)
                 .build();
 

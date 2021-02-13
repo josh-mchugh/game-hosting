@@ -455,7 +455,7 @@ public class SampleBuilder {
                 .gameId(game.getId())
                 .regionId(UUID.fromString(region.getId()))
                 .flavorId(flavor.getId())
-                .imageId(UUID.fromString(image.getId()))
+                .imageId(image.getId())
                 .build();
 
         return gameServerService.handleCreated(event);
