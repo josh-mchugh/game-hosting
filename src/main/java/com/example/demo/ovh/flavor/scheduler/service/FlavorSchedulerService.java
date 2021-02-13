@@ -61,10 +61,10 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return builder.build();
     }
 
-    private Object handleFlavorUpdate(String id, FlavorApi flavorResponse) {
+    private Object handleFlavorUpdate(UUID id, FlavorApi flavorResponse) {
 
         FlavorUpdateCommand command = FlavorUpdateCommand.builder()
-                .id(UUID.fromString(id))
+                .id(id)
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())

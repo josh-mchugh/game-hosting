@@ -3,16 +3,20 @@ package com.example.demo.ovh.flavor.entity.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class FlavorTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Flavor flavor = Flavor.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", flavor.getId());
+        Assertions.assertEquals(id, flavor.getId());
     }
 
     @Test
@@ -150,7 +154,7 @@ public class FlavorTest {
 
         Flavor model = model();
 
-        String expected = "Flavor(id=id, ovhId=ovhId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
+        String expected = "Flavor(id=87fdfaa2-7c1c-468e-a132-6bd5cded462c, ovhId=ovhId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -160,7 +164,7 @@ public class FlavorTest {
 
         Flavor model = model();
 
-        Assertions.assertEquals(-590506542, model.hashCode());
+        Assertions.assertEquals(-587707376, model.hashCode());
     }
 
     @Test
@@ -183,7 +187,7 @@ public class FlavorTest {
     private Flavor model() {
 
         return Flavor.builder()
-                .id("id")
+                .id(UUID.fromString("87fdfaa2-7c1c-468e-a132-6bd5cded462c"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

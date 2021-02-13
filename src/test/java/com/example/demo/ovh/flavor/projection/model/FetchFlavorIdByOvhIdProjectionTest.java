@@ -3,14 +3,18 @@ package com.example.demo.ovh.flavor.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class FetchFlavorIdByOvhIdProjectionTest {
 
     @Test
     public void whenProjectionHasIdThenReturnId() {
 
-        FetchFlavorIdByOvhIdProjection projection = new FetchFlavorIdByOvhIdProjection("id");
+        UUID id = UUID.randomUUID();
 
-        Assertions.assertEquals("id", projection.getId());
+        FetchFlavorIdByOvhIdProjection projection = new FetchFlavorIdByOvhIdProjection(id.toString());
+
+        Assertions.assertEquals(id, projection.getId());
     }
 
     @Test
@@ -18,7 +22,7 @@ public class FetchFlavorIdByOvhIdProjectionTest {
 
         FetchFlavorIdByOvhIdProjection projection = projection();
 
-        String expected = "FetchFlavorIdByOvhIdProjection(id=id)";
+        String expected = "FetchFlavorIdByOvhIdProjection(id=db97458e-da04-4ab5-bdd1-f1da66fffabc)";
 
         Assertions.assertEquals(expected, projection.toString());
     }
@@ -28,7 +32,7 @@ public class FetchFlavorIdByOvhIdProjectionTest {
 
         FetchFlavorIdByOvhIdProjection projection = projection();
 
-        Assertions.assertEquals(3414, projection.hashCode());
+        Assertions.assertEquals(-625146728, projection.hashCode());
     }
 
     @Test
@@ -45,11 +49,11 @@ public class FetchFlavorIdByOvhIdProjectionTest {
 
         FetchFlavorIdByOvhIdProjection projection = projection();
 
-        Assertions.assertNotEquals(projection, new FetchFlavorIdByOvhIdProjection("diffId"));
+        Assertions.assertNotEquals(projection, new FetchFlavorIdByOvhIdProjection(UUID.randomUUID().toString()));
     }
 
     private FetchFlavorIdByOvhIdProjection projection() {
 
-        return new FetchFlavorIdByOvhIdProjection("id");
+        return new FetchFlavorIdByOvhIdProjection(UUID.fromString("db97458e-da04-4ab5-bdd1-f1da66fffabc").toString());
     }
 }

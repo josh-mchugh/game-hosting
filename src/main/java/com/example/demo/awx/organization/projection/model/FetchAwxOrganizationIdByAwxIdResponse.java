@@ -8,16 +8,11 @@ import java.util.UUID;
 @Value
 public class FetchAwxOrganizationIdByAwxIdResponse {
 
-    String id;
+    UUID id;
 
     @QueryProjection
     public FetchAwxOrganizationIdByAwxIdResponse(String id) {
 
-        this.id = id;
-    }
-
-    public UUID getId() {
-
-        return UUID.fromString(id);
+        this.id = UUID.fromString(id);
     }
 }

@@ -3,14 +3,16 @@ package com.example.demo.ovh.flavor.projection.model;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 public class FetchFlavorIdByOvhIdProjection {
 
-    String id;
+    UUID id;
 
     @QueryProjection
     public FetchFlavorIdByOvhIdProjection(String id) {
 
-        this.id = id;
+        this.id = UUID.fromString(id);
     }
 }

@@ -21,7 +21,7 @@ public class InstanceAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String flavorId;
+    private UUID flavorId;
     private String imageId;
     private String instanceGroupId;
     private UUID credentialId;

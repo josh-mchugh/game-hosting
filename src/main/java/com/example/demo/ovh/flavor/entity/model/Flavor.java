@@ -3,11 +3,13 @@ package com.example.demo.ovh.flavor.entity.model;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 @Builder(builderClassName = "Builder")
 public class Flavor {
 
-    String id;
+    UUID id;
     String ovhId;
     String name;
     String type;
