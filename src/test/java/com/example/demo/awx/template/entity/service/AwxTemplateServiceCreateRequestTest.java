@@ -85,7 +85,7 @@ public class AwxTemplateServiceCreateRequestTest {
 
         AwxTemplate awxTemplate = awxTemplateService.handleAwxTemplateCreated(event);
 
-        Assertions.assertEquals(event.getId().toString(), awxTemplate.getId());
+        Assertions.assertEquals(event.getId(), awxTemplate.getId());
     }
 
     @Test
