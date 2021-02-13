@@ -41,7 +41,7 @@ public class AwxHostService implements IAwxHostService {
 
         InstanceEntity instanceEntity = queryFactory.select(qInstance)
                 .from(qInstance)
-                .where(qInstance.id.eq(event.getInstanceId()))
+                .where(qInstance.id.eq(event.getInstanceId().toString()))
                 .fetchOne();
 
         AwxHostEntity entity = new AwxHostEntity();

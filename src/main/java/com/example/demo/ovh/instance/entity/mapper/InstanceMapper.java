@@ -17,7 +17,7 @@ public class InstanceMapper {
         }
 
         return Instance.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .ovhId(entity.getOvhId())
                 .instanceCreatedDate(entity.getInstanceCreatedDate())
                 .name(entity.getName())

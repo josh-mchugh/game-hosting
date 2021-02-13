@@ -27,11 +27,12 @@ public class AwxHostCreateCommandTest {
 
         UUID id = UUID.randomUUID();
         UUID awxInventoryId = UUID.randomUUID();
+        UUID instanceId = UUID.randomUUID();
 
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(id)
                 .awxInventoryId(awxInventoryId)
-                .instanceId("instanceId")
+                .instanceId(instanceId)
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")
@@ -41,7 +42,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
                 .id(id)
                 .awxInventoryId(awxInventoryId)
-                .instanceId("instanceId")
+                .instanceId(instanceId)
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")
@@ -60,7 +61,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(null)
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")
@@ -78,7 +79,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(null)
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")
@@ -109,30 +110,12 @@ public class AwxHostCreateCommandTest {
     }
 
     @Test
-    public void whenCommandHasBlankInstanceIdThenThrowException() {
-
-        AwxHostCreateCommand command = AwxHostCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .awxInventoryId(UUID.randomUUID())
-                .instanceId("")
-                .awxId(1L)
-                .hostname("hostname")
-                .description("description")
-                .enabled(true)
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCommandHasNullHostIdThenThrowException() {
 
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(null)
                 .hostname("hostname")
                 .description("description")
@@ -150,7 +133,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname(null)
                 .description("description")
@@ -168,7 +151,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("")
                 .description("description")
@@ -186,7 +169,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("hostname")
                 .description(null)
@@ -204,7 +187,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("hostname")
                 .description("")
@@ -222,7 +205,7 @@ public class AwxHostCreateCommandTest {
         AwxHostCreateCommand command = AwxHostCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instanceId")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")

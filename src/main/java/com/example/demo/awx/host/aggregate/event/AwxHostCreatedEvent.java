@@ -11,7 +11,7 @@ public class AwxHostCreatedEvent {
 
     UUID id;
     UUID awxInventoryId;
-    String instanceId;
+    UUID instanceId;
     Long awxId;
     String hostname;
     String description;
