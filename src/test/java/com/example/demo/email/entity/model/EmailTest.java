@@ -9,17 +9,20 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EmailTest {
 
     @Test
     public void whenEmailHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Email email = Email.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", email.getId());
+        Assertions.assertEquals(id, email.getId());
     }
 
     @Test
@@ -105,22 +108,9 @@ public class EmailTest {
     @Test
     public void whenEmailToString() {
 
-        Map<String, Object> bodyContext = new HashMap<>();
-        bodyContext.put("test1", "test1");
-        bodyContext.put("test2", "test2");
+        Email email = email();
 
-        Email email = Email.builder()
-                .id("id")
-                .createdDate(LocalDateTime.of(2020, 11, 12, 12, 46))
-                .template(EmailTemplate.WELCOME)
-                .status(EmailStatus.SENT)
-                .toAddress("toAddress")
-                .bodyContext(bodyContext)
-                .subjectContext(Arrays.asList("test1", "test2"))
-                .sentDate(LocalDateTime.of(2020, 11, 12, 12, 47))
-                .build();
-
-        String toString = "Email(id=id, createdDate=2020-11-12T12:46, template=WELCOME, status=SENT, toAddress=toAddress, bodyContext={test2=test2, test1=test1}, subjectContext=[test1, test2], sentDate=2020-11-12T12:47)";
+        String toString = "Email(id=24af9f86-21a8-45e2-b72c-d2cb8ffbd7c9, createdDate=2020-11-12T12:46, template=WELCOME, status=SENT, toAddress=toAddress, bodyContext={test2=test2, test1=test1}, subjectContext=[test1, test2], sentDate=2020-11-12T12:47)";
 
         Assertions.assertEquals(toString, email.toString());
     }
@@ -128,9 +118,20 @@ public class EmailTest {
     @Test
     public void whenEmailHashCode() {
 
-        Email email = email();
+        Map<String, Object> bodyContext = new HashMap<>();
+        bodyContext.put("test1", "test1");
+        bodyContext.put("test2", "test2");
 
-        Assertions.assertEquals(1099915981, email.hashCode());
+        Email email = Email.builder()
+                .id(UUID.fromString("24af9f86-21a8-45e2-b72c-d2cb8ffbd7c9"))
+                .createdDate(LocalDateTime.of(2020, 11, 12, 12, 46))
+                .toAddress("toAddress")
+                .bodyContext(bodyContext)
+                .subjectContext(Arrays.asList("test1", "test2"))
+                .sentDate(LocalDateTime.of(2020, 11, 12, 12, 47))
+                .build();
+
+        Assertions.assertEquals(520633822, email.hashCode());
     }
 
     @Test
@@ -157,8 +158,10 @@ public class EmailTest {
         bodyContext.put("test2", "test2");
 
         return Email.builder()
-                .id("id")
+                .id(UUID.fromString("24af9f86-21a8-45e2-b72c-d2cb8ffbd7c9"))
                 .createdDate(LocalDateTime.of(2020, 11, 12, 12, 46))
+                .template(EmailTemplate.WELCOME)
+                .status(EmailStatus.SENT)
                 .toAddress("toAddress")
                 .bodyContext(bodyContext)
                 .subjectContext(Arrays.asList("test1", "test2"))

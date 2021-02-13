@@ -59,7 +59,7 @@ public class EmailServiceCreatedTest {
 
         Email email = emailService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), email.getId());
+        Assertions.assertEquals(id, email.getId());
     }
 
     @Test

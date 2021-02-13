@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EmailMapperTest {
 
@@ -29,12 +30,14 @@ public class EmailMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         EmailEntity entity = new EmailEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         Email email = EmailMapper.map(entity);
 
-        Assertions.assertEquals("id", email.getId());
+        Assertions.assertEquals(id, email.getId());
     }
 
     @Test

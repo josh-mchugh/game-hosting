@@ -8,12 +8,13 @@ import lombok.Value;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class Email {
 
-    String id;
+    UUID id;
     LocalDateTime createdDate;
     EmailTemplate template;
     EmailStatus status;

@@ -41,7 +41,7 @@ public class EmailServiceFailedTest {
     public void whenFailedIsValidThenReturnNotNull() {
 
         EmailFailedEvent event = EmailFailedEvent.builder()
-                .id(UUID.fromString(email.getId()))
+                .id(email.getId())
                 .build();
 
         Email email = emailService.handleFailed(event);
@@ -79,7 +79,7 @@ public class EmailServiceFailedTest {
     public void whenFailedIsValidThenExpectStatusFailed() {
 
         EmailFailedEvent event = EmailFailedEvent.builder()
-                .id(UUID.fromString(email.getId()))
+                .id(email.getId())
                 .build();
 
         Email email = emailService.handleFailed(event);
