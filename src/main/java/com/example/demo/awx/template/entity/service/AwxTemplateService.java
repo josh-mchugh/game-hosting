@@ -46,7 +46,7 @@ public class AwxTemplateService implements IAwxTemplateService{
 
         AwxPlayBookEntity awxPlayBookEntity = queryFactory.select(qAwxPlayBook)
                 .from(qAwxPlayBook)
-                .where(qAwxPlayBook.id.eq(event.getAwxPlaybookId()))
+                .where(qAwxPlayBook.id.eq(event.getAwxPlaybookId().toString()))
                 .fetchOne();
 
         AwxTemplateEntity entity = new AwxTemplateEntity();

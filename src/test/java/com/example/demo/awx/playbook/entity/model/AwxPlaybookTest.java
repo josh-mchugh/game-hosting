@@ -4,16 +4,20 @@ import com.example.demo.awx.playbook.entity.PlaybookType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxPlaybookTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxPlaybook model = AwxPlaybook.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -39,13 +43,9 @@ public class AwxPlaybookTest {
     @Test
     public void whenModelToString() {
 
-        AwxPlaybook model = AwxPlaybook.builder()
-                .id("id")
-                .name("name")
-                .type(PlaybookType.TEST)
-                .build();
+        AwxPlaybook model = model();
 
-        String expected = "AwxPlaybook(id=id, name=name, type=TEST)";
+        String expected = "AwxPlaybook(id=ec7e003c-2d75-423b-b085-e6cc5e79a93c, name=name, type=TEST)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -53,9 +53,12 @@ public class AwxPlaybookTest {
     @Test
     public void whenModelHashCode() {
 
-        AwxPlaybook model = model();
+        AwxPlaybook model = AwxPlaybook.builder()
+                .id(UUID.fromString("ec7e003c-2d75-423b-b085-e6cc5e79a93c"))
+                .name("name")
+                .build();
 
-        Assertions.assertEquals(210932890, model.hashCode());
+        Assertions.assertEquals(1111311382, model.hashCode());
     }
 
     @Test
@@ -78,8 +81,9 @@ public class AwxPlaybookTest {
     private AwxPlaybook model() {
 
         return AwxPlaybook.builder()
-                .id("id")
+                .id(UUID.fromString("ec7e003c-2d75-423b-b085-e6cc5e79a93c"))
                 .name("name")
+                .type(PlaybookType.TEST)
                 .build();
     }
 }
