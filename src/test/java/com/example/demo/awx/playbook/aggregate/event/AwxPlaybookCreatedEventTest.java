@@ -23,11 +23,13 @@ public class AwxPlaybookCreatedEventTest {
     @Test
     public void whenEventHasAwxProjectIdThenReturnAwxProjectId() {
 
+        UUID awxPlaybookId = UUID.randomUUID();
+
         AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
-                .awxProjectId("awxProjectId")
+                .awxProjectId(awxPlaybookId)
                 .build();
 
-        Assertions.assertEquals("awxProjectId", event.getAwxProjectId());
+        Assertions.assertEquals(awxPlaybookId, event.getAwxProjectId());
     }
 
     @Test
@@ -53,14 +55,9 @@ public class AwxPlaybookCreatedEventTest {
     @Test
     public void whenEventToString() {
 
-        AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
-                .id(UUID.fromString("ac4dfb53-a8cb-41ab-9ba7-cb2478130416"))
-                .awxProjectId("awxProjectId")
-                .name("name")
-                .type(PlaybookType.TEST)
-                .build();
+        AwxPlaybookCreatedEvent event = event();
 
-        String expected = "AwxPlaybookCreatedEvent(id=ac4dfb53-a8cb-41ab-9ba7-cb2478130416, awxProjectId=awxProjectId, name=name, type=TEST)";
+        String expected = "AwxPlaybookCreatedEvent(id=ac4dfb53-a8cb-41ab-9ba7-cb2478130416, awxProjectId=cc3d724d-6858-49f7-9d9d-ef48d1217d4b, name=name, type=TEST)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -68,9 +65,13 @@ public class AwxPlaybookCreatedEventTest {
     @Test
     public void whenEventHashCode() {
 
-        AwxPlaybookCreatedEvent event = event();
+        AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
+                .id(UUID.fromString("ac4dfb53-a8cb-41ab-9ba7-cb2478130416"))
+                .awxProjectId(UUID.fromString("cc3d724d-6858-49f7-9d9d-ef48d1217d4b"))
+                .name("name")
+                .build();
 
-        Assertions.assertEquals(-1633278875, event.hashCode());
+        Assertions.assertEquals(-612196332, event.hashCode());
     }
 
     @Test
@@ -94,8 +95,9 @@ public class AwxPlaybookCreatedEventTest {
 
         return AwxPlaybookCreatedEvent.builder()
                 .id(UUID.fromString("ac4dfb53-a8cb-41ab-9ba7-cb2478130416"))
-                .awxProjectId("awxProjectId")
+                .awxProjectId(UUID.fromString("cc3d724d-6858-49f7-9d9d-ef48d1217d4b"))
                 .name("name")
+                .type(PlaybookType.TEST)
                 .build();
     }
 }

@@ -16,8 +16,8 @@ public class AwxPlaybookCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String awxProjectId;
+    @NotNull
+    UUID awxProjectId;
 
     @NotBlank
     String name;

@@ -22,11 +22,13 @@ public class AwxPlaybookCreateCommandTest {
     @Test
     public void whenCommandHasAwxProjectIdThenReturnAwxProjectId() {
 
+        UUID awxProjectId = UUID.randomUUID();
+
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
-                .awxProjectId("awxProjectId")
+                .awxProjectId(awxProjectId)
                 .build();
 
-        Assertions.assertEquals("awxProjectId", command.getAwxProjectId());
+        Assertions.assertEquals(awxProjectId, command.getAwxProjectId());
     }
 
     @Test
@@ -44,7 +46,7 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand command = command();
 
-        String expected = "AwxPlaybookCreateCommand(id=06540b93-9034-4ffe-96b4-ccd0272d06f1, awxProjectId=awxProjectId, name=name)";
+        String expected = "AwxPlaybookCreateCommand(id=06540b93-9034-4ffe-96b4-ccd0272d06f1, awxProjectId=411681df-b8db-4a92-81f6-cf94e850e29f, name=name)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -54,7 +56,7 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand command = command();
 
-        Assertions.assertEquals(1623560896, command.hashCode());
+        Assertions.assertEquals(-646670756, command.hashCode());
     }
 
     @Test
@@ -78,7 +80,7 @@ public class AwxPlaybookCreateCommandTest {
 
         return AwxPlaybookCreateCommand.builder()
                 .id(UUID.fromString("06540b93-9034-4ffe-96b4-ccd0272d06f1"))
-                .awxProjectId("awxProjectId")
+                .awxProjectId(UUID.fromString("411681df-b8db-4a92-81f6-cf94e850e29f"))
                 .name("name")
                 .build();
     }

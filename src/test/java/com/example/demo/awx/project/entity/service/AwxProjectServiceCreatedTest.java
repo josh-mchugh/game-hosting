@@ -82,7 +82,7 @@ public class AwxProjectServiceCreatedTest {
 
         AwxProject awxProject = awxProjectService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), awxProject.getId());
+        Assertions.assertEquals(id, awxProject.getId());
     }
 
     @Test

@@ -5,6 +5,8 @@ import com.example.demo.awx.project.entity.model.AwxProject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxProjectMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class AwxProjectMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxProjectEntity entity = new AwxProjectEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxProject awxProject = AwxProjectMapper.map(entity);
 
-        Assertions.assertEquals("id", awxProject.getId());
+        Assertions.assertEquals(id, awxProject.getId());
     }
 
     @Test

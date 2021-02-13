@@ -84,7 +84,7 @@ public class AwxPlaybookServiceCreatedTest {
                 .type(PlaybookType.COWSAY)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> awxPlaybookService.handleAwxPlaybookCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxPlaybookService.handleAwxPlaybookCreated(event));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class AwxPlaybookServiceCreatedTest {
 
         AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .awxProjectId("asdfasdf")
+                .awxProjectId(UUID.randomUUID())
                 .name("cowsay-playbook.yml")
                 .type(PlaybookType.COWSAY)
                 .build();

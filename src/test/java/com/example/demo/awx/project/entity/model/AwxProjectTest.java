@@ -3,16 +3,20 @@ package com.example.demo.awx.project.entity.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxProjectTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxProject model = AwxProject.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -80,7 +84,7 @@ public class AwxProjectTest {
 
         AwxProject model = model();
 
-        String expected = "AwxProject(id=id, awxId=1, name=name, description=description, scmType=scmType, scmUrl=scmUrl, scmBranch=scmBranch)";
+        String expected = "AwxProject(id=d278af13-6393-4440-85c7-39e27e20955d, awxId=1, name=name, description=description, scmType=scmType, scmUrl=scmUrl, scmBranch=scmBranch)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -90,7 +94,7 @@ public class AwxProjectTest {
 
         AwxProject model = model();
 
-        Assertions.assertEquals(935477828, model.hashCode());
+        Assertions.assertEquals(-823449315, model.hashCode());
     }
 
     @Test
@@ -113,7 +117,7 @@ public class AwxProjectTest {
     private AwxProject model() {
 
         return AwxProject.builder()
-                .id("id")
+                .id(UUID.fromString("d278af13-6393-4440-85c7-39e27e20955d"))
                 .awxId(1L)
                 .name("name")
                 .description("description")

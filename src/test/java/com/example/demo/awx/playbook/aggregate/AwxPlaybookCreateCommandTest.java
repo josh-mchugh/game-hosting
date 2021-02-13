@@ -27,16 +27,17 @@ public class AwxPlaybookCreateCommandTest {
     public void whenCreatedCommandIsValidThenExecuteCreatedEvent() {
 
         UUID id = UUID.randomUUID();
+        UUID awxProjectId = UUID.randomUUID();
 
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
                 .id(id)
-                .awxProjectId("project-id")
+                .awxProjectId(awxProjectId)
                 .name("cowsay-playbook.yml")
                 .build();
 
         AwxPlaybookCreatedEvent event = AwxPlaybookCreatedEvent.builder()
                 .id(id)
-                .awxProjectId("project-id")
+                .awxProjectId(awxProjectId)
                 .name("cowsay-playbook.yml")
                 .type(PlaybookType.COWSAY)
                 .build();
@@ -54,7 +55,7 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand createCommand = AwxPlaybookCreateCommand.builder()
                 .id(id)
-                .awxProjectId("project-id")
+                .awxProjectId(UUID.randomUUID())
                 .name("invalid-playbook.yml")
                 .build();
 
@@ -67,7 +68,8 @@ public class AwxPlaybookCreateCommandTest {
     public void whenCreateCommandHasNullIdThenThrowException() {
 
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
-                .awxProjectId("project-id")
+                .id(null)
+                .awxProjectId(UUID.randomUUID())
                 .name("invalid-playbook.yml")
                 .build();
 
@@ -81,20 +83,7 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .name("invalid-playbook.yml")
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
-    public void whenCreateCommandHasBlankProjectIdThenThrowException() {
-
-        AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .awxProjectId("")
+                .awxProjectId(null)
                 .name("invalid-playbook.yml")
                 .build();
 
@@ -108,7 +97,8 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxProjectId("project-id")
+                .awxProjectId(UUID.randomUUID())
+                .name(null)
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -121,7 +111,7 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxProjectId("project-id")
+                .awxProjectId(UUID.randomUUID())
                 .name("")
                 .build();
 
@@ -137,7 +127,7 @@ public class AwxPlaybookCreateCommandTest {
 
         AwxPlaybookCreateCommand command = AwxPlaybookCreateCommand.builder()
                 .id(id)
-                .awxProjectId("project-id")
+                .awxProjectId(UUID.randomUUID())
                 .name("invalid")
                 .build();
 
