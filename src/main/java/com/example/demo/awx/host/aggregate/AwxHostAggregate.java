@@ -22,7 +22,7 @@ public class AwxHostAggregate {
     @AggregateIdentifier
     private UUID id;
     private UUID awxInventoryId;
-    private String instanceId;
+    private UUID instanceId;
     private Long awxId;
     private String hostname;
     private String description;

@@ -141,7 +141,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     private InstanceUpdatedEvent instanceCreatedEvent() {
 
         return InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .name(data.getInstance().getName())
                 .ip4Address("0.0.0.0.0.0")
                 .ip6Address("0.0.0.0.0.0")

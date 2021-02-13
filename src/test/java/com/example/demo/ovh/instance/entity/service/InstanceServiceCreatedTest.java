@@ -69,7 +69,7 @@ public class InstanceServiceCreatedTest {
 
         Instance instance = instanceService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), instance.getId());
+        Assertions.assertEquals(id, instance.getId());
     }
 
     @Test

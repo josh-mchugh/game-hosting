@@ -94,10 +94,10 @@ public class InstanceSchedulerService implements IInstanceSchedulerService {
         return !StringUtils.equals(instance.getIp6Address(), api.getIp6Address());
     }
 
-    private UUID handleInstanceUpdate(String id, InstanceApi apiResponse) {
+    private UUID handleInstanceUpdate(UUID id, InstanceApi apiResponse) {
 
         InstanceUpdateCommand command = InstanceUpdateCommand.builder()
-                .id(UUID.fromString(id))
+                .id(id)
                 .name(apiResponse.getName())
                 .status(apiResponse.getStatus())
                 .instanceCreatedDate(apiResponse.getCreatedDate())

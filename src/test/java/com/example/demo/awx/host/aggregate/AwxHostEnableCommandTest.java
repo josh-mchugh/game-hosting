@@ -54,7 +54,7 @@ public class AwxHostEnableCommandTest {
         return AwxHostCreatedEvent.builder()
                 .id(id)
                 .awxInventoryId(UUID.randomUUID())
-                .instanceId("instance-id")
+                .instanceId(UUID.randomUUID())
                 .awxId(1L)
                 .hostname("hostname")
                 .description("description")

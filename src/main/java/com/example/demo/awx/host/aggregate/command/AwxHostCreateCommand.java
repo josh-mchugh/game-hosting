@@ -19,8 +19,8 @@ public class AwxHostCreateCommand {
     @NotNull
     UUID awxInventoryId;
 
-    @NotBlank
-    String instanceId;
+    @NotNull
+    UUID instanceId;
 
     @NotNull
     Long awxId;

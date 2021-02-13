@@ -5,17 +5,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class InstanceTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Instance model = Instance.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -83,17 +86,9 @@ public class InstanceTest {
     @Test
     public void whenModelToString() {
 
-        Instance model = Instance.builder()
-                .id("id")
-                .ovhId("ovhId")
-                .name("name")
-                .status(InstanceStatus.ACTIVE)
-                .instanceCreatedDate(LocalDateTime.of(2020, 11, 27, 18,19))
-                .ip4Address("ip4Address")
-                .ip6Address("ip6Address")
-                .build();
+        Instance model = model();
 
-        String expected = "Instance(id=id, ovhId=ovhId, name=name, status=ACTIVE, instanceCreatedDate=2020-11-27T18:19, ip4Address=ip4Address, ip6Address=ip6Address)";
+        String expected = "Instance(id=fcb7522c-7bf7-4d21-a637-7a567257577f, ovhId=ovhId, name=name, status=ACTIVE, instanceCreatedDate=2020-11-27T18:19, ip4Address=ip4Address, ip6Address=ip6Address)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -101,9 +96,16 @@ public class InstanceTest {
     @Test
     public void whenModelHasCode() {
 
-        Instance model = model();
+        Instance model = Instance.builder()
+                .id(UUID.fromString("fcb7522c-7bf7-4d21-a637-7a567257577f"))
+                .ovhId("ovhId")
+                .name("name")
+                .instanceCreatedDate(LocalDateTime.of(2020, 11, 27, 18,19))
+                .ip4Address("ip4Address")
+                .ip6Address("ip6Address")
+                .build();
 
-        Assertions.assertEquals(1062244323, model.hashCode());
+        Assertions.assertEquals(-2116278604, model.hashCode());
     }
 
     @Test
@@ -126,9 +128,10 @@ public class InstanceTest {
     private Instance model() {
 
         return Instance.builder()
-                .id("id")
+                .id(UUID.fromString("fcb7522c-7bf7-4d21-a637-7a567257577f"))
                 .ovhId("ovhId")
                 .name("name")
+                .status(InstanceStatus.ACTIVE)
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 27, 18,19))
                 .ip4Address("ip4Address")
                 .ip6Address("ip6Address")

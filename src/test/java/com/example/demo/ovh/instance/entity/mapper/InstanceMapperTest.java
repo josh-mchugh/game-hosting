@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class InstanceMapperTest {
 
@@ -26,12 +27,14 @@ public class InstanceMapperTest {
     @Test
     public void whenEntityHasIdReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         InstanceEntity instanceEntity = new InstanceEntity();
-        instanceEntity.setId("id");
+        instanceEntity.setId(id);
 
         Instance instance = InstanceMapper.map(instanceEntity);
 
-        Assertions.assertEquals("id", instance.getId());
+        Assertions.assertEquals(id, instance.getId());
     }
 
     @Test

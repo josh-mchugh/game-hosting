@@ -45,7 +45,7 @@ public class InstanceServiceUpdatedTest {
     public void whenEventIdThenReturnId() {
 
         InstanceUpdatedEvent event = InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .name("name")
                 .status(InstanceStatus.ACTIVE)
                 .ip4Address("ip4Address")
@@ -92,7 +92,7 @@ public class InstanceServiceUpdatedTest {
     public void whenEventHasNameThenReturnName() {
 
         InstanceUpdatedEvent event = InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .name("new-name")
                 .build();
 
@@ -105,7 +105,7 @@ public class InstanceServiceUpdatedTest {
     public void whenEventHasStatusThenReturnStatus() {
 
         InstanceUpdatedEvent event = InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .status(InstanceStatus.STOPPED)
                 .build();
 
@@ -120,7 +120,7 @@ public class InstanceServiceUpdatedTest {
         LocalDateTime createdDate = LocalDateTime.now();
 
         InstanceUpdatedEvent event = InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .instanceCreatedDate(createdDate)
                 .build();
 
@@ -133,7 +133,7 @@ public class InstanceServiceUpdatedTest {
     public void whenEventHadIp4AddressThenReturnIp4Address() {
 
         InstanceUpdatedEvent event = InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .ip4Address("new-ip-address")
                 .build();
 
@@ -146,7 +146,7 @@ public class InstanceServiceUpdatedTest {
     public void whenEventHadIp6AddressThenReturnIp6Address() {
 
         InstanceUpdatedEvent event = InstanceUpdatedEvent.builder()
-                .id(UUID.fromString(data.getInstance().getId()))
+                .id(data.getInstance().getId())
                 .ip6Address("new-ip-address")
                 .build();
 
