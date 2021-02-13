@@ -48,11 +48,13 @@ public class AwxTemplateCreateCommandTest {
     @Test
     public void whenCommandHasAwxPlaybookIdThenReturnAwxPlaybookId() {
 
+        UUID awxPlaybookId = UUID.randomUUID();
+
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
-                .awxPlaybookId("awxPlaybookId")
+                .awxPlaybookId(awxPlaybookId)
                 .build();
 
-        Assertions.assertEquals("awxPlaybookId", command.getAwxPlaybookId());
+        Assertions.assertEquals(awxPlaybookId, command.getAwxPlaybookId());
     }
 
     @Test
@@ -110,7 +112,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = command();
 
-        String expected = "AwxTemplateCreateCommand(id=e0273a31-54c3-424a-b42a-cd2ab4532384, awxCredentialId=9158639a-8098-45d3-958f-b4458765b9b4, awxInventoryId=d3879efa-a6f8-405a-b1bb-6f91133e9df9, awxPlaybookId=awxPlaybookId, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
+        String expected = "AwxTemplateCreateCommand(id=e0273a31-54c3-424a-b42a-cd2ab4532384, awxCredentialId=9158639a-8098-45d3-958f-b4458765b9b4, awxInventoryId=d3879efa-a6f8-405a-b1bb-6f91133e9df9, awxPlaybookId=30c78820-73e5-4c38-b30c-b58467f2fcc6, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -122,13 +124,13 @@ public class AwxTemplateCreateCommandTest {
                 .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
                 .awxCredentialId(UUID.fromString("9158639a-8098-45d3-958f-b4458765b9b4"))
                 .awxInventoryId(UUID.fromString("d3879efa-a6f8-405a-b1bb-6f91133e9df9"))
-                .awxPlaybookId("awxPlaybookId")
+                .awxPlaybookId(UUID.fromString("30c78820-73e5-4c38-b30c-b58467f2fcc6"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(-381398976, command.hashCode());
+        Assertions.assertEquals(1708757280, command.hashCode());
     }
 
     @Test
@@ -154,7 +156,7 @@ public class AwxTemplateCreateCommandTest {
                 .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
                 .awxCredentialId(UUID.fromString("9158639a-8098-45d3-958f-b4458765b9b4"))
                 .awxInventoryId(UUID.fromString("d3879efa-a6f8-405a-b1bb-6f91133e9df9"))
-                .awxPlaybookId("awxPlaybookId")
+                .awxPlaybookId(UUID.fromString("30c78820-73e5-4c38-b30c-b58467f2fcc6"))
                 .awxId(1L)
                 .name("name")
                 .description("description")

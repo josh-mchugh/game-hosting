@@ -5,6 +5,8 @@ import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class AwxPlaybookMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class AwxPlaybookMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         AwxPlayBookEntity entity = new AwxPlayBookEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         AwxPlaybook awxPlaybook = AwxPlaybookMapper.map(entity);
 
-        Assertions.assertEquals("id", awxPlaybook.getId());
+        Assertions.assertEquals(id, awxPlaybook.getId());
     }
 
     @Test

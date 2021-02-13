@@ -48,11 +48,13 @@ public class AwxTemplateCreatedEventTest {
     @Test
     public void whenEventHasAwxPlaybookIdThenReturnAwxPlaybookID() {
 
+        UUID awxPlaybookId = UUID.randomUUID();
+
         AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
-                .awxPlaybookId("awxPlaybookId")
+                .awxPlaybookId(awxPlaybookId)
                 .build();
 
-        Assertions.assertEquals("awxPlaybookId", event.getAwxPlaybookId());
+        Assertions.assertEquals(awxPlaybookId, event.getAwxPlaybookId());
     }
 
     @Test
@@ -110,7 +112,7 @@ public class AwxTemplateCreatedEventTest {
 
         AwxTemplateCreatedEvent event = event();
 
-        String expected = "AwxTemplateCreatedEvent(id=6d5f6f9f-c313-4d08-b15a-a8d0cdc455b0, awxCredentialId=0f569804-1137-4ec9-a52d-c969f3e1fdd0, awxInventoryId=3aef623a-629a-4c0a-b7d4-bb0138208e48, awxPlaybookId=awxPlaybookId, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
+        String expected = "AwxTemplateCreatedEvent(id=6d5f6f9f-c313-4d08-b15a-a8d0cdc455b0, awxCredentialId=0f569804-1137-4ec9-a52d-c969f3e1fdd0, awxInventoryId=3aef623a-629a-4c0a-b7d4-bb0138208e48, awxPlaybookId=17cb3528-113e-4f6d-8964-4f204d5b2eb1, awxId=1, name=name, description=description, type=RUN, verbosity=NORMAL)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -122,13 +124,13 @@ public class AwxTemplateCreatedEventTest {
                 .id(UUID.fromString("6d5f6f9f-c313-4d08-b15a-a8d0cdc455b0"))
                 .awxCredentialId(UUID.fromString("0f569804-1137-4ec9-a52d-c969f3e1fdd0"))
                 .awxInventoryId(UUID.fromString("3aef623a-629a-4c0a-b7d4-bb0138208e48"))
-                .awxPlaybookId("awxPlaybookId")
+                .awxPlaybookId(UUID.fromString("17cb3528-113e-4f6d-8964-4f204d5b2eb1"))
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(-994415409, event.hashCode());
+        Assertions.assertEquals(-1172961555, event.hashCode());
     }
 
     @Test
@@ -154,7 +156,7 @@ public class AwxTemplateCreatedEventTest {
                 .id(UUID.fromString("6d5f6f9f-c313-4d08-b15a-a8d0cdc455b0"))
                 .awxCredentialId(UUID.fromString("0f569804-1137-4ec9-a52d-c969f3e1fdd0"))
                 .awxInventoryId(UUID.fromString("3aef623a-629a-4c0a-b7d4-bb0138208e48"))
-                .awxPlaybookId("awxPlaybookId")
+                .awxPlaybookId(UUID.fromString("17cb3528-113e-4f6d-8964-4f204d5b2eb1"))
                 .awxId(1L)
                 .name("name")
                 .description("description")

@@ -21,7 +21,7 @@ public class AwxTemplateAggregate {
     private UUID id;
     private UUID awxCredentialId;
     private UUID awxInventoryId;
-    private String awxPlaybookId;
+    private UUID awxPlaybookId;
     private Long awxId;
     private String name;
     private String description;

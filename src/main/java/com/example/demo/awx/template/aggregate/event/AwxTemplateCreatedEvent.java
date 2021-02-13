@@ -14,7 +14,7 @@ public class AwxTemplateCreatedEvent {
     UUID id;
     UUID awxCredentialId;
     UUID awxInventoryId;
-    String awxPlaybookId;
+    UUID awxPlaybookId;
     Long awxId;
     String name;
     String description;
