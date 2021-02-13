@@ -74,7 +74,7 @@ public class InstanceAggregateUpdateTest {
         return InstanceCreateCommand.builder()
                 .id(id)
                 .flavorId(UUID.randomUUID())
-                .imageId("imageId")
+                .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
                 .instanceGroupId("instanceGroupId")
                 .ovhId("ovhId")

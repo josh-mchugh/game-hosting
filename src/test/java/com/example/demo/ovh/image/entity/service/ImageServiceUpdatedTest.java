@@ -43,7 +43,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateIsValidThenExpectNonNull() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .imageCreatedDate(LocalDateTime.now())
                 .flavorType(null)
@@ -72,7 +72,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasIdThenReturnId() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .build();
 
@@ -96,7 +96,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasRegionNameThenReturnNonNull() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .build();
 
@@ -109,7 +109,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasOvhIdThenReturnOvhId() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("newOvhId")
                 .build();
 
@@ -122,7 +122,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasNameThenReturnName() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .build();
 
@@ -135,7 +135,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasTypeThenReturnType() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .type("new type")
                 .build();
@@ -151,7 +151,7 @@ public class ImageServiceUpdatedTest {
         LocalDateTime createdDate = LocalDateTime.now();
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .imageCreatedDate(createdDate)
                 .build();
@@ -165,7 +165,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasFlavorTypeThenReturnFlavorType() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .flavorType("new flavor type")
                 .build();
@@ -179,7 +179,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasHourlyThenReturnHourly() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .hourly("new hourly")
                 .build();
@@ -193,7 +193,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasMonthlyThenReturnMonthly() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .monthly("new monthly")
                 .build();
@@ -207,7 +207,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasSizeThenReturnSize() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .size(3.14D)
                 .build();
@@ -221,7 +221,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasMinRamThenReturnMinRam() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .minRam(99)
                 .build();
@@ -235,7 +235,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasMinDiskThenReturnMinDisk() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .minDisk(99)
                 .build();
@@ -249,7 +249,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasUsernameThenReturnUsername() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .username("new username")
                 .build();
@@ -263,7 +263,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasStatusThenReturnStatus() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .status("new status")
                 .build();
@@ -277,7 +277,7 @@ public class ImageServiceUpdatedTest {
     public void whenUpdateHasVisibilityThenReturnVisibility() {
 
         ImageUpdatedEvent event = ImageUpdatedEvent.builder()
-                .id(UUID.fromString(image.getId()))
+                .id(image.getId())
                 .ovhId("ovhId")
                 .visibility("new visibility")
                 .build();

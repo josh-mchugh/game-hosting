@@ -21,8 +21,8 @@ public class InstanceCreateCommand {
     @NotNull
     UUID flavorId;
 
-    @NotBlank
-    String imageId;
+    @NotNull
+    UUID imageId;
 
     @NotNull
     UUID credentialId;

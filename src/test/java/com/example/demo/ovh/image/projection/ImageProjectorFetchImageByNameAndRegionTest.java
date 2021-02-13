@@ -101,6 +101,6 @@ public class ImageProjectorFetchImageByNameAndRegionTest {
 
         Image image = imageProjector.fetchImageByNameAndRegionName(query);
 
-        Assertions.assertEquals(id.toString(), image.getId());
+        Assertions.assertEquals(id, image.getId());
     }
 }

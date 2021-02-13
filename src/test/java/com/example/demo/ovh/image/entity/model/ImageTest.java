@@ -4,17 +4,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ImageTest {
 
     @Test
     public void whenImageHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Image image = Image.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", image.getId());
+        Assertions.assertEquals(id, image.getId());
     }
 
     @Test
@@ -154,9 +157,9 @@ public class ImageTest {
 
         Image image = image();
 
-        String toString = "Image(id=id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T09:36, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String expected = "Image(id=1376d42e-c6fd-47a6-9642-1626fc07e7c8, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T09:36, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
-        Assertions.assertEquals(toString, image.toString());
+        Assertions.assertEquals(expected, image.toString());
     }
 
     @Test
@@ -164,7 +167,7 @@ public class ImageTest {
 
         Image image = image();
 
-        Assertions.assertEquals(1646619866, image.hashCode());
+        Assertions.assertEquals(947312371, image.hashCode());
     }
 
     @Test
@@ -187,7 +190,7 @@ public class ImageTest {
     private Image image() {
 
         return Image.builder()
-                .id("id")
+                .id(UUID.fromString("1376d42e-c6fd-47a6-9642-1626fc07e7c8"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
