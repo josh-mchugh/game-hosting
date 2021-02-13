@@ -213,7 +213,7 @@ public class InstanceServiceCreatedTest {
                 .instanceCreatedDate(LocalDateTime.now())
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> instanceService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> instanceService.handleCreated(event));
     }
 
     @Test
@@ -224,7 +224,7 @@ public class InstanceServiceCreatedTest {
                 .flavorId(data.getFlavor().getId())
                 .imageId(data.getImage().getId())
                 .instanceGroupId(data.getInstanceGroup().getId())
-                .credentialId("invalidId")
+                .credentialId(UUID.randomUUID())
                 .ovhId("ovhId")
                 .name("name")
                 .status(InstanceStatus.ACTIVE)

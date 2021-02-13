@@ -4,11 +4,13 @@ import com.example.demo.ovh.credential.entity.CredentialType;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 @Builder(builderClassName = "Builder")
 public class Credential {
 
-    String id;
+    UUID id;
     String sshKeyId;
     String name;
     String publicKey;

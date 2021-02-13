@@ -6,6 +6,8 @@ import com.example.demo.ovh.credential.entity.model.Credential;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class CredentialMapperTest {
 
     @Test
@@ -23,12 +25,14 @@ public class CredentialMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         CredentialEntity entity = new CredentialEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         Credential credential = CredentialMapper.map(entity);
 
-        Assertions.assertEquals("id", credential.getId());
+        Assertions.assertEquals(id, credential.getId());
     }
 
     @Test

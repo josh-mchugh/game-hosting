@@ -14,7 +14,7 @@ public class InstanceCreatedEvent {
     UUID id;
     String flavorId;
     String imageId;
-    String credentialId;
+    UUID credentialId;
     String instanceGroupId;
     String ovhId;
     InstanceStatus status;

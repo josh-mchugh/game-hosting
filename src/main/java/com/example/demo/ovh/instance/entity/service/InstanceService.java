@@ -54,7 +54,7 @@ public class InstanceService implements IInstanceService {
 
         CredentialEntity credentialEntity = queryFactory.select(qCredential)
                 .from(qCredential)
-                .where(qCredential.id.eq(event.getCredentialId()))
+                .where(qCredential.id.eq(event.getCredentialId().toString()))
                 .fetchOne();
 
         InstanceEntity entity = new InstanceEntity();

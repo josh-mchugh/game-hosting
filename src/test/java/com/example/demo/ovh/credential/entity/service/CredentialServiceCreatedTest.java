@@ -55,7 +55,7 @@ public class CredentialServiceCreatedTest {
 
         Credential credential = credentialService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), credential.getId());
+        Assertions.assertEquals(id, credential.getId());
     }
 
     @Test

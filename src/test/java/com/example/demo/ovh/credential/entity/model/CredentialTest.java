@@ -4,16 +4,20 @@ import com.example.demo.ovh.credential.entity.CredentialType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class CredentialTest {
 
     @Test
     public void whenCredentialThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Credential credential = Credential.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", credential.getId());
+        Assertions.assertEquals(id, credential.getId());
     }
 
     @Test
@@ -61,7 +65,7 @@ public class CredentialTest {
 
         Credential credential = credential();
 
-        String toString = "Credential(id=id, sshKeyId=ssh-key-id, name=name, publicKey=public-key, type=ANSIBLE)";
+        String toString = "Credential(id=8338dc53-b267-41fd-87eb-48749f13b676, sshKeyId=ssh-key-id, name=name, publicKey=public-key, type=ANSIBLE)";
 
         Assertions.assertEquals(toString, credential.toString());
     }
@@ -70,13 +74,13 @@ public class CredentialTest {
     public void whenCredentialHashCode() {
 
         Credential credential = Credential.builder()
-                .id("id")
+                .id(UUID.fromString("8338dc53-b267-41fd-87eb-48749f13b676"))
                 .sshKeyId("ssh-key-id")
                 .name("name")
                 .publicKey("public-key")
                 .build();
 
-        Assertions.assertEquals(1699653271, credential.hashCode());
+        Assertions.assertEquals(-1328311912, credential.hashCode());
     }
 
     @Test
@@ -99,7 +103,7 @@ public class CredentialTest {
     private Credential credential() {
 
         return Credential.builder()
-                .id("id")
+                .id(UUID.fromString("8338dc53-b267-41fd-87eb-48749f13b676"))
                 .sshKeyId("ssh-key-id")
                 .name("name")
                 .publicKey("public-key")
