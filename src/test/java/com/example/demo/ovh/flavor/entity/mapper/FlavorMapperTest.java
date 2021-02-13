@@ -5,6 +5,8 @@ import com.example.demo.ovh.flavor.entity.model.Flavor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class FlavorMapperTest {
 
     @Test
@@ -16,12 +18,14 @@ public class FlavorMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         FlavorEntity entity = new FlavorEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         Flavor flavor = FlavorMapper.map(entity);
 
-        Assertions.assertEquals("id", flavor.getId());
+        Assertions.assertEquals(id, flavor.getId());
     }
 
     @Test

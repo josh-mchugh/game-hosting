@@ -24,11 +24,13 @@ public class InstanceCreatedEventTest {
     @Test
     public void whenEventHasFlavorIdThenReturnFlavorId() {
 
+        UUID flavorId = UUID.randomUUID();
+
         InstanceCreatedEvent event = InstanceCreatedEvent.builder()
-                .flavorId("flavorId")
+                .flavorId(flavorId)
                 .build();
 
-        Assertions.assertEquals("flavorId", event.getFlavorId());
+        Assertions.assertEquals(flavorId, event.getFlavorId());
     }
 
     @Test
@@ -110,7 +112,7 @@ public class InstanceCreatedEventTest {
 
         InstanceCreatedEvent event = event();
 
-        String expected = "InstanceCreatedEvent(id=22339936-b02c-40d7-a0d7-52fe4b23a1e2, flavorId=flavorId, imageId=imageId, credentialId=ac8707a3-4aba-41d6-a58e-43df396a8c51, instanceGroupId=instanceGroupId, ovhId=ovhId, status=ACTIVE, name=name, instanceCreatedDate=2020-11-28T22:44)";
+        String expected = "InstanceCreatedEvent(id=22339936-b02c-40d7-a0d7-52fe4b23a1e2, flavorId=4f4e0a35-287c-454a-9f1f-0deec8d6a941, imageId=imageId, credentialId=ac8707a3-4aba-41d6-a58e-43df396a8c51, instanceGroupId=instanceGroupId, ovhId=ovhId, status=ACTIVE, name=name, instanceCreatedDate=2020-11-28T22:44)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -120,7 +122,7 @@ public class InstanceCreatedEventTest {
 
         InstanceCreatedEvent event = InstanceCreatedEvent.builder()
                 .id(UUID.fromString("22339936-b02c-40d7-a0d7-52fe4b23a1e2"))
-                .flavorId("flavorId")
+                .flavorId(UUID.fromString("4f4e0a35-287c-454a-9f1f-0deec8d6a941"))
                 .imageId("imageId")
                 .credentialId(UUID.fromString("ac8707a3-4aba-41d6-a58e-43df396a8c51"))
                 .instanceGroupId("instanceGroupId")
@@ -129,7 +131,7 @@ public class InstanceCreatedEventTest {
                 .instanceCreatedDate(LocalDateTime.of(2020, 11, 28, 22, 44))
                 .build();
 
-        Assertions.assertEquals(1801479161, event.hashCode());
+        Assertions.assertEquals(-1718485170, event.hashCode());
     }
 
     @Test
@@ -153,7 +155,7 @@ public class InstanceCreatedEventTest {
 
         return InstanceCreatedEvent.builder()
                 .id(UUID.fromString("22339936-b02c-40d7-a0d7-52fe4b23a1e2"))
-                .flavorId("flavorId")
+                .flavorId(UUID.fromString("4f4e0a35-287c-454a-9f1f-0deec8d6a941"))
                 .imageId("imageId")
                 .credentialId(UUID.fromString("ac8707a3-4aba-41d6-a58e-43df396a8c51"))
                 .instanceGroupId("instanceGroupId")

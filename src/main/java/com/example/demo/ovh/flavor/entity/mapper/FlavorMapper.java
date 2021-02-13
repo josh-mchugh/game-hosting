@@ -13,7 +13,7 @@ public class FlavorMapper {
         }
 
         return Flavor.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .ovhId(entity.getOvhId())
                 .name(entity.getName())
                 .type(entity.getType())

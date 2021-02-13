@@ -12,7 +12,7 @@ import java.util.UUID;
 public class InstanceCreatedEvent {
 
     UUID id;
-    String flavorId;
+    UUID flavorId;
     String imageId;
     UUID credentialId;
     String instanceGroupId;

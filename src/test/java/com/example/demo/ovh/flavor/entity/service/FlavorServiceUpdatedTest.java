@@ -40,7 +40,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateIsValidThenReturnExpected() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .name("name")
                 .type("type")
                 .available(true)
@@ -81,7 +81,8 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateIsMinValidThenReturnExpected() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId())).build();
+                .id(flavor.getId())
+                .build();
 
         Flavor flavor = flavorService.handleUpdated(event);
 
@@ -103,7 +104,8 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasIdThenReturnId() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId())).build();
+                .id(flavor.getId())
+                .build();
 
         Flavor flavor = flavorService.handleUpdated(event);
 
@@ -132,7 +134,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasNameThenReturnName() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .name("name")
                 .build();
 
@@ -145,7 +147,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasTypeThenReturnType() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .type("type")
                 .build();
 
@@ -158,7 +160,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasAvailableThenReturnAvailable() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .available(true)
                 .build();
 
@@ -171,7 +173,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasHourlyThenReturnHourly() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .hourly("hourly")
                 .build();
 
@@ -184,7 +186,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasMonthlyThenReturnMonthly() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .monthly("monthly")
                 .build();
 
@@ -197,7 +199,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasQuotaThenReturnQuota() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .quota(1)
                 .build();
 
@@ -210,7 +212,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasOsTypeThenReturnOsType() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .osType("osType")
                 .build();
 
@@ -223,7 +225,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasVCpusThenReturnVCpus() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .vcpus(1)
                 .build();
 
@@ -236,7 +238,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasRamThenReturnRam() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .ram(1)
                 .build();
 
@@ -249,7 +251,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasDiskThenReturnDisk() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .disk(1)
                 .build();
 
@@ -262,7 +264,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasInboundBandwidthThenReturnInboundBandwidth() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .inboundBandwidth(1)
                 .build();
 
@@ -275,7 +277,7 @@ public class FlavorServiceUpdatedTest {
     public void whenUpdateHasOutboundBandwidthThenReturnOutboundBandwidth() {
 
         FlavorUpdatedEvent event = FlavorUpdatedEvent.builder()
-                .id(UUID.fromString(flavor.getId()))
+                .id(flavor.getId())
                 .outboundBandwidth(1)
                 .build();
 

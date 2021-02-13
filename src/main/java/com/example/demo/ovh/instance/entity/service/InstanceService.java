@@ -41,7 +41,7 @@ public class InstanceService implements IInstanceService {
         QCredentialEntity qCredential = QCredentialEntity.credentialEntity;
 
         FlavorEntity flavorEntity = queryFactory.selectFrom(qFlavor)
-                .where(qFlavor.id.eq(event.getFlavorId()))
+                .where(qFlavor.id.eq(event.getFlavorId().toString()))
                 .fetchOne();
 
         ImageEntity imageEntity = queryFactory.selectFrom(qImage)

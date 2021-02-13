@@ -18,8 +18,8 @@ public class InstanceCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String flavorId;
+    @NotNull
+    UUID flavorId;
 
     @NotBlank
     String imageId;

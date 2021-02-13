@@ -62,7 +62,7 @@ public class FlavorServiceCreatedTest {
         Flavor flavor = flavorService.handleCreated(event);
 
         Flavor expected = Flavor.builder()
-                .id(id.toString())
+                .id(id)
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
@@ -95,7 +95,7 @@ public class FlavorServiceCreatedTest {
         Flavor flavor = flavorService.handleCreated(event);
 
         Flavor expected = Flavor.builder()
-                .id(id.toString())
+                .id(id)
                 .ovhId("ovhId")
                 .build();
 
@@ -117,7 +117,7 @@ public class FlavorServiceCreatedTest {
 
         Flavor flavor = flavorService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), flavor.getId());
+        Assertions.assertEquals(id, flavor.getId());
     }
 
     @Test
