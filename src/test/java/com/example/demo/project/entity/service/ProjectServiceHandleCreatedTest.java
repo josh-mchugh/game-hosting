@@ -76,7 +76,7 @@ public class ProjectServiceHandleCreatedTest {
 
         Project project = projectService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), project.getId());
+        Assertions.assertEquals(id, project.getId());
     }
 
     @Test

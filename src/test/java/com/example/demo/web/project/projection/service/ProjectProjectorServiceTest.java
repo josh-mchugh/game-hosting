@@ -34,7 +34,7 @@ public class ProjectProjectorServiceTest {
     @Test
     public void whenGetProjectDetailsHasValidIdThenReturnProjectDetails() {
 
-        ProjectDetails projectDetails = projectControllerService.getProjectDetails(data.getProject().getId());
+        ProjectDetails projectDetails = projectControllerService.getProjectDetails(data.getProject().getId().toString());
 
         Assertions.assertNotNull(projectDetails);
     }

@@ -22,11 +22,13 @@ public class InstanceGroupCreateCommandTest {
     @Test
     public void whenCommandHasProjectIdThenReturnProjectId() {
 
+        UUID projectId = UUID.randomUUID();
+
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
-                .projectId("projectId")
+                .projectId(projectId)
                 .build();
 
-        Assertions.assertEquals("projectId", command.getProjectId());
+        Assertions.assertEquals(projectId, command.getProjectId());
     }
 
     @Test
@@ -64,7 +66,7 @@ public class InstanceGroupCreateCommandTest {
 
         InstanceGroupCreateCommand command = command();
 
-        String expected = "InstanceGroupCreateCommand(id=de3ffe16-c009-4502-9b38-b60281ff19df, projectId=projectId, ovhId=ovhId, name=name, type=type)";
+        String expected = "InstanceGroupCreateCommand(id=de3ffe16-c009-4502-9b38-b60281ff19df, projectId=ef133fbd-4128-48ef-a18b-672d9f7918a5, ovhId=ovhId, name=name, type=type)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -74,7 +76,7 @@ public class InstanceGroupCreateCommandTest {
 
         InstanceGroupCreateCommand command = command();
 
-        Assertions.assertEquals(1945588287, command.hashCode());
+        Assertions.assertEquals(-1284336623, command.hashCode());
     }
 
     @Test
@@ -98,7 +100,7 @@ public class InstanceGroupCreateCommandTest {
 
         return InstanceGroupCreateCommand.builder()
                 .id(UUID.fromString("de3ffe16-c009-4502-9b38-b60281ff19df"))
-                .projectId("projectId")
+                .projectId(UUID.fromString("ef133fbd-4128-48ef-a18b-672d9f7918a5"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

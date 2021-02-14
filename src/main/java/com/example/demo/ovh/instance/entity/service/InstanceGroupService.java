@@ -29,7 +29,7 @@ public class InstanceGroupService implements IInstanceGroupService {
         QProjectEntity qProject = QProjectEntity.projectEntity;
 
         ProjectEntity projectEntity = queryFactory.selectFrom(qProject)
-                .where(qProject.id.eq(event.getProjectId()))
+                .where(qProject.id.eq(event.getProjectId().toString()))
                 .fetchOne();
 
         InstanceGroupEntity entity = new InstanceGroupEntity();

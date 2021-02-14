@@ -69,7 +69,7 @@ public class InstanceGroupServiceCreatedTest {
                 .id(null)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> instanceGroupService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> instanceGroupService.handleCreated(event));
     }
 
     @Test
@@ -80,15 +80,17 @@ public class InstanceGroupServiceCreatedTest {
                 .projectId(null)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> instanceGroupService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> instanceGroupService.handleCreated(event));
     }
 
     @Test
     public void whenEventHasInvalidProjectIdThenExpectException() {
 
+        UUID projectId = UUID.randomUUID();
+
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .projectId("invalid-id")
+                .projectId(projectId)
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

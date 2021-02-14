@@ -5,16 +5,20 @@ import com.example.demo.project.entity.ProjectStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class ProjectTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Project project = Project.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", project.getId());
+        Assertions.assertEquals(id, project.getId());
     }
 
     @Test
@@ -50,14 +54,9 @@ public class ProjectTest {
     @Test
     public void whenModelToString() {
 
-        Project project = Project.builder()
-                .id("id")
-                .name("name")
-                .state(ProjectState.ACTIVE)
-                .status(ProjectStatus.ACTIVE)
-                .build();
+        Project project = project();
 
-        String expected = "Project(id=id, name=name, status=ACTIVE, state=ACTIVE)";
+        String expected = "Project(id=c856f635-ef7f-4dfd-b2de-f600a94f11f1, name=name, status=ACTIVE, state=ACTIVE)";
 
         Assertions.assertEquals(expected, project.toString());
     }
@@ -65,9 +64,12 @@ public class ProjectTest {
     @Test
     public void whenModelHashCode() {
 
-        Project project = project();
+        Project project = Project.builder()
+                .id(UUID.fromString("c856f635-ef7f-4dfd-b2de-f600a94f11f1"))
+                .name("name")
+                .build();
 
-        Assertions.assertEquals(-439861335, project.hashCode());
+        Assertions.assertEquals(836825219, project.hashCode());
     }
 
     @Test
@@ -90,8 +92,10 @@ public class ProjectTest {
     private Project project() {
 
         return Project.builder()
-                .id("id")
+                .id(UUID.fromString("c856f635-ef7f-4dfd-b2de-f600a94f11f1"))
                 .name("name")
+                .state(ProjectState.ACTIVE)
+                .status(ProjectStatus.ACTIVE)
                 .build();
     }
 }

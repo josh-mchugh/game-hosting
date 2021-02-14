@@ -69,7 +69,7 @@ public class ProjectCreatedSaga {
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(id)
-                .projectId(event.getId().toString())
+                .projectId(event.getId())
                 .ovhId(instanceGroupApi.getId())
                 .name(instanceGroupApi.getName())
                 .type(instanceGroupApi.getType())
@@ -84,7 +84,7 @@ public class ProjectCreatedSaga {
         String sshKeyId = credentialProjector.getAnsibleOvhId();
 
         InstanceCreateApi ovhInstanceCreateRequest = InstanceCreateApi.builder()
-                .name(event.getProjectId())
+                .name(event.getProjectId().toString())
                 .flavorId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
                 .imageId("03155da7-81d5-4eb1-9254-c2869d1c5a14")
                 .region("US-EAST-VA-1")

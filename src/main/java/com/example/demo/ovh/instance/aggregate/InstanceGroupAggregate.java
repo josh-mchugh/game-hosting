@@ -17,7 +17,7 @@ public class InstanceGroupAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String projectId;
+    private UUID projectId;
     private String ovhId;
     private String name;
     private String type;

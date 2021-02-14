@@ -16,8 +16,8 @@ public class InstanceGroupCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String projectId;
+    @NotNull
+    UUID projectId;
 
     @NotBlank
     String ovhId;
