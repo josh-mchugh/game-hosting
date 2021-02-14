@@ -46,8 +46,8 @@ public class RecoveryTokenSchedulerService implements IRecoveryTokenSchedulerSer
         return ImmutableList.copyOf(processedUsers);
     }
 
-    private UserRecoveryTokenDeleteCommand recoveryTokenDeleteCommand(String id) {
+    private UserRecoveryTokenDeleteCommand recoveryTokenDeleteCommand(UUID id) {
 
-        return new UserRecoveryTokenDeleteCommand(UUID.fromString(id));
+        return new UserRecoveryTokenDeleteCommand(id);
     }
 }

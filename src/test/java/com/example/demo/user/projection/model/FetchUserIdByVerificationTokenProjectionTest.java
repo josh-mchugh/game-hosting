@@ -3,14 +3,18 @@ package com.example.demo.user.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class FetchUserIdByVerificationTokenProjectionTest {
 
     @Test
     public void whenProjectionHasIdThenReturnId() {
 
-        FetchUserIdByVerificationTokenProjection projection = new FetchUserIdByVerificationTokenProjection("id");
+        UUID id = UUID.randomUUID();
 
-        Assertions.assertEquals("id", projection.getId());
+        FetchUserIdByVerificationTokenProjection projection = new FetchUserIdByVerificationTokenProjection(id.toString());
+
+        Assertions.assertEquals(id, projection.getId());
     }
 
     @Test
@@ -18,7 +22,7 @@ public class FetchUserIdByVerificationTokenProjectionTest {
 
         FetchUserIdByVerificationTokenProjection projection = projection();
 
-        String expected = "FetchUserIdByVerificationTokenProjection(id=id)";
+        String expected = "FetchUserIdByVerificationTokenProjection(id=0109b10f-3593-40a1-9ae1-93a48ca4db7b)";
 
         Assertions.assertEquals(expected, projection.toString());
     }
@@ -28,7 +32,7 @@ public class FetchUserIdByVerificationTokenProjectionTest {
 
         FetchUserIdByVerificationTokenProjection projection = projection();
 
-        Assertions.assertEquals(3414, projection.hashCode());
+        Assertions.assertEquals(585087404, projection.hashCode());
     }
 
     @Test
@@ -45,11 +49,11 @@ public class FetchUserIdByVerificationTokenProjectionTest {
 
         FetchUserIdByVerificationTokenProjection projection = projection();
 
-        Assertions.assertNotEquals(projection, new FetchUserIdByVerificationTokenProjection("otherId"));
+        Assertions.assertNotEquals(projection, new FetchUserIdByVerificationTokenProjection(UUID.randomUUID().toString()));
     }
 
     private FetchUserIdByVerificationTokenProjection projection() {
 
-        return new FetchUserIdByVerificationTokenProjection("id");
+        return new FetchUserIdByVerificationTokenProjection("0109b10f-3593-40a1-9ae1-93a48ca4db7b");
     }
 }

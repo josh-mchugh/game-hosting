@@ -32,11 +32,13 @@ public class ProjectCreateCommandTest {
     @Test
     public void whenCommandHasUserIdThenReturnUserId() {
 
+        UUID userId = UUID.randomUUID();
+
         ProjectCreateCommand command = ProjectCreateCommand.builder()
-                .userId("userId")
+                .userId(userId)
                 .build();
 
-        Assertions.assertEquals("userId", command.getUserId());
+        Assertions.assertEquals(userId, command.getUserId());
     }
 
     @Test
@@ -56,7 +58,7 @@ public class ProjectCreateCommandTest {
 
         ProjectCreateCommand command = command();
 
-        String expected = "ProjectCreateCommand(id=7a234444-3906-49ff-a9aa-b900644d3ac5, name=name, userId=userId, gameId=7d8485e0-a89b-46b0-95b6-7e6ae72eaa32)";
+        String expected = "ProjectCreateCommand(id=7a234444-3906-49ff-a9aa-b900644d3ac5, name=name, userId=48e455d8-a103-48fa-bfff-6c2a945297a4, gameId=7d8485e0-a89b-46b0-95b6-7e6ae72eaa32)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -66,7 +68,7 @@ public class ProjectCreateCommandTest {
 
         ProjectCreateCommand command = command();
 
-        Assertions.assertEquals(-947717720, command.hashCode());
+        Assertions.assertEquals(181565738, command.hashCode());
     }
 
     @Test
@@ -91,8 +93,8 @@ public class ProjectCreateCommandTest {
         return ProjectCreateCommand.builder()
                 .id(UUID.fromString("7a234444-3906-49ff-a9aa-b900644d3ac5"))
                 .gameId(UUID.fromString("7d8485e0-a89b-46b0-95b6-7e6ae72eaa32"))
+                .userId(UUID.fromString("48e455d8-a103-48fa-bfff-6c2a945297a4"))
                 .name("name")
-                .userId("userId")
                 .build();
     }
 }

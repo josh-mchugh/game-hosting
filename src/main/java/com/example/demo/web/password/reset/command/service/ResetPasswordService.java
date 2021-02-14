@@ -25,7 +25,7 @@ public class ResetPasswordService implements IResetPasswordService {
         FetchUserIdByPasswordResetTokenProjection projection = userProjector.fetchUserIdByPasswordResetToken(query);
 
         UserPasswordChangeCommand command = UserPasswordChangeCommand.builder()
-                .id(UUID.fromString(projection.getId()))
+                .id(projection.getId())
                 .password(request.getPassword())
                 .build();
 

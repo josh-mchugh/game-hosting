@@ -42,7 +42,7 @@ public class ProjectService implements IProjectService {
                 .fetchOne();
 
         UserEntity userEntity = queryFactory.selectFrom(qUser)
-                .where(qUser.id.eq(event.getMember().getUserId()))
+                .where(qUser.id.eq(event.getMember().getUserId().toString()))
                 .fetchOne();
 
         ProjectEntity entity = new ProjectEntity();

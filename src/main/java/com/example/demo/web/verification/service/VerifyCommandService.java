@@ -19,9 +19,9 @@ public class VerifyCommandService implements IVerifyCommandService {
     private final CommandGateway commandGateway;
 
     @Override
-    public void handleResendVerificationEmail(String userId) {
+    public void handleResendVerificationEmail(UUID userId) {
 
-        commandGateway.send(new UserVerifyResetCommand(UUID.fromString(userId)));
+        commandGateway.send(new UserVerifyResetCommand(userId));
     }
 
     @Override
@@ -30,6 +30,6 @@ public class VerifyCommandService implements IVerifyCommandService {
         FetchUserIdByVerificationTokenQuery query = new FetchUserIdByVerificationTokenQuery(token);
         FetchUserIdByVerificationTokenProjection projection = userProjector.fetchUserIdByVerificationToken(query);
 
-        commandGateway.send(new UserVerifyCommand(UUID.fromString(projection.getId())));
+        commandGateway.send(new UserVerifyCommand(projection.getId()));
     }
 }

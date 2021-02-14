@@ -41,7 +41,7 @@ public class DashboardCommandServiceProjectCreateTest {
     public void whenProjectCreateProjectIsValidThenReturnProjectId() {
 
         User user = User.builder()
-                .id("testId")
+                .id(UUID.randomUUID())
                 .build();
 
         Game game = Game.builder()

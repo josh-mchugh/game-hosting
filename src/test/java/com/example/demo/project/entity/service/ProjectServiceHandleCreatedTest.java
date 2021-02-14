@@ -130,7 +130,7 @@ public class ProjectServiceHandleCreatedTest {
                 .member(ProjectCreatedEvent.createMember(null))
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> projectService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> projectService.handleCreated(event));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember("invalid-id"))
+                .member(ProjectCreatedEvent.createMember(UUID.randomUUID()))
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> projectService.handleCreated(event));
@@ -235,6 +235,6 @@ public class ProjectServiceHandleCreatedTest {
                 .member(member)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> projectService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> projectService.handleCreated(event));
     }
 }

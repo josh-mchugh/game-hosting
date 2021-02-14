@@ -56,7 +56,7 @@ public class RecoveryTokenSchedulerServiceTest {
         User user = userService.handleCreated(event);
 
         UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
+                .id(user.getId())
                 .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1L))
                 .build();
 

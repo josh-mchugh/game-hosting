@@ -25,7 +25,7 @@ public class ForgotPasswordCommandService implements IForgotPasswordCommandServi
             FetchUserIdByEmailQuery query = new FetchUserIdByEmailQuery(emailAddress);
             FetchUserIdByEmailProjection projection = userProjector.fetchUserIdByEmail(query);
 
-            commandGateway.send(new UserRecoveryTokenCreateCommand(UUID.fromString(projection.getId())));
+            commandGateway.send(new UserRecoveryTokenCreateCommand(projection.getId()));
         }
     }
 }

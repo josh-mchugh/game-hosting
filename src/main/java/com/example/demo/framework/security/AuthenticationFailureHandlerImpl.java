@@ -27,7 +27,7 @@ public class AuthenticationFailureHandlerImpl {
             FetchUserIdByEmailQuery query = new FetchUserIdByEmailQuery(event.getAuthentication().getName());
             FetchUserIdByEmailProjection projection = userProjector.fetchUserIdByEmail(query);
 
-            commandGateway.send(new UserAuthFailCommand(UUID.fromString(projection.getId())));
+            commandGateway.send(new UserAuthFailCommand(projection.getId()));
         }
     }
 }

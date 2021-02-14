@@ -3,14 +3,18 @@ package com.example.demo.user.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class FetchUserIdByEmailProjectionTest {
 
     @Test
     public void whenProjectionHasIdThenReturnId() {
 
-        FetchUserIdByEmailProjection projection = new FetchUserIdByEmailProjection("id");
+        UUID id = UUID.randomUUID();
 
-        Assertions.assertEquals("id", projection.getId());
+        FetchUserIdByEmailProjection projection = new FetchUserIdByEmailProjection(id.toString());
+
+        Assertions.assertEquals(id, projection.getId());
     }
 
     @Test
@@ -18,7 +22,7 @@ public class FetchUserIdByEmailProjectionTest {
 
         FetchUserIdByEmailProjection projection = projection();
 
-        String expected = "FetchUserIdByEmailProjection(id=id)";
+        String expected = "FetchUserIdByEmailProjection(id=b7bc76ae-1ea6-4a0e-96a4-d6cfc56e4c95)";
 
         Assertions.assertEquals(expected, projection.toString());
     }
@@ -28,7 +32,7 @@ public class FetchUserIdByEmailProjectionTest {
 
         FetchUserIdByEmailProjection projection = projection();
 
-        Assertions.assertEquals(3414, projection.hashCode());
+        Assertions.assertEquals(-86989003, projection.hashCode());
     }
 
     @Test
@@ -45,11 +49,11 @@ public class FetchUserIdByEmailProjectionTest {
 
         FetchUserIdByEmailProjection projection = projection();
 
-        Assertions.assertNotEquals(projection, new FetchUserIdByEmailProjection("otherId"));
+        Assertions.assertNotEquals(projection, new FetchUserIdByEmailProjection(UUID.randomUUID().toString()));
     }
 
     private FetchUserIdByEmailProjection projection() {
 
-        return new FetchUserIdByEmailProjection("id");
+        return new FetchUserIdByEmailProjection("b7bc76ae-1ea6-4a0e-96a4-d6cfc56e4c95");
     }
 }

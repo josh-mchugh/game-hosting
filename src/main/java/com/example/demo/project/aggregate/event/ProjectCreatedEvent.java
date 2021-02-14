@@ -19,10 +19,10 @@ public class ProjectCreatedEvent {
     public static class Member {
 
         UUID id;
-        String userId;
+        UUID userId;
     }
 
-    public static Member createMember(String userId) {
+    public static Member createMember(UUID userId) {
 
         return Member.builder()
                 .id(UUID.randomUUID())

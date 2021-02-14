@@ -44,7 +44,7 @@ public class UserProjectionGetByRecoveryTokenExpiredTest {
                 .getUser();
 
         UserRecoveryTokenCreatedEvent event = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
+                .id(user.getId())
                 .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(0L))
                 .build();
 
@@ -64,7 +64,7 @@ public class UserProjectionGetByRecoveryTokenExpiredTest {
                 .getUser();
 
         UserRecoveryTokenCreatedEvent event = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
+                .id(user.getId())
                 .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L))
                 .build();
 
