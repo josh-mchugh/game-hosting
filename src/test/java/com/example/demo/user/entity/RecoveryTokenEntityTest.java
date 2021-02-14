@@ -11,21 +11,12 @@ public class RecoveryTokenEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        RecoveryTokenEntity entity = new RecoveryTokenEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         RecoveryTokenEntity entity = new RecoveryTokenEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

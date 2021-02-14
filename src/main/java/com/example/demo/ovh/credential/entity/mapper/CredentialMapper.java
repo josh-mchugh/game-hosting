@@ -13,7 +13,7 @@ public class CredentialMapper {
         }
 
         return Credential.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .sshKeyId(entity.getOvhId())
                 .name(entity.getName())
                 .publicKey(entity.getPublicKey())

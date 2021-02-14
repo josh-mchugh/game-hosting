@@ -13,7 +13,7 @@ public class ProjectMapper {
         }
 
         return Project.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .name(entity.getName())
                 .status(entity.getStatus())
                 .state(entity.getState())

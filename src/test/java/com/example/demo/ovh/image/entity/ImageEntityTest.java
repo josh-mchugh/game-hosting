@@ -10,29 +10,14 @@ import java.util.UUID;
 public class ImageEntityTest {
 
     @Test
-    public void whenEntityHasNoArgsConstructorReturnNotNull() {
-
-        Assertions.assertNotNull(new ImageEntity());
-    }
-
-    @Test
     public void whenEntityHasIdThenReturnId() {
-
-        ImageEntity entity = new ImageEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntitySetUUIDThenReturnId() {
 
         UUID id = UUID.randomUUID();
 
         ImageEntity entity = new ImageEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

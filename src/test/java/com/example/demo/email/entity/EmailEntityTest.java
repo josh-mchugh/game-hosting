@@ -14,21 +14,12 @@ public class EmailEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        EmailEntity entity = new EmailEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         EmailEntity entity = new EmailEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

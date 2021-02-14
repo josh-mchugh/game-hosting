@@ -47,18 +47,13 @@ public class AbstractAggregateEntity {
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 
-    public void setId(String id) {
-
-        this.id = id;
-    }
-
     public void setId(UUID id) {
 
         this.id = id.toString();
     }
 
     // TODO: replace calls to id and turned to UUID
-    public UUID getUUID() {
+    public UUID getId() {
 
         return StringUtils.isNotBlank(id) ? UUID.fromString(id) : null;
     }

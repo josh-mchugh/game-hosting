@@ -12,21 +12,12 @@ public class AwxNotificationEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        AwxNotificationEntity entity = new AwxNotificationEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         AwxNotificationEntity entity = new AwxNotificationEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

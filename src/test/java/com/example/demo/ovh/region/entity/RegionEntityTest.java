@@ -8,24 +8,16 @@ import java.util.UUID;
 
 public class RegionEntityTest {
 
+
     @Test
     public void whenEntityHasIdThenReturnId() {
-
-        RegionEntity entity = new RegionEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
 
         UUID id = UUID.randomUUID();
 
         RegionEntity entity = new RegionEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

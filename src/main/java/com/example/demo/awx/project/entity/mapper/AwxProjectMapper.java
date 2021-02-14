@@ -13,7 +13,7 @@ public class AwxProjectMapper {
         }
 
         return AwxProject.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .awxId(entity.getAwxId())
                 .name(entity.getName())
                 .description(entity.getDescription())

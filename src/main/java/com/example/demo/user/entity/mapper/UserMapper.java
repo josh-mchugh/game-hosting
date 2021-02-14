@@ -17,7 +17,7 @@ public class UserMapper {
         }
 
         return User.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .state(entity.getState())

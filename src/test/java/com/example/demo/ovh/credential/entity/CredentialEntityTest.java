@@ -9,23 +9,14 @@ import java.util.UUID;
 public class CredentialEntityTest {
 
     @Test
-    public void whenEntityHasUUIDThenReturnId() {
+    public void whenEntityHasIDThenReturnId() {
 
         UUID id = UUID.randomUUID();
 
         CredentialEntity entity = new CredentialEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasIDThenReturnId() {
-
-        CredentialEntity entity = new CredentialEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

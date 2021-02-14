@@ -11,21 +11,12 @@ public class AwxOrganizationEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        AwxOrganizationEntity entity = new AwxOrganizationEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         AwxOrganizationEntity entity = new AwxOrganizationEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test
