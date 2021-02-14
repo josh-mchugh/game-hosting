@@ -19,8 +19,8 @@ public class ProjectCreateCommand {
     @NotBlank
     String name;
 
-    @NotBlank
-    String userId;
+    @NotNull
+    UUID userId;
 
     @NotNull
     UUID gameId;

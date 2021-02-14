@@ -29,7 +29,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         FetchUserIdByEmailQuery query = new FetchUserIdByEmailQuery(authentication.getName());
         FetchUserIdByEmailProjection projection = userProjector.fetchUserIdByEmail(query);
 
-        commandGateway.send(new UserAuthSuccessCommand(UUID.fromString(projection.getId())));
+        commandGateway.send(new UserAuthSuccessCommand(projection.getId()));
 
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(auth -> "ROLE_ADMIN".equals(auth.getAuthority()));

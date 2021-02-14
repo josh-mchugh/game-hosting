@@ -67,7 +67,7 @@ public class DashboardProjectionServiceDashboardDetailsTest {
     public void whenDashboardDetailsHasVerifiedUserThenReturnEmailVerifiedTrue() {
 
         UserVerifiedEvent event = UserVerifiedEvent.builder()
-                .id(UUID.fromString(data.getUser().getId()))
+                .id(data.getUser().getId())
                 .verifiedDate(LocalDateTime.now())
                 .build();
 

@@ -3,14 +3,18 @@ package com.example.demo.user.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class FetchUserIdByPasswordResetTokenProjectionTest {
 
     @Test
     public void whenProjectionHasIdThenReturnId() {
 
-        FetchUserIdByPasswordResetTokenProjection projection = new FetchUserIdByPasswordResetTokenProjection("id");
+        UUID id = UUID.randomUUID();
 
-        Assertions.assertEquals("id", projection.getId());
+        FetchUserIdByPasswordResetTokenProjection projection = new FetchUserIdByPasswordResetTokenProjection(id.toString());
+
+        Assertions.assertEquals(id, projection.getId());
     }
 
     @Test
@@ -18,7 +22,7 @@ public class FetchUserIdByPasswordResetTokenProjectionTest {
 
         FetchUserIdByPasswordResetTokenProjection projection = projection();
 
-        String expected = "FetchUserIdByPasswordResetTokenProjection(id=id)";
+        String expected = "FetchUserIdByPasswordResetTokenProjection(id=e97729d3-15bf-4f91-ac40-f4e48e7a60e0)";
 
         Assertions.assertEquals(expected, projection.toString());
     }
@@ -28,7 +32,7 @@ public class FetchUserIdByPasswordResetTokenProjectionTest {
 
         FetchUserIdByPasswordResetTokenProjection projection = projection();
 
-        Assertions.assertEquals(3414, projection.hashCode());
+        Assertions.assertEquals(-554503551, projection.hashCode());
     }
 
     @Test
@@ -45,11 +49,11 @@ public class FetchUserIdByPasswordResetTokenProjectionTest {
 
         FetchUserIdByPasswordResetTokenProjection projection = projection();
 
-        Assertions.assertNotEquals(projection, new FetchUserIdByPasswordResetTokenProjection("otherId"));
+        Assertions.assertNotEquals(projection, new FetchUserIdByPasswordResetTokenProjection(UUID.randomUUID().toString()));
     }
 
     private FetchUserIdByPasswordResetTokenProjection projection() {
 
-        return new FetchUserIdByPasswordResetTokenProjection("id");
+        return new FetchUserIdByPasswordResetTokenProjection("e97729d3-15bf-4f91-ac40-f4e48e7a60e0");
     }
 }

@@ -48,7 +48,7 @@ public class ResetPasswordServiceResetPasswordTest {
         User user = userService.handleCreated(event);
 
         UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
+                .id(user.getId())
                 .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1000L * 60))
                 .build();
 

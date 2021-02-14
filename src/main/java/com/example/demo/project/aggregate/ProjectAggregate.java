@@ -36,7 +36,7 @@ public class ProjectAggregate {
     public static class Member {
 
         private UUID id;
-        private String userId;
+        private UUID userId;
         private ProjectMembershipRole role;
     }
 

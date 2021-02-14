@@ -6,17 +6,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class UserTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         User user = User.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", user.getId());
+        Assertions.assertEquals(id, user.getId());
     }
 
     @Test
@@ -96,19 +99,9 @@ public class UserTest {
     @Test
     public void whenModelToString() {
 
-        User user = User.builder()
-                .id("id")
-                .email("test@test")
-                .password("password")
-                .state(UserState.ACTIVE)
-                .type(UserType.REGULAR)
-                .invalidLoginAttempts(1L)
-                .lastLoginDate(LocalDateTime.of(2020, 11, 22, 11, 40))
-                .recoveryToken(RecoveryToken.builder().build())
-                .verification(Verification.builder().build())
-                .build();
+        User user = user();
 
-        String expected = "User(id=id, email=test@test, password=password, state=ACTIVE, type=REGULAR, invalidLoginAttempts=1, lastLoginDate=2020-11-22T11:40, recoveryToken=RecoveryToken(id=null, token=null, sentDate=null, expirationDate=null), verification=Verification(id=null, status=null, token=null, sentDate=null, verificationDate=null))";
+        String expected = "User(id=bb6e0650-e491-4155-8a3a-0a4dbe007bf9, email=test@test, password=password, state=ACTIVE, type=REGULAR, invalidLoginAttempts=1, lastLoginDate=2020-11-22T11:40, recoveryToken=RecoveryToken(id=null, token=null, sentDate=null, expirationDate=null), verification=Verification(id=null, status=null, token=null, sentDate=null, verificationDate=null))";
 
         Assertions.assertEquals(expected, user.toString());
     }
@@ -116,9 +109,17 @@ public class UserTest {
     @Test
     public void whenModelHashCode() {
 
-        User user = user();
+        User user = User.builder()
+                .id(UUID.fromString("bb6e0650-e491-4155-8a3a-0a4dbe007bf9"))
+                .email("test@test")
+                .password("password")
+                .invalidLoginAttempts(1L)
+                .lastLoginDate(LocalDateTime.of(2020, 11, 22, 11, 40))
+                .recoveryToken(RecoveryToken.builder().build())
+                .verification(Verification.builder().build())
+                .build();
 
-        Assertions.assertEquals(-2049980331, user.hashCode());
+        Assertions.assertEquals(704882475, user.hashCode());
     }
 
     @Test
@@ -141,9 +142,11 @@ public class UserTest {
     private User user() {
 
         return User.builder()
-                .id("id")
+                .id(UUID.fromString("bb6e0650-e491-4155-8a3a-0a4dbe007bf9"))
                 .email("test@test")
                 .password("password")
+                .state(UserState.ACTIVE)
+                .type(UserType.REGULAR)
                 .invalidLoginAttempts(1L)
                 .lastLoginDate(LocalDateTime.of(2020, 11, 22, 11, 40))
                 .recoveryToken(RecoveryToken.builder().build())

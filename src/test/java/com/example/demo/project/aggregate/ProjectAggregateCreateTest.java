@@ -27,7 +27,7 @@ public class ProjectAggregateCreateTest {
         ProjectCreateCommand command = ProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .name("name")
-                .userId("userId")
+                .userId(UUID.randomUUID())
                 .gameId(UUID.randomUUID())
                 .build();
 
@@ -42,7 +42,7 @@ public class ProjectAggregateCreateTest {
         ProjectCreateCommand command = ProjectCreateCommand.builder()
                 .id(null)
                 .name("name")
-                .userId("userId")
+                .userId(UUID.randomUUID())
                 .gameId(UUID.randomUUID())
                 .build();
 
@@ -57,7 +57,7 @@ public class ProjectAggregateCreateTest {
         ProjectCreateCommand command = ProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .name(null)
-                .userId("userId")
+                .userId(UUID.randomUUID())
                 .gameId(UUID.randomUUID())
                 .build();
 
@@ -72,7 +72,7 @@ public class ProjectAggregateCreateTest {
         ProjectCreateCommand command = ProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .name("")
-                .userId("userId")
+                .userId(UUID.randomUUID())
                 .gameId(UUID.randomUUID())
                 .build();
 
@@ -97,27 +97,12 @@ public class ProjectAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasBlankUserIdThenExpectException() {
-
-        ProjectCreateCommand command = ProjectCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .name("name")
-                .userId("")
-                .gameId(UUID.randomUUID())
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCommandHasNullGameIdThenExpectException() {
 
         ProjectCreateCommand command = ProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .name("name")
-                .userId("userId")
+                .userId(UUID.randomUUID())
                 .gameId(null)
                 .build();
 

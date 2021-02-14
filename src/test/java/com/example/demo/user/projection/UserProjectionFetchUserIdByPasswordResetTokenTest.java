@@ -52,7 +52,7 @@ public class UserProjectionFetchUserIdByPasswordResetTokenTest {
                 .getUser();
 
         UserRecoveryTokenCreatedEvent event = UserRecoveryTokenCreatedEvent.builder()
-                .id(UUID.fromString(user.getId()))
+                .id(user.getId())
                 .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(200L))
                 .build();
 

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 public class UserMapperTest {
 
@@ -31,12 +32,14 @@ public class UserMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         UserEntity entity = new UserEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         User user = UserMapper.map(entity);
 
-        Assertions.assertEquals("id", user.getId());
+        Assertions.assertEquals(id, user.getId());
     }
 
     @Test

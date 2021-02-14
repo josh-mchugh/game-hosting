@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserFilt
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 public class SessionUtilTest {
 
@@ -169,8 +170,10 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilGetCurrentUserThenReturnCurrentUser() {
 
+        UUID userId = UUID.randomUUID();
+
         User user = User.builder()
-                .id("id")
+                .id(userId)
                 .build();
 
         IUserProjector userProjector = Mockito.mock(IUserProjector.class);
@@ -187,7 +190,7 @@ public class SessionUtilTest {
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
             User expected = User.builder()
-                    .id("id")
+                    .id(userId)
                     .build();
 
             SessionUtil sessionUtil = new SessionUtil(userProjector);

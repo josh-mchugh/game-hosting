@@ -46,7 +46,7 @@ public class UserServiceCreatedTest {
 
         User user = userService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), user.getId());
+        Assertions.assertEquals(id, user.getId());
     }
 
     @Test

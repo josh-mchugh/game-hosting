@@ -7,12 +7,13 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class User {
 
-    String id;
+    UUID id;
     String email;
     @JsonIgnore
     String password;
