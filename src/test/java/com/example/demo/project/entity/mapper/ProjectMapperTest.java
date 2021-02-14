@@ -3,10 +3,11 @@ package com.example.demo.project.entity.mapper;
 import com.example.demo.project.entity.ProjectEntity;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
-import com.example.demo.project.entity.mapper.ProjectMapper;
 import com.example.demo.project.entity.model.Project;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 public class ProjectMapperTest {
 
@@ -25,12 +26,14 @@ public class ProjectMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setId("id");
+        projectEntity.setId(id);
 
         Project project = ProjectMapper.map(projectEntity);
 
-        Assertions.assertEquals("id", project.getId());
+        Assertions.assertEquals(id, project.getId());
     }
 
     @Test

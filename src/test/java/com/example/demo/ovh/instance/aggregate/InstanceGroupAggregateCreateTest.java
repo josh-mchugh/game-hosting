@@ -26,10 +26,11 @@ public class InstanceGroupAggregateCreateTest {
     public void whenCommandIsValidThenExpectEvents() {
 
         UUID id = UUID.randomUUID();
+        UUID projectId = UUID.randomUUID();
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(id)
-                .projectId("projectId")
+                .projectId(projectId)
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
@@ -37,7 +38,7 @@ public class InstanceGroupAggregateCreateTest {
 
         InstanceGroupCreatedEvent event = InstanceGroupCreatedEvent.builder()
                 .id(id)
-                .projectId("projectId")
+                .projectId(projectId)
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
@@ -54,7 +55,7 @@ public class InstanceGroupAggregateCreateTest {
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(null)
-                .projectId("projectId")
+                .projectId(UUID.randomUUID())
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
@@ -82,27 +83,11 @@ public class InstanceGroupAggregateCreateTest {
     }
 
     @Test
-    public void whenCommandHasBlankProjectIdThenExpectException() {
-
-        InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .projectId("")
-                .ovhId("ovhId")
-                .name("name")
-                .type("type")
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
     public void whenCommandHasNullOvhIdThenExpectException() {
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .projectId("projectId")
+                .projectId(UUID.randomUUID())
                 .ovhId(null)
                 .name("name")
                 .type("type")
@@ -118,7 +103,7 @@ public class InstanceGroupAggregateCreateTest {
 
         InstanceGroupCreateCommand command = InstanceGroupCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .projectId("projectId")
+                .projectId(UUID.randomUUID())
                 .ovhId("")
                 .name("name")
                 .type("type")

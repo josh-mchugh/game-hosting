@@ -60,7 +60,7 @@ public class InstanceProjectFetchInstanceDetailsTest {
                 .instance()
                 .build();
 
-        FetchInstanceDetailsByProjectIdQuery query = new FetchInstanceDetailsByProjectIdQuery(data.getProject().getId());
+        FetchInstanceDetailsByProjectIdQuery query = new FetchInstanceDetailsByProjectIdQuery(data.getProject().getId().toString());
 
         FetchInstanceDetailsByProjectIdProjection projection = instanceProjector.fetchInstanceDetails(query);
 

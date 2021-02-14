@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.UUID;
+
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -88,7 +90,7 @@ public class DashboardProjectionControllerTest {
     @Test
     public void testDashboardContentVerified() throws Exception {
 
-        ProjectDashboardProjection projectProjection = new ProjectDashboardProjection("id", "name", GameType.MINECRAFT_JAVA);
+        ProjectDashboardProjection projectProjection = new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", GameType.MINECRAFT_JAVA);
 
         DashboardDetailsResponse detailsResponse = DashboardDetailsResponse.builder()
                 .emailVerified(true)

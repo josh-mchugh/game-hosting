@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class DashboardDetailsResponseTest {
 
     @Test
@@ -31,7 +33,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelHasProjectsThenReturnProjects() {
 
-        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection("id", "name", GameType.MINECRAFT_JAVA));
+        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", GameType.MINECRAFT_JAVA));
 
         DashboardDetailsResponse model = DashboardDetailsResponse.builder()
                 .projects(projects)
@@ -109,7 +111,7 @@ public class DashboardDetailsResponseTest {
 
         DashboardDetailsResponse model = model();
 
-        String expected = "DashboardDetailsResponse(emailVerified=true, hasProjects=true, projects=[ProjectDashboardProjection(id=id, name=name, gameType=MINECRAFT_JAVA)])";
+        String expected = "DashboardDetailsResponse(emailVerified=true, hasProjects=true, projects=[ProjectDashboardProjection(id=8bd3a4b5-b822-40d7-9dca-e3943fc0274b, name=name, gameType=MINECRAFT_JAVA)])";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -145,7 +147,7 @@ public class DashboardDetailsResponseTest {
 
     private DashboardDetailsResponse model() {
 
-        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection("id", "name", GameType.MINECRAFT_JAVA));
+        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.fromString("8bd3a4b5-b822-40d7-9dca-e3943fc0274b").toString(), "name", GameType.MINECRAFT_JAVA));
 
         return DashboardDetailsResponse.builder()
                 .emailVerified(true)

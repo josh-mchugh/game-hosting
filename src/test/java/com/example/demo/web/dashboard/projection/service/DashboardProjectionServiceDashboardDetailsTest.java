@@ -132,7 +132,7 @@ public class DashboardProjectionServiceDashboardDetailsTest {
 
         Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn(data.getUser().getEmail());
 
-        ProjectDashboardProjection expectedProject = new ProjectDashboardProjection(project.getId(), project.getName(), data.getGame().getType());
+        ProjectDashboardProjection expectedProject = new ProjectDashboardProjection(project.getId().toString(), project.getName(), data.getGame().getType());
 
         DashboardDetailsResponse detailsResponse = dashboardService.getDashboardDetails();
 

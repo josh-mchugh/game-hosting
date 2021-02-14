@@ -140,7 +140,7 @@ public class ProjectCreatedSagaTest {
         return InstanceGroupCreatedEvent.builder()
                 .id(id)
                 .name("name")
-                .projectId(projectId.toString())
+                .projectId(projectId)
                 .type("type")
                 .ovhId("ovhId")
                 .build();

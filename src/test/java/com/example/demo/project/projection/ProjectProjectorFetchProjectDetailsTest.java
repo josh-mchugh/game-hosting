@@ -55,7 +55,7 @@ public class ProjectProjectorFetchProjectDetailsTest {
                 .build()
                 .getProject();
 
-        FetchProjectDetailsByIdQuery query = new FetchProjectDetailsByIdQuery(project.getId());
+        FetchProjectDetailsByIdQuery query = new FetchProjectDetailsByIdQuery(project.getId().toString());
 
         FetchProjectDetailsByIdProjection projection = projectProjector.fetchProjectDetails(query);
 

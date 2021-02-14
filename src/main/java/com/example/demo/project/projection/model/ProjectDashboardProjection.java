@@ -4,17 +4,19 @@ import com.example.demo.game.entity.GameType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 public class ProjectDashboardProjection {
 
-    String id;
+    UUID id;
     String name;
     GameType gameType;
 
     @QueryProjection
     public ProjectDashboardProjection(String id, String name, GameType gameType) {
 
-        this.id = id;
+        this.id = UUID.fromString(id);
         this.name = name;
         this.gameType = gameType;
     }

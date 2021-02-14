@@ -61,7 +61,7 @@ public class ProjectProjectorFetchDashboardDetailsTest {
         FetchProjectDashboardQuery query = new FetchProjectDashboardQuery(data.getUser().getEmail());
         FetchProjectDashboardProjection projection = projectProjector.fetchProjectDashboard(query);
 
-        ProjectDashboardProjection dashboardDetail = new ProjectDashboardProjection(data.getProject().getId(), data.getProject().getName(), data.getGame().getType());
+        ProjectDashboardProjection dashboardDetail = new ProjectDashboardProjection(data.getProject().getId().toString(), data.getProject().getName(), data.getGame().getType());
         ImmutableList<ProjectDashboardProjection> expected = ImmutableList.of(dashboardDetail);
 
         Assertions.assertEquals(expected, projection.getProjects());
