@@ -14,21 +14,12 @@ public class AwxTemplateEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        AwxTemplateEntity entity = new AwxTemplateEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         AwxTemplateEntity entity = new AwxTemplateEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

@@ -13,7 +13,7 @@ public class EmailMapper {
         }
 
         return Email.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .createdDate(entity.getCreatedDate())
                 .template(entity.getTemplate())
                 .status(entity.getStatus())

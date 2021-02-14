@@ -13,7 +13,7 @@ public class AwxPlaybookMapper {
         }
 
         return AwxPlaybook.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .name(entity.getName())
                 .type(entity.getType())
                 .build();

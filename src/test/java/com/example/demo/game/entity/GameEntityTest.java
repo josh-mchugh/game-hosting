@@ -11,21 +11,12 @@ public class GameEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        GameEntity entity = new GameEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         GameEntity entity = new GameEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

@@ -13,7 +13,7 @@ public class ImageMapper {
         }
 
         return Image.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .ovhId(entity.getOvhId())
                 .name(entity.getName())
                 .type(entity.getType())

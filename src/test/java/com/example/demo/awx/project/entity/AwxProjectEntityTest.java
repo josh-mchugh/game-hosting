@@ -14,21 +14,12 @@ public class AwxProjectEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        ProjectEntity entity = new ProjectEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         ProjectEntity entity = new ProjectEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

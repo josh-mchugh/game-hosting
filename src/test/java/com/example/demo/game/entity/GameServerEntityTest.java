@@ -1,6 +1,5 @@
 package com.example.demo.game.entity;
 
-import com.example.demo.game.entity.model.GameServer;
 import com.example.demo.ovh.flavor.entity.FlavorEntity;
 import com.example.demo.ovh.image.entity.ImageEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
@@ -15,32 +14,12 @@ public class GameServerEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        GameServerEntity entity = new GameServerEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasIdThenReturnUUID() {
-
         UUID id = UUID.randomUUID();
 
         GameServerEntity entity = new GameServerEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id, entity.getUUID());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
-        UUID id = UUID.randomUUID();
-
-        GameServerEntity entity = new GameServerEntity();
-        entity.setId(id);
-
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

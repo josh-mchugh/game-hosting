@@ -15,21 +15,12 @@ public class InstanceEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        InstanceEntity entity = new InstanceEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntitySetUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         InstanceEntity entity = new InstanceEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

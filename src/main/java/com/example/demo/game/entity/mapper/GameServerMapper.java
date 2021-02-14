@@ -13,7 +13,7 @@ public class GameServerMapper {
         }
 
         return GameServer.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .status(entity.getStatus())

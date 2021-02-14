@@ -13,21 +13,12 @@ public class AwxHostEntityTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        AwxHostEntity entity = new AwxHostEntity();
-        entity.setId("id");
-
-        Assertions.assertEquals("id", entity.getId());
-    }
-
-    @Test
-    public void whenEntityHasUUIDThenReturnId() {
-
         UUID id = UUID.randomUUID();
 
         AwxHostEntity entity = new AwxHostEntity();
         entity.setId(id);
 
-        Assertions.assertEquals(id.toString(), entity.getId());
+        Assertions.assertEquals(id, entity.getId());
     }
 
     @Test

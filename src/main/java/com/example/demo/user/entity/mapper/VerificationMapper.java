@@ -13,7 +13,7 @@ public class VerificationMapper {
         }
 
         return Verification.builder()
-                .id(entity.getUUID())
+                .id(entity.getId())
                 .status(entity.getStatus())
                 .token(entity.getToken())
                 .sentDate(entity.getSentDate())

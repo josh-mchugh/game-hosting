@@ -207,7 +207,7 @@ public class UserMapperTest {
     @Test
     public void whenEntitiesIsNullThenReturnEmptyList() {
 
-        ImmutableList<User> users = UserMapper.map((Collection) null);
+        ImmutableList<User> users = UserMapper.map((Collection<UserEntity>) null);
 
         Assertions.assertEquals(0, users.size());
     }
