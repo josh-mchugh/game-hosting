@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class Verification {
 
-    String id;
+    UUID id;
     VerificationStatus status;
     String token;
     LocalDateTime sentDate;
