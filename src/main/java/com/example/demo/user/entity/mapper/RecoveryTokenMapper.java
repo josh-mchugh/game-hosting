@@ -13,7 +13,7 @@ public class RecoveryTokenMapper {
         }
 
         return RecoveryToken.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .token(entity.getToken())
                 .sentDate(entity.getSentDate())
                 .expirationDate(entity.getExpirationDate())

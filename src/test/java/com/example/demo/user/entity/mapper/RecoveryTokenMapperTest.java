@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class RecoveryTokenMapperTest {
 
@@ -24,12 +25,14 @@ public class RecoveryTokenMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         RecoveryTokenEntity entity = new RecoveryTokenEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         RecoveryToken recoveryToken = RecoveryTokenMapper.map(entity);
 
-        Assertions.assertEquals("id", recoveryToken.getId());
+        Assertions.assertEquals(id, recoveryToken.getId());
     }
 
     @Test

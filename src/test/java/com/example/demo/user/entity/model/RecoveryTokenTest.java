@@ -4,17 +4,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class RecoveryTokenTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         RecoveryToken recoveryToken = RecoveryToken.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", recoveryToken.getId());
+        Assertions.assertEquals(id, recoveryToken.getId());
     }
 
     @Test
@@ -56,7 +59,7 @@ public class RecoveryTokenTest {
 
         RecoveryToken recoveryToken = recoveryToken();
 
-        String expected = "RecoveryToken(id=id, token=token, sentDate=2020-11-22T11:56, expirationDate=2020-11-22T11:56)";
+        String expected = "RecoveryToken(id=0fa590d5-d522-477c-8997-507fa8a3ad3d, token=token, sentDate=2020-11-22T11:56, expirationDate=2020-11-22T11:56)";
 
         Assertions.assertEquals(expected, recoveryToken.toString());
     }
@@ -66,7 +69,7 @@ public class RecoveryTokenTest {
 
         RecoveryToken recoveryToken = recoveryToken();
 
-        Assertions.assertEquals(264670787, recoveryToken.hashCode());
+        Assertions.assertEquals(319617971, recoveryToken.hashCode());
     }
 
     @Test
@@ -89,7 +92,7 @@ public class RecoveryTokenTest {
     private RecoveryToken recoveryToken() {
 
         return RecoveryToken.builder()
-                .id("id")
+                .id(UUID.fromString("0fa590d5-d522-477c-8997-507fa8a3ad3d"))
                 .token("token")
                 .sentDate(LocalDateTime.of(2020, 11, 22, 11, 56))
                 .expirationDate(LocalDateTime.of(2020, 11, 22, 11, 56))

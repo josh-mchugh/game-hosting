@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
 public class RecoveryToken {
 
-    String id;
+    UUID id;
     String token;
     LocalDateTime sentDate;
     LocalDateTime expirationDate;
