@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class VerificationMapperTest {
 
@@ -25,12 +26,14 @@ public class VerificationMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         VerificationEntity entity = new VerificationEntity();
-        entity.setId("id");
+        entity.setId(id);
 
         Verification verification = VerificationMapper.map(entity);
 
-        Assertions.assertEquals("id", verification.getId());
+        Assertions.assertEquals(id, verification.getId());
     }
 
     @Test

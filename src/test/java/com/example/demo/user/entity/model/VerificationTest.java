@@ -5,17 +5,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class VerificationTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Verification verification = Verification.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", verification.getId());
+        Assertions.assertEquals(id, verification.getId());
     }
 
     @Test
@@ -85,15 +88,9 @@ public class VerificationTest {
     @Test
     public void whenModelToString() {
 
-        Verification verification = Verification.builder()
-                .id("id")
-                .status(VerificationStatus.UNVERIFIED)
-                .token("token")
-                .sentDate(LocalDateTime.of(2020, 11, 22, 11, 49))
-                .verificationDate(LocalDateTime.of(2020, 11, 22, 11, 50))
-                .build();
+        Verification verification = verification();
 
-        String expected = "Verification(id=id, status=UNVERIFIED, token=token, sentDate=2020-11-22T11:49, verificationDate=2020-11-22T11:50)";
+        String expected = "Verification(id=9aefecad-5852-4e3c-99d9-9dcc283a1e7e, status=UNVERIFIED, token=token, sentDate=2020-11-22T11:49, verificationDate=2020-11-22T11:50)";
 
         Assertions.assertEquals(expected, verification.toString());
     }
@@ -101,9 +98,14 @@ public class VerificationTest {
     @Test
     public void whenModelHashCode() {
 
-        Verification verification = verification();
+        Verification verification = Verification.builder()
+                .id(UUID.fromString("9aefecad-5852-4e3c-99d9-9dcc283a1e7e"))
+                .token("token")
+                .sentDate(LocalDateTime.of(2020, 11, 22, 11, 49))
+                .verificationDate(LocalDateTime.of(2020, 11, 22, 11, 50))
+                .build();
 
-        Assertions.assertEquals(634445042, verification.hashCode());
+        Assertions.assertEquals(-1610425222, verification.hashCode());
     }
 
     @Test
@@ -126,7 +128,8 @@ public class VerificationTest {
     private Verification verification() {
 
         return Verification.builder()
-                .id("id")
+                .id(UUID.fromString("9aefecad-5852-4e3c-99d9-9dcc283a1e7e"))
+                .status(VerificationStatus.UNVERIFIED)
                 .token("token")
                 .sentDate(LocalDateTime.of(2020, 11, 22, 11, 49))
                 .verificationDate(LocalDateTime.of(2020, 11, 22, 11, 50))
