@@ -5,6 +5,8 @@ import com.example.demo.ovh.instance.entity.model.InstanceGroup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class InstanceGroupMapperTest {
 
     @Test
@@ -22,12 +24,14 @@ public class InstanceGroupMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         InstanceGroupEntity instanceGroupEntity = new InstanceGroupEntity();
-        instanceGroupEntity.setId("id");
+        instanceGroupEntity.setId(id);
 
         InstanceGroup instanceGroup = InstanceGroupMapper.map(instanceGroupEntity);
 
-        Assertions.assertEquals("id", instanceGroup.getId());
+        Assertions.assertEquals(id, instanceGroup.getId());
     }
 
     @Test

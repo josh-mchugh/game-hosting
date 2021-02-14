@@ -3,16 +3,20 @@ package com.example.demo.ovh.instance.entity.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class InstanceGroupTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         InstanceGroup model = InstanceGroup.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -50,7 +54,7 @@ public class InstanceGroupTest {
 
         InstanceGroup model = model();
 
-        String expected = "InstanceGroup(id=id, ovhId=ovhId, name=name, type=type)";
+        String expected = "InstanceGroup(id=5810a4e0-8b42-4101-a38e-77c22c1376bc, ovhId=ovhId, name=name, type=type)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -60,7 +64,7 @@ public class InstanceGroupTest {
 
         InstanceGroup model = model();
 
-        Assertions.assertEquals(969825729, model.hashCode());
+        Assertions.assertEquals(-1520480947, model.hashCode());
     }
 
     @Test
@@ -83,7 +87,7 @@ public class InstanceGroupTest {
     private InstanceGroup model() {
 
         return InstanceGroup.builder()
-                .id("id")
+                .id(UUID.fromString("5810a4e0-8b42-4101-a38e-77c22c1376bc"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

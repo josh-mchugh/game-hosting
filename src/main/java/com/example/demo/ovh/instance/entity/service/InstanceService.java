@@ -49,7 +49,7 @@ public class InstanceService implements IInstanceService {
                 .fetchOne();
 
         InstanceGroupEntity instanceGroupEntity = queryFactory.selectFrom(qInstanceGroup)
-                .where(qInstanceGroup.id.eq(event.getInstanceGroupId()))
+                .where(qInstanceGroup.id.eq(event.getInstanceGroupId().toString()))
                 .fetchOne();
 
         CredentialEntity credentialEntity = queryFactory.select(qCredential)

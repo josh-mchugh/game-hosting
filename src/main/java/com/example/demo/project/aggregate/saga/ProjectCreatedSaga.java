@@ -105,7 +105,7 @@ public class ProjectCreatedSaga {
                 .flavorId(flavorId)
                 .imageId(imageId)
                 .credentialId(credentialId)
-                .instanceGroupId(event.getId().toString())
+                .instanceGroupId(event.getId())
                 .name(instanceApi.getName())
                 .ovhId(instanceApi.getId())
                 .status(instanceApi.getStatus())

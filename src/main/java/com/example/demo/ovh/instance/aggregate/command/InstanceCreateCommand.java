@@ -27,8 +27,8 @@ public class InstanceCreateCommand {
     @NotNull
     UUID credentialId;
 
-    @NotBlank
-    String instanceGroupId;
+    @NotNull
+    UUID instanceGroupId;
 
     @NotBlank
     String ovhId;

@@ -23,7 +23,7 @@ public class InstanceAggregate {
     private UUID id;
     private UUID flavorId;
     private UUID imageId;
-    private String instanceGroupId;
+    private UUID instanceGroupId;
     private UUID credentialId;
     private String ovhId;
     private String name;
