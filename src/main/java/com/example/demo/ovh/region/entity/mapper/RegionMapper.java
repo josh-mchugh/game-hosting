@@ -13,7 +13,7 @@ public class RegionMapper {
         }
 
         return Region.builder()
-                .id(entity.getId())
+                .id(entity.getUUID())
                 .name(entity.getName())
                 .continentCode(entity.getContinentCode())
                 .countryCodes(entity.getCountryCodes())

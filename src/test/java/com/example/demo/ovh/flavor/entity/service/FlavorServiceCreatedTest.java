@@ -147,14 +147,14 @@ public class FlavorServiceCreatedTest {
                 .regionId(null)
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> flavorService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> flavorService.handleCreated(event));
     }
 
     @Test
     public void whenCreateHasInvalidRegionIdThenThrowException() {
 
         FlavorCreatedEvent event  = flavorCreatedBuilder()
-                .regionId("wrong-id")
+                .regionId(UUID.randomUUID())
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> flavorService.handleCreated(event));

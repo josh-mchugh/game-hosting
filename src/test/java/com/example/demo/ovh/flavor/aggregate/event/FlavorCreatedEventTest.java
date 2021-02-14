@@ -22,11 +22,13 @@ public class FlavorCreatedEventTest {
     @Test
     public void whenEventHasRegionIdThenReturnRegionId() {
 
+        UUID regionId = UUID.randomUUID();
+
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
-                .regionId("regionId")
+                .regionId(regionId)
                 .build();
 
-        Assertions.assertEquals("regionId", event.getRegionId());
+        Assertions.assertEquals(regionId, event.getRegionId());
     }
 
     @Test
@@ -164,7 +166,7 @@ public class FlavorCreatedEventTest {
 
         FlavorCreatedEvent event = event();
 
-        String expected = "FlavorCreatedEvent(id=d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc, regionId=regionId, ovhId=ovhId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
+        String expected = "FlavorCreatedEvent(id=d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc, regionId=4688efae-72fb-4fcb-9315-60c372c50500, ovhId=ovhId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -174,7 +176,7 @@ public class FlavorCreatedEventTest {
 
         FlavorCreatedEvent event = event();
 
-        Assertions.assertEquals(-1478794549, event.hashCode());
+        Assertions.assertEquals(1341504840, event.hashCode());
     }
 
     @Test
@@ -198,7 +200,7 @@ public class FlavorCreatedEventTest {
 
         return FlavorCreatedEvent.builder()
                 .id(UUID.fromString("d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc"))
-                .regionId("regionId")
+                .regionId(UUID.fromString("4688efae-72fb-4fcb-9315-60c372c50500"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

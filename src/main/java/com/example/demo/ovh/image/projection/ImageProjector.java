@@ -81,7 +81,7 @@ public class ImageProjector implements IImageProjector {
         QImageEntity qImage = QImageEntity.imageEntity;
 
         BooleanBuilder predicate = new BooleanBuilder();
-        predicate.and(qImage.regionEntity.id.eq(query.getRegionId()));
+        predicate.and(qImage.regionEntity.id.eq(query.getRegionId().toString()));
         predicate.and(qImage.name.containsIgnoreCase("ubuntu"));
 
         if (StringUtils.isNotBlank(query.getSearch())) {

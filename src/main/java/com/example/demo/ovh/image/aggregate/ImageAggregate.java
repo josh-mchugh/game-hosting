@@ -20,7 +20,7 @@ public class ImageAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private String regionId;
+    private UUID regionId;
     private String ovhId;
     private String name;
     private String type;

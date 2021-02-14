@@ -35,7 +35,7 @@ public class FlavorProjectorFetchFlavorsByRegionIdTest {
 
         FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("", null);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> flavorProjector.fetchFlavorsByRegionId(query));
+        Assertions.assertThrows(NullPointerException.class, () -> flavorProjector.fetchFlavorsByRegionId(query));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class FlavorProjectorFetchFlavorsByRegionIdTest {
                 .flavor()
                 .build();
 
-        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery(null, sampleData.getRegion().getId());
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery(null, sampleData.getRegion().getId().toString());
         FetchAdminGameServerFlavorsResponse response = flavorProjector.fetchFlavorsByRegionId(query);
 
         Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getFlavors()));
@@ -60,7 +60,7 @@ public class FlavorProjectorFetchFlavorsByRegionIdTest {
                 .flavor()
                 .build();
 
-        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("4", sampleData.getRegion().getId());
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("4", sampleData.getRegion().getId().toString());
         FetchAdminGameServerFlavorsResponse response = flavorProjector.fetchFlavorsByRegionId(query);
 
         Assertions.assertTrue(CollectionUtils.isEmpty(response.getFlavors()));
@@ -74,7 +74,7 @@ public class FlavorProjectorFetchFlavorsByRegionIdTest {
                 .flavor()
                 .build();
 
-        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("2", sampleData.getRegion().getId());
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("2", sampleData.getRegion().getId().toString());
         FetchAdminGameServerFlavorsResponse response = flavorProjector.fetchFlavorsByRegionId(query);
 
         Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getFlavors()));

@@ -43,7 +43,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedIsValidThenReturnExpected() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -74,7 +74,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasIdThenReturnId() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -104,7 +104,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasContinentCodeThenReturnContinentCode() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -120,7 +120,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasNullContinentCodeThenReturnNull() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode(null)
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -136,7 +136,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasCountryCodesThenReturnCountryCodeS() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -152,7 +152,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasNullCountryCodesThenReturnNull() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes(null)
                 .dataCenterLocation("uk")
@@ -168,7 +168,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasDatacenterLocationThenReturnDatacenterLocation() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -184,7 +184,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasNullDatacenterLocationThenReturnNull() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation(null)
@@ -200,7 +200,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasStatusThenReturnStatus() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")
@@ -216,7 +216,7 @@ public class RegionServiceUpdatedTest {
     public void whenUpdatedHasNullStatusThenReturnNull() {
 
         RegionUpdatedEvent event = RegionUpdatedEvent.builder()
-                .id(UUID.fromString(region.getId()))
+                .id(region.getId())
                 .continentCode("EU")
                 .countryCodes("uk")
                 .dataCenterLocation("uk")

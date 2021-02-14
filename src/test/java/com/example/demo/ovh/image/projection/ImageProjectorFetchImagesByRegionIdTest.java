@@ -35,7 +35,7 @@ public class ImageProjectorFetchImagesByRegionIdTest {
 
         FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, null);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> imageProjector.fetchImagesByRegionId(query));
+        Assertions.assertThrows(NullPointerException.class, () -> imageProjector.fetchImagesByRegionId(query));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class ImageProjectorFetchImagesByRegionIdTest {
                 .region()
                 .build();
 
-        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, sampleData.getRegion().getId());
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, sampleData.getRegion().getId().toString());
 
         FetchAdminGameServerImagesResponse response = imageProjector.fetchImagesByRegionId(query);
 
@@ -60,7 +60,7 @@ public class ImageProjectorFetchImagesByRegionIdTest {
                 .image()
                 .build();
 
-        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, sampleData.getRegion().getId());
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, sampleData.getRegion().getId().toString());
 
         FetchAdminGameServerImagesResponse response = imageProjector.fetchImagesByRegionId(query);
 
@@ -75,7 +75,7 @@ public class ImageProjectorFetchImagesByRegionIdTest {
                 .image()
                 .build();
 
-        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery("20", sampleData.getRegion().getId());
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery("20", sampleData.getRegion().getId().toString());
 
         FetchAdminGameServerImagesResponse response = imageProjector.fetchImagesByRegionId(query);
 
@@ -90,7 +90,7 @@ public class ImageProjectorFetchImagesByRegionIdTest {
                 .image()
                 .build();
 
-        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery("10", sampleData.getRegion().getId());
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery("10", sampleData.getRegion().getId().toString());
 
         FetchAdminGameServerImagesResponse response = imageProjector.fetchImagesByRegionId(query);
 

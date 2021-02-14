@@ -45,7 +45,7 @@ public class RegionProjectFetchRegionByNameTest {
         FetchRegionByNameQuery query = new FetchRegionByNameQuery("name");
         Region response = regionProjection.fetchRegionByName(query);
 
-        Assertions.assertEquals(id.toString(), response.getId());
+        Assertions.assertEquals(id, response.getId());
     }
 
     @Test

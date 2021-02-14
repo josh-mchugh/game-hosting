@@ -55,9 +55,11 @@ public class FlavorSeedService implements ISeedService<Object> {
 
     private FlavorCreateCommand buildFlavorCreateCommand(FlavorApi flavor, ImmutableMap<String, String> regionMap) {
 
+        UUID regionId = UUID.fromString(regionMap.get(flavor.getRegionName()));
+
         return FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .regionId(regionMap.get(flavor.getRegionName()))
+                .regionId(regionId)
                 .ovhId(flavor.getId())
                 .name(flavor.getName())
                 .type(flavor.getType())

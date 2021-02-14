@@ -372,7 +372,7 @@ public class FlavorUpdateCommandTest {
 
         return FlavorCreateCommand.builder()
                 .id(id)
-                .regionId("region-id")
+                .regionId(UUID.randomUUID())
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

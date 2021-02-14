@@ -46,7 +46,7 @@ public class RegionProjectorFetchRegionIdsGroupedByNameTest {
 
         FetchRegionIdsGroupByNameProjection projection = regionProjection.fetchRegionIdsGroupedByName();
 
-        Assertions.assertEquals(region.getId(), projection.getRegionMap().get(region.getName()));
+        Assertions.assertEquals(region.getId().toString(), projection.getRegionMap().get(region.getName()));
     }
 
     @Test

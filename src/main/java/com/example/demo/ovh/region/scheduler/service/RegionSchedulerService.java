@@ -62,10 +62,10 @@ public class RegionSchedulerService implements IRegionSchedulerService {
         return builder.build();
     }
 
-    private Object handleUpdateRegion(String id, RegionApi region) {
+    private Object handleUpdateRegion(UUID id, RegionApi region) {
 
         RegionUpdateCommand command = RegionUpdateCommand.builder()
-                .id(UUID.fromString(id))
+                .id(id)
                 .continentCode(region.getContinentCode())
                 .countryCodes(joinCountryCodes(region.getIpCountries()))
                 .dataCenterLocation(region.getDataCenterLocation())

@@ -26,7 +26,7 @@ public class RegionMapperTest {
 
         Region region = RegionMapper.map(entity);
 
-        Assertions.assertEquals(id.toString(), region.getId());
+        Assertions.assertEquals(id, region.getId());
     }
 
     @Test

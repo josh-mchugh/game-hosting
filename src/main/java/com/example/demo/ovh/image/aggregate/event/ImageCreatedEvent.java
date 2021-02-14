@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ImageCreatedEvent {
 
     UUID id;
-    String regionId;
+    UUID regionId;
     String ovhId;
     String name;
     String type;

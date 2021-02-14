@@ -10,7 +10,7 @@ import java.util.UUID;
 public class FlavorCreatedEvent {
 
     UUID id;
-    String regionId;
+    UUID regionId;
     String ovhId;
     String name;
     String type;

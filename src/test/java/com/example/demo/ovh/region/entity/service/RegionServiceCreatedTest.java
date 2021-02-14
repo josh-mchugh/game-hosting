@@ -38,7 +38,7 @@ public class RegionServiceCreatedTest {
         Region region = regionService.handleCreated(event);
 
         Region expectedRegion = Region.builder()
-                .id(id.toString())
+                .id(id)
                 .name("US-EAST-VA-1")
                 .continentCode("US")
                 .countryCodes("us")
@@ -71,7 +71,7 @@ public class RegionServiceCreatedTest {
 
         Region region = regionService.handleCreated(event);
 
-        Assertions.assertEquals(region.getId(), id.toString());
+        Assertions.assertEquals(id, region.getId());
     }
 
     @Test
