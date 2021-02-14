@@ -59,7 +59,7 @@ public class InstanceGroupServiceCreatedTest {
 
         InstanceGroup instanceGroup = instanceGroupService.handleCreated(event);
 
-        Assertions.assertEquals(id.toString(), instanceGroup.getId());
+        Assertions.assertEquals(id, instanceGroup.getId());
     }
 
     @Test

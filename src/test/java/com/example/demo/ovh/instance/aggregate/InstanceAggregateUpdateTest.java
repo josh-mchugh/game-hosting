@@ -76,7 +76,7 @@ public class InstanceAggregateUpdateTest {
                 .flavorId(UUID.randomUUID())
                 .imageId(UUID.randomUUID())
                 .credentialId(UUID.randomUUID())
-                .instanceGroupId("instanceGroupId")
+                .instanceGroupId(UUID.randomUUID())
                 .ovhId("ovhId")
                 .status(InstanceStatus.ACTIVE)
                 .name("name")
