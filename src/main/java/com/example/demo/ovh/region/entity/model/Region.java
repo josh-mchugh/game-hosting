@@ -4,11 +4,13 @@ import com.example.demo.ovh.region.entity.RegionStatus;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 @Builder(builderClassName = "Builder")
 public class Region {
 
-    String id;
+    UUID id;
     String name;
     String continentCode;
     String countryCodes;

@@ -92,10 +92,12 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
     private ImageCreateCommand imageCreateCommand(ImageApi response, ImmutableMap<String, String>regionMap) {
 
+        UUID regionId = UUID.fromString(regionMap.get(response.getRegionName()));
+
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(response.getId())
-                .regionId(regionMap.get(response.getRegionName()))
+                .regionId(regionId)
                 .name(response.getName())
                 .type(response.getType())
                 .imageCreatedDate(response.getCreationDate())

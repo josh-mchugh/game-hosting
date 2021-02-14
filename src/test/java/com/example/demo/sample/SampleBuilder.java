@@ -453,7 +453,7 @@ public class SampleBuilder {
                 .name("name")
                 .status(GameServerStatus.ACTIVE)
                 .gameId(game.getId())
-                .regionId(UUID.fromString(region.getId()))
+                .regionId(region.getId())
                 .flavorId(flavor.getId())
                 .imageId(image.getId())
                 .build();

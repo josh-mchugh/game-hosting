@@ -22,11 +22,13 @@ public class FlavorCreateCommandTest {
     @Test
     public void whenCommandHasRegionIdThenReturnRegionId() {
 
+        UUID regionUd = UUID.randomUUID();
+
         FlavorCreateCommand command = FlavorCreateCommand.builder()
-                .regionId("regionId")
+                .regionId(regionUd)
                 .build();
 
-        Assertions.assertEquals("regionId", command.getRegionId());
+        Assertions.assertEquals(regionUd, command.getRegionId());
     }
 
     @Test
@@ -164,7 +166,7 @@ public class FlavorCreateCommandTest {
 
         FlavorCreateCommand command = command();
 
-        String expected = "FlavorCreateCommand(id=d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc, regionId=regionId, ovhId=ovhId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
+        String expected = "FlavorCreateCommand(id=d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc, regionId=0b2a5825-1601-4c89-b747-47a41ce64111, ovhId=ovhId, name=name, type=type, available=true, hourly=hourly, monthly=monthly, quota=1, osType=osType, vcpus=1, ram=1, disk=1, inboundBandwidth=1, outboundBandwidth=1)";
 
         Assertions.assertEquals(expected, command.toString());
     }
@@ -174,7 +176,7 @@ public class FlavorCreateCommandTest {
 
         FlavorCreateCommand command = command();
 
-        Assertions.assertEquals(-1478794549, command.hashCode());
+        Assertions.assertEquals(-1648216295, command.hashCode());
     }
 
     @Test
@@ -198,7 +200,7 @@ public class FlavorCreateCommandTest {
 
         return FlavorCreateCommand.builder()
                 .id(UUID.fromString("d81fa8e6-5666-44c2-b1d2-0f4300ae1bbc"))
-                .regionId("regionId")
+                .regionId(UUID.fromString("0b2a5825-1601-4c89-b747-47a41ce64111"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

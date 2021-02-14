@@ -81,7 +81,7 @@ public class FlavorProjector implements IFlavorProjector {
         QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
 
         BooleanBuilder predicate = new BooleanBuilder();
-        predicate.and(qFlavor.regionEntity.id.eq(query.getRegionId()));
+        predicate.and(qFlavor.regionEntity.id.eq(query.getRegionId().toString()));
         predicate.and(qFlavor.type.eq("ovh.vps-ssd"));
 
         if (StringUtils.isNotBlank(query.getSearch())) {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Component
 @Transactional
@@ -82,13 +83,13 @@ public class FlavorService implements IFlavorService {
                 .fetchOne();
     }
 
-    private RegionEntity getRegionById(String id) {
+    private RegionEntity getRegionById(UUID id) {
 
         QRegionEntity qRegion = QRegionEntity.regionEntity;
 
         return queryFactory.select(qRegion)
                 .from(qRegion)
-                .where(qRegion.id.eq(id))
+                .where(qRegion.id.eq(id.toString()))
                 .fetchOne();
     }
 }

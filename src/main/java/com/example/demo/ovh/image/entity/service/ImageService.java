@@ -31,7 +31,7 @@ public class ImageService implements IImageService {
         QRegionEntity qRegion = QRegionEntity.regionEntity;
 
         RegionEntity regionEntity = queryFactory.selectFrom(qRegion)
-                .where(qRegion.id.eq(event.getRegionId()))
+                .where(qRegion.id.eq(event.getRegionId().toString()))
                 .fetchOne();
 
         ImageEntity entity = new ImageEntity();

@@ -23,11 +23,13 @@ public class ImageCreatedEventTest {
     @Test
     public void whenEventHasRegionIdThenReturnRegionId() {
 
+        UUID regionId = UUID.randomUUID();
+
         ImageCreatedEvent event = ImageCreatedEvent.builder()
-                .regionId("region-id")
+                .regionId(regionId)
                 .build();
 
-        Assertions.assertEquals("region-id", event.getRegionId());
+        Assertions.assertEquals(regionId, event.getRegionId());
     }
 
     @Test
@@ -165,9 +167,9 @@ public class ImageCreatedEventTest {
     @Test
     public void whenEventToString() {
 
-        ImageCreatedEvent event = imageCreatedEvent();
+        ImageCreatedEvent event = event();
 
-        String toString = "ImageCreatedEvent(id=6c37d281-4e5c-4c15-aa4e-4efd62f2e8d2, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T13:08, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=null, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageCreatedEvent(id=6c37d281-4e5c-4c15-aa4e-4efd62f2e8d2, regionId=4cfaf14f-f1fe-4fc7-9821-b1a3f2ac8e3c, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-04T13:08, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=null, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, event.toString());
     }
@@ -175,16 +177,16 @@ public class ImageCreatedEventTest {
     @Test
     public void whenEventHashCode() {
 
-        ImageCreatedEvent event = imageCreatedEvent();
+        ImageCreatedEvent event = event();
 
-        Assertions.assertEquals(1806181106, event.hashCode());
+        Assertions.assertEquals(-57256589, event.hashCode());
     }
 
     @Test
     public void whenEventEquals() {
 
-        ImageCreatedEvent event1 = imageCreatedEvent();
-        ImageCreatedEvent event2 = imageCreatedEvent();
+        ImageCreatedEvent event1 = event();
+        ImageCreatedEvent event2 = event();
 
         Assertions.assertEquals(event1, event2);
     }
@@ -192,16 +194,16 @@ public class ImageCreatedEventTest {
     @Test
     public void whenEventNotEquals() {
 
-        ImageCreatedEvent event = imageCreatedEvent();
+        ImageCreatedEvent event = event();
 
         Assertions.assertNotEquals(event, ImageCreatedEvent.builder().build());
     }
 
-    private ImageCreatedEvent imageCreatedEvent() {
+    private ImageCreatedEvent event() {
 
         return ImageCreatedEvent.builder()
                 .id(UUID.fromString("6c37d281-4e5c-4c15-aa4e-4efd62f2e8d2"))
-                .regionId("region-id")
+                .regionId(UUID.fromString("4cfaf14f-f1fe-4fc7-9821-b1a3f2ac8e3c"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

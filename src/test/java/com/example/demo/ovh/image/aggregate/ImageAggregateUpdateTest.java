@@ -423,7 +423,7 @@ public class ImageAggregateUpdateTest {
 
         return ImageCreateCommand.builder()
                 .id(id)
-                .regionId("regionId")
+                .regionId(UUID.randomUUID())
                 .ovhId("ovhId")
                 .name("name")
                 .build();

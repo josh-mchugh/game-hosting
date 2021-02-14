@@ -4,16 +4,20 @@ import com.example.demo.ovh.region.entity.RegionStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class RegionTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
+        UUID id = UUID.randomUUID();
+
         Region model = Region.builder()
-                .id("id")
+                .id(id)
                 .build();
 
-        Assertions.assertEquals("id", model.getId());
+        Assertions.assertEquals(id, model.getId());
     }
 
     @Test
@@ -71,7 +75,7 @@ public class RegionTest {
 
         Region model = model();
 
-        String expected = "Region(id=id, name=name, continentCode=continentCode, countryCodes=countryCodes, dataCenterLocation=dataCenterLocation, status=UP)";
+        String expected = "Region(id=d15e109c-8db4-40b7-8eb3-809ec96904be, name=name, continentCode=continentCode, countryCodes=countryCodes, dataCenterLocation=dataCenterLocation, status=UP)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -80,14 +84,14 @@ public class RegionTest {
     public void whenModelHashCode() {
 
         Region model = Region.builder()
-                .id("id")
+                .id(UUID.fromString("d15e109c-8db4-40b7-8eb3-809ec96904be"))
                 .name("name")
                 .continentCode("continentCode")
                 .countryCodes("countryCodes")
                 .dataCenterLocation("dataCenterLocation")
                 .build();
 
-        Assertions.assertEquals(-1408749785, model.hashCode());
+        Assertions.assertEquals(1345956727, model.hashCode());
     }
 
     @Test
@@ -110,7 +114,7 @@ public class RegionTest {
     private Region model() {
 
         return Region.builder()
-                .id("id")
+                .id(UUID.fromString("d15e109c-8db4-40b7-8eb3-809ec96904be"))
                 .name("name")
                 .continentCode("continentCode")
                 .countryCodes("countryCodes")

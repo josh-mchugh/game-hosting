@@ -122,7 +122,7 @@ public class ImageServiceCreatedTest {
                 .name("name")
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> imageService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> imageService.handleCreated(event));
     }
 
     @Test

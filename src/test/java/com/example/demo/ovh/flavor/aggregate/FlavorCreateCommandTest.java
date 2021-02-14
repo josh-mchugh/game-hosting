@@ -26,12 +26,13 @@ public class FlavorCreateCommandTest {
     public void whenCreateCommandIsValidThenExpectEvents() {
 
         UUID id = UUID.randomUUID();
+        UUID regionId = UUID.randomUUID();
 
-        FlavorCreateCommand command = createFlavorCommand(id).build();
+        FlavorCreateCommand command = createFlavorCommand(id, regionId).build();
 
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(id)
-                .regionId("region-id")
+                .regionId(regionId)
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
@@ -70,18 +71,6 @@ public class FlavorCreateCommandTest {
 
         FlavorCreateCommand command = createFlavorCommand()
                 .regionId(null)
-                .build();
-
-        fixture.givenNoPriorActivity()
-                .when(command)
-                .expectException(JSR303ViolationException.class);
-    }
-
-    @Test
-    public void whenCreateCommandHasBlankRegionIdThenThrowException() {
-
-        FlavorCreateCommand command = createFlavorCommand()
-                .regionId("")
                 .build();
 
         fixture.givenNoPriorActivity()
@@ -319,14 +308,14 @@ public class FlavorCreateCommandTest {
 
     private FlavorCreateCommand.Builder createFlavorCommand() {
 
-        return createFlavorCommand(UUID.randomUUID());
+        return createFlavorCommand(UUID.randomUUID(), UUID.randomUUID());
     }
 
-    private FlavorCreateCommand.Builder createFlavorCommand(UUID id) {
+    private FlavorCreateCommand.Builder createFlavorCommand(UUID id, UUID regionId) {
 
         return FlavorCreateCommand.builder()
                 .id(id)
-                .regionId("region-id")
+                .regionId(regionId)
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")

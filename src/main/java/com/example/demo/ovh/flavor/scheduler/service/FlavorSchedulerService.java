@@ -84,10 +84,12 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
     private Object handleFlavorCreate(FlavorApi flavorResponse, ImmutableMap<String, String> regionsMap) {
 
+        UUID regionId = UUID.fromString(regionsMap.get(flavorResponse.getRegionName()));
+
         FlavorCreateCommand command = FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(flavorResponse.getId())
-                .regionId(regionsMap.get(flavorResponse.getRegionName()))
+                .regionId(regionId)
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())

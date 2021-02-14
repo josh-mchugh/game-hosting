@@ -17,8 +17,8 @@ public class ImageCreateCommand {
     @TargetAggregateIdentifier
     UUID id;
 
-    @NotBlank
-    String regionId;
+    @NotNull
+    UUID regionId;
 
     @NotBlank
     String ovhId;

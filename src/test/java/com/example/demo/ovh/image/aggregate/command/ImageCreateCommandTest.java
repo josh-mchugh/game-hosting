@@ -23,11 +23,13 @@ public class ImageCreateCommandTest {
     @Test
     public void whenCommandHasRegionIdThenReturnRegionId() {
 
+        UUID regionId = UUID.randomUUID();
+
         ImageCreateCommand command = ImageCreateCommand.builder()
-                .regionId("region-id")
+                .regionId(regionId)
                 .build();
 
-        Assertions.assertEquals("region-id", command.getRegionId());
+        Assertions.assertEquals(regionId, command.getRegionId());
     }
 
     @Test
@@ -165,9 +167,9 @@ public class ImageCreateCommandTest {
     @Test
     public void whenCommandToString() {
 
-        ImageCreateCommand imageCreateCommand = imageCreateCommand();
+        ImageCreateCommand imageCreateCommand = command();
 
-        String toString = "ImageCreateCommand(id=cbe91fcc-b7ec-4310-8852-9b444fe9526b, regionId=region-id, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-03T21:31, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
+        String toString = "ImageCreateCommand(id=cbe91fcc-b7ec-4310-8852-9b444fe9526b, regionId=fcf5b59e-0845-40f1-b924-8b89562c9403, ovhId=ovhId, name=name, type=type, imageCreatedDate=2020-11-03T21:31, flavorType=flavor-type, hourly=hourly, monthly=monthly, size=1.0, minRam=1, minDisk=1, username=username, status=status, visibility=visibility)";
 
         Assertions.assertEquals(toString, imageCreateCommand.toString());
     }
@@ -175,17 +177,17 @@ public class ImageCreateCommandTest {
     @Test
     public void whenCommandHashcode() {
 
-        ImageCreateCommand imageCreateCommand = imageCreateCommand();
+        ImageCreateCommand imageCreateCommand = command();
 
-        Assertions.assertEquals(1135659588, imageCreateCommand.hashCode());
+        Assertions.assertEquals(145994591, imageCreateCommand.hashCode());
     }
 
     @Test
     public void whenCommandEquals() {
 
-        ImageCreateCommand imageCreateCommand1 = imageCreateCommand();
+        ImageCreateCommand imageCreateCommand1 = command();
 
-        ImageCreateCommand imageCreateCommand2 = imageCreateCommand();
+        ImageCreateCommand imageCreateCommand2 = command();
 
         Assertions.assertEquals(imageCreateCommand1, imageCreateCommand2);
     }
@@ -193,16 +195,16 @@ public class ImageCreateCommandTest {
     @Test
     public void whenCommandNotEquals() {
 
-        ImageCreateCommand imageCreateCommand = imageCreateCommand();
+        ImageCreateCommand imageCreateCommand = command();
 
         Assertions.assertNotEquals(imageCreateCommand, ImageCreateCommand.builder().build());
     }
 
-    private ImageCreateCommand imageCreateCommand() {
+    private ImageCreateCommand command() {
 
         return ImageCreateCommand.builder()
                 .id(UUID.fromString("cbe91fcc-b7ec-4310-8852-9b444fe9526b"))
-                .regionId("region-id")
+                .regionId(UUID.fromString("fcf5b59e-0845-40f1-b924-8b89562c9403"))
                 .ovhId("ovhId")
                 .name("name")
                 .type("type")
