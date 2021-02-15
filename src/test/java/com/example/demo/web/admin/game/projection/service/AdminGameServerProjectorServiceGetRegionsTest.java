@@ -1,7 +1,6 @@
 package com.example.demo.web.admin.game.projection.service;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.game.projection.IGameProjector;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
@@ -20,13 +19,12 @@ public class AdminGameServerProjectorServiceGetRegionsTest {
     @Test
     public void whenServicesGetRegionsThenReturnSelect2Regions() {
 
-        IGameProjector gameProjector = Mockito.mock(IGameProjector.class);
         IRegionProjector regionProjector = Mockito.mock(IRegionProjector.class);
         IFlavorProjector flavorProjector = Mockito.mock(IFlavorProjector.class);
         IImageProjector imageProjector = Mockito.mock(IImageProjector.class);
         JPQLQueryFactory queryFactory = Mockito.mock(JPQLQueryFactory.class);
 
-        AdminGameServerProjectorService service = new AdminGameServerProjectorService(gameProjector, regionProjector, flavorProjector, imageProjector, queryFactory);
+        AdminGameServerProjectorService service = new AdminGameServerProjectorService(regionProjector, flavorProjector, imageProjector, queryFactory);
 
         FetchAdminGameServerRegionsResponse response = new FetchAdminGameServerRegionsResponse(new ArrayList<>());
         Mockito.when(regionProjector.fetchRegions(Mockito.any(FetchAdminGameServerRegionsQuery.class))).thenReturn(response);

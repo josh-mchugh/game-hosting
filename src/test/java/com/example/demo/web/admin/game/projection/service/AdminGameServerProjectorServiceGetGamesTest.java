@@ -1,38 +1,51 @@
 package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.framework.web.Select2Response;
-import com.example.demo.game.projection.IGameProjector;
-import com.example.demo.game.projection.model.AdminGameServerGameProjection;
-import com.example.demo.game.projection.model.FetchAdminGameServerGamesQuery;
-import com.example.demo.game.projection.model.FetchAdminGameServerGamesResponse;
-import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.querydsl.jpa.JPQLQueryFactory;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
 public class AdminGameServerProjectorServiceGetGamesTest {
 
+    @Autowired
+    private AdminGameServerProjectorService service;
+
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
     @Test
-    public void whenServicesGetsGamesThenReturnSelect2Games() {
+    public void whenParamIsNullThenExpectNoException() {
 
-        IGameProjector gameProjector = Mockito.mock(IGameProjector.class);
-        IRegionProjector regionProjector = Mockito.mock(IRegionProjector.class);
-        IFlavorProjector flavorProjector = Mockito.mock(IFlavorProjector.class);
-        IImageProjector imageProjector = Mockito.mock(IImageProjector.class);
-        JPQLQueryFactory queryFactory = Mockito.mock(JPQLQueryFactory.class);
+        Assertions.assertDoesNotThrow(() -> service.getGames(null));
+    }
 
-        AdminGameServerProjectorService service = new AdminGameServerProjectorService(gameProjector, regionProjector, flavorProjector, imageProjector, queryFactory);
+    @Test
+    public void whenParamIsValidAndHasEntitiesThenReturnList() {
 
-        FetchAdminGameServerGamesResponse response = new FetchAdminGameServerGamesResponse(new ArrayList<>());
-        Mockito.when(gameProjector.fetchGames(Mockito.any(FetchAdminGameServerGamesQuery.class))).thenReturn(response);
+        sampleBuilder.builder()
+                .gameServer()
+                .build();
 
-        Select2Response<AdminGameServerGameProjection> expected = new Select2Response<>(new ArrayList<>());
+        FetchAdminGameServerGamesResponse response = service.getGames(new FetchAdminGameServerGamesQuery());
 
-        Assertions.assertEquals(expected, service.getGames());
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getGames()));
+    }
+
+    @Test
+    public void whenParamIsValidAndHasNoEntitiesThenReturnEmptyList() {
+
+        FetchAdminGameServerGamesResponse response = service.getGames(new FetchAdminGameServerGamesQuery());
+
+        Assertions.assertTrue(CollectionUtils.isEmpty(response.getGames()));
     }
 }

@@ -3,10 +3,6 @@ package com.example.demo.web.admin.game.projection.service;
 import com.example.demo.framework.web.Select2Response;
 import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.game.entity.QGameServerEntity;
-import com.example.demo.game.projection.IGameProjector;
-import com.example.demo.game.projection.model.AdminGameServerGameProjection;
-import com.example.demo.game.projection.model.FetchAdminGameServerGamesQuery;
-import com.example.demo.game.projection.model.FetchAdminGameServerGamesResponse;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
@@ -23,21 +19,26 @@ import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProject
 import com.example.demo.ovh.region.projection.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.ovh.region.projection.model.FetchAdminGameServerRegionsResponse;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerTableProjection;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class AdminGameServerProjectorService implements IAdminGameServerProjectorService {
 
-    private final IGameProjector gameProjection;
     private final IRegionProjector regionProjector;
     private final IFlavorProjector flavorProjector;
     private final IImageProjector imageProjector;
@@ -45,11 +46,21 @@ public class AdminGameServerProjectorService implements IAdminGameServerProjecto
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public Select2Response<AdminGameServerGameProjection> getGames() {
+    @QueryHandler
+    public FetchAdminGameServerGamesResponse getGames(FetchAdminGameServerGamesQuery query) {
 
-        FetchAdminGameServerGamesResponse response = gameProjection.fetchGames(new FetchAdminGameServerGamesQuery());
+        QGameEntity qGame = QGameEntity.gameEntity;
 
-        return new Select2Response<>(response.getGames());
+        List<AdminGameServerGameProjection> projections = queryFactory.select(
+                Projections.constructor(
+                    AdminGameServerGameProjection.class,
+                    qGame.id,
+                    qGame.type
+                ))
+                .from(qGame)
+                .fetch();
+
+        return new FetchAdminGameServerGamesResponse(projections);
     }
 
     @Override

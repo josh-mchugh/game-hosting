@@ -20,13 +20,12 @@ public class AdminGameServerProjectorServiceGetImagesTest {
     @Test
     public void whenServicesGetImagesThenReturnSelect2Images() {
 
-        IGameProjector gameProjector = Mockito.mock(IGameProjector.class);
         IRegionProjector regionProjector = Mockito.mock(IRegionProjector.class);
         IFlavorProjector flavorProjector = Mockito.mock(IFlavorProjector.class);
         IImageProjector imageProjector = Mockito.mock(IImageProjector.class);
         JPQLQueryFactory queryFactory = Mockito.mock(JPQLQueryFactory.class);
 
-        AdminGameServerProjectorService service = new AdminGameServerProjectorService(gameProjector, regionProjector, flavorProjector, imageProjector, queryFactory);
+        AdminGameServerProjectorService service = new AdminGameServerProjectorService(regionProjector, flavorProjector, imageProjector, queryFactory);
 
         FetchAdminGameServerImagesResponse response = new FetchAdminGameServerImagesResponse(new ArrayList<>());
         Mockito.when(imageProjector.fetchImagesByRegionId(Mockito.any(FetchAdminGameServerImagesQuery.class))).thenReturn(response);
