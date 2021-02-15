@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.UndeclaredThrowableException;
 
 @SpringBootTest
 @Transactional
@@ -30,13 +31,13 @@ public class AdminGameServerProjectorServiceGetPageTest {
     @Test
     public void whenParamIsNullThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> service.getPage(null));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getPage(null));
     }
 
     @Test
     public void whenParamHasNullPageableThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> service.getPage(new AdminGameServerPageRequest(null)));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getPage(new AdminGameServerPageRequest(null)));
     }
 
     @Test

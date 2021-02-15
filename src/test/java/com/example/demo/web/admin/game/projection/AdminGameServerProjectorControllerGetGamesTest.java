@@ -1,9 +1,11 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.game.projection.model.AdminGameServerGameProjection;
-import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -29,7 +32,7 @@ public class AdminGameServerProjectorControllerGetGamesTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminGameServerProjectorService service;
+    private QueryGateway queryGateway;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -56,6 +59,9 @@ public class AdminGameServerProjectorControllerGetGamesTest {
     @Test
     public void whenUserIsAdminThenReturnOk() throws Exception {
 
+        Mockito.when(queryGateway.query(new FetchAdminGameServerGamesQuery(), FetchAdminGameServerGamesResponse.class))
+            .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerGamesResponse(null)));
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/games")
                 .param("regionId", "regionId")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -68,15 +74,18 @@ public class AdminGameServerProjectorControllerGetGamesTest {
     @Test
     public void whenRequestIsValidThenReturnResponse() throws Exception {
 
-        Select2Response<AdminGameServerGameProjection> response = new Select2Response<>(new ArrayList<>());
+        FetchAdminGameServerGamesResponse response = new FetchAdminGameServerGamesResponse(new ArrayList<>());
 
-        Mockito.when(service.getGames()).thenReturn(response);
+        Mockito.when(queryGateway.query(new FetchAdminGameServerGamesQuery(), FetchAdminGameServerGamesResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/games")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
 
+        Select2Response<AdminGameServerGameProjection> expected = new Select2Response<>(new ArrayList<>());
+
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(response)));
+                .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(expected)));
     }
 }

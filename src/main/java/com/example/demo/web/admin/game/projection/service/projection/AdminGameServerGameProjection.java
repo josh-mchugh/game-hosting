@@ -1,4 +1,4 @@
-package com.example.demo.game.projection.model;
+package com.example.demo.web.admin.game.projection.service.projection;
 
 import com.example.demo.game.entity.GameType;
 import com.querydsl.core.annotations.QueryProjection;

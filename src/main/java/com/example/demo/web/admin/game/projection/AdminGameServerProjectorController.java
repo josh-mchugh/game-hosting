@@ -1,7 +1,6 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.game.projection.model.AdminGameServerGameProjection;
 import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
 import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
 import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProjection;
@@ -9,7 +8,11 @@ import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerSelect2Request;
 import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/admin/game-servers")
@@ -28,6 +32,7 @@ import javax.validation.Valid;
 public class AdminGameServerProjectorController {
 
     private final IAdminGameServerProjectorService gameServerService;
+    private final QueryGateway queryGateway;
 
     @GetMapping("")
     public String getDefault() {
@@ -53,9 +58,11 @@ public class AdminGameServerProjectorController {
 
     @ResponseBody
     @GetMapping("/games")
-    public ResponseEntity<Select2Response<AdminGameServerGameProjection>> getGames() {
+    public ResponseEntity<Select2Response<AdminGameServerGameProjection>> getGames() throws ExecutionException, InterruptedException {
 
-        return new ResponseEntity<>(gameServerService.getGames(), HttpStatus.OK);
+        FetchAdminGameServerGamesResponse response = queryGateway.query(new FetchAdminGameServerGamesQuery(), FetchAdminGameServerGamesResponse.class).get();
+
+        return new ResponseEntity<>(new Select2Response<>(response.getGames()), HttpStatus.OK);
     }
 
     @ResponseBody
