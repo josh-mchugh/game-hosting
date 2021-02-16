@@ -14,14 +14,13 @@ import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjectio
 import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesQuery;
 import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.ovh.region.entity.QRegionEntity;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProjection;
-import com.example.demo.ovh.region.projection.model.FetchAdminGameServerRegionsQuery;
-import com.example.demo.ovh.region.projection.model.FetchAdminGameServerRegionsResponse;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerTableProjection;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
@@ -39,7 +38,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminGameServerProjectorService implements IAdminGameServerProjectorService {
 
-    private final IRegionProjector regionProjector;
     private final IFlavorProjector flavorProjector;
     private final IImageProjector imageProjector;
 
@@ -64,11 +62,23 @@ public class AdminGameServerProjectorService implements IAdminGameServerProjecto
     }
 
     @Override
-    public Select2Response<AdminGameServerRegionProjection> getRegions() {
+    @QueryHandler
+    public FetchAdminGameServerRegionsResponse getRegions(FetchAdminGameServerRegionsQuery query) {
 
-        FetchAdminGameServerRegionsResponse response = regionProjector.fetchRegions(new FetchAdminGameServerRegionsQuery());
+        QRegionEntity qRegion = QRegionEntity.regionEntity;
 
-        return new Select2Response<>(response.getRegions());
+        List<AdminGameServerRegionProjection> projections = queryFactory.select(
+                Projections.constructor(
+                        AdminGameServerRegionProjection.class,
+                        qRegion.id,
+                        qRegion.name,
+                        qRegion.dataCenterLocation,
+                        qRegion.status
+                ))
+                .from(qRegion)
+                .fetch();
+
+        return new FetchAdminGameServerRegionsResponse(projections);
     }
 
     @Override

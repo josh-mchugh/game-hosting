@@ -3,7 +3,9 @@ package com.example.demo.web.admin.game.projection;
 import com.example.demo.framework.web.Select2Response;
 import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
 import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
-import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProjection;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
 import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerSelect2Request;
@@ -67,9 +69,11 @@ public class AdminGameServerProjectorController {
 
     @ResponseBody
     @GetMapping("/regions")
-    public ResponseEntity<Select2Response<AdminGameServerRegionProjection>> getRegions() {
+    public ResponseEntity<Select2Response<AdminGameServerRegionProjection>> getRegions() throws ExecutionException, InterruptedException {
 
-        return new ResponseEntity<>(gameServerService.getRegions(), HttpStatus.OK);
+        FetchAdminGameServerRegionsResponse response = queryGateway.query(new FetchAdminGameServerRegionsQuery(), FetchAdminGameServerRegionsResponse.class).get();
+
+        return new ResponseEntity<>(new Select2Response<>(response.getRegions()), HttpStatus.OK);
     }
 
     @ResponseBody
