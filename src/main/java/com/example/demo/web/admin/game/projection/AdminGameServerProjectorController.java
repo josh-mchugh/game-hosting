@@ -1,8 +1,10 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
 import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
@@ -78,9 +80,12 @@ public class AdminGameServerProjectorController {
 
     @ResponseBody
     @GetMapping("/flavors")
-    public ResponseEntity<Select2Response<AdminGameServerFlavorProjection>> getFlavors(@Valid AdminGameServerSelect2Request request) {
+    public ResponseEntity<Select2Response<AdminGameServerFlavorProjection>> getFlavors(@Valid AdminGameServerSelect2Request request) throws ExecutionException, InterruptedException {
 
-        return new ResponseEntity<>(gameServerService.getFlavors(request.getSearch(), request.getRegionId()), HttpStatus.OK);
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery(request.getSearch(), request.getRegionId());
+        FetchAdminGameServerFlavorsResponse response = queryGateway.query(query, FetchAdminGameServerFlavorsResponse.class).get();
+
+        return new ResponseEntity<>(new Select2Response<>(response.getFlavors()), HttpStatus.OK);
     }
 
     @ResponseBody

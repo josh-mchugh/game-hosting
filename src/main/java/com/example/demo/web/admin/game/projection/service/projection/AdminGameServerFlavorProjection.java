@@ -1,4 +1,4 @@
-package com.example.demo.ovh.flavor.projection.model;
+package com.example.demo.web.admin.game.projection.service.projection;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;

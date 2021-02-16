@@ -1,36 +1,83 @@
 package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.framework.web.Select2Response;
-import com.example.demo.game.projection.IGameProjector;
-import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
-import com.example.demo.ovh.flavor.projection.model.FetchAdminGameServerFlavorsQuery;
-import com.example.demo.ovh.flavor.projection.model.FetchAdminGameServerFlavorsResponse;
-import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.querydsl.jpa.JPQLQueryFactory;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.SampleData;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
+import java.lang.reflect.UndeclaredThrowableException;
 
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
 public class AdminGameServerProjectorServiceGetFlavorsTest {
 
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
+    @Autowired
+    private IAdminGameServerProjectorService service;
+
     @Test
-    public void whenServicesGetFlavorsThenReturnSelect2Flavors() {
+    public void whenQueryIsNullThenThrowException() {
 
-        IFlavorProjector flavorProjector = Mockito.mock(IFlavorProjector.class);
-        IImageProjector imageProjector = Mockito.mock(IImageProjector.class);
-        JPQLQueryFactory queryFactory = Mockito.mock(JPQLQueryFactory.class);
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getFlavors(null));
+    }
 
-        AdminGameServerProjectorService service = new AdminGameServerProjectorService(flavorProjector, imageProjector, queryFactory);
+    @Test
+    public void whenQueryHasNullRegionIdThenThrowException() {
 
-        FetchAdminGameServerFlavorsResponse response = new FetchAdminGameServerFlavorsResponse(new ArrayList<>());
-        Mockito.when(flavorProjector.fetchFlavorsByRegionId(Mockito.any(FetchAdminGameServerFlavorsQuery.class))).thenReturn(response);
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("", null);
 
-        Select2Response<AdminGameServerFlavorProjection> expected = new Select2Response<>(new ArrayList<>());
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getFlavors(query));
+    }
 
-        Assertions.assertEquals(expected, service.getFlavors("search", "regionId"));
+    @Test
+    public void whenQueryHasNullSearchThenExpectResult() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .flavor()
+                .build();
+
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery(null, sampleData.getRegion().getId().toString());
+        FetchAdminGameServerFlavorsResponse response = service.getFlavors(query);
+
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getFlavors()));
+    }
+
+    @Test
+    public void whenQueryHasSearchWithNoMatchingThenExpectNoResults() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .flavor()
+                .build();
+
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("4", sampleData.getRegion().getId().toString());
+        FetchAdminGameServerFlavorsResponse response = service.getFlavors(query);
+
+        Assertions.assertTrue(CollectionUtils.isEmpty(response.getFlavors()));
+    }
+
+    @Test
+    public void whenQueryHasSearchWithMatchingThenExpectNoResults() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .flavor()
+                .build();
+
+        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery("2", sampleData.getRegion().getId().toString());
+        FetchAdminGameServerFlavorsResponse response = service.getFlavors(query);
+
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getFlavors()));
     }
 }

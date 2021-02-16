@@ -1,7 +1,6 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
 import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
 import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,9 +79,9 @@ public class AdminGameServerProjectorControllerGetImagesTest {
     @Test
     public void whenRequestMissingParamSearchThenReturnOk() throws Exception {
 
-        Select2Response<AdminGameServerFlavorProjection> response = new Select2Response<>(new ArrayList<>());
+        Select2Response<AdminGameServerImageProjection> response = new Select2Response<>(new ArrayList<>());
 
-        Mockito.when(service.getFlavors(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
+        Mockito.when(service.getImages(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/images")
                 .param("regionId", "regionId")

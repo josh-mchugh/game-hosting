@@ -33,9 +33,6 @@ public class AdminGameServerProjectorControllerGetRegionsTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminGameServerProjectorService service;
-
-    @MockBean
     private QueryGateway queryGateway;
 
     @Test
