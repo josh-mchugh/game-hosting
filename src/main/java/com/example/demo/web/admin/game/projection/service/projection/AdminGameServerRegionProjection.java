@@ -1,4 +1,4 @@
-package com.example.demo.ovh.region.projection.model;
+package com.example.demo.web.admin.game.projection.service.projection;
 
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.querydsl.core.annotations.QueryProjection;

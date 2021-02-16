@@ -1,9 +1,12 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.ovh.region.projection.model.AdminGameServerRegionProjection;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
 import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -30,6 +34,9 @@ public class AdminGameServerProjectorControllerGetRegionsTest {
 
     @MockBean
     private IAdminGameServerProjectorService service;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -56,6 +63,9 @@ public class AdminGameServerProjectorControllerGetRegionsTest {
     @Test
     public void whenUserIsAdminThenReturnOk() throws Exception {
 
+        Mockito.when(queryGateway.query(new FetchAdminGameServerRegionsQuery(), FetchAdminGameServerRegionsResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerRegionsResponse(new ArrayList<>())));
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/regions")
                 .param("regionId", "regionId")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -68,15 +78,18 @@ public class AdminGameServerProjectorControllerGetRegionsTest {
     @Test
     public void whenRequestIsValidThenReturnResponse() throws Exception {
 
-        Select2Response<AdminGameServerRegionProjection> response = new Select2Response<>(new ArrayList<>());
+        FetchAdminGameServerRegionsResponse response = new FetchAdminGameServerRegionsResponse(new ArrayList<>());
 
-        Mockito.when(service.getRegions()).thenReturn(response);
+        Mockito.when(queryGateway.query(new FetchAdminGameServerRegionsQuery(), FetchAdminGameServerRegionsResponse.class))
+            .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/regions")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
 
+        Select2Response<AdminGameServerRegionProjection> expected = new Select2Response<>(new ArrayList<>());
+
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(response)));
+                .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(expected)));
     }
 }
