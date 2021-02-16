@@ -1,4 +1,4 @@
-package com.example.demo.ovh.flavor.projection.model;
+package com.example.demo.web.admin.game.projection.service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

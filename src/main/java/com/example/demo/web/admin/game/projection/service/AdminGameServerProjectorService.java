@@ -4,10 +4,6 @@ import com.example.demo.framework.web.Select2Response;
 import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.game.entity.QGameServerEntity;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
-import com.example.demo.ovh.flavor.projection.IFlavorProjector;
-import com.example.demo.ovh.flavor.projection.model.AdminGameServerFlavorProjection;
-import com.example.demo.ovh.flavor.projection.model.FetchAdminGameServerFlavorsQuery;
-import com.example.demo.ovh.flavor.projection.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.ovh.image.entity.QImageEntity;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
@@ -15,17 +11,22 @@ import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesQue
 import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerTableProjection;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,7 +39,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminGameServerProjectorService implements IAdminGameServerProjectorService {
 
-    private final IFlavorProjector flavorProjector;
     private final IImageProjector imageProjector;
 
     private final JPQLQueryFactory queryFactory;
@@ -82,12 +82,34 @@ public class AdminGameServerProjectorService implements IAdminGameServerProjecto
     }
 
     @Override
-    public Select2Response<AdminGameServerFlavorProjection> getFlavors(String search, String regionId) {
+    @QueryHandler
+    public FetchAdminGameServerFlavorsResponse getFlavors(FetchAdminGameServerFlavorsQuery query) {
 
-        FetchAdminGameServerFlavorsQuery query = new FetchAdminGameServerFlavorsQuery(search, regionId);
-        FetchAdminGameServerFlavorsResponse response = flavorProjector.fetchFlavorsByRegionId(query);
+        QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
 
-        return new Select2Response<>(response.getFlavors());
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(qFlavor.regionEntity.id.eq(query.getRegionId()));
+        predicate.and(qFlavor.type.eq("ovh.vps-ssd"));
+
+        if (StringUtils.isNotBlank(query.getSearch())) {
+
+            predicate.and(qFlavor.name.containsIgnoreCase(query.getSearch()));
+        }
+
+        List<AdminGameServerFlavorProjection> projections = queryFactory.select(
+                Projections.constructor(
+                        AdminGameServerFlavorProjection.class,
+                        qFlavor.id,
+                        qFlavor.name,
+                        qFlavor.vcpus,
+                        qFlavor.ram
+                ))
+                .from(qFlavor)
+                .where(predicate)
+                .orderBy(qFlavor.name.asc())
+                .fetch();
+
+        return new FetchAdminGameServerFlavorsResponse(projections);
     }
 
     @Override
