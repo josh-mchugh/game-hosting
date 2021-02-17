@@ -1,5 +1,7 @@
 package com.example.demo.web.admin.game.projection.service;
 
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
@@ -13,6 +15,7 @@ import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameSe
 
 public interface IAdminGameServerProjectorService {
 
+    ExistsGameServerByNameResponse existsByName(ExistsGameServerByNameQuery query);
     FetchAdminGameServerGamesResponse getGames(FetchAdminGameServerGamesQuery query);
     FetchAdminGameServerRegionsResponse getRegions(FetchAdminGameServerRegionsQuery query);
     FetchAdminGameServerFlavorsResponse getFlavors(FetchAdminGameServerFlavorsQuery query);

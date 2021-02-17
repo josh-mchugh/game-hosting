@@ -1,7 +1,7 @@
-package com.example.demo.game.projection;
+package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.game.projection.model.ExistsGameServerByNameQuery;
-import com.example.demo.game.projection.model.ExistsGameServerByNameResponse;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.UndeclaredThrowableException;
 
 @SpringBootTest
 @Transactional
@@ -18,7 +19,7 @@ import javax.transaction.Transactional;
 public class GameServerProjectorExistsByNameTest {
 
     @Autowired
-    private IGameServerProjector gameServerProjector;
+    private IAdminGameServerProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -28,20 +29,20 @@ public class GameServerProjectorExistsByNameTest {
     @Test
     public void whenQueryIsNullThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> gameServerProjector.existsByName(null));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.existsByName(null));
     }
 
     @Test
     public void whenQueryHasNullNameThenThrowException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> gameServerProjector.existsByName(new ExistsGameServerByNameQuery(null)));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.existsByName(new ExistsGameServerByNameQuery(null)));
     }
 
     @Test
     public void whenQueryIsValidAndEntityNotExistsThenReturnFalse() {
 
         ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery("name");
-        ExistsGameServerByNameResponse response = gameServerProjector.existsByName(query);
+        ExistsGameServerByNameResponse response = service.existsByName(query);
 
         Assertions.assertFalse(response.isExists());
     }
@@ -54,7 +55,7 @@ public class GameServerProjectorExistsByNameTest {
                 .build();
 
         ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery("name");
-        ExistsGameServerByNameResponse response = gameServerProjector.existsByName(query);
+        ExistsGameServerByNameResponse response = service.existsByName(query);
 
         Assertions.assertTrue(response.isExists());
     }
@@ -67,7 +68,7 @@ public class GameServerProjectorExistsByNameTest {
                 .build();
 
         ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery("invalidName");
-        ExistsGameServerByNameResponse response = gameServerProjector.existsByName(query);
+        ExistsGameServerByNameResponse response = service.existsByName(query);
 
         Assertions.assertFalse(response.isExists());
     }
