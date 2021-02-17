@@ -1,32 +1,100 @@
 package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.framework.web.Select2Response;
-import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
-import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesQuery;
-import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesResponse;
-import com.querydsl.jpa.JPQLQueryFactory;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
+import com.example.demo.sample.SampleBuilder;
+import com.example.demo.sample.SampleData;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
+import java.lang.reflect.UndeclaredThrowableException;
 
+@SpringBootTest
+@Transactional
+@ActiveProfiles("test")
 public class AdminGameServerProjectorServiceGetImagesTest {
 
+    @Autowired
+    private IAdminGameServerProjectorService service;
+
+    @Autowired
+    private SampleBuilder sampleBuilder;
+
     @Test
-    public void whenServicesGetImagesThenReturnSelect2Images() {
+    public void whenQueryIsNullThenThrowException() {
 
-        IImageProjector imageProjector = Mockito.mock(IImageProjector.class);
-        JPQLQueryFactory queryFactory = Mockito.mock(JPQLQueryFactory.class);
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getImages(null));
+    }
 
-        AdminGameServerProjectorService service = new AdminGameServerProjectorService(imageProjector, queryFactory);
+    @Test
+    public void whenQueryHasNullRegionIdThenThrowException() {
 
-        FetchAdminGameServerImagesResponse response = new FetchAdminGameServerImagesResponse(new ArrayList<>());
-        Mockito.when(imageProjector.fetchImagesByRegionId(Mockito.any(FetchAdminGameServerImagesQuery.class))).thenReturn(response);
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, null);
 
-        Select2Response<AdminGameServerImageProjection> expected = new Select2Response<>(new ArrayList<>());
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getImages(query));
+    }
 
-        Assertions.assertEquals(expected, service.getImages("search", "regionId"));
+    @Test
+    public void whenQueryIsValidAndHasNoEntitiesThenExpectEmptyList() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .build();
+
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, sampleData.getRegion().getId().toString());
+
+        FetchAdminGameServerImagesResponse response = service.getImages(query);
+
+        Assertions.assertTrue(CollectionUtils.isEmpty(response.getImages()));
+    }
+
+    @Test
+    public void whenQueryIsValidAndHasEntitiesThenExpectList() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .image()
+                .build();
+
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(null, sampleData.getRegion().getId().toString());
+
+        FetchAdminGameServerImagesResponse response = service.getImages(query);
+
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getImages()));
+    }
+
+    @Test
+    public void whenQueryHasSearchAndMatchesThenExpectList() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .image()
+                .build();
+
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery("20", sampleData.getRegion().getId().toString());
+
+        FetchAdminGameServerImagesResponse response = service.getImages(query);
+
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getImages()));
+    }
+
+    @Test
+    public void whenQueryHasSearchAndNoMatchesThenExpectEmptyList() {
+
+        SampleData sampleData = sampleBuilder.builder()
+                .region()
+                .image()
+                .build();
+
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery("10", sampleData.getRegion().getId().toString());
+
+        FetchAdminGameServerImagesResponse response = service.getImages(query);
+
+        Assertions.assertTrue(CollectionUtils.isEmpty(response.getImages()));
     }
 }
