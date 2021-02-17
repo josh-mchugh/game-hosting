@@ -1,7 +1,9 @@
 package com.example.demo.web.admin.game.projection;
 
-import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
-import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
+
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableResponse;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -28,7 +32,7 @@ public class AdminGameServerProjectorControllerGetTableTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminGameServerProjectorService service;
+    private QueryGateway queryGateway;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -55,7 +59,8 @@ public class AdminGameServerProjectorControllerGetTableTest {
     @Test
     public void whenUserIsAdminThenReturnOk() throws Exception {
 
-        Mockito.when(service.getPage(Mockito.any(AdminGameServerPageRequest.class))).thenReturn(new PageImpl<>(new ArrayList<>()));
+        Mockito.when(queryGateway.query(new FetchAdminGameServerTableQuery(PageRequest.of(0, 20)), FetchAdminGameServerTableResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerTableResponse(new PageImpl<>(new ArrayList<>()))));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/table")
                 .param("regionId", "regionId")
@@ -69,7 +74,8 @@ public class AdminGameServerProjectorControllerGetTableTest {
     @Test
     public void whenRequestIsValidThenReturnView() throws Exception {
 
-        Mockito.when(service.getPage(Mockito.any(AdminGameServerPageRequest.class))).thenReturn(new PageImpl<>(new ArrayList<>()));
+        Mockito.when(queryGateway.query(new FetchAdminGameServerTableQuery(PageRequest.of(0, 20)), FetchAdminGameServerTableResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerTableResponse(new PageImpl<>(new ArrayList<>()))));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -82,7 +88,8 @@ public class AdminGameServerProjectorControllerGetTableTest {
     @Test
     public void whenRequestIsValidThenExpectPageableInModel() throws Exception {
 
-        Mockito.when(service.getPage(Mockito.any(AdminGameServerPageRequest.class))).thenReturn(new PageImpl<>(new ArrayList<>()));
+        Mockito.when(queryGateway.query(new FetchAdminGameServerTableQuery(PageRequest.of(0, 20)), FetchAdminGameServerTableResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerTableResponse(new PageImpl<>(new ArrayList<>()))));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
