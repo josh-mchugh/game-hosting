@@ -1,24 +1,23 @@
 package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.framework.web.Select2Response;
 import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.game.entity.QGameServerEntity;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
 import com.example.demo.ovh.image.entity.QImageEntity;
 import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
-import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesQuery;
-import com.example.demo.ovh.image.projection.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerTableProjection;
 import com.querydsl.core.BooleanBuilder;
@@ -113,12 +112,32 @@ public class AdminGameServerProjectorService implements IAdminGameServerProjecto
     }
 
     @Override
-    public Select2Response<AdminGameServerImageProjection> getImages(String search, String regionId) {
+    @QueryHandler
+    public FetchAdminGameServerImagesResponse getImages(FetchAdminGameServerImagesQuery query) {
 
-        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(search, regionId);
-        FetchAdminGameServerImagesResponse response = imageProjector.fetchImagesByRegionId(query);
+        QImageEntity qImage = QImageEntity.imageEntity;
 
-        return new Select2Response<>(response.getImages());
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(qImage.regionEntity.id.eq(query.getRegionId()));
+        predicate.and(qImage.name.containsIgnoreCase("ubuntu"));
+
+        if (StringUtils.isNotBlank(query.getSearch())) {
+
+            predicate.and(qImage.name.containsIgnoreCase(query.getSearch()));
+        }
+
+        List<AdminGameServerImageProjection> projections = queryFactory.select(
+                Projections.constructor(
+                        AdminGameServerImageProjection.class,
+                        qImage.id,
+                        qImage.name
+                ))
+                .from(qImage)
+                .where(predicate)
+                .orderBy(qImage.name.asc())
+                .fetch();
+
+        return new FetchAdminGameServerImagesResponse(projections);
     }
 
     @Override

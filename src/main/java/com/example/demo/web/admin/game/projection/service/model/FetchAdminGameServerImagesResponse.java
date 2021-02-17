@@ -1,5 +1,6 @@
-package com.example.demo.ovh.image.projection.model;
+package com.example.demo.web.admin.game.projection.service.model;
 
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 

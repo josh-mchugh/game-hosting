@@ -1,8 +1,10 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
-import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
@@ -90,8 +92,11 @@ public class AdminGameServerProjectorController {
 
     @ResponseBody
     @GetMapping("/images")
-    public ResponseEntity<Select2Response<AdminGameServerImageProjection>> getImages(@Valid AdminGameServerSelect2Request request) {
+    public ResponseEntity<Select2Response<AdminGameServerImageProjection>> getImages(@Valid AdminGameServerSelect2Request request) throws ExecutionException, InterruptedException {
 
-        return new ResponseEntity<>(gameServerService.getImages(request.getSearch(), request.getRegionId()), HttpStatus.OK);
+        FetchAdminGameServerImagesQuery query = new FetchAdminGameServerImagesQuery(request.getSearch(), request.getRegionId());
+        FetchAdminGameServerImagesResponse response = queryGateway.query(query, FetchAdminGameServerImagesResponse.class).get();
+
+        return new ResponseEntity<>(new Select2Response<>(response.getImages()), HttpStatus.OK);
     }
 }

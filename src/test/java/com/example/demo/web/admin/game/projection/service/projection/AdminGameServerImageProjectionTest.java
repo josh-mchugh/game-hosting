@@ -1,4 +1,4 @@
-package com.example.demo.ovh.image.projection.model;
+package com.example.demo.web.admin.game.projection.service.projection;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

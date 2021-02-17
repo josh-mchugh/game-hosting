@@ -1,9 +1,11 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.ovh.image.projection.model.AdminGameServerImageProjection;
-import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -29,7 +32,7 @@ public class AdminGameServerProjectorControllerGetImagesTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminGameServerProjectorService service;
+    private QueryGateway queryGateway;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -56,6 +59,9 @@ public class AdminGameServerProjectorControllerGetImagesTest {
     @Test
     public void whenUserIsAdminThenReturnOk() throws Exception {
 
+        Mockito.when(queryGateway.query(new FetchAdminGameServerImagesQuery(Mockito.any(), Mockito.any()), FetchAdminGameServerImagesResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerImagesResponse(new ArrayList<>())));
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/images")
                 .param("regionId", "regionId")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -79,9 +85,8 @@ public class AdminGameServerProjectorControllerGetImagesTest {
     @Test
     public void whenRequestMissingParamSearchThenReturnOk() throws Exception {
 
-        Select2Response<AdminGameServerImageProjection> response = new Select2Response<>(new ArrayList<>());
-
-        Mockito.when(service.getImages(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
+        Mockito.when(queryGateway.query(new FetchAdminGameServerImagesQuery(Mockito.any(), Mockito.any()), FetchAdminGameServerImagesResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerImagesResponse(new ArrayList<>())));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/images")
                 .param("regionId", "regionId")
@@ -95,17 +100,18 @@ public class AdminGameServerProjectorControllerGetImagesTest {
     @Test
     public void whenRequestIsValidThenReturnResponse() throws Exception {
 
-        Select2Response<AdminGameServerImageProjection> response = new Select2Response<>(new ArrayList<>());
-
-        Mockito.when(service.getImages(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
+        Mockito.when(queryGateway.query(new FetchAdminGameServerImagesQuery(Mockito.any(), Mockito.any()), FetchAdminGameServerImagesResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAdminGameServerImagesResponse(new ArrayList<>())));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/game-servers/images")
                 .param("search", "")
                 .param("regionId", "regionId")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
 
+        Select2Response<AdminGameServerImageProjection> expected = new Select2Response<>(new ArrayList<>());
+
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(response)));
+                .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(expected)));
     }
 }
