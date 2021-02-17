@@ -1,22 +1,22 @@
 package com.example.demo.web.admin.game.projection;
 
 import com.example.demo.framework.web.Select2Response;
-import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesQuery;
-import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
-import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
-import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
+import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
+import com.example.demo.web.admin.game.projection.model.AdminGameServerSelect2Request;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
-import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
-import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
-import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
-import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
-import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
-import com.example.demo.web.admin.game.projection.model.AdminGameServerSelect2Request;
-import com.example.demo.web.admin.game.projection.service.IAdminGameServerProjectorService;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesResponse;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableResponse;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
+import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerRegionProjection;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +37,6 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class AdminGameServerProjectorController {
 
-    private final IAdminGameServerProjectorService gameServerService;
     private final QueryGateway queryGateway;
 
     @GetMapping("")
@@ -47,9 +46,12 @@ public class AdminGameServerProjectorController {
     }
 
     @GetMapping("/table")
-    public String getTable(Model model, @PageableDefault(size = 20) Pageable pageable) {
+    public String getTable(Model model, @PageableDefault(size = 20) Pageable pageable) throws ExecutionException, InterruptedException {
 
-        model.addAttribute("pageable", gameServerService.getPage(new AdminGameServerPageRequest(pageable)));
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
+        FetchAdminGameServerTableResponse response = queryGateway.query(query, FetchAdminGameServerTableResponse.class).get();
+
+        model.addAttribute("pageable", response.getGameServers());
 
         return "admin/game/partial/partial-table";
     }

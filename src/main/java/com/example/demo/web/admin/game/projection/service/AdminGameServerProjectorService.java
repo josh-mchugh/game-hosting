@@ -6,7 +6,6 @@ import com.example.demo.ovh.flavor.entity.QFlavorEntity;
 import com.example.demo.ovh.image.entity.QImageEntity;
 import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.entity.QRegionEntity;
-import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
@@ -15,6 +14,8 @@ import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameSe
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableResponse;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerFlavorProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerGameProjection;
 import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerImageProjection;
@@ -27,7 +28,6 @@ import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -141,7 +141,8 @@ public class AdminGameServerProjectorService implements IAdminGameServerProjecto
     }
 
     @Override
-    public Page<AdminGameServerTableProjection> getPage(AdminGameServerPageRequest request) {
+    @QueryHandler
+    public FetchAdminGameServerTableResponse getTable(FetchAdminGameServerTableQuery request) {
 
         QGameServerEntity qGameServer = QGameServerEntity.gameServerEntity;
         QGameEntity qGame = QGameEntity.gameEntity;
@@ -193,6 +194,6 @@ public class AdminGameServerProjectorService implements IAdminGameServerProjecto
             }
         }
         
-        return new PageImpl<>(query.fetch(), request.getPageable(), query.fetchCount());
+        return new FetchAdminGameServerTableResponse(new PageImpl<>(query.fetch(), request.getPageable(), query.fetchCount()));
     }
 }

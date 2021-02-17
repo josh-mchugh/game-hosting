@@ -1,14 +1,13 @@
 package com.example.demo.web.admin.game.projection.service;
 
 import com.example.demo.sample.SampleBuilder;
-import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
-import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerTableProjection;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,13 +30,13 @@ public class AdminGameServerProjectorServiceGetPageTest {
     @Test
     public void whenParamIsNullThenThrowException() {
 
-        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getPage(null));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getTable(null));
     }
 
     @Test
     public void whenParamHasNullPageableThenThrowException() {
 
-        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getPage(new AdminGameServerPageRequest(null)));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getTable(new FetchAdminGameServerTableQuery(null)));
     }
 
     @Test
@@ -48,11 +47,11 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10);
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertTrue(CollectionUtils.isNotEmpty(page.getContent()));
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getGameServers().getContent()));
     }
 
     @Test
@@ -63,11 +62,11 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "name");
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertEquals("name", page.getSort().iterator().next().getProperty());
+        Assertions.assertEquals("name", response.getGameServers().getSort().iterator().next().getProperty());
     }
 
     @Test
@@ -78,11 +77,11 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "gameType");
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertEquals("gameType", page.getSort().iterator().next().getProperty());
+        Assertions.assertEquals("gameType", response.getGameServers().getSort().iterator().next().getProperty());
     }
 
     @Test
@@ -93,11 +92,11 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "regionName");
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertEquals("regionName", page.getSort().iterator().next().getProperty());
+        Assertions.assertEquals("regionName", response.getGameServers().getSort().iterator().next().getProperty());
     }
 
     @Test
@@ -108,11 +107,11 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10, Sort.Direction.DESC, "vcpus");
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertEquals("vcpus", page.getSort().iterator().next().getProperty());
+        Assertions.assertEquals("vcpus", response.getGameServers().getSort().iterator().next().getProperty());
     }
 
     @Test
@@ -123,11 +122,11 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "ram");
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertEquals("ram", page.getSort().iterator().next().getProperty());
+        Assertions.assertEquals("ram", response.getGameServers().getSort().iterator().next().getProperty());
     }
 
     @Test
@@ -138,10 +137,10 @@ public class AdminGameServerProjectorServiceGetPageTest {
                 .build();
 
         Pageable pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "imageName");
-        AdminGameServerPageRequest request = new AdminGameServerPageRequest(pageable);
+        FetchAdminGameServerTableQuery query = new FetchAdminGameServerTableQuery(pageable);
 
-        Page<AdminGameServerTableProjection> page = service.getPage(request);
+        FetchAdminGameServerTableResponse response = service.getTable(query);
 
-        Assertions.assertEquals("imageName", page.getSort().iterator().next().getProperty());
+        Assertions.assertEquals("imageName", response.getGameServers().getSort().iterator().next().getProperty());
     }
 }

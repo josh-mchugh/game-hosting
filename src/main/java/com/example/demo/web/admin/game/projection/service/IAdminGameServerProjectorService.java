@@ -1,6 +1,5 @@
 package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.web.admin.game.projection.model.AdminGameServerPageRequest;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
@@ -9,8 +8,8 @@ import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameSe
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerImagesResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerRegionsResponse;
-import com.example.demo.web.admin.game.projection.service.projection.AdminGameServerTableProjection;
-import org.springframework.data.domain.Page;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableQuery;
+import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerTableResponse;
 
 public interface IAdminGameServerProjectorService {
 
@@ -18,5 +17,5 @@ public interface IAdminGameServerProjectorService {
     FetchAdminGameServerRegionsResponse getRegions(FetchAdminGameServerRegionsQuery query);
     FetchAdminGameServerFlavorsResponse getFlavors(FetchAdminGameServerFlavorsQuery query);
     FetchAdminGameServerImagesResponse getImages(FetchAdminGameServerImagesQuery query);
-    Page<AdminGameServerTableProjection> getPage(AdminGameServerPageRequest request);
+    FetchAdminGameServerTableResponse getTable(FetchAdminGameServerTableQuery request);
 }
