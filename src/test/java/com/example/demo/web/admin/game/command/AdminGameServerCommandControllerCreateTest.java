@@ -1,6 +1,10 @@
 package com.example.demo.web.admin.game.command;
 
-import com.example.demo.web.admin.game.command.service.IAdminGameServerCommandService;
+import com.example.demo.game.aggregate.command.GameServerCreateCommand;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -29,7 +34,10 @@ public class AdminGameServerCommandControllerCreateTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminGameServerCommandService service;
+    private CommandGateway commandGateway;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -82,7 +90,8 @@ public class AdminGameServerCommandControllerCreateTest {
     @Test
     public void whenRequestIsValidAndNameAlreadyExistsThenExpectErrors() throws Exception {
 
-        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(true);
+        Mockito.when(queryGateway.query(new ExistsGameServerByNameQuery("name"), ExistsGameServerByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsGameServerByNameResponse(true)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -98,7 +107,11 @@ public class AdminGameServerCommandControllerCreateTest {
     @Test
     public void whenRequestIsValidThenExpectNoErrors() throws Exception {
 
-        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
+        Mockito.when(commandGateway.send(Mockito.any(GameServerCreateCommand.class)))
+                .thenReturn(CompletableFuture.completedFuture(UUID.randomUUID()));
+
+        Mockito.when(queryGateway.query(new ExistsGameServerByNameQuery("name"), ExistsGameServerByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsGameServerByNameResponse(false)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -114,7 +127,11 @@ public class AdminGameServerCommandControllerCreateTest {
     @Test
     public void whenRequestIsValidThenExpectSuccessModelTemplate() throws Exception {
 
-        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
+        Mockito.when(commandGateway.send(Mockito.any(GameServerCreateCommand.class)))
+                .thenReturn(CompletableFuture.completedFuture(UUID.randomUUID()));
+
+        Mockito.when(queryGateway.query(new ExistsGameServerByNameQuery("name"), ExistsGameServerByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsGameServerByNameResponse(false)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -130,7 +147,11 @@ public class AdminGameServerCommandControllerCreateTest {
     @Test
     public void whenRequestIsValidThenExpectModelMessage() throws Exception {
 
-        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
+        Mockito.when(commandGateway.send(Mockito.any(GameServerCreateCommand.class)))
+                .thenReturn(CompletableFuture.completedFuture(UUID.randomUUID()));
+
+        Mockito.when(queryGateway.query(new ExistsGameServerByNameQuery("name"), ExistsGameServerByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsGameServerByNameResponse(false)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -146,7 +167,11 @@ public class AdminGameServerCommandControllerCreateTest {
     @Test
     public void whenRequestIsValidThenExpectEvent() throws Exception {
 
-        Mockito.when(service.existsByName(Mockito.anyString())).thenReturn(false);
+        Mockito.when(commandGateway.send(Mockito.any(GameServerCreateCommand.class)))
+                .thenReturn(CompletableFuture.completedFuture(UUID.randomUUID()));
+
+        Mockito.when(queryGateway.query(new ExistsGameServerByNameQuery("name"), ExistsGameServerByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsGameServerByNameResponse(false)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/admin/game-servers/create")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)

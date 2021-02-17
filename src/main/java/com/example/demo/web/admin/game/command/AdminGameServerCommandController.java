@@ -1,12 +1,15 @@
 package com.example.demo.web.admin.game.command;
 
 import com.example.demo.framework.web.ModalResponse;
+import com.example.demo.game.aggregate.command.GameServerCreateCommand;
 import com.example.demo.util.IMessageUtil;
-import com.example.demo.web.admin.game.command.service.IAdminGameServerCommandService;
-import com.example.demo.web.admin.game.command.service.model.GameServerCreateRequest;
 import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,21 +19,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/admin/game-servers")
 @RequiredArgsConstructor
 public class AdminGameServerCommandController {
 
-    private final IAdminGameServerCommandService gameServerService;
+    private final QueryGateway queryGateway;
+    private final CommandGateway commandGateway;
     private final IMessageUtil messageUtil;
 
     @PostMapping("/create")
-    public String postCreateModal(Model model, @Valid @ModelAttribute("form") AdminGameServerCreateForm form, BindingResult result) {
+    public String postCreateModal(Model model, @Valid @ModelAttribute("form") AdminGameServerCreateForm form, BindingResult result) throws ExecutionException, InterruptedException {
 
         if(StringUtils.isNotBlank(form.getName())) {
 
-            if (gameServerService.existsByName(form.getName())) {
+            ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery(form.getName());
+            ExistsGameServerByNameResponse response = queryGateway.query(query, ExistsGameServerByNameResponse.class).get();
+
+            if (response.isExists()) {
 
                 result.rejectValue("name", "error.name.exists", "Name already exists");
             }
@@ -41,7 +49,8 @@ public class AdminGameServerCommandController {
             return "admin/game/partial/modal-game-server-create";
         }
 
-        GameServerCreateRequest request = GameServerCreateRequest.builder()
+        GameServerCreateCommand command = GameServerCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .name(form.getName())
                 .description(form.getDescription())
                 .status(form.getSelectedStatus())
@@ -51,7 +60,7 @@ public class AdminGameServerCommandController {
                 .imageId(UUID.fromString(form.getImageId()))
                 .build();
 
-        gameServerService.handleGameServerCreate(request);
+        commandGateway.send(command);
 
         return new ModalResponse(model)
                 .toast(ModalResponse.Type.SUCCESS, messageUtil.getMessage("message.admin.game.server.create.modal.success"))

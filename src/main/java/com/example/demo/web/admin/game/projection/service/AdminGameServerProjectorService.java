@@ -4,8 +4,9 @@ import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.game.entity.QGameServerEntity;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
 import com.example.demo.ovh.image.entity.QImageEntity;
-import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.entity.QRegionEntity;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsQuery;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerFlavorsResponse;
 import com.example.demo.web.admin.game.projection.service.model.FetchAdminGameServerGamesQuery;
@@ -38,9 +39,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminGameServerProjectorService implements IAdminGameServerProjectorService {
 
-    private final IImageProjector imageProjector;
-
     private final JPQLQueryFactory queryFactory;
+
+    @Override
+    @QueryHandler
+    public ExistsGameServerByNameResponse existsByName(ExistsGameServerByNameQuery query) {
+
+        QGameServerEntity qGameServer = QGameServerEntity.gameServerEntity;
+
+        long count = queryFactory.select(qGameServer.id)
+                .from(qGameServer)
+                .where(qGameServer.name.eq(query.getName()))
+                .fetchCount();
+
+        return new ExistsGameServerByNameResponse(count >= 1);
+    }
 
     @Override
     @QueryHandler
