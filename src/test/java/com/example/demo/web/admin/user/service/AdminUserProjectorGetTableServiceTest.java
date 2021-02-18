@@ -1,10 +1,10 @@
-package com.example.demo.user.projection;
+package com.example.demo.web.admin.user.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
-import com.example.demo.user.projection.model.FetchAdminUserPageableProjection;
-import com.example.demo.user.projection.model.FetchAdminUserPageableQuery;
+import com.example.demo.web.admin.user.service.model.FetchAdminUserTableQuery;
+import com.example.demo.web.admin.user.service.model.FetchAdminUserTableResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,15 +15,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Collections;
 
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class UserProjectionFetchAdminUserPageableProjectionTest {
+public class AdminUserProjectorGetTableServiceTest {
 
     @Autowired
-    private IUserProjector userProjector;
+    private IAdminUserProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -40,27 +41,27 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryIsThenNullThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> userProjector.fetchAdminUserPageable(null));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getTable(null));
     }
 
     @Test
     public void whenQueryHasNullPageableThenExpectException() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(null)
                 .build();
 
-         Assertions.assertThrows(NullPointerException.class, () -> userProjector.fetchAdminUserPageable(query));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.getTable(query));
     }
 
     @Test
     public void whenQueryHasNullEmailThenExpectResults() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .email(null)
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().hasContent());
     }
@@ -68,11 +69,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasEmailThatDoesNotMatchThenExpectNoResults() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .email("noResults")
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertFalse(projection.getPage().hasContent());
     }
@@ -80,11 +81,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasNoSelectedStatesThenExpectResults() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .states(null)
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().hasContent());
     }
@@ -92,11 +93,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasSelectedStatesThenExpectResults() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .states(Collections.singletonList(UserState.ACTIVE))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().hasContent());
     }
@@ -104,11 +105,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasNoSelectedTypesThenExpectResults() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .types(null)
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().hasContent());
     }
@@ -116,11 +117,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasSelectedTypesThenExpectResults() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .types(Collections.singletonList(UserType.ADMIN))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().hasContent());
     }
@@ -128,11 +129,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryIsUnSortThenExpectIsUnsorted() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.unsorted()))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isUnsorted());
     }
@@ -140,11 +141,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasEmailSortedThenExpectIsSortedAsc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "email")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -152,11 +153,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasEmailSortedThenExpectIsSortedDesc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "email")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -164,11 +165,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasStateSortedThenExpectIsSortedAsc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "state")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -176,11 +177,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasStateSortedThenExpectIsSortedDesc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "state")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -188,11 +189,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasTypeSortedThenExpectIsSortedAsc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "type")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -200,11 +201,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasTypeSortedThenExpectIsSortedDesc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "type")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -212,11 +213,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasProjectCountSortedThenExpectIsSortedAsc() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "projectCount")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }
@@ -224,11 +225,11 @@ public class UserProjectionFetchAdminUserPageableProjectionTest {
     @Test
     public void whenQueryHasProjectCountSortedThenExpectIsSorted() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "projectCount")))
                 .build();
 
-        FetchAdminUserPageableProjection projection = userProjector.fetchAdminUserPageable(query);
+        FetchAdminUserTableResponse projection = service.getTable(query);
 
         Assertions.assertTrue(projection.getPage().getSort().isSorted());
     }

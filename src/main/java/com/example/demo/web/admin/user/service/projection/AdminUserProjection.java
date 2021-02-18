@@ -1,4 +1,4 @@
-package com.example.demo.user.projection.model;
+package com.example.demo.web.admin.user.service.projection;
 
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;

@@ -1,5 +1,6 @@
-package com.example.demo.user.projection.model;
+package com.example.demo.web.admin.user.service.model;
 
+import com.example.demo.web.admin.user.service.projection.AdminUserProjection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -7,14 +8,14 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 
-public class FetchAdminUserPageableProjectionTest {
+public class FetchAdminUserTableResponseTest {
 
     @Test
     public void whenModelHasPageThenReturnPage() {
 
         Page<AdminUserProjection> page = new PageImpl<>(new ArrayList<>());
 
-        FetchAdminUserPageableProjection model = new FetchAdminUserPageableProjection(page);
+        FetchAdminUserTableResponse model = new FetchAdminUserTableResponse(page);
 
         Assertions.assertEquals(page, model.getPage());
     }
@@ -22,9 +23,9 @@ public class FetchAdminUserPageableProjectionTest {
     @Test
     public void whenModelToString() {
 
-        FetchAdminUserPageableProjection model = model();
+        FetchAdminUserTableResponse model = model();
 
-        String expected = "FetchAdminUserPageableProjection(page=Page 1 of 1 containing UNKNOWN instances)";
+        String expected = "FetchAdminUserTableResponse(page=Page 1 of 1 containing UNKNOWN instances)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -32,7 +33,7 @@ public class FetchAdminUserPageableProjectionTest {
     @Test
     public void whenModelHashCode() {
 
-        FetchAdminUserPageableProjection model = new FetchAdminUserPageableProjection(null);
+        FetchAdminUserTableResponse model = new FetchAdminUserTableResponse(null);
 
         Assertions.assertEquals(102, model.hashCode());
     }
@@ -40,8 +41,8 @@ public class FetchAdminUserPageableProjectionTest {
     @Test
     public void whenModelEquals() {
 
-        FetchAdminUserPageableProjection model1 = model();
-        FetchAdminUserPageableProjection model2 = model();
+        FetchAdminUserTableResponse model1 = model();
+        FetchAdminUserTableResponse model2 = model();
 
         Assertions.assertEquals(model1, model2);
     }
@@ -49,15 +50,15 @@ public class FetchAdminUserPageableProjectionTest {
     @Test
     public void whenModelNotEquals() {
 
-        FetchAdminUserPageableProjection model = model();
+        FetchAdminUserTableResponse model = model();
 
-        Assertions.assertNotEquals(model, new FetchAdminUserPageableProjection(null));
+        Assertions.assertNotEquals(model, new FetchAdminUserTableResponse(null));
     }
 
-    private FetchAdminUserPageableProjection model() {
+    private FetchAdminUserTableResponse model() {
 
         Page<AdminUserProjection> page = new PageImpl<>(new ArrayList<>());
 
-        return new FetchAdminUserPageableProjection(page);
+        return new FetchAdminUserTableResponse(page);
     }
 }

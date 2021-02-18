@@ -1,4 +1,4 @@
-package com.example.demo.user.projection.model;
+package com.example.demo.web.admin.user.service.model;
 
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
@@ -10,12 +10,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class FetchAdminUserPageableQueryTest {
+public class FetchAdminUserTableQueryTest {
 
     @Test
     public void whenQueryHasEmailThenReturnEmail() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .email("email")
                 .build();
 
@@ -25,7 +25,7 @@ public class FetchAdminUserPageableQueryTest {
     @Test
     public void whenQueryHasUserStatesThenReturnUserStates() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .states(Collections.singletonList(UserState.ACTIVE))
                 .build();
 
@@ -35,7 +35,7 @@ public class FetchAdminUserPageableQueryTest {
     @Test
     public void whenQueryHasTypesThenReturnTypes() {
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .types(Collections.singletonList(UserType.ADMIN))
                 .build();
 
@@ -47,7 +47,7 @@ public class FetchAdminUserPageableQueryTest {
 
         Pageable pageable = PageRequest.of(1, 1);
 
-        FetchAdminUserPageableQuery query = FetchAdminUserPageableQuery.builder()
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder()
                 .pageable(pageable)
                 .build();
 
@@ -57,9 +57,9 @@ public class FetchAdminUserPageableQueryTest {
     @Test
     public void whenQueryToString() {
 
-        FetchAdminUserPageableQuery query = query();
+        FetchAdminUserTableQuery query = query();
 
-        String expected = "FetchAdminUserPageableQuery(email=email, states=[], types=[], pageable=Page request [number: 1, size 1, sort: UNSORTED])";
+        String expected = "FetchAdminUserTableQuery(email=email, states=[], types=[], pageable=Page request [number: 1, size 1, sort: UNSORTED])";
 
         Assertions.assertEquals(expected, query.toString());
     }
@@ -67,7 +67,7 @@ public class FetchAdminUserPageableQueryTest {
     @Test
     public void whenQueryHashCode() {
 
-        FetchAdminUserPageableQuery query = query();
+        FetchAdminUserTableQuery query = query();
 
         Assertions.assertEquals(863104872, query.hashCode());
     }
@@ -75,8 +75,8 @@ public class FetchAdminUserPageableQueryTest {
     @Test
     public void whenQueryEquals() {
 
-        FetchAdminUserPageableQuery query1 = query();
-        FetchAdminUserPageableQuery query2 = query();
+        FetchAdminUserTableQuery query1 = query();
+        FetchAdminUserTableQuery query2 = query();
 
         Assertions.assertEquals(query1, query2);
     }
@@ -84,14 +84,14 @@ public class FetchAdminUserPageableQueryTest {
     @Test
     public void whenQueryNotEquals() {
 
-        FetchAdminUserPageableQuery query = query();
+        FetchAdminUserTableQuery query = query();
 
-        Assertions.assertNotEquals(query, FetchAdminUserPageableQuery.builder().build());
+        Assertions.assertNotEquals(query, FetchAdminUserTableQuery.builder().build());
     }
 
-    private FetchAdminUserPageableQuery query() {
+    private FetchAdminUserTableQuery query() {
 
-        return FetchAdminUserPageableQuery.builder()
+        return FetchAdminUserTableQuery.builder()
                 .email("email")
                 .states(new ArrayList<>())
                 .types(new ArrayList<>())

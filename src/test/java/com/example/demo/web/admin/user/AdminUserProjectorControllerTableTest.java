@@ -1,14 +1,14 @@
 package com.example.demo.web.admin.user;
 
-import com.example.demo.user.projection.model.AdminUserProjection;
-import com.example.demo.web.admin.user.service.IAdminUserProjectorService;
+import com.example.demo.web.admin.user.service.model.FetchAdminUserTableQuery;
+import com.example.demo.web.admin.user.service.model.FetchAdminUserTableResponse;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -29,7 +30,7 @@ public class AdminUserProjectorControllerTableTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminUserProjectorService adminUserProjectorService;
+    private QueryGateway queryGateway;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -56,9 +57,11 @@ public class AdminUserProjectorControllerTableTest {
     @Test
     public void whenUserIsAdminThenReturnOk() throws Exception {
 
-        Page<AdminUserProjection> pageable = new PageImpl<>(new ArrayList<>());
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder().build();
+        FetchAdminUserTableResponse response = new FetchAdminUserTableResponse(new PageImpl<>(new ArrayList<>()));
 
-        Mockito.when(adminUserProjectorService.fetchAdminUsersPage(Mockito.any(), Mockito.any())).thenReturn(pageable);
+        Mockito.when(queryGateway.query(query, FetchAdminUserTableResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/users/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -71,9 +74,11 @@ public class AdminUserProjectorControllerTableTest {
     @Test
     public void whenUrlIsValidThenExpectTemplate() throws Exception {
 
-        Page<AdminUserProjection> pageable = new PageImpl<>(new ArrayList<>());
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder().build();
+        FetchAdminUserTableResponse response = new FetchAdminUserTableResponse(new PageImpl<>(new ArrayList<>()));
 
-        Mockito.when(adminUserProjectorService.fetchAdminUsersPage(Mockito.any(), Mockito.any())).thenReturn(pageable);
+        Mockito.when(queryGateway.query(query, FetchAdminUserTableResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/users/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -86,15 +91,17 @@ public class AdminUserProjectorControllerTableTest {
     @Test
     public void whenUrlIsValidThenExpectModel() throws Exception {
 
-        Page<AdminUserProjection> pageable = new PageImpl<>(new ArrayList<>());
+        FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder().build();
+        FetchAdminUserTableResponse response = new FetchAdminUserTableResponse(new PageImpl<>(new ArrayList<>()));
 
-        Mockito.when(adminUserProjectorService.fetchAdminUsersPage(Mockito.any(), Mockito.any())).thenReturn(pageable);
+        Mockito.when(queryGateway.query(query, FetchAdminUserTableResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/users/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.model().attribute("pageable", pageable));
+                .andExpect(MockMvcResultMatchers.model().attribute("pageable", new PageImpl<>(new ArrayList<>())));
     }
 }

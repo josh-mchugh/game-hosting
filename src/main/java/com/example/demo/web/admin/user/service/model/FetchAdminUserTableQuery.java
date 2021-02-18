@@ -1,4 +1,4 @@
-package com.example.demo.user.projection.model;
+package com.example.demo.web.admin.user.service.model;
 
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class FetchAdminUserPageableQuery {
+public class FetchAdminUserTableQuery {
 
     String email;
     Collection<UserState> states;
