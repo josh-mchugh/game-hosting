@@ -1,11 +1,9 @@
 package com.example.demo.web.admin.user.service;
 
-import com.example.demo.user.projection.model.AdminUserProjection;
-import com.example.demo.web.admin.user.form.AdminUserFilter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.example.demo.web.admin.user.service.model.FetchAdminUserTableResponse;
+import com.example.demo.web.admin.user.service.model.FetchAdminUserTableQuery;
 
 public interface IAdminUserProjectorService {
 
-    Page<AdminUserProjection> fetchAdminUsersPage(AdminUserFilter filter, Pageable pageable);
+    FetchAdminUserTableResponse getTable(FetchAdminUserTableQuery query);
 }
