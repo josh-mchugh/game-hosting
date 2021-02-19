@@ -13,8 +13,6 @@ import com.example.demo.user.projection.model.FetchUserIdByEmailProjection;
 import com.example.demo.user.projection.model.FetchUserIdByEmailQuery;
 import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenProjection;
 import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenQuery;
-import com.example.demo.user.projection.model.FetchUserIdByVerificationTokenProjection;
-import com.example.demo.user.projection.model.FetchUserIdByVerificationTokenQuery;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -44,19 +42,6 @@ public class UserProjector implements IUserProjector {
         long count = queryFactory.select(qUser.id)
                 .from(qUser)
                 .where(qUser.email.eq(email))
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
-    public boolean existsByVerificationToken(String token) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        long count = queryFactory.select(qUser)
-                .from(qUser)
-                .where(qUser.verificationEntity.token.eq(token))
                 .fetchCount();
 
         return count >= 1;
@@ -98,19 +83,6 @@ public class UserProjector implements IUserProjector {
                     qUser.id
                 )).from(qUser)
                 .where(qUser.recoveryTokenEntity.token.eq(query.getToken()))
-                .fetchOne();
-    }
-
-    @Override
-    public FetchUserIdByVerificationTokenProjection fetchUserIdByVerificationToken(FetchUserIdByVerificationTokenQuery query) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        return queryFactory.select(Projections.constructor(
-                    FetchUserIdByVerificationTokenProjection.class,
-                    qUser.id
-                )).from(qUser)
-                .where(qUser.verificationEntity.token.eq(query.getToken()))
                 .fetchOne();
     }
 
