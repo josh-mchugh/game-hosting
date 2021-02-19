@@ -1,9 +1,9 @@
-package com.example.demo.user.projection;
+package com.example.demo.web.verification.projection.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.projection.model.FetchUserIdByVerificationTokenProjection;
-import com.example.demo.user.projection.model.FetchUserIdByVerificationTokenQuery;
+import com.example.demo.web.verification.projection.service.model.FetchUserIdByVerificationTokenQuery;
+import com.example.demo.web.verification.projection.service.model.FetchUserIdByVerificationTokenResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.UndeclaredThrowableException;
 
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class UserProjectionFetchUserIdByVerificationTokenTest {
+public class VerifyProjectorServiceExistsUserByVerifyTokenTest {
 
     @Autowired
-    private IUserProjector userProjector;
+    private IVerifyProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -26,7 +27,7 @@ public class UserProjectionFetchUserIdByVerificationTokenTest {
     @Test
     public void whenParamIsNullThenExpectException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> userProjector.fetchUserIdByVerificationToken(null));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.fetchUserIdByVerificationToken(null));
     }
 
     @Test
@@ -34,7 +35,7 @@ public class UserProjectionFetchUserIdByVerificationTokenTest {
 
         FetchUserIdByVerificationTokenQuery query = new FetchUserIdByVerificationTokenQuery(null);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> userProjector.fetchUserIdByVerificationToken(query));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.fetchUserIdByVerificationToken(query));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class UserProjectionFetchUserIdByVerificationTokenTest {
                 .getUser();
 
         FetchUserIdByVerificationTokenQuery query = new FetchUserIdByVerificationTokenQuery(user.getVerification().getToken());
-        FetchUserIdByVerificationTokenProjection projection = userProjector.fetchUserIdByVerificationToken(query);
+        FetchUserIdByVerificationTokenResponse projection = service.fetchUserIdByVerificationToken(query);
 
         Assertions.assertEquals(user.getId(), projection.getId());
     }
@@ -55,8 +56,8 @@ public class UserProjectionFetchUserIdByVerificationTokenTest {
     public void whenEntityDoesNotExistThenReturnNull() {
 
         FetchUserIdByVerificationTokenQuery query = new FetchUserIdByVerificationTokenQuery("token");
-        FetchUserIdByVerificationTokenProjection projection = userProjector.fetchUserIdByVerificationToken(query);
+        FetchUserIdByVerificationTokenResponse projection = service.fetchUserIdByVerificationToken(query);
 
-        Assertions.assertNull(projection);
+        Assertions.assertNull(projection.getId());
     }
 }

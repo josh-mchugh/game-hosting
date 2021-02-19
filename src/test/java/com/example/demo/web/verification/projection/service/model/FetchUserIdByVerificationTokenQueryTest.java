@@ -1,4 +1,4 @@
-package com.example.demo.user.projection.model;
+package com.example.demo.web.verification.projection.service.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
