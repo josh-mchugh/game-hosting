@@ -1,29 +1,31 @@
 package com.example.demo.web.project.projection.service;
 
-import com.example.demo.ovh.instance.projection.IInstanceProjector;
-import com.example.demo.ovh.instance.projection.model.FetchInstanceDetailsByProjectIdProjection;
-import com.example.demo.ovh.instance.projection.model.FetchInstanceDetailsByProjectIdQuery;
-import com.example.demo.project.projection.IProjectProjector;
-import com.example.demo.project.projection.model.FetchProjectDetailsByIdQuery;
-import com.example.demo.project.projection.model.FetchProjectDetailsByIdProjection;
-import com.example.demo.web.project.projection.service.model.ProjectDetails;
+import com.example.demo.ovh.instance.entity.QInstanceEntity;
+import com.example.demo.project.entity.QProjectEntity;
+import com.example.demo.web.project.projection.service.model.FetchProjectDetailsQuery;
+import com.example.demo.web.project.projection.service.model.FetchProjectDetailsResponse;
+import com.example.demo.web.project.projection.service.projection.InstanceDetailsByIdProjection;
+import com.example.demo.web.project.projection.service.projection.ProjectDetailsProjection;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class ProjectProjectorService implements IProjectProjectorService {
 
-    private final IProjectProjector projectProjector;
-    private final IInstanceProjector instanceProjector;
+    private final JPQLQueryFactory queryFactory;
 
     @Override
-    public ProjectDetails getProjectDetails(String id) {
+    @QueryHandler
+    public FetchProjectDetailsResponse getProjectDetails(FetchProjectDetailsQuery query) {
 
-        FetchProjectDetailsByIdProjection projectDetails = projectDetailsProjection(id);
-        FetchInstanceDetailsByProjectIdProjection instance = instanceDetailsProjection(id);
+        ProjectDetailsProjection projectDetails = fetchProjectDetails(query.getId());
+        InstanceDetailsByIdProjection instance = fetchInstanceDetails(query.getId());
 
-        return ProjectDetails.builder()
+        return FetchProjectDetailsResponse.builder()
                 .name(projectDetails.getName())
                 .gameType(projectDetails.getGameType())
                 .instanceId(instance.getOvhId())
@@ -32,17 +34,34 @@ public class ProjectProjectorService implements IProjectProjectorService {
                 .build();
     }
 
-    private FetchProjectDetailsByIdProjection projectDetailsProjection(String id) {
+    private ProjectDetailsProjection fetchProjectDetails(String projectId) {
 
-        FetchProjectDetailsByIdQuery query = new FetchProjectDetailsByIdQuery(id);
+        QProjectEntity qProject = QProjectEntity.projectEntity;
 
-        return projectProjector.fetchProjectDetails(query);
+        return queryFactory.select(
+                Projections.constructor(
+                    ProjectDetailsProjection.class,
+                    qProject.name,
+                    qProject.gameEntity.type
+                ))
+                .from(qProject)
+                .where(qProject.id.eq(projectId))
+                .fetchOne();
     }
 
-    private FetchInstanceDetailsByProjectIdProjection instanceDetailsProjection(String id) {
+    private InstanceDetailsByIdProjection fetchInstanceDetails(String projectId) {
 
-        FetchInstanceDetailsByProjectIdQuery query = new FetchInstanceDetailsByProjectIdQuery(id);
+        QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
 
-        return instanceProjector.fetchInstanceDetails(query);
+        return queryFactory.select(
+                Projections.constructor(
+                    InstanceDetailsByIdProjection.class,
+                    qInstance.ovhId,
+                    qInstance.status,
+                    qInstance.ip4Address
+                ))
+                .from(qInstance)
+                .where(qInstance.instanceGroupEntity.projectEntity.id.eq(projectId))
+                .fetchOne();
     }
 }

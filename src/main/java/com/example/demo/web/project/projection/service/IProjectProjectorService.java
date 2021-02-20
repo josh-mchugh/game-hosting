@@ -1,8 +1,9 @@
 package com.example.demo.web.project.projection.service;
 
-import com.example.demo.web.project.projection.service.model.ProjectDetails;
+import com.example.demo.web.project.projection.service.model.FetchProjectDetailsQuery;
+import com.example.demo.web.project.projection.service.model.FetchProjectDetailsResponse;
 
 public interface IProjectProjectorService {
 
-    ProjectDetails getProjectDetails(String id);
+    FetchProjectDetailsResponse getProjectDetails(FetchProjectDetailsQuery query);
 }
