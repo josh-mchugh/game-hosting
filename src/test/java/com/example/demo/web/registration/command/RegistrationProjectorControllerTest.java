@@ -1,13 +1,16 @@
 package com.example.demo.web.registration.command;
 
-import com.example.demo.user.aggregate.event.UserCreatedEvent;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
-import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
+import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailResponse;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @Transactional
@@ -28,24 +31,51 @@ public class RegistrationProjectorControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private IUserService userService;
+    @MockBean
+    private QueryGateway queryGateway;
+
+    @MockBean
+    private CommandGateway commandGateway;
 
     @Test
-    public void testPostRegistrationEmptyForm() throws Exception {
+    public void whenRequestIsEmptyFormThenReturnOk() throws Exception {
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf());
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasErrors("form"));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    public void testPostRegistrationInvalidEmail() throws  Exception {
+    public void whenRequestIsEmptyFormThenReturnView() throws Exception {
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
+                .with(SecurityMockMvcRequestPostProcessors.csrf());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"));
+    }
+
+    @Test
+    public void whenRequestIsFormThenExpectErrors() throws Exception {
+
+        mockExistsUserByEmail();
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
+                .with(SecurityMockMvcRequestPostProcessors.csrf());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.model().hasErrors());;
+    }
+
+    @Test
+    public void whenRequestHasInvalidEmailThenExpectAttributeError() throws  Exception {
+
+        mockExistsUserByEmail("asdfasdf", false);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -55,24 +85,13 @@ public class RegistrationProjectorControllerTest {
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasErrors("form"));
+                .andExpect(MockMvcResultMatchers.model().hasErrors());;
     }
 
     @Test
-    public void testPostRegistrationExistingUser() throws  Exception {
+    public void whenRequestHasDuplicateEmailThenExpectAttributeError() throws  Exception {
 
-        UserCreatedEvent event = UserCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .email("test@test")
-                .password("password")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .verification(UserCreatedEvent.createVerification())
-                .build();
-
-        userService.handleCreated(event);
+        mockExistsUserByEmail("test@test", true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -82,71 +101,113 @@ public class RegistrationProjectorControllerTest {
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasErrors("form"));
+                .andExpect(MockMvcResultMatchers.model().hasErrors());
     }
 
     @Test
-    public void testPostRegistrationMismatchPasswords() throws Exception {
+    public void whenRequestHasMismatchingPasswordThenExpectAttributeErrors() throws Exception {
+
+        mockExistsUserByEmail();
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .param("email", "asdfasdf")
+                .param("email", "test@test")
                 .param("password", "Password1!")
                 .param("confirmPassword", "Password2!");
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasErrors("form"));
+                .andExpect(MockMvcResultMatchers.model().hasErrors());
     }
 
     @Test
-    public void testPostRegistrationEmptyPasswords() throws Exception {
+    public void whenRequestHasEmptyPasswordsThenExpectAttributeErrors() throws Exception {
+
+        mockExistsUserByEmail();
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .param("email", "asdfasdf")
+                .param("email", "test@test")
                 .param("password", "")
                 .param("confirmPassword", "");
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasErrors("form"));
+                .andExpect(MockMvcResultMatchers.model().hasErrors());;
     }
 
     @Test
-    public void testPostRegistrationEWeakPasswords() throws Exception {
+    public void whenRequestHasWeakPasswordsThenExpectAttributeErrors() throws Exception {
+
+        mockExistsUserByEmail();
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .param("email", "asdfasdf")
+                .param("email", "test@test")
                 .param("password", "password")
                 .param("confirmPassword", "password");
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("registration/view-default"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasErrors("form"));
+                .andExpect(MockMvcResultMatchers.model().hasErrors());;
     }
 
     @Test
-    public void testPostRegistrationValid() throws Exception {
+    public void whenRequestIsValidThenExpectRedirection() throws Exception {
+
+        mockExistsUserByEmail();
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .param("email", "valid-submission@registration-controller.com")
+                .param("email", "test@test")
                 .param("password", "Password1!")
                 .param("confirmPassword", "Password1!");
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+    }
+
+    @Test
+    public void whenRequestIsValidThenExpectRedirectUrl() throws Exception {
+
+        mockExistsUserByEmail();
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .param("email", "test@test")
+                .param("password", "Password1!")
+                .param("confirmPassword", "Password1!");
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/registration/success"));
+    }
+
+    @Test
+    public void whenRequestIsValidThenExpectCommandCalled() throws Exception {
+
+        mockExistsUserByEmail();
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/registration")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
+                .param("email", "test@test")
+                .param("password", "Password1!")
+                .param("confirmPassword", "Password1!");
+
+        this.mockMvc.perform(request);
+
+        Mockito.verify(commandGateway, Mockito.times(1)).send(Mockito.any(UserCreateRegularCommand.class));
+    }
+
+    private void mockExistsUserByEmail() {
+
+        mockExistsUserByEmail("test@test", false);
+    }
+
+    private void mockExistsUserByEmail(String email, boolean exists) {
+
+        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery(email), ExistsUserByEmailResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(exists)));
     }
 }

@@ -38,7 +38,7 @@ public class AdminGameServerCommandController {
             ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery(form.getName());
             ExistsGameServerByNameResponse response = queryGateway.query(query, ExistsGameServerByNameResponse.class).get();
 
-            if (response.isExists()) {
+            if (response.exists()) {
 
                 result.rejectValue("name", "error.name.exists", "Name already exists");
             }

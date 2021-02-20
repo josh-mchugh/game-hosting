@@ -1,9 +1,9 @@
 package com.example.demo.web.admin.game.projection.service;
 
-import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
-import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameQuery;
+import com.example.demo.web.admin.game.projection.service.model.ExistsGameServerByNameResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class GameServerProjectorExistsByNameTest {
         ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery("name");
         ExistsGameServerByNameResponse response = service.existsByName(query);
 
-        Assertions.assertFalse(response.isExists());
+        Assertions.assertFalse(response.exists());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class GameServerProjectorExistsByNameTest {
         ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery("name");
         ExistsGameServerByNameResponse response = service.existsByName(query);
 
-        Assertions.assertTrue(response.isExists());
+        Assertions.assertTrue(response.exists());
     }
 
     @Test
@@ -70,6 +70,6 @@ public class GameServerProjectorExistsByNameTest {
         ExistsGameServerByNameQuery query = new ExistsGameServerByNameQuery("invalidName");
         ExistsGameServerByNameResponse response = service.existsByName(query);
 
-        Assertions.assertFalse(response.isExists());
+        Assertions.assertFalse(response.exists());
     }
 }
