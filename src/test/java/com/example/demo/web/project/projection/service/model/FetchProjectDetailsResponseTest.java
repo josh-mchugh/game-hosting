@@ -5,12 +5,12 @@ import com.example.demo.ovh.instance.entity.InstanceStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ProjectDetailsTest {
+public class FetchProjectDetailsResponseTest {
 
     @Test
     public void whenModelHasNameThenReturnName() {
 
-        ProjectDetails model = ProjectDetails.builder()
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
                 .name("name")
                 .build();
 
@@ -20,7 +20,7 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelHasGameTypeThenReturnGameType() {
 
-        ProjectDetails model = ProjectDetails.builder()
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
                 .gameType(GameType.MINECRAFT_JAVA)
                 .build();
 
@@ -30,7 +30,7 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelHasInstanceIdThenReturnInstanceId() {
 
-        ProjectDetails model = ProjectDetails.builder()
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
                 .instanceId("instanceId")
                 .build();
 
@@ -40,7 +40,7 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelHasInstanceStatusThenReturnInstanceStatus() {
 
-        ProjectDetails model = ProjectDetails.builder()
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
                 .instanceStatus(InstanceStatus.ACTIVE)
                 .build();
 
@@ -50,7 +50,7 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelHasIp4AddressThenReturnIp4Address() {
 
-        ProjectDetails model = ProjectDetails.builder()
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
                 .ip4Address("ip4Address")
                 .build();
 
@@ -60,9 +60,9 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelToString() {
 
-        ProjectDetails model = model();
+        FetchProjectDetailsResponse model = model();
 
-        String expected = "ProjectDetails(name=name, gameType=MINECRAFT_JAVA, instanceId=instanceId, instanceStatus=ACTIVE, ip4Address=ip4Address)";
+        String expected = "FetchProjectDetailsResponse(name=name, gameType=MINECRAFT_JAVA, instanceId=instanceId, instanceStatus=ACTIVE, ip4Address=ip4Address)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -70,7 +70,7 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelHashCode() {
 
-        ProjectDetails model = ProjectDetails.builder()
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
                 .name("name")
                 .instanceId("instanceId")
                 .ip4Address("ip4Address")
@@ -82,8 +82,8 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelEquals() {
 
-        ProjectDetails model1 = model();
-        ProjectDetails model2 = model();
+        FetchProjectDetailsResponse model1 = model();
+        FetchProjectDetailsResponse model2 = model();
 
         Assertions.assertEquals(model1, model2);
     }
@@ -91,14 +91,14 @@ public class ProjectDetailsTest {
     @Test
     public void whenModelNotEquals() {
 
-        ProjectDetails model = model();
+        FetchProjectDetailsResponse model = model();
 
-        Assertions.assertNotEquals(model, ProjectDetails.builder().build());
+        Assertions.assertNotEquals(model, FetchProjectDetailsResponse.builder().build());
     }
 
-    private ProjectDetails model() {
+    private FetchProjectDetailsResponse model() {
 
-        return ProjectDetails.builder()
+        return FetchProjectDetailsResponse.builder()
                 .name("name")
                 .gameType(GameType.MINECRAFT_JAVA)
                 .instanceId("instanceId")

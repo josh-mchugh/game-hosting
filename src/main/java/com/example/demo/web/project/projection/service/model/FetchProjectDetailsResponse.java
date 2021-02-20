@@ -7,7 +7,7 @@ import lombok.Value;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class ProjectDetails {
+public class FetchProjectDetailsResponse {
 
     String name;
     GameType gameType;

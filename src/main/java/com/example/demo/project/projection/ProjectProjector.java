@@ -2,8 +2,6 @@ package com.example.demo.project.projection;
 
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.project.entity.QProjectMembershipEntity;
-import com.example.demo.project.projection.model.FetchProjectDetailsByIdProjection;
-import com.example.demo.project.projection.model.FetchProjectDetailsByIdQuery;
 import com.example.demo.project.projection.model.ProjectDashboardProjection;
 import com.example.demo.project.projection.model.FetchProjectDashboardProjection;
 import com.example.demo.project.projection.model.FetchProjectDashboardQuery;
@@ -43,20 +41,5 @@ public class ProjectProjector implements IProjectProjector {
                 .collect(ImmutableList.toImmutableList());
 
         return new FetchProjectDashboardProjection(projects);
-    }
-
-    @Override
-    public FetchProjectDetailsByIdProjection fetchProjectDetails(FetchProjectDetailsByIdQuery query) {
-
-        QProjectEntity qProject = QProjectEntity.projectEntity;
-
-        return queryFactory.select(
-                Projections.constructor(FetchProjectDetailsByIdProjection.class,
-                        qProject.name,
-                        qProject.gameEntity.type
-                ))
-                .from(qProject)
-                .where(qProject.id.eq(query.getId()))
-                .fetchOne();
     }
 }
