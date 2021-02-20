@@ -1,14 +1,16 @@
 package com.example.demo.web.registration.command;
 
-import com.example.demo.user.projection.IUserProjector;
+import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
 import com.example.demo.util.password.PasswordUtil;
-import com.example.demo.web.registration.form.RegistrationForm;
-import com.example.demo.web.registration.command.service.IRegistrationCommandService;
-import com.example.demo.web.registration.command.service.model.RegistrationCreateUserRequest;
 import com.example.demo.util.password.model.ValidatePasswordRequest;
 import com.example.demo.util.password.model.ValidatePasswordResponse;
+import com.example.demo.web.registration.form.RegistrationForm;
+import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,21 +19,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/registration")
 @RequiredArgsConstructor
 public class RegistrationCommandController {
 
-    private final IUserProjector userProjector;
-    private final IRegistrationCommandService registrationService;
+    private final QueryGateway queryGateway;
+    private final CommandGateway commandGateway;
 
     @PostMapping("")
-    public String postDefault(Model model, @Valid @ModelAttribute("form") RegistrationForm form, BindingResult results) {
+    public String postDefault(Model model, @Valid @ModelAttribute("form") RegistrationForm form, BindingResult results) throws ExecutionException, InterruptedException {
 
         if(StringUtils.isNotEmpty(form.getEmail())) {
 
-            if (userProjector.existsByEmail(form.getEmail())) {
+            if (existsByEmail(form.getEmail())) {
 
                 results.rejectValue("email", "error.email.exists", "Email address already exists");
             }
@@ -50,13 +54,22 @@ public class RegistrationCommandController {
             return "registration/view-default";
         }
 
-        RegistrationCreateUserRequest request = RegistrationCreateUserRequest.builder()
+        UserCreateRegularCommand command = UserCreateRegularCommand.builder()
+                .id(UUID.randomUUID())
                 .email(form.getEmail())
                 .password(form.getPassword())
                 .build();
 
-        registrationService.handleCreateNewUser(request);
+        commandGateway.send(command);
 
         return "redirect:/registration/success";
+    }
+
+    private boolean existsByEmail(String email) throws ExecutionException, InterruptedException {
+
+        ExistsUserByEmailQuery query = new ExistsUserByEmailQuery(email);
+        ExistsUserByEmailResponse response = queryGateway.query(query, ExistsUserByEmailResponse.class).get();
+
+        return response.exists();
     }
 }

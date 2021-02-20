@@ -10,7 +10,7 @@ public class ExistsGameServerByNameResponseTest {
 
         ExistsGameServerByNameResponse model = new ExistsGameServerByNameResponse(true);
 
-        Assertions.assertTrue(model.isExists());
+        Assertions.assertTrue(model.exists());
     }
 
     @Test
