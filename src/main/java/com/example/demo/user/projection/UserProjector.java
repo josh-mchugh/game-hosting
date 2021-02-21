@@ -11,8 +11,6 @@ import com.example.demo.user.projection.model.FetchUserDashboardProjection;
 import com.example.demo.user.projection.model.FetchUserDashboardQuery;
 import com.example.demo.user.projection.model.FetchUserIdByEmailProjection;
 import com.example.demo.user.projection.model.FetchUserIdByEmailQuery;
-import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenProjection;
-import com.example.demo.user.projection.model.FetchUserIdByPasswordResetTokenQuery;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -57,19 +55,6 @@ public class UserProjector implements IUserProjector {
                     qUser.id
                 )).from(qUser)
                 .where(qUser.email.eq(query.getEmail()))
-                .fetchOne();
-    }
-
-    @Override
-    public FetchUserIdByPasswordResetTokenProjection fetchUserIdByPasswordResetToken(FetchUserIdByPasswordResetTokenQuery query) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        return queryFactory.select(Projections.constructor(
-                    FetchUserIdByPasswordResetTokenProjection.class,
-                    qUser.id
-                )).from(qUser)
-                .where(qUser.recoveryTokenEntity.token.eq(query.getToken()))
                 .fetchOne();
     }
 
