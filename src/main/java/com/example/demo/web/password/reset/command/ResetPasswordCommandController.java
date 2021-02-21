@@ -1,7 +1,7 @@
 package com.example.demo.web.password.reset.command;
 
 import com.example.demo.util.password.PasswordUtil;
-import com.example.demo.web.password.reset.command.model.ResetPasswordForm;
+import com.example.demo.web.password.reset.form.ResetPasswordForm;
 import com.example.demo.web.password.reset.command.service.IResetPasswordService;
 import com.example.demo.web.password.reset.command.service.model.PasswordResetRequest;
 import com.example.demo.util.password.model.ValidatePasswordRequest;

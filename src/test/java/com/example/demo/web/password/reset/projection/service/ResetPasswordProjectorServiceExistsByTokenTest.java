@@ -1,9 +1,12 @@
-package com.example.demo.user.projection;
+package com.example.demo.web.password.reset.projection.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.projection.IUserProjector;
+import com.example.demo.web.password.reset.projection.service.model.ExistsByRecoveryTokenQuery;
+import com.example.demo.web.password.reset.projection.service.model.ExistsByRecoveryTokenResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +14,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
+import java.lang.reflect.UndeclaredThrowableException;
 
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class UserProjectionExistsByRecoveryTokenTest {
+public class ResetPasswordProjectorServiceExistsByTokenTest {
 
     @Autowired
     private IUserService userService;
 
     @Autowired
-    private IUserProjector userProjector;
+    private IResetPasswordProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -30,7 +33,7 @@ public class UserProjectionExistsByRecoveryTokenTest {
     @Test
     public void whenParamIsNullThenExpectException() {
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> userProjector.existsByRecoveryToken(null));
+        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.existsByRecoveryToken(null));
     }
 
     @Test
@@ -48,12 +51,18 @@ public class UserProjectionExistsByRecoveryTokenTest {
 
         User updatedUser = userService.handleRecoveryTokenCreated(event);
 
-        Assertions.assertTrue(userProjector.existsByRecoveryToken(updatedUser.getRecoveryToken().getToken()));
+        ExistsByRecoveryTokenQuery query = new ExistsByRecoveryTokenQuery(updatedUser.getRecoveryToken().getToken());
+        ExistsByRecoveryTokenResponse response = service.existsByRecoveryToken(query);
+
+        Assertions.assertEquals(response, new ExistsByRecoveryTokenResponse(true));
     }
 
     @Test
     public void whenEntityDoesNotExistThenReturnFalse() {
 
-        Assertions.assertFalse(userProjector.existsByRecoveryToken("token"));
+        ExistsByRecoveryTokenQuery query = new ExistsByRecoveryTokenQuery("token");
+        ExistsByRecoveryTokenResponse response = service.existsByRecoveryToken(query);
+
+        Assertions.assertEquals(response, new ExistsByRecoveryTokenResponse(false));
     }
 }

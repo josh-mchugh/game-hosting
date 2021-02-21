@@ -1,4 +1,4 @@
-package com.example.demo.web.password.reset.command.model;
+package com.example.demo.web.password.reset.form;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

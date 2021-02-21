@@ -48,19 +48,6 @@ public class UserProjector implements IUserProjector {
     }
 
     @Override
-    public boolean existsByRecoveryToken(String token) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        long count = queryFactory.select(qUser.id)
-                .from(qUser)
-                .where(qUser.recoveryTokenEntity.token.eq(token))
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public FetchUserIdByEmailProjection fetchUserIdByEmail(FetchUserIdByEmailQuery query) {
 
         QUserEntity qUser = QUserEntity.userEntity;
