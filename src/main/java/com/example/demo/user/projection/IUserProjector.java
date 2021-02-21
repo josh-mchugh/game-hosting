@@ -14,8 +14,6 @@ public interface IUserProjector {
 
     boolean existsByEmail(String email);
 
-    boolean existsByRecoveryToken(String token);
-
     FetchUserIdByEmailProjection fetchUserIdByEmail(FetchUserIdByEmailQuery query);
 
     FetchUserIdByPasswordResetTokenProjection fetchUserIdByPasswordResetToken(FetchUserIdByPasswordResetTokenQuery query);
