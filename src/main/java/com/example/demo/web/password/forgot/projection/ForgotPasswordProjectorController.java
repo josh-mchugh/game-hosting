@@ -1,6 +1,6 @@
 package com.example.demo.web.password.forgot.projection;
 
-import com.example.demo.web.password.forgot.command.model.ForgotPasswordForm;
+import com.example.demo.web.password.forgot.form.ForgotPasswordForm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
