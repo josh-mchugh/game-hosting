@@ -1,20 +1,12 @@
 package com.example.demo.user.projection;
 
-import com.example.demo.project.entity.QProjectEntity;
-import com.example.demo.project.entity.QProjectMembershipEntity;
 import com.example.demo.user.entity.QUserEntity;
 import com.example.demo.user.entity.UserEntity;
-import com.example.demo.user.entity.VerificationStatus;
 import com.example.demo.user.entity.mapper.UserMapper;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.projection.model.FetchUserDashboardProjection;
-import com.example.demo.user.projection.model.FetchUserDashboardQuery;
 import com.example.demo.user.projection.model.FetchUserIdByEmailProjection;
 import com.example.demo.user.projection.model.FetchUserIdByEmailQuery;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -85,37 +77,5 @@ public class UserProjector implements IUserProjector {
         List<UserEntity> entities = query.fetch();
 
         return new PageImpl<>(UserMapper.map(entities), pageable, query.fetchCount());
-    }
-
-    @Override
-    public FetchUserDashboardProjection fetchUserDashboard(FetchUserDashboardQuery query) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-        QProjectMembershipEntity qProjectMembership = QProjectMembershipEntity.projectMembershipEntity;
-        QProjectEntity qProject = QProjectEntity.projectEntity;
-
-        JPQLQuery<Long> projectCountQuery = JPAExpressions.select(qProject.id.count())
-                .from(qProject)
-                .innerJoin(qProject.projectMembershipsEntities, qProjectMembership)
-                .where(qProjectMembership.userEntity.eq(qUser));
-
-        BooleanExpression isVerified = new CaseBuilder()
-                .when(qUser.verificationEntity.status.eq(VerificationStatus.VERIFIED))
-                .then(true)
-                .otherwise(false);
-
-        BooleanExpression hasProjects = new CaseBuilder()
-                .when(projectCountQuery.goe(1L))
-                .then(true)
-                .otherwise(false);
-
-        return queryFactory.select(
-                Projections.constructor(FetchUserDashboardProjection.class,
-                        isVerified,
-                        hasProjects
-                ))
-                .from(qUser)
-                .where(qUser.email.eq(query.getEmail()))
-                .fetchOne();
     }
 }

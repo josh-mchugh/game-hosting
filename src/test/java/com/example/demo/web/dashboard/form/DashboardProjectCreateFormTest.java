@@ -1,4 +1,4 @@
-package com.example.demo.web.dashboard.command.model;
+package com.example.demo.web.dashboard.form;
 
 import com.example.demo.game.entity.GameType;
 import com.google.common.collect.Lists;

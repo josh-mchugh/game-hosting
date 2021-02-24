@@ -1,13 +1,13 @@
 package com.example.demo.web.dashboard.projection.service.model;
 
-import com.example.demo.project.projection.model.ProjectDashboardProjection;
+import com.example.demo.web.dashboard.projection.service.projection.ProjectDashboardProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class DashboardDetailsResponse {
+public class FetchDashboardDetailsResponse {
 
     boolean emailVerified;
     boolean hasProjects;

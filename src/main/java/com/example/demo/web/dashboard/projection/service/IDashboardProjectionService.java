@@ -1,8 +1,9 @@
 package com.example.demo.web.dashboard.projection.service;
 
-import com.example.demo.web.dashboard.projection.service.model.DashboardDetailsResponse;
+import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsQuery;
+import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsResponse;
 
 public interface IDashboardProjectionService {
 
-    DashboardDetailsResponse getDashboardDetails();
+    FetchDashboardDetailsResponse fetchUserDashboard(FetchDashboardDetailsQuery query);
 }
