@@ -1,19 +1,19 @@
 package com.example.demo.web.dashboard.projection.service.model;
 
 import com.example.demo.game.entity.GameType;
-import com.example.demo.project.projection.model.ProjectDashboardProjection;
+import com.example.demo.web.dashboard.projection.service.projection.ProjectDashboardProjection;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-public class DashboardDetailsResponseTest {
+public class FetchDashboardDetailsResponseTest {
 
     @Test
     public void whenModelHasEmailVerifiedThenReturnEmailVerified() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .build();
 
@@ -23,7 +23,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelHasHasProjectsThenReturnHasProjects() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .hasProjects(true)
                 .build();
 
@@ -35,7 +35,7 @@ public class DashboardDetailsResponseTest {
 
         ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", GameType.MINECRAFT_JAVA));
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .projects(projects)
                 .build();
 
@@ -45,7 +45,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelDisplayEmailVerificationIsTrue() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(false)
                 .build();
 
@@ -55,7 +55,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelDisplayEmailVerificationIsFalse() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .build();
 
@@ -65,7 +65,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelDisplayCreateServerIsTrue() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .hasProjects(false)
                 .build();
@@ -76,7 +76,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelDisplayServiceIsFalse() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .hasProjects(true)
                 .build();
@@ -87,7 +87,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelDisplayProjectListIsTrue() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .hasProjects(true)
                 .build();
@@ -98,7 +98,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelDisplayProjectListIsFalse() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .hasProjects(false)
                 .build();
@@ -109,9 +109,9 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelToString() {
 
-        DashboardDetailsResponse model = model();
+        FetchDashboardDetailsResponse model = model();
 
-        String expected = "DashboardDetailsResponse(emailVerified=true, hasProjects=true, projects=[ProjectDashboardProjection(id=8bd3a4b5-b822-40d7-9dca-e3943fc0274b, name=name, gameType=MINECRAFT_JAVA)])";
+        String expected = "FetchDashboardDetailsResponse(emailVerified=true, hasProjects=true, projects=[ProjectDashboardProjection(id=8bd3a4b5-b822-40d7-9dca-e3943fc0274b, name=name, gameType=MINECRAFT_JAVA)])";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -119,7 +119,7 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelHashCode() {
 
-        DashboardDetailsResponse model = DashboardDetailsResponse.builder()
+        FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .hasProjects(true)
                 .projects(ImmutableList.of())
@@ -131,8 +131,8 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelEquals() {
 
-        DashboardDetailsResponse model1 = model();
-        DashboardDetailsResponse model2 = model();
+        FetchDashboardDetailsResponse model1 = model();
+        FetchDashboardDetailsResponse model2 = model();
 
         Assertions.assertEquals(model1, model2);
     }
@@ -140,16 +140,16 @@ public class DashboardDetailsResponseTest {
     @Test
     public void whenModelNotEquals() {
 
-        DashboardDetailsResponse model = model();
+        FetchDashboardDetailsResponse model = model();
 
-        Assertions.assertNotEquals(model, DashboardDetailsResponse.builder().build());
+        Assertions.assertNotEquals(model, FetchDashboardDetailsResponse.builder().build());
     }
 
-    private DashboardDetailsResponse model() {
+    private FetchDashboardDetailsResponse model() {
 
         ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.fromString("8bd3a4b5-b822-40d7-9dca-e3943fc0274b").toString(), "name", GameType.MINECRAFT_JAVA));
 
-        return DashboardDetailsResponse.builder()
+        return FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)
                 .hasProjects(true)
                 .projects(projects)

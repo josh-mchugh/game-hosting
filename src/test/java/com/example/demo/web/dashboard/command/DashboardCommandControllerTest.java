@@ -1,7 +1,7 @@
 package com.example.demo.web.dashboard.command;
 
 import com.example.demo.game.entity.GameType;
-import com.example.demo.web.dashboard.command.model.DashboardProjectCreateForm;
+import com.example.demo.web.dashboard.form.DashboardProjectCreateForm;
 import com.example.demo.web.dashboard.command.service.IDashboardCommandService;
 import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateResponse;
 import org.junit.jupiter.api.Test;
