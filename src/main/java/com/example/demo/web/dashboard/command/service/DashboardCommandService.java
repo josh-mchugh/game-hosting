@@ -1,13 +1,11 @@
 package com.example.demo.web.dashboard.command.service;
 
-import com.example.demo.framework.security.session.ISessionUtil;
-import com.example.demo.game.entity.model.Game;
-import com.example.demo.game.projection.IGameProjector;
-import com.example.demo.project.aggregate.command.ProjectCreateCommand;
-import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateRequest;
-import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateResponse;
+import com.example.demo.game.entity.QGameEntity;
+import com.example.demo.web.dashboard.command.service.model.FetchGameIdByGameTypeQuery;
+import com.example.demo.web.dashboard.command.service.model.FetchGameIdByGameTypeResponse;
+import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -16,24 +14,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DashboardCommandService implements IDashboardCommandService {
 
-    private final ISessionUtil sessionUtil;
-    private final IGameProjector gameProjection;
-    private final CommandGateway commandGateway;
+    private final JPQLQueryFactory queryFactory;
 
     @Override
-    public DashboardProjectCreateResponse handleProjectCreate(DashboardProjectCreateRequest request) {
+    @QueryHandler
+    public FetchGameIdByGameTypeResponse getGameId(FetchGameIdByGameTypeQuery query) {
 
-        Game game = gameProjection.getGameByType(request.getGameType());
+        QGameEntity qGame = QGameEntity.gameEntity;
 
-        ProjectCreateCommand command = ProjectCreateCommand.builder()
-                .id(UUID.randomUUID())
-                .name(request.getName())
-                .gameId(game.getId())
-                .userId(sessionUtil.getCurrentUser().getId())
-                .build();
+        String id = queryFactory.select(qGame.id)
+                .from(qGame)
+                .where(qGame.type.eq(query.getType()))
+                .fetchOne();
 
-        UUID projectId = commandGateway.sendAndWait(command);
-
-        return new DashboardProjectCreateResponse(projectId.toString());
+        return new FetchGameIdByGameTypeResponse(id != null ? UUID.fromString(id) : null);
     }
 }

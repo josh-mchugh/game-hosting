@@ -1,12 +1,15 @@
 package com.example.demo.web.dashboard.command;
 
+import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.framework.web.ModalResponse;
 import com.example.demo.game.entity.GameType;
-import com.example.demo.web.dashboard.command.service.IDashboardCommandService;
+import com.example.demo.project.aggregate.command.ProjectCreateCommand;
+import com.example.demo.web.dashboard.command.service.model.FetchGameIdByGameTypeQuery;
+import com.example.demo.web.dashboard.command.service.model.FetchGameIdByGameTypeResponse;
 import com.example.demo.web.dashboard.form.DashboardProjectCreateForm;
-import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateRequest;
-import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateResponse;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,33 +18,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
 public class DashboardCommandController {
 
-    private final IDashboardCommandService dashboardService;
+    private final ISessionUtil sessionUtil;
+    private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
     @PostMapping("/project/create")
-    public String postProjectCreateModal(Model model, @Valid @ModelAttribute("form") DashboardProjectCreateForm form, BindingResult results) {
+    public String postProjectCreateModal(Model model, @Valid @ModelAttribute("form") DashboardProjectCreateForm form, BindingResult results) throws ExecutionException, InterruptedException {
 
         if(results.hasErrors()) {
 
             return "dashboard/modal-project-create";
         }
 
-        DashboardProjectCreateRequest request = DashboardProjectCreateRequest.builder()
+        ProjectCreateCommand command = ProjectCreateCommand.builder()
+                .id(UUID.randomUUID())
                 .name(form.getName())
-                .region("US-EAST-VA-1")
-                .flavor("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
-                .gameType(GameType.MINECRAFT_JAVA)
+                .gameId(getGameId(form.getGame()))
+                .userId(sessionUtil.getCurrentUser().getId())
                 .build();
 
-        DashboardProjectCreateResponse response = dashboardService.handleProjectCreate(request);
+        UUID projectId = commandGateway.sendAndWait(command);
 
         return new ModalResponse(model)
-                .redirect(String.format("/project/%s", response.getProjectId()))
+                .redirect(String.format("/project/%s", projectId))
                 .build();
+    }
+
+    private UUID getGameId(GameType type) throws ExecutionException, InterruptedException {
+
+        FetchGameIdByGameTypeQuery query = new FetchGameIdByGameTypeQuery(type);
+        FetchGameIdByGameTypeResponse response = queryGateway.query(query, FetchGameIdByGameTypeResponse.class).get();
+
+        return response.getId();
     }
 }
