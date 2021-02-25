@@ -1,9 +1,9 @@
 package com.example.demo.web.dashboard.command.service;
 
-import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateRequest;
-import com.example.demo.web.dashboard.command.service.model.DashboardProjectCreateResponse;
+import com.example.demo.web.dashboard.command.service.model.FetchGameIdByGameTypeQuery;
+import com.example.demo.web.dashboard.command.service.model.FetchGameIdByGameTypeResponse;
 
 public interface IDashboardCommandService {
 
-    DashboardProjectCreateResponse handleProjectCreate(DashboardProjectCreateRequest request);
+    FetchGameIdByGameTypeResponse getGameId(FetchGameIdByGameTypeQuery query);
 }
