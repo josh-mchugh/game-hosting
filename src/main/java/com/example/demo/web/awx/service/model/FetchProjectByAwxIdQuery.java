@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @AllArgsConstructor
-public class PlaybookCreateRequest {
+public class FetchProjectByAwxIdQuery {
 
-    Long projectId;
+    Long awxId;
 }
