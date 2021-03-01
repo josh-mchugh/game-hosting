@@ -4,9 +4,6 @@ import com.example.demo.user.entity.QUserEntity;
 import com.example.demo.user.entity.UserEntity;
 import com.example.demo.user.entity.mapper.UserMapper;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.projection.model.FetchUserIdByEmailProjection;
-import com.example.demo.user.projection.model.FetchUserIdByEmailQuery;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -35,19 +32,6 @@ public class UserProjector implements IUserProjector {
                 .fetchCount();
 
         return count >= 1;
-    }
-
-    @Override
-    public FetchUserIdByEmailProjection fetchUserIdByEmail(FetchUserIdByEmailQuery query) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        return queryFactory.select(Projections.constructor(
-                    FetchUserIdByEmailProjection.class,
-                    qUser.id
-                )).from(qUser)
-                .where(qUser.email.eq(query.getEmail()))
-                .fetchOne();
     }
 
     @Override

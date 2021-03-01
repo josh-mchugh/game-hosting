@@ -1,16 +1,14 @@
-package com.example.demo.framework.security;
+package com.example.demo.framework.security.config;
 
+import com.example.demo.framework.security.authentication.AuthenticationSuccessHandlerImpl;
+import com.example.demo.framework.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.util.UrlPathHelper;
 
 @Configuration
 @RequiredArgsConstructor
