@@ -1,5 +1,6 @@
-package com.example.demo.framework.security;
+package com.example.demo.framework.security.config;
 
+import com.example.demo.framework.security.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

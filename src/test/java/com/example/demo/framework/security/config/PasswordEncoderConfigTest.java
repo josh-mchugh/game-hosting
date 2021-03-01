@@ -1,4 +1,4 @@
-package com.example.demo.framework.security;
+package com.example.demo.framework.security.config;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
