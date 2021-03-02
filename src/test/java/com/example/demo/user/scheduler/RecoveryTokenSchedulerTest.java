@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class RecoveryTokenSchedulerTest {
 
     @Test
-    public void whenSchedulerProcessesUsers() {
+    public void whenSchedulerProcessesUsers() throws ExecutionException, InterruptedException {
 
         IRecoveryTokenSchedulerService recoveryTokenSchedulerService = Mockito.mock(IRecoveryTokenSchedulerService.class);
         Mockito.when(recoveryTokenSchedulerService.processExpiredRecoveryTokens()).thenReturn(ImmutableList.of(UUID.randomUUID()));
@@ -22,7 +23,7 @@ public class RecoveryTokenSchedulerTest {
     }
     
     @Test
-    public void whenSchedulerProcessesNoUsers() {
+    public void whenSchedulerProcessesNoUsers() throws ExecutionException, InterruptedException {
 
         IRecoveryTokenSchedulerService recoveryTokenSchedulerService = Mockito.mock(IRecoveryTokenSchedulerService.class);
         Mockito.when(recoveryTokenSchedulerService.processExpiredRecoveryTokens()).thenReturn(ImmutableList.of());

@@ -1,23 +1,27 @@
 package com.example.demo.user.scheduler.service;
 
-import com.example.demo.user.aggregate.event.UserCreatedEvent;
-import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
-import com.example.demo.user.entity.UserState;
-import com.example.demo.user.entity.UserType;
-import com.example.demo.user.entity.model.User;
-import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.scheduler.service.projector.model.FetchExpiredRecoveryTokenUserIdsQuery;
+import com.example.demo.user.scheduler.service.projector.model.FetchExpiredRecoveryTokenUserIdsResponse;
 import com.google.common.collect.ImmutableList;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -27,14 +31,18 @@ public class RecoveryTokenSchedulerServiceTest {
     @Autowired
     private IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
 
-    @Autowired
-    private IUserService userService;
+    @MockBean
+    private QueryGateway queryGateway;
 
     @MockBean
     private CommandGateway commandGateway;
 
     @Test
-    public void whenExpiredRecoveryTokenDoNotExistThenReturnEmptyArray() {
+    public void whenExpiredRecoveryTokenDoNotExistThenReturnEmptyArray() throws ExecutionException, InterruptedException {
+
+        Pageable pageable = PageRequest.of(0, 20);
+        Mockito.when(queryGateway.query(new FetchExpiredRecoveryTokenUserIdsQuery(pageable), FetchExpiredRecoveryTokenUserIdsResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchExpiredRecoveryTokenUserIdsResponse(new PageImpl<>(new ArrayList<>()))));
 
         ImmutableList<Object> processedUsers = recoveryTokenSchedulerService.processExpiredRecoveryTokens();
 
@@ -42,25 +50,11 @@ public class RecoveryTokenSchedulerServiceTest {
     }
 
     @Test
-    public void whenExpiredRecoveryTokenExistsThenReturnArray(){
+    public void whenExpiredRecoveryTokenExistsThenReturnArray() throws ExecutionException, InterruptedException {
 
-        UserCreatedEvent event = UserCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .email("test@test")
-                .password("password")
-                .type(UserType.REGULAR)
-                .state(UserState.ACTIVE)
-                .verification(UserCreatedEvent.createVerification())
-                .build();
-
-        User user = userService.handleCreated(event);
-
-        UserRecoveryTokenCreatedEvent recoveryTokenCreatedEvent = UserRecoveryTokenCreatedEvent.builder()
-                .id(user.getId())
-                .recoveryToken(UserRecoveryTokenCreatedEvent.createRecoveryToken(1L))
-                .build();
-
-        userService.handleRecoveryTokenCreated(recoveryTokenCreatedEvent);
+        Pageable pageable = PageRequest.of(0, 20);
+        Mockito.when(queryGateway.query(new FetchExpiredRecoveryTokenUserIdsQuery(pageable), FetchExpiredRecoveryTokenUserIdsResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchExpiredRecoveryTokenUserIdsResponse(new PageImpl<>(Collections.singletonList(UUID.randomUUID())))));
 
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
 
