@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
@@ -20,7 +21,7 @@ public class RecoveryTokenScheduler {
     private final IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
 
     @Scheduled(fixedDelayString = "${app.password.recovery-scheduler-delay}", initialDelayString = "${app.password.recovery-scheduler-initial-delay}")
-    public void scheduledExpiredRecoveryTokenProcessor() {
+    public void scheduledExpiredRecoveryTokenProcessor() throws ExecutionException, InterruptedException {
 
         LocalDateTime startTime = LocalDateTime.now();
 
