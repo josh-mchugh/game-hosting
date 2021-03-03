@@ -1,7 +1,7 @@
 package com.example.demo.framework.security.config;
 
 import com.example.demo.framework.security.authentication.AuthenticationSuccessHandlerImpl;
-import com.example.demo.framework.security.UserDetailsServiceImpl;
+import com.example.demo.framework.security.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
