@@ -1,7 +1,7 @@
 package com.example.demo.framework.security.config;
 
 import com.example.demo.framework.security.authentication.AuthenticationSuccessHandlerImpl;
-import com.example.demo.framework.security.UserDetailsServiceImpl;
+import com.example.demo.framework.security.user.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
