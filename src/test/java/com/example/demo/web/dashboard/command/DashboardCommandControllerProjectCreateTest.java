@@ -164,7 +164,7 @@ public class DashboardCommandControllerProjectCreateTest {
     @Test
     public void whenRequestIsValidThenExpectView() throws Exception {
 
-        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(User.builder().id(UUID.randomUUID()).build());
+        Mockito.when(sessionUtil.getCurrentUserId()).thenReturn(UUID.randomUUID());
         Mockito.when(commandGateway.sendAndWait(Mockito.any(ProjectCreateCommand.class))).thenReturn(UUID.randomUUID());
         Mockito.when(queryGateway.query(new FetchGameIdByGameTypeQuery(GameType.MINECRAFT_JAVA), FetchGameIdByGameTypeResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchGameIdByGameTypeResponse(UUID.randomUUID())));
@@ -185,7 +185,7 @@ public class DashboardCommandControllerProjectCreateTest {
 
         UUID projectId = UUID.fromString("290fa41f-ab00-4d9c-b96a-c1748467ce50");
 
-        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(User.builder().id(UUID.randomUUID()).build());
+        Mockito.when(sessionUtil.getCurrentUserId()).thenReturn(UUID.randomUUID());
         Mockito.when(commandGateway.sendAndWait(Mockito.any(ProjectCreateCommand.class))).thenReturn(projectId);
         Mockito.when(queryGateway.query(new FetchGameIdByGameTypeQuery(GameType.MINECRAFT_JAVA), FetchGameIdByGameTypeResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchGameIdByGameTypeResponse(UUID.randomUUID())));
@@ -205,7 +205,7 @@ public class DashboardCommandControllerProjectCreateTest {
     @Test
     public void whenRequestIsValidThenExpectCommandCalled() throws Exception {
 
-        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(User.builder().id(UUID.randomUUID()).build());
+        Mockito.when(sessionUtil.getCurrentUserId()).thenReturn(UUID.randomUUID());
         Mockito.when(commandGateway.sendAndWait(Mockito.any(ProjectCreateCommand.class))).thenReturn(UUID.randomUUID());
         Mockito.when(queryGateway.query(new FetchGameIdByGameTypeQuery(GameType.MINECRAFT_JAVA), FetchGameIdByGameTypeResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchGameIdByGameTypeResponse(UUID.randomUUID())));

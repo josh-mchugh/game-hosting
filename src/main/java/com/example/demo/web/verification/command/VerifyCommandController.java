@@ -25,7 +25,7 @@ public class VerifyCommandController {
 
         if(sessionUtil.isAuthenticated()) {
 
-            commandGateway.send(new UserVerifyResetCommand(sessionUtil.getCurrentUser().getId()));
+            commandGateway.send(new UserVerifyResetCommand(sessionUtil.getCurrentUserId()));
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
