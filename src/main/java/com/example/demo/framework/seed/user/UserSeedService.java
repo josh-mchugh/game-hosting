@@ -1,29 +1,45 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.user;
 
 import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.user.projection.model.ExistsUserByEmailQuery;
+import com.example.demo.framework.seed.user.projection.model.ExistsUserByEmailResponse;
 import com.example.demo.user.aggregate.command.UserCreateAdminCommand;
-import com.example.demo.user.projection.IUserProjector;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserSeedService implements ISeedService<Object> {
 
     private final AppConfig appConfig;
-    private final IUserProjector userProjector;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
     public boolean dataNotExists() {
 
-        return !userProjector.existsByEmail(appConfig.getAdminUser().getUsername());
+        try {
+
+            ExistsUserByEmailQuery query = new ExistsUserByEmailQuery(appConfig.getAdminUser().getUsername());
+            ExistsUserByEmailResponse response = queryGateway.query(query, ExistsUserByEmailResponse.class).get();
+
+            return !response.exists();
+
+        }catch (Exception e) {
+
+            log.error("Error occurred retrieving user exists.", e);
+        }
+
+        return false;
     }
 
     @Override

@@ -20,6 +20,7 @@ public class AwxProjectorService implements IAwxProjectorService {
     private final JPQLQueryFactory queryFactory;
 
     @Override
+    @QueryHandler
     public ExistsAnyPlaybooksResponse existsAnyPlaybooks(ExistsAnyPlaybooksQuery query) {
 
         QAwxPlayBookEntity qAwxPlayBook = QAwxPlayBookEntity.awxPlayBookEntity;

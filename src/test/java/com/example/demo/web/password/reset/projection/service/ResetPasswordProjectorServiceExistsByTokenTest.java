@@ -4,7 +4,6 @@ import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.user.entity.service.IUserService;
-import com.example.demo.user.projection.IUserProjector;
 import com.example.demo.web.password.reset.projection.service.model.ExistsByRecoveryTokenQuery;
 import com.example.demo.web.password.reset.projection.service.model.ExistsByRecoveryTokenResponse;
 import org.junit.jupiter.api.Assertions;
