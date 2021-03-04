@@ -52,7 +52,7 @@ public class VerifyCommandControllerResendTest {
     @Test
     public void whenUserIsRegularUserThenReturnOk() throws Exception {
 
-        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(User.builder().id(UUID.randomUUID()).build());
+        Mockito.when(sessionUtil.getCurrentUserId()).thenReturn(UUID.randomUUID());
         Mockito.when(sessionUtil.isAuthenticated()).thenReturn(true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/verify/resend")
@@ -67,7 +67,7 @@ public class VerifyCommandControllerResendTest {
     @Test
     public void whenRequestIsAuthenticatedThenExpectCommandCalled() throws Exception {
 
-        Mockito.when(sessionUtil.getCurrentUser()).thenReturn(User.builder().id(UUID.randomUUID()).build());
+        Mockito.when(sessionUtil.getCurrentUserId()).thenReturn(UUID.randomUUID());
         Mockito.when(sessionUtil.isAuthenticated()).thenReturn(true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/verify/resend")

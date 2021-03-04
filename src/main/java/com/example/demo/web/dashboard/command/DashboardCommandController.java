@@ -42,7 +42,7 @@ public class DashboardCommandController {
                 .id(UUID.randomUUID())
                 .name(form.getName())
                 .gameId(getGameId(form.getGame()))
-                .userId(sessionUtil.getCurrentUser().getId())
+                .userId(sessionUtil.getCurrentUserId())
                 .build();
 
         UUID projectId = commandGateway.sendAndWait(command);

@@ -1,6 +1,6 @@
 package com.example.demo.framework.security.session;
 
-import com.example.demo.user.entity.model.User;
+import java.util.UUID;
 
 public interface ISessionUtil {
 
@@ -12,5 +12,5 @@ public interface ISessionUtil {
 
     String getCurrentUserEmail();
 
-    User getCurrentUser();
+    UUID getCurrentUserId();
 }

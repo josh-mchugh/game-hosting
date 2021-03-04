@@ -1,8 +1,9 @@
 package com.example.demo.framework.security.session;
 
-import com.example.demo.user.entity.model.User;
-import com.example.demo.user.projection.IUserProjector;
+import com.example.demo.framework.security.session.projection.model.FetchUserIdByEmailQuery;
+import com.example.demo.framework.security.session.projection.model.FetchUserIdByEmailResponse;
 import com.google.common.collect.Lists;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -17,13 +18,15 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserFilt
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class SessionUtilTest {
 
     @Test
     public void whenSessionUtilIsAuthenticatedReturnTrue() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getPrincipal()).thenReturn("test@test");
@@ -35,7 +38,7 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertTrue(sessionUtil.isAuthenticated());
         }
     }
@@ -43,7 +46,7 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilIsAuthenticatedReturnFalse() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getPrincipal()).thenReturn("anonymousUser");
@@ -55,7 +58,7 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertFalse(sessionUtil.isAuthenticated());
         }
     }
@@ -63,7 +66,7 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilIsAdminThenReturnIsAdminTrue() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         Collection<SimpleGrantedAuthority> grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
@@ -77,7 +80,7 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertTrue(sessionUtil.isAdmin());
         }
     }
@@ -85,7 +88,7 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilIsNotAdminThenReturnIsAdminFalse() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getAuthorities()).thenAnswer(invocationOnMock -> new ArrayList<>());
@@ -97,7 +100,7 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertFalse(sessionUtil.isAdmin());
         }
     }
@@ -105,7 +108,7 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilIsImpersonatingThenReturnIsImpersonatingTrue() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         Collection<SimpleGrantedAuthority> grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority(SwitchUserFilter.ROLE_PREVIOUS_ADMINISTRATOR));
 
@@ -119,7 +122,7 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertTrue(sessionUtil.isImpersonating());
         }
     }
@@ -127,7 +130,7 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilIsNotImpersonatingThenReturnIsImpersonatingFalse() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getAuthorities()).thenAnswer(invocationOnMock -> new ArrayList<>());
@@ -139,7 +142,7 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertFalse(sessionUtil.isImpersonating());
         }
     }
@@ -147,7 +150,7 @@ public class SessionUtilTest {
     @Test
     public void whenSessionUtilGetCurrentUserEmailThenReturnCurrentUserEmail() {
 
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
         UserDetails userDetails = Mockito.mock(UserDetails.class);
         Mockito.when(userDetails.getUsername()).thenReturn("test@test");
@@ -162,22 +165,19 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
             Assertions.assertEquals("test@test", sessionUtil.getCurrentUserEmail());
         }
     }
 
     @Test
-    public void whenSessionUtilGetCurrentUserThenReturnCurrentUser() {
+    public void whenSessionUtilGetCurrentUserIdThenReturnUserId() {
 
-        UUID userId = UUID.randomUUID();
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
 
-        User user = User.builder()
-                .id(userId)
-                .build();
-
-        IUserProjector userProjector = Mockito.mock(IUserProjector.class);
-        Mockito.when(userProjector.getUserByEmail("test@test")).thenReturn(user);
+        UUID id = UUID.randomUUID();
+        Mockito.when(queryGateway.query(new FetchUserIdByEmailQuery("test@test"), FetchUserIdByEmailResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchUserIdByEmailResponse(id)));
 
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getName()).thenReturn("test@test");
@@ -189,12 +189,34 @@ public class SessionUtilTest {
 
             theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-            User expected = User.builder()
-                    .id(userId)
-                    .build();
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
+            Assertions.assertEquals(id, sessionUtil.getCurrentUserId());
+        }
+    }
 
-            SessionUtil sessionUtil = new SessionUtil(userProjector);
-            Assertions.assertEquals(expected, sessionUtil.getCurrentUser());
+    @Test
+    public void whenSessionUtilGetCurrentUserAndThrowsErrorThenReturnNull() throws ExecutionException, InterruptedException {
+
+        QueryGateway queryGateway = Mockito.mock(QueryGateway.class);
+        CompletableFuture<FetchUserIdByEmailResponse> completableFuture = (CompletableFuture<FetchUserIdByEmailResponse>) Mockito.mock(CompletableFuture.class);
+
+        Mockito.when(queryGateway.query(new FetchUserIdByEmailQuery("test@test"), FetchUserIdByEmailResponse.class))
+                .thenReturn( completableFuture);
+        Mockito.when(completableFuture.get()).thenThrow(new ExecutionException(new Exception("Boom")));
+
+        Authentication authentication = Mockito.mock(Authentication.class);
+        Mockito.when(authentication.getName()).thenReturn("test@test");
+
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+
+        try (MockedStatic<SecurityContextHolder> theMock = Mockito.mockStatic(SecurityContextHolder.class)) {
+
+            theMock.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+
+            SessionUtil sessionUtil = new SessionUtil(queryGateway);
+
+            Assertions.assertNull(sessionUtil.getCurrentUserId());
         }
     }
 }

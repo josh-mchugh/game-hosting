@@ -1,20 +1,25 @@
 package com.example.demo.framework.security.session;
 
+import com.example.demo.framework.security.session.projection.model.FetchUserIdByEmailQuery;
+import com.example.demo.framework.security.session.projection.model.FetchUserIdByEmailResponse;
 import com.example.demo.user.entity.UserType;
-import com.example.demo.user.entity.model.User;
-import com.example.demo.user.projection.IUserProjector;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
+@Slf4j
 @Component(value = "sessionUtil")
 @RequiredArgsConstructor
 public class SessionUtil implements ISessionUtil {
 
-    private final IUserProjector userProjector;
+    private final QueryGateway queryGateway;
 
     @Override
     public boolean isAuthenticated() {
@@ -25,9 +30,11 @@ public class SessionUtil implements ISessionUtil {
     @Override
     public boolean isAdmin() {
 
+        String role = "ROLE_".concat(UserType.ADMIN.name());
+
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .anyMatch("ROLE_".concat(UserType.ADMIN.name())::equals);
+                .anyMatch(role::equals);
     }
 
     @Override
@@ -45,10 +52,22 @@ public class SessionUtil implements ISessionUtil {
     }
 
     @Override
-    public User getCurrentUser() {
+    public UUID getCurrentUserId() {
 
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        try {
 
-        return userProjector.getUserByEmail(email);
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            FetchUserIdByEmailQuery query = new FetchUserIdByEmailQuery(email);
+            FetchUserIdByEmailResponse response = queryGateway.query(query, FetchUserIdByEmailResponse.class).get();
+
+            return response.getId();
+
+        } catch (Exception e) {
+
+            log.info("Unable to retrieve current user id", e);
+        }
+
+        return null;
     }
 }
