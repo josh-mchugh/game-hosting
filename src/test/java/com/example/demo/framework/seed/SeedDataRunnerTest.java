@@ -16,11 +16,12 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class SeedDataRunnerTest {
 
     @Test
-    public void whenSeedDataRunnerSeedsThenExpectNoException() {
+    public void whenSeedDataRunnerSeedsThenExpectNoException() throws ExecutionException, InterruptedException {
 
         AppConfig config = new AppConfig();
         config.setEnableSeedData(true);

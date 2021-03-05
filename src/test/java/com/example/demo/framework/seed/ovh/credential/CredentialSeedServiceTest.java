@@ -1,9 +1,12 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.ovh.credential;
 
+import com.example.demo.framework.seed.ovh.credential.projection.model.ExistsAnyCredentialQuery;
+import com.example.demo.framework.seed.ovh.credential.projection.model.ExistsAnyCredentialResponse;
 import com.example.demo.ovh.credential.feign.ISshKeyFeignService;
 import com.example.demo.ovh.credential.feign.model.SshKeyApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest(properties = {
         "ovh.ssh-key-configs[0].name=name",
@@ -34,8 +39,14 @@ public class CredentialSeedServiceTest {
     @MockBean
     private ISshKeyFeignService sshKeyFeignService;
 
+    @MockBean
+    private QueryGateway queryGateway;
+
     @Test
-    public void whenSeedDataDoesNotExistThenReturnTrue() {
+    public void whenSeedDataDoesNotExistThenReturnTrue() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyCredentialQuery(), ExistsAnyCredentialResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyCredentialResponse(false)));
 
         boolean doesNotExists = credentialSeedService.dataNotExists();
 
@@ -43,11 +54,10 @@ public class CredentialSeedServiceTest {
     }
 
     @Test
-    public void whenSeedDataDoesExistsThenReturnFalse() {
+    public void whenSeedDataDoesExistsThenReturnFalse() throws ExecutionException, InterruptedException {
 
-       sampleBuilder.builder()
-                .credential()
-                .build();
+        Mockito.when(queryGateway.query(new ExistsAnyCredentialQuery(), ExistsAnyCredentialResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyCredentialResponse(true)));
 
         boolean doesNotExists = credentialSeedService.dataNotExists();
 

@@ -13,18 +13,6 @@ public class CredentialProjector implements ICredentialProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QCredentialEntity qCredential = QCredentialEntity.credentialEntity;
-
-        long count = queryFactory.select(qCredential.id)
-                .from(qCredential)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public String getAnsibleOvhId() {
 
         QCredentialEntity qCredential = QCredentialEntity.credentialEntity;
