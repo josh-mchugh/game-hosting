@@ -33,35 +33,21 @@ public class GameSeedServiceTest {
     private QueryGateway queryGateway;
 
     @Test
-    public void whenGameExistsThenDoesNotExistsReturnFalse() {
+    public void whenGameExistsThenDoesNotExistsReturnFalse() throws ExecutionException, InterruptedException {
 
-        sampleBuilder.builder()
-                .game()
-                .build();
+        Mockito.when(queryGateway.query(new ExistsAnyGamesQuery(), ExistsAnyGamesResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyGamesResponse(true)));
 
         Assertions.assertFalse(gameSeedService.dataNotExists());
     }
 
     @Test
-    public void whenGameExistsThenDoesNotExistReturnsTrue() {
+    public void whenGameExistsThenDoesNotExistReturnsTrue() throws ExecutionException, InterruptedException {
 
         Mockito.when(queryGateway.query(new ExistsAnyGamesQuery(), ExistsAnyGamesResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new ExistsAnyGamesResponse(false)));
 
         Assertions.assertTrue(gameSeedService.dataNotExists());
-    }
-
-    @Test
-    public void whenGameExistsThrowsExceptionThenExpectFalse() throws ExecutionException, InterruptedException {
-
-        CompletableFuture<ExistsAnyGamesResponse> completableFuture = (CompletableFuture<ExistsAnyGamesResponse>) Mockito.mock(CompletableFuture.class);
-
-        Mockito.when(queryGateway.query(new ExistsAnyGamesQuery(), ExistsAnyGamesResponse.class))
-                .thenReturn(completableFuture);
-
-        Mockito.when(completableFuture.get()).thenThrow(new ExecutionException(new Exception("Boom")));
-
-        Assertions.assertFalse(gameSeedService.dataNotExists());
     }
 
     @Test

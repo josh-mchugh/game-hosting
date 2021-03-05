@@ -32,7 +32,7 @@ public class UserSeedServiceTest {
     private QueryGateway queryGateway;
 
     @Test
-    public void whenUserDoesNotExistsThenReturnTrue() {
+    public void whenUserDoesNotExistsThenReturnTrue() throws ExecutionException, InterruptedException {
 
         Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("admin@admin"), ExistsUserByEmailResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(false)));
@@ -43,24 +43,10 @@ public class UserSeedServiceTest {
     }
 
     @Test
-    public void whenUserExistsThenReturnFalse() {
+    public void whenUserExistsThenReturnFalse() throws ExecutionException, InterruptedException {
 
         Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("admin@admin"), ExistsUserByEmailResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(true)));
-
-        boolean doesNotExists = userSeedService.dataNotExists();
-
-        Assertions.assertFalse(doesNotExists);
-    }
-
-    @Test
-    public void whenUserExistsThrowsAnErrorThenExpectFalse() throws ExecutionException, InterruptedException {
-
-        CompletableFuture<ExistsUserByEmailResponse> completableFuture = (CompletableFuture<ExistsUserByEmailResponse>) Mockito.mock(CompletableFuture.class);
-
-        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("admin@admin"), ExistsUserByEmailResponse.class))
-                .thenReturn(completableFuture);
-        Mockito.when(completableFuture.get()).thenThrow(new ExecutionException(new Exception("Boom")));
 
         boolean doesNotExists = userSeedService.dataNotExists();
 

@@ -8,14 +8,13 @@ import com.example.demo.game.entity.GameType;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class GameSeedService implements ISeedService<Object> {
@@ -24,21 +23,12 @@ public class GameSeedService implements ISeedService<Object> {
     private final CommandGateway commandGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        try {
+        ExistsAnyGamesQuery query = new ExistsAnyGamesQuery();
+        ExistsAnyGamesResponse response = queryGateway.query(query, ExistsAnyGamesResponse.class).get();
 
-            ExistsAnyGamesQuery query = new ExistsAnyGamesQuery();
-            ExistsAnyGamesResponse response = queryGateway.query(query, ExistsAnyGamesResponse.class).get();
-
-            return !response.exists();
-
-        } catch (Exception e) {
-
-            log.error("Unable to seed game data.", e);
-        }
-
-        return false;
+        return !response.exists();
     }
 
     @Override
