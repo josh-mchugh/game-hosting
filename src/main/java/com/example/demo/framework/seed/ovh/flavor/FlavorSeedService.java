@@ -1,33 +1,39 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.ovh.flavor;
 
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorQuery;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorResponse;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class FlavorSeedService implements ISeedService<Object> {
 
     private final IFlavorFeignService flavorFeignService;
-    private final IFlavorProjector flavorProjectionService;
     private final IRegionProjector regionProjector;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        return !flavorProjectionService.existsAny();
+        ExistsAnyFlavorQuery query = new ExistsAnyFlavorQuery();
+        ExistsAnyFlavorResponse response = queryGateway.query(query, ExistsAnyFlavorResponse.class).get();
+
+        return !response.exists();
     }
 
     @Override
