@@ -1,11 +1,14 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.ovh.flavor;
 
+import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorQuery;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorResponse;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,6 +19,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -31,8 +36,14 @@ public class FlavorSeedServiceTest {
     @MockBean
     public IFlavorFeignService flavorFeignService;
 
+    @MockBean
+    public QueryGateway queryGateway;
+
     @Test
-    public void whenFlavorsDoNotExistsThenReturnTrue() {
+    public void whenFlavorsDoNotExistsThenReturnTrue() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyFlavorQuery(), ExistsAnyFlavorResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyFlavorResponse(false)));
 
         boolean doesNotExists = flavorSeedService.dataNotExists();
 
@@ -40,12 +51,10 @@ public class FlavorSeedServiceTest {
     }
 
     @Test
-    public void whenFlavorExistsThenReturnFalse() {
+    public void whenFlavorExistsThenReturnFalse() throws ExecutionException, InterruptedException {
 
-        sampleBuilder.builder()
-                .region()
-                .flavor()
-                .build();
+        Mockito.when(queryGateway.query(new ExistsAnyFlavorQuery(), ExistsAnyFlavorResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyFlavorResponse(true)));
 
         boolean doesNotExists = flavorSeedService.dataNotExists();
 

@@ -398,6 +398,8 @@ public class SampleBuilder {
 
     private Flavor createDefaultFlavor() {
 
+        if(region ==null) region = createDefaultRegion();
+
         FlavorCreatedEvent event = FlavorCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .ovhId("a64381e7-c4e7-4b01-9fbe-da405c544d2e")
