@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.concurrent.ExecutionException;
+
 public class FlavorSchedulerTest {
 
     private IFlavorSchedulerService flavorSchedulerService;
@@ -18,7 +20,7 @@ public class FlavorSchedulerTest {
     }
 
     @Test
-    public void whenSchedulerExecutesExpectNoExceptions() {
+    public void whenSchedulerExecutesExpectNoExceptions() throws ExecutionException, InterruptedException {
 
         Mockito.when(flavorSchedulerService.getFlavorResponses()).thenReturn(null);
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
@@ -22,7 +23,7 @@ public class FlavorScheduler {
     private final IFlavorSchedulerService flavorSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.flavor-scheduler-delay}", initialDelayString = "${ovh.flavor-scheduler-initial-delay}")
-    public void scheduledFlavorUpdater() {
+    public void scheduledFlavorUpdater() throws ExecutionException, InterruptedException {
 
         LocalDateTime startTime = LocalDateTime.now();
 
