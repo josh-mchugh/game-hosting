@@ -6,6 +6,8 @@ import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.projection.IFlavorProjector;
+import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhIdQuery;
+import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhIdResponse;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
@@ -14,10 +16,12 @@ import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     private final IFlavorFeignService flavorFeignService;
     private final IFlavorProjector flavorProjectionService;
     private final IRegionProjector regionProjection;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
@@ -35,14 +40,14 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     }
 
     @Override
-    public ProcessedFlavorsResponse processFlavors(ImmutableList<FlavorApi> flavorResponses) {
+    public ProcessedFlavorsResponse processFlavors(ImmutableList<FlavorApi> flavorResponses) throws ExecutionException, InterruptedException {
 
         ProcessedFlavorsResponse.Builder builder = ProcessedFlavorsResponse.builder();
         FetchRegionIdsGroupByNameProjection projection = regionProjection.fetchRegionIdsGroupedByName();
 
         for(FlavorApi flavorResponse : flavorResponses) {
 
-            if (flavorProjectionService.existsByOvhId(flavorResponse.getId())) {
+            if (existsByOvhId(flavorResponse.getId())) {
 
                 Flavor flavor = flavorProjectionService.fetchFlavorByOvhId(flavorResponse.getId());
 
@@ -59,6 +64,14 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         }
 
         return builder.build();
+    }
+
+    private boolean existsByOvhId(String ovhId) throws ExecutionException, InterruptedException {
+
+        ExistsFlavorByOvhIdQuery query = new ExistsFlavorByOvhIdQuery(ovhId);
+        ExistsFlavorByOvhIdResponse response = queryGateway.query(query, ExistsFlavorByOvhIdResponse.class).get();
+
+        return response.exists();
     }
 
     private Object handleFlavorUpdate(UUID id, FlavorApi flavorResponse) {

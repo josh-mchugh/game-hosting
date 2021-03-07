@@ -26,7 +26,7 @@ public class SecurityConfigTest {
 
         SecurityConfig config = new SecurityConfig(userDetailsService, authenticationSuccessHandler, passwordEncoder, switchUserFilter);
 
-        ObjectPostProcessor objectPostProcessor = Mockito.mock(ObjectPostProcessor.class);
+        ObjectPostProcessor<Object> objectPostProcessor = (ObjectPostProcessor<Object>) Mockito.mock(ObjectPostProcessor.class);
 
         Assertions.assertDoesNotThrow(() -> config.configure(new AuthenticationManagerBuilder(objectPostProcessor)));
     }
@@ -41,7 +41,7 @@ public class SecurityConfigTest {
 
         SecurityConfig config = new SecurityConfig(userDetailsService, authenticationSuccessHandler, passwordEncoder, switchUserFilter);
 
-        ObjectPostProcessor objectPostProcessor = Mockito.mock(ObjectPostProcessor.class);
+        ObjectPostProcessor<Object> objectPostProcessor = (ObjectPostProcessor<Object>) Mockito.mock(ObjectPostProcessor.class);
         AuthenticationManagerBuilder authenticationManagerBuilder = new AuthenticationManagerBuilder(objectPostProcessor);
         Map<Class<?>, Object> sharedObjects = new HashMap<>();
 

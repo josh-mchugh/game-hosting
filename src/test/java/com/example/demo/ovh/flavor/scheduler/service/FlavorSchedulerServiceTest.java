@@ -24,6 +24,7 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -70,7 +71,7 @@ public class FlavorSchedulerServiceTest {
     }
 
     @Test
-    public void testProcessorFlavorsCreated() {
+    public void testProcessorFlavorsCreated() throws ExecutionException, InterruptedException {
 
         FlavorApi flavorResponse = new FlavorApi();
         flavorResponse.setId("ovhId");
@@ -84,7 +85,7 @@ public class FlavorSchedulerServiceTest {
     }
 
     @Test
-    public void whenFlavorResponseIsNotDifferentThenNoUpdatedFlavors() {
+    public void whenFlavorResponseIsNotDifferentThenNoUpdatedFlavors() throws ExecutionException, InterruptedException {
 
         FlavorCreatedEvent event = flavorCreatedEvent();
         Flavor flavor = flavorService.handleCreated(event);
@@ -99,7 +100,7 @@ public class FlavorSchedulerServiceTest {
     }
 
     @Test
-    public void whenFlavorResponseIsDifferentThenExpectUpdatedFlavors() {
+    public void whenFlavorResponseIsDifferentThenExpectUpdatedFlavors() throws ExecutionException, InterruptedException {
 
         FlavorCreatedEvent event = flavorCreatedEvent();
         Flavor flavor = flavorService.handleCreated(event);

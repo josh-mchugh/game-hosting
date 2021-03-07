@@ -18,18 +18,6 @@ public class FlavorProjector implements IFlavorProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsByOvhId(String ovhId) {
-
-        QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
-
-        long count = queryFactory.selectFrom(qFlavor)
-                .where(qFlavor.ovhId.eq(ovhId))
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public FetchFlavorIdByOvhIdProjection fetchFlavorIdByOvhId(FetchFlavorIdByOvhIdQuery query) {
 
         QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;

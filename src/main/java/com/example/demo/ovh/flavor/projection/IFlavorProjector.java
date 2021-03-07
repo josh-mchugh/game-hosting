@@ -6,8 +6,6 @@ import com.example.demo.ovh.flavor.projection.model.FetchFlavorIdByOvhIdQuery;
 
 public interface IFlavorProjector {
 
-    boolean existsByOvhId(String ovhId);
-
     FetchFlavorIdByOvhIdProjection fetchFlavorIdByOvhId(FetchFlavorIdByOvhIdQuery query);
 
     Flavor fetchFlavorByOvhId(String ovhId);
