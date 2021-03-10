@@ -19,18 +19,6 @@ public class ImageProjector implements IImageProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QImageEntity qImage = QImageEntity.imageEntity;
-
-        long count = queryFactory.select(qImage.id)
-                .from(qImage)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public boolean existsByNameAndRegionName(ExistByNameAndRegionNameQuery query) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
