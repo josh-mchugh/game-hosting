@@ -423,6 +423,8 @@ public class SampleBuilder {
 
     private Image createDefaultImage() {
 
+        if(region == null) region = createDefaultRegion();
+
         ImageCreatedEvent event = ImageCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .name("Ubuntu 20.04")

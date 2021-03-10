@@ -1,33 +1,39 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.ovh.image;
 
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageQuery;
+import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageResponse;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.image.projection.IImageProjector;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class ImageSeedService implements ISeedService<Object> {
 
-    private final IImageProjector imageProjector;
     private final IImageFeignService imageFeignService;
-    private final CommandGateway commandGateway;
     private final IRegionProjector regionProjector;
+    private final QueryGateway queryGateway;
+    private final CommandGateway commandGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        return !imageProjector.existsAny();
+        ExistsAnyImageQuery query = new ExistsAnyImageQuery();
+        ExistsAnyImageResponse response = queryGateway.query(query, ExistsAnyImageResponse.class).get();
+
+        return !response.exists();
     }
 
     @Override

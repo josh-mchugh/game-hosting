@@ -6,8 +6,6 @@ import com.example.demo.ovh.image.projection.model.FetchImageByNameAndRegionName
 
 public interface IImageProjector {
 
-    boolean existsAny();
-
     boolean existsByNameAndRegionName(ExistByNameAndRegionNameQuery query);
 
     Image fetchImageByNameAndRegionName(FetchImageByNameAndRegionNameQuery query);
