@@ -2,12 +2,13 @@ package com.example.demo.ovh.flavor.scheduler.service;
 
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorUpdateCommand;
-import com.example.demo.ovh.flavor.entity.model.Flavor;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.flavor.projection.IFlavorProjector;
 import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhIdQuery;
 import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhIdResponse;
+import com.example.demo.ovh.flavor.scheduler.projection.model.FetchFlavorByOvhIdQuery;
+import com.example.demo.ovh.flavor.scheduler.projection.model.FetchFlavorByOvhIdResponse;
+import com.example.demo.ovh.flavor.scheduler.projection.projection.FlavorProjection;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
@@ -28,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 public class FlavorSchedulerService implements IFlavorSchedulerService {
 
     private final IFlavorFeignService flavorFeignService;
-    private final IFlavorProjector flavorProjectionService;
     private final IRegionProjector regionProjection;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
@@ -49,7 +49,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
             if (existsByOvhId(flavorResponse.getId())) {
 
-                Flavor flavor = flavorProjectionService.fetchFlavorByOvhId(flavorResponse.getId());
+                FlavorProjection flavor = getFlavorByOvhId(flavorResponse.getId());
 
                 if(isDifferent(flavor, flavorResponse)) {
 
@@ -72,6 +72,14 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         ExistsFlavorByOvhIdResponse response = queryGateway.query(query, ExistsFlavorByOvhIdResponse.class).get();
 
         return response.exists();
+    }
+
+    private FlavorProjection getFlavorByOvhId(String ovhId) throws ExecutionException, InterruptedException {
+
+        FetchFlavorByOvhIdQuery query = new FetchFlavorByOvhIdQuery(ovhId);
+        FetchFlavorByOvhIdResponse response = queryGateway.query(query, FetchFlavorByOvhIdResponse.class).get();
+
+        return response.getFlavor();
     }
 
     private Object handleFlavorUpdate(UUID id, FlavorApi flavorResponse) {
@@ -120,7 +128,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return commandGateway.sendAndWait(command);
     }
 
-    private boolean isDifferent(Flavor flavor, FlavorApi flavorApi) {
+    private boolean isDifferent(FlavorProjection flavor, FlavorApi flavorApi) {
 
         if (!StringUtils.equals(flavor.getName(), flavorApi.getName())) return true;
         if (!StringUtils.equals(flavor.getType(), flavorApi.getType())) return true;
