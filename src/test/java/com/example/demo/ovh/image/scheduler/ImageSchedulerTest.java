@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.concurrent.ExecutionException;
+
 public class ImageSchedulerTest {
 
     @Test
-    public void whenImageSchedulerHasNoApiResponseThrowNoExceptions() {
+    public void whenImageSchedulerHasNoApiResponseThrowNoExceptions() throws ExecutionException, InterruptedException {
 
         IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
         ProcessedImagesResponse response = ProcessedImagesResponse.builder().build();
@@ -25,7 +27,7 @@ public class ImageSchedulerTest {
     }
 
     @Test
-    public void whenImageSchedulerHasApiResponseThenThrowNoExceptions() {
+    public void whenImageSchedulerHasApiResponseThenThrowNoExceptions() throws ExecutionException, InterruptedException {
 
         IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
         ProcessedImagesResponse response = ProcessedImagesResponse.builder()
@@ -42,7 +44,7 @@ public class ImageSchedulerTest {
     }
 
     @Test
-    public void whenImageSchedulerHasNullApiThenThrowNoExceptions() {
+    public void whenImageSchedulerHasNullApiThenThrowNoExceptions() throws ExecutionException, InterruptedException {
 
         IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
         ProcessedImagesResponse response = ProcessedImagesResponse.builder().build();
@@ -56,7 +58,7 @@ public class ImageSchedulerTest {
     }
 
     @Test
-    public void whenImageSchedulerHasNullResponseThenThrowException() {
+    public void whenImageSchedulerHasNullResponseThenThrowException() throws ExecutionException, InterruptedException {
 
         IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
 
