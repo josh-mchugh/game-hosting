@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -67,7 +68,7 @@ public class ImageSchedulerServiceTest {
     }
 
     @Test
-    public void testProcessScheduledImagesCreated() {
+    public void testProcessScheduledImagesCreated() throws ExecutionException, InterruptedException {
 
         ImageApi imageResponse = new ImageApi();
         imageResponse.setId("ovhId");
@@ -82,7 +83,7 @@ public class ImageSchedulerServiceTest {
     }
 
     @Test
-    public void whenProcessScheduledHasUpdatesThenReturnUpdates() {
+    public void whenProcessScheduledHasUpdatesThenReturnUpdates() throws ExecutionException, InterruptedException {
 
         ImageCreatedEvent event = imageCreatedEvent();
         imageService.handleCreated(event);
@@ -98,7 +99,7 @@ public class ImageSchedulerServiceTest {
     }
 
     @Test
-    public void whenProcessScheduledHasNoUpdatesThenReturnEmptyList() {
+    public void whenProcessScheduledHasNoUpdatesThenReturnEmptyList() throws ExecutionException, InterruptedException {
 
         ImageCreatedEvent event = imageCreatedEvent();
         imageService.handleCreated(event);

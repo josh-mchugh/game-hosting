@@ -6,8 +6,9 @@ import com.example.demo.ovh.image.entity.model.Image;
 import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.image.projection.model.ExistByNameAndRegionNameQuery;
 import com.example.demo.ovh.image.projection.model.FetchImageByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameResponse;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
@@ -16,10 +17,12 @@ import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
     private final IImageFeignService imageFeignService;
     private final IImageProjector imageProjector;
     private final IRegionProjector regionProjector;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
@@ -37,14 +41,14 @@ public class ImageSchedulerService implements IImageSchedulerService {
     }
 
     @Override
-    public ProcessedImagesResponse processScheduledImages(ImmutableList<ImageApi> imageResponses) {
+    public ProcessedImagesResponse processScheduledImages(ImmutableList<ImageApi> imageResponses) throws ExecutionException, InterruptedException {
 
         ProcessedImagesResponse.Builder builder = ProcessedImagesResponse.builder();
         FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
 
         for (ImageApi api : imageResponses) {
 
-            if(imageProjector.existsByNameAndRegionName(existsByNameAndRegionNameQuery(api))) {
+            if(existsByNameAndRegionName(api.getName(), api.getRegionName())) {
 
                 Image image = fetchImageByNameAndRegionName(api);
 
@@ -60,6 +64,14 @@ public class ImageSchedulerService implements IImageSchedulerService {
         }
 
         return builder.build();
+    }
+
+    private boolean existsByNameAndRegionName(String name, String regionName) throws ExecutionException, InterruptedException {
+
+        ExistsImageByNameAndRegionNameQuery query = new ExistsImageByNameAndRegionNameQuery(name, regionName);
+        ExistsImageByNameAndRegionNameResponse response = queryGateway.query(query, ExistsImageByNameAndRegionNameResponse.class).get();
+
+        return response.exists();
     }
 
     private Object processImageUpdate(UUID id, ImageApi imageResponse) {
@@ -110,14 +122,6 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .username(response.getUser())
                 .status(response.getStatus())
                 .visibility(response.getVisibility())
-                .build();
-    }
-
-    private ExistByNameAndRegionNameQuery existsByNameAndRegionNameQuery(ImageApi api) {
-
-        return ExistByNameAndRegionNameQuery.builder()
-                .name(api.getName())
-                .regionName(api.getRegionName())
                 .build();
     }
 

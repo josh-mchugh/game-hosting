@@ -1,24 +1,24 @@
-package com.example.demo.ovh.image.projection;
+package com.example.demo.ovh.image.scheduler.projection;
 
-import com.example.demo.ovh.image.entity.ImageEntity;
 import com.example.demo.ovh.image.entity.QImageEntity;
-import com.example.demo.ovh.image.entity.mapper.ImageMapper;
-import com.example.demo.ovh.image.entity.model.Image;
-import com.example.demo.ovh.image.projection.model.FetchImageByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameResponse;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ImageProjector implements IImageProjector {
+public class ImageSchedulerProjectionService implements IImageSchedulerProjectionService {
 
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public Image fetchImageByNameAndRegionName(FetchImageByNameAndRegionNameQuery query) {
+    @QueryHandler
+    public ExistsImageByNameAndRegionNameResponse existsByNameAndRegionName(ExistsImageByNameAndRegionNameQuery query) {
 
         QImageEntity qImage = QImageEntity.imageEntity;
         QRegionEntity qRegion = QRegionEntity.regionEntity;
@@ -27,12 +27,12 @@ public class ImageProjector implements IImageProjector {
         predicate.and(qImage.name.eq(query.getName()));
         predicate.and(qRegion.name.eq(query.getRegionName()));
 
-        ImageEntity entity = queryFactory.select(qImage)
+        long count = queryFactory.select(qImage.id)
                 .from(qImage)
-                .innerJoin(qImage.regionEntity, qRegion)
+                .leftJoin(qImage.regionEntity, qRegion)
                 .where(predicate)
-                .fetchOne();
+                .fetchCount();
 
-        return ImageMapper.map(entity);
+        return new ExistsImageByNameAndRegionNameResponse(count >= 1);
     }
 }

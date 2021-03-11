@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
@@ -22,7 +23,7 @@ public class ImageScheduler {
     private final IImageSchedulerService imageSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.image-scheduler-delay}", initialDelayString = "${ovh.image-scheduler-initial-delay}")
-    public void scheduledImageUpdater() {
+    public void scheduledImageUpdater() throws ExecutionException, InterruptedException {
 
         LocalDateTime startTime = LocalDateTime.now();
 
