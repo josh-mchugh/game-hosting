@@ -2,13 +2,13 @@ package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.aggregate.command.ImageUpdateCommand;
-import com.example.demo.ovh.image.entity.model.Image;
 import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.image.projection.IImageProjector;
-import com.example.demo.ovh.image.projection.model.FetchImageByNameAndRegionNameQuery;
 import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameQuery;
 import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameResponse;
+import com.example.demo.ovh.image.scheduler.projection.model.FetchImageProjectionByNameAndRegionNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.FetchImageProjectionByNameAndRegionNameResponse;
+import com.example.demo.ovh.image.scheduler.projection.projection.ImageProjection;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 public class ImageSchedulerService implements IImageSchedulerService {
 
     private final IImageFeignService imageFeignService;
-    private final IImageProjector imageProjector;
     private final IRegionProjector regionProjector;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
@@ -50,7 +49,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
             if(existsByNameAndRegionName(api.getName(), api.getRegionName())) {
 
-                Image image = fetchImageByNameAndRegionName(api);
+                ImageProjection image = fetchImageByNameAndRegionName(api.getName(), api.getRegionName());
 
                 if(isDifferent(image, api)) {
 
@@ -125,17 +124,15 @@ public class ImageSchedulerService implements IImageSchedulerService {
                 .build();
     }
 
-    private Image fetchImageByNameAndRegionName(ImageApi api) {
+    private ImageProjection fetchImageByNameAndRegionName(String name, String regionName) throws ExecutionException, InterruptedException {
 
-        FetchImageByNameAndRegionNameQuery query = FetchImageByNameAndRegionNameQuery.builder()
-                .name(api.getName())
-                .regionName(api.getRegionName())
-                .build();
+        FetchImageProjectionByNameAndRegionNameQuery query = new FetchImageProjectionByNameAndRegionNameQuery(name, regionName);
+        FetchImageProjectionByNameAndRegionNameResponse response = queryGateway.query(query, FetchImageProjectionByNameAndRegionNameResponse.class).get();
 
-        return imageProjector.fetchImageByNameAndRegionName(query);
+        return response.getImage();
     }
 
-    private boolean isDifferent(Image image, ImageApi api) {
+    private boolean isDifferent(ImageProjection image, ImageApi api) {
 
         if (!StringUtils.equals(image.getOvhId(), api.getId())) return true;
         if (!StringUtils.equals(image.getType(), api.getType())) return true;
