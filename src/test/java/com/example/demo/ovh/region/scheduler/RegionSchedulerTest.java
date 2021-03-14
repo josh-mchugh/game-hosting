@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.concurrent.ExecutionException;
+
 public class RegionSchedulerTest {
 
     private IRegionSchedulerService schedulerService;
@@ -19,7 +21,7 @@ public class RegionSchedulerTest {
     }
 
     @Test
-    public void whenSchedulerExecutesThenExpectNoExceptions() {
+    public void whenSchedulerExecutesThenExpectNoExceptions() throws ExecutionException, InterruptedException {
 
         Mockito.when(schedulerService.getRegionNames()).thenReturn(ImmutableList.of());
 

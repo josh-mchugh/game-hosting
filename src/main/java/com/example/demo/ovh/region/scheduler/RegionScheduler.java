@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
@@ -21,7 +22,7 @@ public class RegionScheduler {
     private final IRegionSchedulerService regionSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.region-scheduler-delay}", initialDelayString = "${ovh.region-scheduler-initial-delay}")
-    public void scheduledRegionUpdater() {
+    public void scheduledRegionUpdater() throws ExecutionException, InterruptedException {
 
         LocalDateTime startTime = LocalDateTime.now();
 

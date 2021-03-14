@@ -33,19 +33,6 @@ public class RegionProjector implements IRegionProjector {
     }
 
     @Override
-    public boolean existsByName(String name) {
-
-        QRegionEntity qRegion = QRegionEntity.regionEntity;
-
-        long count = queryFactory.select(qRegion.id)
-                .from(qRegion)
-                .where(qRegion.name.eq(name))
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public Region fetchRegionByName(FetchRegionByNameQuery query) {
 
         QRegionEntity qRegion = QRegionEntity.regionEntity;
