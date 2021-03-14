@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -50,7 +51,7 @@ public class RegionSchedulerServiceTest {
     }
 
     @Test
-    public void testProcessedCreatedRegions() {
+    public void testProcessedCreatedRegions() throws ExecutionException, InterruptedException {
 
         RegionApi regionResponse = new RegionApi();
         regionResponse.setName("processed-create-regions");
@@ -64,7 +65,7 @@ public class RegionSchedulerServiceTest {
     }
 
     @Test
-    public void whenRegionSchedulerHasUpdatesThenExpectPopulatedList() {
+    public void whenRegionSchedulerHasUpdatesThenExpectPopulatedList() throws ExecutionException, InterruptedException {
 
         RegionCreatedEvent event = regionCreatedEvent();
         regionService.handleCreated(event);
@@ -81,7 +82,7 @@ public class RegionSchedulerServiceTest {
     }
 
     @Test
-    public void whenRegionSchedulerHasNoUpdatesThenExpectEmptyList() {
+    public void whenRegionSchedulerHasNoUpdatesThenExpectEmptyList() throws ExecutionException, InterruptedException {
 
         RegionCreatedEvent event = regionCreatedEvent();
         regionService.handleCreated(event);

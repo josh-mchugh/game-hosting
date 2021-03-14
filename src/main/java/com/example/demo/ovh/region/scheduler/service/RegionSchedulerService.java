@@ -7,6 +7,8 @@ import com.example.demo.ovh.region.feign.IRegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.example.demo.ovh.region.projection.model.FetchRegionByNameQuery;
+import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameQuery;
+import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameResponse;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -14,11 +16,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
     private final IRegionFeignService regionFeignService;
     private final IRegionProjector regionProjection;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
@@ -35,7 +40,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
     }
 
     @Override
-    public ProcessRegionResponse processRegions(ImmutableList<String> regionNames) {
+    public ProcessRegionResponse processRegions(ImmutableList<String> regionNames) throws ExecutionException, InterruptedException {
 
         ProcessRegionResponse.Builder builder = ProcessRegionResponse.builder();
 
@@ -43,7 +48,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
             RegionApi api = regionFeignService.getRegion(name);
 
-            if(regionProjection.existsByName(name)) {
+            if(existsByName(name)) {
 
                 FetchRegionByNameQuery query = new FetchRegionByNameQuery(name);
                 Region region = regionProjection.fetchRegionByName(query);
@@ -60,6 +65,14 @@ public class RegionSchedulerService implements IRegionSchedulerService {
         }
 
         return builder.build();
+    }
+
+    private boolean existsByName(String name) throws ExecutionException, InterruptedException {
+
+        ExistsRegionByNameQuery query = new ExistsRegionByNameQuery(name);
+        ExistsRegionByNameResponse response = queryGateway.query(query, ExistsRegionByNameResponse.class).get();
+
+        return response.exists();
     }
 
     private Object handleUpdateRegion(UUID id, RegionApi region) {
