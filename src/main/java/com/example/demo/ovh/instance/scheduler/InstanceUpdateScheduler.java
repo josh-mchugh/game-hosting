@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
@@ -23,7 +24,7 @@ public class InstanceUpdateScheduler {
     private final IInstanceSchedulerService instanceSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.instance-scheduler-delay}", initialDelayString = "${ovh.instance-scheduler-initial-delay}")
-    public void instanceUpdateScheduler() {
+    public void instanceUpdateScheduler() throws ExecutionException, InterruptedException {
 
         LocalDateTime startTime = LocalDateTime.now();
 

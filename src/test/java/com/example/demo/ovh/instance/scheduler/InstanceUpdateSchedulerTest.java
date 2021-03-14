@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class InstanceUpdateSchedulerTest {
 
     @Test
-    public void whenInstanceUpdateSchedulerExecutes() {
+    public void whenInstanceUpdateSchedulerExecutes() throws ExecutionException, InterruptedException {
 
         IInstanceSchedulerService service = Mockito.mock(IInstanceSchedulerService.class);
         Mockito.when(service.handleInstanceUpdates(Mockito.any())).thenReturn(Lists.newArrayList(UUID.randomUUID()));

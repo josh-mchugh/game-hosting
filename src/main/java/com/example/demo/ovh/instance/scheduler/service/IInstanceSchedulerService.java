@@ -5,10 +5,11 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public interface IInstanceSchedulerService {
 
     ImmutableList<InstanceApi> getInstanceApis();
 
-    List<UUID> handleInstanceUpdates(ImmutableList<InstanceApi> instanceApis);
+    List<UUID> handleInstanceUpdates(ImmutableList<InstanceApi> instanceApis) throws ExecutionException, InterruptedException;
 }

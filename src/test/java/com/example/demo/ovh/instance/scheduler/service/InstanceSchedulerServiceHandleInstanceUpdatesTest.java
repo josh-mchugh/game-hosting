@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -53,7 +54,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseIsEqualThenReturnEmptyArray() {
+    public void whenApiResponseIsEqualThenReturnEmptyArray() throws ExecutionException, InterruptedException {
 
         List<UUID> updatedInstances = instanceSchedulerService.handleInstanceUpdates(ImmutableList.of());
 
@@ -61,7 +62,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseNameIsDifferentThenArrayWithItems() {
+    public void whenApiResponseNameIsDifferentThenArrayWithItems() throws ExecutionException, InterruptedException {
 
         InstanceApi instanceApi = instanceApi();
         instanceApi.setName("new-name");
@@ -72,7 +73,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseStatusIsDifferentThenArrayWithItems() {
+    public void whenApiResponseStatusIsDifferentThenArrayWithItems() throws ExecutionException, InterruptedException {
 
         InstanceUpdatedEvent updatedEvent = instanceCreatedEvent();
         instanceService.handleUpdated(updatedEvent);
@@ -86,7 +87,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseCreatedDateIdDifferentThenArrayWithItems() {
+    public void whenApiResponseCreatedDateIdDifferentThenArrayWithItems() throws ExecutionException, InterruptedException {
 
         InstanceApi instanceApi = instanceApi();
         instanceApi.setCreatedDate(LocalDateTime.now());
@@ -97,7 +98,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseIp4AddressIdDifferentThenArrayWithItems() {
+    public void whenApiResponseIp4AddressIdDifferentThenArrayWithItems() throws ExecutionException, InterruptedException {
 
         InstanceUpdatedEvent updatedEvent = instanceCreatedEvent();
         instanceService.handleUpdated(updatedEvent);
@@ -111,7 +112,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseIp6AddressIdDifferentThenArrayWithItems() {
+    public void whenApiResponseIp6AddressIdDifferentThenArrayWithItems() throws ExecutionException, InterruptedException {
 
         InstanceUpdatedEvent updatedEvent = instanceCreatedEvent();
         instanceService.handleUpdated(updatedEvent);
@@ -125,7 +126,7 @@ public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
     }
 
     @Test
-    public void whenApiResponseHasNullIpAddressThenArrayWithItems() {
+    public void whenApiResponseHasNullIpAddressThenArrayWithItems() throws ExecutionException, InterruptedException {
 
         InstanceUpdatedEvent updatedEvent = instanceCreatedEvent();
         instanceService.handleUpdated(updatedEvent);

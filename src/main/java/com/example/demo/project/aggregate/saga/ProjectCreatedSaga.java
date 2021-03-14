@@ -99,9 +99,9 @@ public class ProjectCreatedSaga {
         InstanceApi instanceApi = instanceFeignService.createInstance(ovhInstanceCreateRequest);
 
         UUID id = UUID.randomUUID();
-        UUID flavorId = UUID.fromString("41b28d04-2adc-4606-a2a9-b7a3761500bb");
-        UUID imageId = UUID.fromString("02bf891f-ebc9-4487-8b8a-59fcc58e6f44");
-        UUID credentialId = UUID.fromString("aac32023-35d9-4ec1-b494-c3579a8e8fda");
+        UUID flavorId = UUID.fromString("ae9a1dbe-42c4-47b8-894c-4d23d8854434");
+        UUID imageId = UUID.fromString("79ff7765-471e-497d-a3b3-d1d8701e2e19");
+        UUID credentialId = UUID.fromString("dd1a806d-7ead-4e04-8ad0-b8bd736c09f1");
         SagaLifecycle.associateWith("id", id.toString());
 
         InstanceCreateCommand command = InstanceCreateCommand.builder()
