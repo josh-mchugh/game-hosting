@@ -1,13 +1,17 @@
 package com.example.demo.ovh.region.scheduler.service;
 
-import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.entity.RegionStatus;
-import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.ovh.region.feign.IRegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
+import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameQuery;
+import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameResponse;
+import com.example.demo.ovh.region.scheduler.projection.model.FetchRegionByNameQuery;
+import com.example.demo.ovh.region.scheduler.projection.model.FetchRegionByNameResponse;
+import com.example.demo.ovh.region.scheduler.projection.projection.RegionProjection;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.collect.ImmutableList;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,6 +24,7 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
@@ -28,13 +33,13 @@ import java.util.concurrent.ExecutionException;
 public class RegionSchedulerServiceTest {
 
     @Autowired
-    private IRegionService regionService;
-
-    @Autowired
     private IRegionSchedulerService regionSchedulerService;
 
     @MockBean
     private CommandGateway commandGateway;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @MockBean
     private IRegionFeignService regionFeignService;
@@ -53,11 +58,14 @@ public class RegionSchedulerServiceTest {
     @Test
     public void testProcessedCreatedRegions() throws ExecutionException, InterruptedException {
 
-        RegionApi regionResponse = new RegionApi();
-        regionResponse.setName("processed-create-regions");
-        regionResponse.setStatus(RegionStatus.UP);
+        RegionApi regionApi = new RegionApi();
+        regionApi.setName("processed-create-regions");
+        regionApi.setStatus(RegionStatus.UP);
 
-        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionResponse);
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
+
+        Mockito.when(queryGateway.query(new ExistsRegionByNameQuery("not-existing-region"), ExistsRegionByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsRegionByNameResponse(false)));
 
         ProcessRegionResponse processedResponse = regionSchedulerService.processRegions(ImmutableList.of("not-existing-region"));
 
@@ -67,14 +75,17 @@ public class RegionSchedulerServiceTest {
     @Test
     public void whenRegionSchedulerHasUpdatesThenExpectPopulatedList() throws ExecutionException, InterruptedException {
 
-        RegionCreatedEvent event = regionCreatedEvent();
-        regionService.handleCreated(event);
+        RegionApi regionApi = regionApi(RegionStatus.DOWN);
 
-        RegionApi regionApi = regionApi();
-        regionApi.setStatus(RegionStatus.DOWN);
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
+
+        Mockito.when(queryGateway.query(new ExistsRegionByNameQuery(regionApi.getName()), ExistsRegionByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsRegionByNameResponse(true)));
+
+        Mockito.when(queryGateway.query(new FetchRegionByNameQuery(regionApi.getName()), FetchRegionByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionByNameResponse(region())));
 
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
-        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
 
         ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of("US-EAST-VA-1"));
 
@@ -84,40 +95,37 @@ public class RegionSchedulerServiceTest {
     @Test
     public void whenRegionSchedulerHasNoUpdatesThenExpectEmptyList() throws ExecutionException, InterruptedException {
 
-        RegionCreatedEvent event = regionCreatedEvent();
-        regionService.handleCreated(event);
+        RegionApi regionApi = regionApi(RegionStatus.UP);
 
-        RegionApi regionApi = regionApi();
+        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
+
+        Mockito.when(queryGateway.query(new ExistsRegionByNameQuery(regionApi.getName()), ExistsRegionByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsRegionByNameResponse(true)));
+
+        Mockito.when(queryGateway.query(new FetchRegionByNameQuery(regionApi.getName()), FetchRegionByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionByNameResponse(region())));
 
         Mockito.when(commandGateway.sendAndWait(Mockito.any())).thenReturn(UUID.randomUUID());
-        Mockito.when(regionFeignService.getRegion(Mockito.anyString())).thenReturn(regionApi);
 
         ProcessRegionResponse processResponse = regionSchedulerService.processRegions(ImmutableList.of("US-EAST-VA-1"));
 
         Assertions.assertEquals(0, processResponse.getUpdatedRegions().size());
     }
 
-    private RegionCreatedEvent regionCreatedEvent() {
-
-        return RegionCreatedEvent.builder()
-                .id(UUID.randomUUID())
-                .name("US-EAST-VA-1")
-                .continentCode("US")
-                .countryCodes("us,ca")
-                .dataCenterLocation("US-EAST-VA")
-                .status(RegionStatus.UP)
-                .build();
-    }
-
-    private RegionApi regionApi() {
+    private RegionApi regionApi(RegionStatus status) {
 
         RegionApi regionApi = new RegionApi();
         regionApi.setName("US-EAST-VA-1");
         regionApi.setContinentCode("US");
         regionApi.setIpCountries(Arrays.asList("us", "ca"));
         regionApi.setDataCenterLocation("US-EAST-VA");
-        regionApi.setStatus(RegionStatus.UP);
+        regionApi.setStatus(status);
 
         return regionApi;
+    }
+
+    private RegionProjection region() {
+
+        return new RegionProjection(UUID.randomUUID().toString(), "US", "us,ca", "US-EAST-VA", RegionStatus.UP);
     }
 }

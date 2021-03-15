@@ -2,13 +2,13 @@ package com.example.demo.ovh.region.scheduler.service;
 
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.aggregate.command.RegionUpdateCommand;
-import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.feign.IRegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionByNameQuery;
 import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameQuery;
 import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameResponse;
+import com.example.demo.ovh.region.scheduler.projection.model.FetchRegionByNameQuery;
+import com.example.demo.ovh.region.scheduler.projection.model.FetchRegionByNameResponse;
+import com.example.demo.ovh.region.scheduler.projection.projection.RegionProjection;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 public class RegionSchedulerService implements IRegionSchedulerService {
 
     private final IRegionFeignService regionFeignService;
-    private final IRegionProjector regionProjection;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -50,8 +49,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
 
             if(existsByName(name)) {
 
-                FetchRegionByNameQuery query = new FetchRegionByNameQuery(name);
-                Region region = regionProjection.fetchRegionByName(query);
+                RegionProjection region = fetchRegionByName(name);
 
                 if(isDifferent(region, api)) {
 
@@ -73,6 +71,14 @@ public class RegionSchedulerService implements IRegionSchedulerService {
         ExistsRegionByNameResponse response = queryGateway.query(query, ExistsRegionByNameResponse.class).get();
 
         return response.exists();
+    }
+
+    private RegionProjection fetchRegionByName(String name) throws ExecutionException, InterruptedException {
+
+        FetchRegionByNameQuery query = new FetchRegionByNameQuery(name);
+        FetchRegionByNameResponse response = queryGateway.query(query, FetchRegionByNameResponse.class).get();
+
+        return response.getRegion();
     }
 
     private Object handleUpdateRegion(UUID id, RegionApi region) {
@@ -112,7 +118,7 @@ public class RegionSchedulerService implements IRegionSchedulerService {
         return null;
     }
 
-    private boolean isDifferent(Region region, RegionApi api) {
+    private boolean isDifferent(RegionProjection region, RegionApi api) {
 
         if (!StringUtils.equals(region.getCountryCodes(), joinCountryCodes(api.getIpCountries()))) return true;
         if (!StringUtils.equals(region.getContinentCode(), api.getContinentCode())) return true;

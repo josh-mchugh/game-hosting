@@ -3,12 +3,12 @@ package com.example.demo.ovh.region.scheduler.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ExistsRegionByNameQueryTest {
+public class FetchRegionByNameQueryTest {
 
     @Test
     public void whenModelHasNameThenReturnName() {
 
-        ExistsRegionByNameQuery model = new ExistsRegionByNameQuery("name");
+        FetchRegionByNameQuery model = new FetchRegionByNameQuery("name");
 
         Assertions.assertEquals("name", model.getName());
     }
@@ -16,9 +16,9 @@ public class ExistsRegionByNameQueryTest {
     @Test
     public void whenModelToString() {
 
-        ExistsRegionByNameQuery model = model();
+        FetchRegionByNameQuery model = model();
 
-        String expected = "ExistsRegionByNameQuery(name=name)";
+        String expected = "FetchRegionByNameQuery(name=name)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -26,7 +26,7 @@ public class ExistsRegionByNameQueryTest {
     @Test
     public void whenModelHashCode() {
 
-        ExistsRegionByNameQuery model = model();
+        FetchRegionByNameQuery model = model();
 
         Assertions.assertEquals(3373766, model.hashCode());
     }
@@ -34,8 +34,8 @@ public class ExistsRegionByNameQueryTest {
     @Test
     public void whenModelEquals() {
 
-        ExistsRegionByNameQuery model1 = model();
-        ExistsRegionByNameQuery model2 = model();
+        FetchRegionByNameQuery model1 = model();
+        FetchRegionByNameQuery model2 = model();
 
         Assertions.assertEquals(model1, model2);
     }
@@ -43,13 +43,13 @@ public class ExistsRegionByNameQueryTest {
     @Test
     public void whenModelNotEquals() {
 
-        ExistsRegionByNameQuery model = model();
+        FetchRegionByNameQuery model = model();
 
-        Assertions.assertNotEquals(model, new ExistsRegionByNameQuery(null));
+        Assertions.assertNotEquals(model, new FetchRegionByNameQuery(null));
     }
 
-    private ExistsRegionByNameQuery model() {
+    private FetchRegionByNameQuery model() {
 
-        return new ExistsRegionByNameQuery("name");
+        return new FetchRegionByNameQuery("name");
     }
 }
