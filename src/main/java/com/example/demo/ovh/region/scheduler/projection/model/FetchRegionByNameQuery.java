@@ -1,4 +1,4 @@
-package com.example.demo.ovh.region.projection.model;
+package com.example.demo.ovh.region.scheduler.projection.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
