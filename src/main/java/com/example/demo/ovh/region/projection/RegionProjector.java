@@ -1,9 +1,6 @@
 package com.example.demo.ovh.region.projection;
 
 import com.example.demo.ovh.region.entity.QRegionEntity;
-import com.example.demo.ovh.region.entity.RegionEntity;
-import com.example.demo.ovh.region.entity.mapper.RegionMapper;
-import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.group.GroupBy;
