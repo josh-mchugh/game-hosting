@@ -4,7 +4,5 @@ import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNamePro
 
 public interface IRegionProjector {
 
-    boolean existsAny();
-
     FetchRegionIdsGroupByNameProjection fetchRegionIdsGroupedByName();
 }

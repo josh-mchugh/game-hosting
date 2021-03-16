@@ -1,32 +1,38 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.ovh.region;
 
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionQuery;
+import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionResponse;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
 import com.example.demo.ovh.region.feign.IRegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
-import com.example.demo.ovh.region.projection.IRegionProjector;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class RegionSeedService implements ISeedService<Object> {
 
-    private final IRegionProjector regionProjection;
     private final IRegionFeignService regionFeignService;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        return !regionProjection.existsAny();
+        ExistsAnyRegionQuery query = new ExistsAnyRegionQuery();
+        ExistsAnyRegionResponse response = queryGateway.query(query, ExistsAnyRegionResponse.class).get();
+
+        return !response.exists();
     }
 
     @Override

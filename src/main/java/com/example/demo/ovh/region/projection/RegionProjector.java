@@ -17,18 +17,6 @@ public class RegionProjector implements IRegionProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QRegionEntity qRegion = QRegionEntity.regionEntity;
-
-        long count = queryFactory.select(qRegion.id)
-                .from(qRegion)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public FetchRegionIdsGroupByNameProjection fetchRegionIdsGroupedByName() {
 
         QRegionEntity qRegion = QRegionEntity.regionEntity;
