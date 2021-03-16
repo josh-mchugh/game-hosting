@@ -1,11 +1,14 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.ovh.region;
 
+import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionQuery;
+import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionResponse;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.feign.IRegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,6 +20,8 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -32,18 +37,23 @@ public class RegionSeedServiceTest {
     @MockBean
     public IRegionFeignService regionFeignService;
 
-    @Test
-    public void whenRegionExistsThenDoesNotExistsReturnsFalse() {
+    @MockBean
+    private QueryGateway queryGateway;
 
-        sampleBuilder.builder()
-                .region()
-                .build();
+    @Test
+    public void whenRegionExistsThenDoesNotExistsReturnsFalse() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyRegionQuery(), ExistsAnyRegionResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyRegionResponse(true)));
 
         Assertions.assertFalse(regionSeedService.dataNotExists());
     }
 
     @Test
-    public void whenRegionDoesNotExistsThenDoesNotExistsReturnsTrue() {
+    public void whenRegionDoesNotExistsThenDoesNotExistsReturnsTrue() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyRegionQuery(), ExistsAnyRegionResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyRegionResponse(false)));
 
         Assertions.assertTrue(regionSeedService.dataNotExists());
     }
