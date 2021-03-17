@@ -5,12 +5,19 @@ import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhI
 import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhIdResponse;
 import com.example.demo.ovh.flavor.scheduler.projection.model.FetchFlavorByOvhIdQuery;
 import com.example.demo.ovh.flavor.scheduler.projection.model.FetchFlavorByOvhIdResponse;
+import com.example.demo.ovh.flavor.scheduler.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.ovh.flavor.scheduler.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.flavor.scheduler.projection.projection.FlavorProjection;
+import com.example.demo.ovh.region.entity.QRegionEntity;
+import com.google.common.collect.ImmutableMap;
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -58,5 +65,18 @@ public class FlavorSchedulerProjectionService implements IFlavorSchedulerProject
                 .fetchOne();
 
         return new FetchFlavorByOvhIdResponse(projection);
+    }
+
+    @Override
+    @QueryHandler
+    public FetchRegionIdsGroupedByNameResponse fetchRegionIdsGroupedByName(FetchRegionIdsGroupedByNameQuery query) {
+
+        QRegionEntity qRegion = QRegionEntity.regionEntity;
+
+        Map<String, String> regions = queryFactory.select(qRegion.name, qRegion.id)
+                .from(qRegion)
+                .transform(GroupBy.groupBy(qRegion.name).as(qRegion.id));
+
+        return new FetchRegionIdsGroupedByNameResponse(ImmutableMap.copyOf(regions));
     }
 }

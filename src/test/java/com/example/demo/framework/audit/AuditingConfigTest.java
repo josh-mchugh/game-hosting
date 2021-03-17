@@ -8,10 +8,16 @@ public class AuditingConfigTest {
     @Test
     public void whenConfigHasAuditAwareThenReturnAuditAware() {
 
-        AuditorAwareImpl auditorAware = new AuditorAwareImpl();
+        AuditingConfig config = new AuditingConfig();
 
-        AuditingConfig config = new AuditingConfig(auditorAware);
+        Assertions.assertNotNull(config.auditorAware());
+    }
 
-        Assertions.assertEquals(auditorAware, config.auditorAware());
+    @Test
+    public void whenConfigGetCurrentAuditorThenReturnSystem() {
+
+       AuditingConfig config = new AuditingConfig();
+
+        Assertions.assertEquals("SYSTEM", config.auditorAware().getCurrentAuditor().get());
     }
 }

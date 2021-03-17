@@ -8,10 +8,10 @@ import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhI
 import com.example.demo.ovh.flavor.scheduler.projection.model.ExistsFlavorByOvhIdResponse;
 import com.example.demo.ovh.flavor.scheduler.projection.model.FetchFlavorByOvhIdQuery;
 import com.example.demo.ovh.flavor.scheduler.projection.model.FetchFlavorByOvhIdResponse;
+import com.example.demo.ovh.flavor.scheduler.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.ovh.flavor.scheduler.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.flavor.scheduler.projection.projection.FlavorProjection;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 public class FlavorSchedulerService implements IFlavorSchedulerService {
 
     private final IFlavorFeignService flavorFeignService;
-    private final IRegionProjector regionProjection;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -43,7 +42,7 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
     public ProcessedFlavorsResponse processFlavors(ImmutableList<FlavorApi> flavorResponses) throws ExecutionException, InterruptedException {
 
         ProcessedFlavorsResponse.Builder builder = ProcessedFlavorsResponse.builder();
-        FetchRegionIdsGroupByNameProjection projection = regionProjection.fetchRegionIdsGroupedByName();
+        ImmutableMap<String, String> regions = getRegions();
 
         for(FlavorApi flavorResponse : flavorResponses) {
 
@@ -58,12 +57,20 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
 
             } else {
 
-                builder.createdFlavor(handleFlavorCreate(flavorResponse, projection.getRegionMap()));
+                builder.createdFlavor(handleFlavorCreate(flavorResponse, regions.get(flavorResponse.getRegionName())));
             }
 
         }
 
         return builder.build();
+    }
+
+    private ImmutableMap<String, String> getRegions() throws ExecutionException, InterruptedException {
+
+        FetchRegionIdsGroupedByNameQuery query = new FetchRegionIdsGroupedByNameQuery();
+        FetchRegionIdsGroupedByNameResponse response = queryGateway.query(query, FetchRegionIdsGroupedByNameResponse.class).get();
+
+        return response.getRegions();
     }
 
     private boolean existsByOvhId(String ovhId) throws ExecutionException, InterruptedException {
@@ -103,14 +110,12 @@ public class FlavorSchedulerService implements IFlavorSchedulerService {
         return commandGateway.sendAndWait(command);
     }
 
-    private Object handleFlavorCreate(FlavorApi flavorResponse, ImmutableMap<String, String> regionsMap) {
-
-        UUID regionId = UUID.fromString(regionsMap.get(flavorResponse.getRegionName()));
+    private Object handleFlavorCreate(FlavorApi flavorResponse, String regionId) {
 
         FlavorCreateCommand command = FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(flavorResponse.getId())
-                .regionId(regionId)
+                .regionId(UUID.fromString(regionId))
                 .name(flavorResponse.getName())
                 .type(flavorResponse.getType())
                 .available(flavorResponse.isAvailable())
