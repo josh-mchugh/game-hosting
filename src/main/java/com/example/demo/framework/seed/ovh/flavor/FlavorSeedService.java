@@ -3,11 +3,11 @@ package com.example.demo.framework.seed.ovh.flavor;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorQuery;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorResponse;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 public class FlavorSeedService implements ISeedService<Object> {
 
     private final IFlavorFeignService flavorFeignService;
-    private final IRegionProjector regionProjector;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -37,12 +36,12 @@ public class FlavorSeedService implements ISeedService<Object> {
     }
 
     @Override
-    public ImmutableList<Object> initializeData() {
+    public ImmutableList<Object> initializeData() throws ExecutionException, InterruptedException {
 
-       FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
+       ImmutableMap<String, String> regions = getRegions();
 
         return flavorFeignService.getFlavors().stream()
-                .map(response -> this.buildFlavorCreateCommand(response, projection.getRegionMap()))
+                .map(response -> this.buildFlavorCreateCommand(response, regions.get(response.getRegionName())))
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
     }
@@ -59,13 +58,19 @@ public class FlavorSeedService implements ISeedService<Object> {
         return 3;
     }
 
-    private FlavorCreateCommand buildFlavorCreateCommand(FlavorApi flavor, ImmutableMap<String, String> regionMap) {
+    private ImmutableMap<String, String> getRegions() throws ExecutionException, InterruptedException {
 
-        UUID regionId = UUID.fromString(regionMap.get(flavor.getRegionName()));
+        FetchRegionIdsGroupedByNameQuery query = new FetchRegionIdsGroupedByNameQuery();
+        FetchRegionIdsGroupedByNameResponse response = queryGateway.query(query, FetchRegionIdsGroupedByNameResponse.class).get();
+
+        return response.getRegions();
+    }
+
+    private FlavorCreateCommand buildFlavorCreateCommand(FlavorApi flavor, String regionId) {
 
         return FlavorCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .regionId(regionId)
+                .regionId(UUID.fromString(regionId))
                 .ovhId(flavor.getId())
                 .name(flavor.getName())
                 .type(flavor.getType())

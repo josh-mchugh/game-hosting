@@ -2,11 +2,13 @@ package com.example.demo.framework.seed.ovh.flavor;
 
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorQuery;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorResponse;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -62,16 +65,15 @@ public class FlavorSeedServiceTest {
     }
 
     @Test
-    public void whenInitializeDataIsValidThenReturnList() {
-
-        Region region = sampleBuilder.builder()
-                .region()
-                .build()
-                .getRegion();
+    public void whenInitializeDataIsValidThenReturnList() throws ExecutionException, InterruptedException {
 
         FlavorApi flavorApi = new FlavorApi();
         flavorApi.setId("id");
-        flavorApi.setRegionName(region.getName());
+        flavorApi.setRegionName("regionName");
+
+        FetchRegionIdsGroupedByNameResponse response = new FetchRegionIdsGroupedByNameResponse(ImmutableMap.of("regionName", UUID.randomUUID().toString()));
+        Mockito.when(queryGateway.query(new FetchRegionIdsGroupedByNameQuery(), FetchRegionIdsGroupedByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         Mockito.when(flavorFeignService.getFlavors()).thenReturn(Collections.singletonList(flavorApi));
 
@@ -81,7 +83,10 @@ public class FlavorSeedServiceTest {
     }
 
     @Test
-    public void whenApiReturnsEmptyListThenReturnEmptyList() {
+    public void whenApiReturnsEmptyListThenReturnEmptyList() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new FetchRegionIdsGroupedByNameQuery(), FetchRegionIdsGroupedByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionIdsGroupedByNameResponse(ImmutableMap.of())));
 
         Mockito.when(flavorFeignService.getFlavors()).thenReturn(Collections.emptyList());
 
@@ -92,6 +97,9 @@ public class FlavorSeedServiceTest {
 
     @Test
     public void whenApiThrowsExceptionThenThrowException() {
+
+        Mockito.when(queryGateway.query(new FetchRegionIdsGroupedByNameQuery(), FetchRegionIdsGroupedByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionIdsGroupedByNameResponse(ImmutableMap.of())));
 
         Mockito.when(flavorFeignService.getFlavors()).thenThrow(FeignException.FeignClientException.class);
 
