@@ -8,7 +8,7 @@ public interface ISeedService<T> {
 
     boolean dataNotExists() throws ExecutionException, InterruptedException;
 
-    ImmutableList<T> initializeData();
+    ImmutableList<T> initializeData() throws ExecutionException, InterruptedException;
 
     String type();
 
