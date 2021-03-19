@@ -2,11 +2,14 @@ package com.example.demo.framework.seed.ovh.image;
 
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageQuery;
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageResponse;
+import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -58,7 +62,10 @@ public class ImageSeedServiceTest {
     }
 
     @Test
-    public void whenApiReturnsEmptyListThenReturnEmptyList() {
+    public void whenApiReturnsEmptyListThenReturnEmptyList() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new FetchRegionIdsGroupedByNameQuery(), FetchRegionIdsGroupedByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionIdsGroupedByNameResponse(ImmutableMap.of())));
 
         Mockito.when(imageFeignService.getImages()).thenReturn(Collections.emptyList());
 
@@ -68,17 +75,15 @@ public class ImageSeedServiceTest {
     }
 
     @Test
-    public void whenApiIsValidThenReturnList() {
-
-        Region region = sampleBuilder.builder()
-                .region()
-                .build()
-                .getRegion();
+    public void whenApiIsValidThenReturnList() throws ExecutionException, InterruptedException {
 
         ImageApi imageApi = new ImageApi();
         imageApi.setId("ovhId");
         imageApi.setName("Ubuntu 20.4");
-        imageApi.setRegionName(region.getName());
+        imageApi.setRegionName("regionName");
+
+        Mockito.when(queryGateway.query(new FetchRegionIdsGroupedByNameQuery(), FetchRegionIdsGroupedByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionIdsGroupedByNameResponse(ImmutableMap.of("regionName", UUID.randomUUID().toString()))));
 
         Mockito.when(imageFeignService.getImages()).thenReturn(Collections.singletonList(imageApi));
 
@@ -89,6 +94,9 @@ public class ImageSeedServiceTest {
 
     @Test
     public void whenApiThrowsExceptionThenThrowThrownException() {
+
+        Mockito.when(queryGateway.query(new FetchRegionIdsGroupedByNameQuery(), FetchRegionIdsGroupedByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchRegionIdsGroupedByNameResponse(ImmutableMap.of())));
 
         Mockito.when(imageFeignService.getImages()).thenThrow(FeignException.FeignClientException.class);
 
