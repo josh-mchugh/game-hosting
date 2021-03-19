@@ -3,11 +3,11 @@ package com.example.demo.framework.seed.ovh.image;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageQuery;
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageResponse;
+import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
 import com.example.demo.ovh.image.feign.IImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 public class ImageSeedService implements ISeedService<Object> {
 
     private final IImageFeignService imageFeignService;
-    private final IRegionProjector regionProjector;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -37,12 +36,12 @@ public class ImageSeedService implements ISeedService<Object> {
     }
 
     @Override
-    public ImmutableList<Object> initializeData() {
+    public ImmutableList<Object> initializeData() throws ExecutionException, InterruptedException {
 
-        FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
+        ImmutableMap<String, String> regions = fetchRegionIdsGroupedByName();
 
         return imageFeignService.getImages().stream()
-                .map(response -> this.imageCreateCommand(response, projection.getRegionMap()))
+                .map(response -> this.imageCreateCommand(response, regions.get(response.getRegionName())))
                 .map(commandGateway::sendAndWait)
                 .collect(ImmutableList.toImmutableList());
     }
@@ -59,13 +58,19 @@ public class ImageSeedService implements ISeedService<Object> {
         return 4;
     }
 
-    private ImageCreateCommand imageCreateCommand(ImageApi response, ImmutableMap<String, String> regionMap) {
+    private ImmutableMap<String, String> fetchRegionIdsGroupedByName() throws ExecutionException, InterruptedException {
 
-        UUID regionId = UUID.fromString(regionMap.get(response.getRegionName()));
+        FetchRegionIdsGroupedByNameQuery query = new FetchRegionIdsGroupedByNameQuery();
+        FetchRegionIdsGroupedByNameResponse response = queryGateway.query(query, FetchRegionIdsGroupedByNameResponse.class).get();
+
+        return response.getRegions();
+    }
+
+    private ImageCreateCommand imageCreateCommand(ImageApi response, String regionId) {
 
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .regionId(regionId)
+                .regionId(UUID.fromString(regionId))
                 .ovhId(response.getId())
                 .name(response.getName())
                 .type(response.getType())
