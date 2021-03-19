@@ -8,10 +8,10 @@ import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAn
 import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameResponse;
 import com.example.demo.ovh.image.scheduler.projection.model.FetchImageProjectionByNameAndRegionNameQuery;
 import com.example.demo.ovh.image.scheduler.projection.model.FetchImageProjectionByNameAndRegionNameResponse;
+import com.example.demo.ovh.image.scheduler.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.image.scheduler.projection.projection.ImageProjection;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
-import com.example.demo.ovh.region.projection.IRegionProjector;
-import com.example.demo.ovh.region.projection.model.FetchRegionIdsGroupByNameProjection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 public class ImageSchedulerService implements IImageSchedulerService {
 
     private final IImageFeignService imageFeignService;
-    private final IRegionProjector regionProjector;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -43,7 +42,7 @@ public class ImageSchedulerService implements IImageSchedulerService {
     public ProcessedImagesResponse processScheduledImages(ImmutableList<ImageApi> imageResponses) throws ExecutionException, InterruptedException {
 
         ProcessedImagesResponse.Builder builder = ProcessedImagesResponse.builder();
-        FetchRegionIdsGroupByNameProjection projection = regionProjector.fetchRegionIdsGroupedByName();
+        ImmutableMap<String, String> regions = fetchRegionIdsGroupedByName();
 
         for (ImageApi api : imageResponses) {
 
@@ -58,11 +57,19 @@ public class ImageSchedulerService implements IImageSchedulerService {
 
             } else {
 
-                builder.createdImage(processImageCreate(api, projection.getRegionMap()));
+                builder.createdImage(processImageCreate(api, regions.get(api.getRegionName())));
             }
         }
 
         return builder.build();
+    }
+
+    private ImmutableMap<String, String> fetchRegionIdsGroupedByName() throws ExecutionException, InterruptedException {
+
+        FetchRegionIdsGroupedByNameQuery query = new FetchRegionIdsGroupedByNameQuery();
+        FetchRegionIdsGroupedByNameResponse response = queryGateway.query(query, FetchRegionIdsGroupedByNameResponse.class).get();
+
+        return response.getRegions();
     }
 
     private boolean existsByNameAndRegionName(String name, String regionName) throws ExecutionException, InterruptedException {
@@ -94,21 +101,19 @@ public class ImageSchedulerService implements IImageSchedulerService {
         return commandGateway.sendAndWait(command);
     }
 
-    private Object processImageCreate(ImageApi imageResponse, ImmutableMap<String, String> regionMap) {
+    private Object processImageCreate(ImageApi imageResponse, String regionId) {
 
-        ImageCreateCommand command = imageCreateCommand(imageResponse, regionMap);
+        ImageCreateCommand command = imageCreateCommand(imageResponse, regionId);
 
         return commandGateway.sendAndWait(command);
     }
 
-    private ImageCreateCommand imageCreateCommand(ImageApi response, ImmutableMap<String, String>regionMap) {
-
-        UUID regionId = UUID.fromString(regionMap.get(response.getRegionName()));
+    private ImageCreateCommand imageCreateCommand(ImageApi response, String regionId) {
 
         return ImageCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .ovhId(response.getId())
-                .regionId(regionId)
+                .regionId(UUID.fromString(regionId))
                 .name(response.getName())
                 .type(response.getType())
                 .imageCreatedDate(response.getCreationDate())

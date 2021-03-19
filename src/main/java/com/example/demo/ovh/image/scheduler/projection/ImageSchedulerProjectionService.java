@@ -5,14 +5,20 @@ import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAn
 import com.example.demo.ovh.image.scheduler.projection.model.ExistsImageByNameAndRegionNameResponse;
 import com.example.demo.ovh.image.scheduler.projection.model.FetchImageProjectionByNameAndRegionNameQuery;
 import com.example.demo.ovh.image.scheduler.projection.model.FetchImageProjectionByNameAndRegionNameResponse;
+import com.example.demo.ovh.image.scheduler.projection.model.FetchRegionIdsGroupedByNameQuery;
+import com.example.demo.ovh.image.scheduler.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.image.scheduler.projection.projection.ImageProjection;
 import com.example.demo.ovh.region.entity.QRegionEntity;
+import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -74,5 +80,18 @@ public class ImageSchedulerProjectionService implements IImageSchedulerProjectio
                 .fetchOne();
 
         return new FetchImageProjectionByNameAndRegionNameResponse(projection);
+    }
+
+    @Override
+    @QueryHandler
+    public FetchRegionIdsGroupedByNameResponse fetchRegionIdsGroupedByName(FetchRegionIdsGroupedByNameQuery query) {
+
+        QRegionEntity qRegion = QRegionEntity.regionEntity;
+
+        Map<String, String> regions = queryFactory.select(qRegion.name, qRegion.id)
+                .from(qRegion)
+                .transform(GroupBy.groupBy(qRegion.name).as(qRegion.id));
+
+        return new FetchRegionIdsGroupedByNameResponse(ImmutableMap.copyOf(regions));
     }
 }
