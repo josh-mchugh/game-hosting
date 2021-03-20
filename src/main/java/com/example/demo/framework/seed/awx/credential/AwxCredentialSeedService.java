@@ -1,8 +1,7 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.credential;
 
 import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateCommand;
 import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
-import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.example.demo.awx.credential.feign.model.AwxCredentialCreateApi;
 import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
@@ -10,30 +9,37 @@ import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationId
 import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialQuery;
+import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class AwxCredentialSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxCredentialProjector awxCredentialProjector;
     private final IAwxCredentialFeignService credentialFeignService;
     private final IAwxOrganizationProjection awxOrganizationProjection;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        return !awxCredentialProjector.existsAny();
+        ExistsAnyAwxCredentialQuery query = new ExistsAnyAwxCredentialQuery();
+        ExistsAnyAwxCredentialResponse response = queryGateway.query(query, ExistsAnyAwxCredentialResponse.class).get();
+
+        return !response.exists();
     }
 
     @Override

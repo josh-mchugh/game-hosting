@@ -15,18 +15,6 @@ public class AwxCredentialProjector implements IAwxCredentialProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QAwxCredentialEntity qAwxCredential = QAwxCredentialEntity.awxCredentialEntity;
-
-        long count = queryFactory.select(qAwxCredential.id)
-                .from(qAwxCredential)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public AwxCredential getByName(String name) {
 
         QAwxCredentialEntity qAwxCredential = QAwxCredentialEntity.awxCredentialEntity;
