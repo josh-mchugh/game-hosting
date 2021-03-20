@@ -1,4 +1,4 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.credential;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest(properties = {
         "awx.organization.id=1",
@@ -44,7 +45,7 @@ public class AwxCredentialSeedServiceTest {
     private IAwxCredentialFeignService credentialClient;
 
     @Test
-    public void whenAwxCredentialsExistsThenDataNotExistsReturnFalse() {
+    public void whenAwxCredentialsExistsThenDataNotExistsReturnFalse() throws ExecutionException, InterruptedException {
 
         sampleBuilder.builder()
                 .awxOrganization()
@@ -55,7 +56,7 @@ public class AwxCredentialSeedServiceTest {
     }
 
     @Test
-    public void whenAwxCredentialDoesNotExistThenDataNotExistsReturnTrue() {
+    public void whenAwxCredentialDoesNotExistThenDataNotExistsReturnTrue() throws ExecutionException, InterruptedException {
 
         Assertions.assertTrue(awxCredentialSeedService.dataNotExists());
     }
