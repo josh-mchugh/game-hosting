@@ -1,7 +1,5 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.project;
 
-import com.example.demo.awx.credential.entity.model.AwxCredential;
-import com.example.demo.awx.credential.projection.IAwxCredentialProjector;
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
 import com.example.demo.awx.notification.feign.INotificationFeignService;
@@ -18,14 +16,19 @@ import com.example.demo.awx.project.feign.model.ProjectCreateApi;
 import com.example.demo.awx.project.projection.IAwxProjectProjector;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameResponse;
+import com.example.demo.framework.seed.awx.project.projection.projection.AwxCredentialProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
@@ -34,9 +37,9 @@ public class AwxProjectSeedService implements ISeedService<Object> {
     private final AwxConfig awxConfig;
     private final IProjectFeignService projectFeignService;
     private final INotificationFeignService notificationFeignService;
-    private final IAwxCredentialProjector awxCredentialProjector;
     private final IAwxProjectProjector awxProjectProjector;
     private final IAwxOrganizationProjection awxOrganizationProjection;
+    private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
     @Override
@@ -46,7 +49,7 @@ public class AwxProjectSeedService implements ISeedService<Object> {
     }
 
     @Override
-    public ImmutableList<Object> initializeData() {
+    public ImmutableList<Object> initializeData() throws ExecutionException, InterruptedException {
 
         ListResponse<ProjectApi> projectApis = projectFeignService.getProjects();
 
@@ -56,11 +59,11 @@ public class AwxProjectSeedService implements ISeedService<Object> {
 
         if(projectApi.isPresent()) {
 
-            AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
+            AwxCredentialProjection awxCredentialProjection = getAwxCredentialProjection(awxConfig.getProject().getCredentialName());
 
             UUID awxOrganizationId = getAwxOrganizationId(projectApi.get().getOrganizationId());
 
-            AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredential, projectApi.get(), awxOrganizationId);
+            AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredentialProjection.getId(), projectApi.get(), awxOrganizationId);
             UUID awxProjectId = commandGateway.sendAndWait(createCommand);
 
             return ImmutableList.of(awxProjectId);
@@ -81,17 +84,17 @@ public class AwxProjectSeedService implements ISeedService<Object> {
         return 9;
     }
 
-    private UUID createNewAwxProject() {
+    private UUID createNewAwxProject() throws ExecutionException, InterruptedException {
 
-        AwxCredential awxCredential = awxCredentialProjector.getByName(awxConfig.getProject().getCredentialName());
+        AwxCredentialProjection awxCredentialProjection = getAwxCredentialProjection(awxConfig.getProject().getCredentialName());
 
         // Create Project in AWX
-        ProjectApi api = createProjectApi(awxCredential);
+        ProjectApi api = createProjectApi(awxCredentialProjection.getAwxId());
 
         UUID awxOrganizationId = getAwxOrganizationId(api.getOrganizationId());
 
         // Persist AwxProject
-        AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredential, api, awxOrganizationId);
+        AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredentialProjection.getId(), api, awxOrganizationId);
         UUID projectId = commandGateway.sendAndWait(projectCreateCommand);
 
         // Create Notification for success in AWX
@@ -113,10 +116,10 @@ public class AwxProjectSeedService implements ISeedService<Object> {
         return projectId;
     }
 
-    private ProjectApi createProjectApi(AwxCredential awxCredential) {
+    private ProjectApi createProjectApi(Long awxCredentialAwxId) {
 
         ProjectCreateApi projectCreateApi = ProjectCreateApi.builder()
-                .credentialId(awxCredential.getAwxId())
+                .credentialId(awxCredentialAwxId)
                 .name(awxConfig.getProject().getName())
                 .description(awxConfig.getProject().getDescription())
                 .scmType(awxConfig.getProject().getScmType())
@@ -127,12 +130,20 @@ public class AwxProjectSeedService implements ISeedService<Object> {
         return projectFeignService.createProject(projectCreateApi);
     }
 
-    private AwxProjectCreateCommand createAwxProjectRequest(AwxCredential awxCredential, ProjectApi projectApi, UUID awxOrganizationId) {
+    private AwxCredentialProjection getAwxCredentialProjection(String name) throws ExecutionException, InterruptedException {
+
+        FetchAwxCredentialByNameQuery query = new FetchAwxCredentialByNameQuery(name);
+        FetchAwxCredentialByNameResponse response = queryGateway.query(query, FetchAwxCredentialByNameResponse.class).get();
+
+        return response.getProjection();
+    }
+
+    private AwxProjectCreateCommand createAwxProjectRequest(UUID awxCredentialId, ProjectApi projectApi, UUID awxOrganizationId) {
 
         return AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
                 .awxOrganizationId(awxOrganizationId)
-                .awxCredentialId(awxCredential.getId())
+                .awxCredentialId(awxCredentialId)
                 .awxId(projectApi.getId())
                 .name(projectApi.getName())
                 .description(projectApi.getDescription())
