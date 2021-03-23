@@ -1,4 +1,4 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.project;
 
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.notification.feign.INotificationFeignService;
@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -56,7 +57,7 @@ public class AwxProjectSeedServiceTest {
     }
 
     @Test
-    public void whenAwxProjectClientReturnsMatchingNameThenReturnList() {
+    public void whenAwxProjectClientReturnsMatchingNameThenReturnList() throws ExecutionException, InterruptedException {
 
         SampleData sampleData = sampleBuilder.builder()
                 .awxOrganization()
@@ -83,7 +84,7 @@ public class AwxProjectSeedServiceTest {
     }
 
     @Test
-    public void whenAwxProjectClientDoesNotReturnMatchingNameThenReturnList() {
+    public void whenAwxProjectClientDoesNotReturnMatchingNameThenReturnList() throws ExecutionException, InterruptedException {
 
         SampleData sampleData = sampleBuilder.builder()
                 .awxOrganization()
