@@ -16,18 +16,6 @@ public class AwxHostProjector implements IAwxHostProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
-
-        long count = queryFactory.select(qAwxHost)
-                .from(qAwxHost)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public AwxHostAwxIdProjection getHostIdProjection(AwxHostAwxIdQuery query) {
 
         QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
