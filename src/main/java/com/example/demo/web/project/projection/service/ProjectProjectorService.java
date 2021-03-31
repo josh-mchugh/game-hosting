@@ -1,9 +1,13 @@
 package com.example.demo.web.project.projection.service;
 
+import com.example.demo.awx.host.entity.QAwxHostEntity;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.example.demo.project.entity.QProjectEntity;
+import com.example.demo.web.project.projection.service.model.FetchAwxHostByInstanceOvhIdQuery;
+import com.example.demo.web.project.projection.service.model.FetchAwxHostByInstanceOvhIdResponse;
 import com.example.demo.web.project.projection.service.model.FetchProjectDetailsQuery;
 import com.example.demo.web.project.projection.service.model.FetchProjectDetailsResponse;
+import com.example.demo.web.project.projection.service.projection.AwxHostProjection;
 import com.example.demo.web.project.projection.service.projection.InstanceDetailsByIdProjection;
 import com.example.demo.web.project.projection.service.projection.ProjectDetailsProjection;
 import com.querydsl.core.types.Projections;
@@ -63,5 +67,25 @@ public class ProjectProjectorService implements IProjectProjectorService {
                 .from(qInstance)
                 .where(qInstance.instanceGroupEntity.projectEntity.id.eq(projectId))
                 .fetchOne();
+    }
+
+    @Override
+    @QueryHandler
+    public FetchAwxHostByInstanceOvhIdResponse fetchAwxHostByInstanceId(FetchAwxHostByInstanceOvhIdQuery query) {
+
+        QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
+        QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
+
+        AwxHostProjection projection = queryFactory.select(Projections.constructor(
+                    AwxHostProjection.class,
+                    qAwxHost.id,
+                    qAwxHost.awxId
+                ))
+                .from(qAwxHost)
+                .innerJoin(qAwxHost.instanceEntity, qInstance)
+                .where(qInstance.ovhId.eq(query.getInstanceOvhId()))
+                .fetchOne();
+
+        return new FetchAwxHostByInstanceOvhIdResponse(projection);
     }
 }

@@ -576,6 +576,9 @@ public class SampleBuilder {
 
     private AwxProject createDefaultAwxProject() {
 
+        if(awxOrganization == null) awxOrganization = createDefaultAwxOrganization();
+        if(awxCredential == null) awxCredential = createDefaultAwxCredential();
+
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxOrganizationId(awxOrganization.getId())
@@ -605,6 +608,8 @@ public class SampleBuilder {
 
     private AwxInventory createDefaultAwxInventory() {
 
+        if(awxOrganization == null) awxOrganization = createDefaultAwxOrganization();
+
         AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxOrganizationId(awxOrganization.getId())
@@ -617,6 +622,9 @@ public class SampleBuilder {
     }
 
     private AwxHost createDefaultAwxHost() {
+
+        if(awxInventory == null) awxInventory = createDefaultAwxInventory();
+        if(instance == null) instance = createDefaultInstance();
 
         AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
                 .id(UUID.randomUUID())

@@ -1,6 +1,9 @@
 package com.example.demo.framework.seed.awx.project.projection;
 
 import com.example.demo.awx.credential.entity.QAwxCredentialEntity;
+import com.example.demo.awx.project.entity.QAwxProjectEntity;
+import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectResponse;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameQuery;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameResponse;
 import com.example.demo.framework.seed.awx.project.projection.projection.AwxCredentialProjection;
@@ -15,6 +18,19 @@ import org.springframework.stereotype.Component;
 public class AwxProjectSeedProjectionService implements IAwxProjectSeedProjectionService {
 
     private final JPQLQueryFactory queryFactory;
+
+    @Override
+    @QueryHandler
+    public ExistsAnyAwxProjectResponse existsAny(ExistsAnyAwxProjectQuery query) {
+
+        QAwxProjectEntity qAwxProject = QAwxProjectEntity.awxProjectEntity;
+
+        long count = queryFactory.select(qAwxProject.id)
+                .from(qAwxProject)
+                .fetchCount();
+
+        return new ExistsAnyAwxProjectResponse(count >= 1);
+    }
 
     @Override
     @QueryHandler
