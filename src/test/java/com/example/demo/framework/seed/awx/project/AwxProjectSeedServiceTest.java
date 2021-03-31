@@ -39,7 +39,7 @@ public class AwxProjectSeedServiceTest {
     private INotificationFeignService notificationFeignService;
 
     @Test
-    public void whenAwxProjectExistsThenDataDoesNotExistsReturnFalse() {
+    public void whenAwxProjectExistsThenDataDoesNotExistsReturnFalse() throws ExecutionException, InterruptedException {
 
         sampleBuilder.builder()
                 .awxOrganization()
@@ -51,7 +51,7 @@ public class AwxProjectSeedServiceTest {
     }
 
     @Test
-    public void whenAwxProjectDoesNotExistsThenDataDoesNotExistsReturnTrue() {
+    public void whenAwxProjectDoesNotExistsThenDataDoesNotExistsReturnTrue() throws ExecutionException, InterruptedException {
 
         Assertions.assertTrue(awxProjectSeedService.dataNotExists());
     }

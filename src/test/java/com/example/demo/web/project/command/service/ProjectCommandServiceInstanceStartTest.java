@@ -2,12 +2,13 @@ package com.example.demo.web.project.command.service;
 
 import com.example.demo.awx.host.feign.IHostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
-import com.example.demo.awx.host.projection.IAwxHostProjector;
-import com.example.demo.awx.host.projection.model.AwxHostAwxIdProjection;
-import com.example.demo.awx.host.projection.model.AwxHostAwxIdQuery;
 import com.example.demo.ovh.instance.feign.IInstanceFeignService;
 import com.example.demo.web.project.command.service.model.ProjectInstanceStartRequest;
+import com.example.demo.web.project.projection.service.model.FetchAwxHostByInstanceOvhIdQuery;
+import com.example.demo.web.project.projection.service.model.FetchAwxHostByInstanceOvhIdResponse;
+import com.example.demo.web.project.projection.service.projection.AwxHostProjection;
 import feign.FeignException;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @Transactional
@@ -25,24 +27,27 @@ import java.util.UUID;
 public class ProjectCommandServiceInstanceStartTest {
 
     @MockBean
-    private IInstanceFeignService instanceFeignService;
-
-    @MockBean
-    private IAwxHostProjector awxHostProjector;
-
-    @MockBean
     private IHostFeignService hostFeignService;
 
     @Autowired
     private IProjectCommandService projectCommandService;
 
+    @MockBean
+    private IInstanceFeignService instanceFeignService;
+
+    @MockBean
+    private QueryGateway queryGateway;
+
     @Test
     public void whenHandleProjectInstanceStartHasValidIdThenThrowNoException() {
 
-        Mockito.doNothing().when(instanceFeignService).startInstance("instanceOvhId");
+        String instanceOvhId = UUID.randomUUID().toString();
+        Mockito.doNothing().when(instanceFeignService).startInstance(instanceOvhId);
 
-        AwxHostAwxIdProjection mockAwxHostAwxIdProjection = new AwxHostAwxIdProjection(UUID.randomUUID().toString(), 1L);
-        Mockito.when(awxHostProjector.getHostIdProjection(Mockito.any(AwxHostAwxIdQuery.class))).thenReturn(mockAwxHostAwxIdProjection);
+        FetchAwxHostByInstanceOvhIdQuery query = new FetchAwxHostByInstanceOvhIdQuery(instanceOvhId);
+        AwxHostProjection awxHostProjection = new AwxHostProjection(instanceOvhId, 1L);
+        Mockito.when(queryGateway.query(query, FetchAwxHostByInstanceOvhIdResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxHostByInstanceOvhIdResponse(awxHostProjection)));
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);
@@ -55,7 +60,7 @@ public class ProjectCommandServiceInstanceStartTest {
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId("projectId")
-                .instanceId("instanceOvhId")
+                .instanceId(instanceOvhId)
                 .build();
 
         Assertions.assertDoesNotThrow(() -> projectCommandService.handleProjectInstanceStart(request));

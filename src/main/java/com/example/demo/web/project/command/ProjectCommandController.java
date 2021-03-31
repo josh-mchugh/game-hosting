@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.concurrent.ExecutionException;
+
 @Controller
 @RequestMapping("/project")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class ProjectCommandController {
 
     @ResponseBody
     @PostMapping("/{id}/instance/{instanceId}/start")
-    public ResponseEntity<?> postStartInstance(@PathVariable("id") String id, @PathVariable("instanceId") String instanceId) {
+    public ResponseEntity<?> postStartInstance(@PathVariable("id") String id, @PathVariable("instanceId") String instanceId) throws ExecutionException, InterruptedException {
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId(id)
@@ -35,7 +37,7 @@ public class ProjectCommandController {
 
     @ResponseBody
     @PostMapping("/{id}/instance/{instanceId}/stop")
-    public ResponseEntity<?> postStopInstance(@PathVariable("id") String id, @PathVariable("instanceId") String instanceId) {
+    public ResponseEntity<?> postStopInstance(@PathVariable("id") String id, @PathVariable("instanceId") String instanceId) throws ExecutionException, InterruptedException {
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId(id)
