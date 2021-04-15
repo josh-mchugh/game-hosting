@@ -1,11 +1,14 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.inventory;
 
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
+import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryQuery;
+import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryResponse;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,6 +19,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -31,19 +36,23 @@ public class AwxInventorySeedServiceTest {
     @MockBean
     private IInventoryFeignService inventoryFeignService;
 
-    @Test
-    public void whenEntitiesExistThenDataDoesNotExistsReturnsFalse() {
+    @MockBean
+    private QueryGateway queryGateway;
 
-        sampleBuilder.builder()
-                .awxOrganization()
-                .awxInventory()
-                .build();
+    @Test
+    public void whenEntitiesExistThenDataDoesNotExistsReturnsFalse() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyAwxInventoryQuery(), ExistsAnyAwxInventoryResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyAwxInventoryResponse(true)));
 
         Assertions.assertFalse(awxInventorySeedService.dataNotExists());
     }
 
     @Test
-    public void whenEntitiesDoNotExistThenDataDoesNotExistsReturnTrue() {
+    public void whenEntitiesDoNotExistThenDataDoesNotExistsReturnTrue() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyAwxInventoryQuery(), ExistsAnyAwxInventoryResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyAwxInventoryResponse(false)));
 
         Assertions.assertTrue(awxInventorySeedService.dataNotExists());
     }

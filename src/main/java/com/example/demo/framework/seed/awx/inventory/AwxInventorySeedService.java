@@ -1,38 +1,44 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.inventory;
 
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateCommand;
 import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.awx.inventory.feign.model.InventoryCreateApi;
-import com.example.demo.awx.inventory.projection.IAwxInventoryProjector;
 import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
 import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
 import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryQuery;
+import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class AwxInventorySeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxInventoryProjector awxInventoryProjector;
     private final IAwxOrganizationProjection awxOrganizationProjection;
     private final IInventoryFeignService inventoryFeignService;
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        return !awxInventoryProjector.existsAny();
+        ExistsAnyAwxInventoryQuery query = new ExistsAnyAwxInventoryQuery();
+        ExistsAnyAwxInventoryResponse response = queryGateway.query(query, ExistsAnyAwxInventoryResponse.class).get();
+
+        return !response.exists();
     }
 
     @Override

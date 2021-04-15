@@ -15,18 +15,6 @@ public class AwxInventoryProjector implements IAwxInventoryProjector {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QAwxInventoryEntity qAwxInventory = QAwxInventoryEntity.awxInventoryEntity;
-
-        long count = queryFactory.select(qAwxInventory)
-                .from(qAwxInventory)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public AwxInventory findByName(String name) {
 
         QAwxInventoryEntity qAwxInventory = QAwxInventoryEntity.awxInventoryEntity;
