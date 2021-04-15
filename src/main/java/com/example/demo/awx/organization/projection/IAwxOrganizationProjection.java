@@ -5,7 +5,5 @@ import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationId
 
 public interface IAwxOrganizationProjection {
 
-    boolean existsAny();
-
     FetchAwxOrganizationIdByAwxIdResponse fetchAwxOrganizationIdByAwxId(FetchAwxOrganizationIdByAwxIdQuery query);
 }
