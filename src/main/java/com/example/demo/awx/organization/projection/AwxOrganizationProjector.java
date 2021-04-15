@@ -15,18 +15,6 @@ public class AwxOrganizationProjector implements IAwxOrganizationProjection {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public boolean existsAny() {
-
-        QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;
-
-        long count = queryFactory.select(qAwxOrganization.id)
-                .from(qAwxOrganization)
-                .fetchCount();
-
-        return count >= 1;
-    }
-
-    @Override
     public FetchAwxOrganizationIdByAwxIdResponse fetchAwxOrganizationIdByAwxId(FetchAwxOrganizationIdByAwxIdQuery query) {
 
         QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;

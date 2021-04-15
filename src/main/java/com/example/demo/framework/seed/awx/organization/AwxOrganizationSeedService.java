@@ -1,32 +1,38 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.organization;
 
 import com.example.demo.awx.organization.aggregate.command.AwxOrganizationCreateCommand;
 import com.example.demo.awx.organization.feign.IOrganizationFeignService;
 import com.example.demo.awx.organization.feign.model.OrganizationApi;
-import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationQuery;
+import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class AwxOrganizationSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final IOrganizationFeignService organizationFeignService;
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
     @Override
-    public boolean dataNotExists() {
+    public boolean dataNotExists() throws ExecutionException, InterruptedException {
 
-        return !awxOrganizationProjection.existsAny();
+        ExistsAnyAwxOrganizationQuery query = new ExistsAnyAwxOrganizationQuery();
+        ExistsAnyAwxOrganizationResponse response = queryGateway.query(query, ExistsAnyAwxOrganizationResponse.class).get();
+
+        return !response.exists();
     }
 
     @Override

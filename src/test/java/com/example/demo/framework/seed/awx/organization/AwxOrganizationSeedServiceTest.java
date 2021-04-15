@@ -1,10 +1,13 @@
-package com.example.demo.framework.seed.service;
+package com.example.demo.framework.seed.awx.organization;
 
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.organization.feign.IOrganizationFeignService;
 import com.example.demo.awx.organization.feign.model.OrganizationApi;
+import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationQuery;
+import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationResponse;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,6 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -30,16 +35,23 @@ public class AwxOrganizationSeedServiceTest {
     @MockBean
     private IOrganizationFeignService organizationFeignService;
 
-    @Test
-    public void whenAwxOrganizationExistsThenDataNotExistsReturnsFalse() {
+    @MockBean
+    private QueryGateway queryGateway;
 
-        sampleBuilder.builder().awxOrganization().build();
+    @Test
+    public void whenAwxOrganizationExistsThenDataNotExistsReturnsFalse() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyAwxOrganizationQuery(), ExistsAnyAwxOrganizationResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyAwxOrganizationResponse(true)));
 
         Assertions.assertFalse(awxOrganizationSeedService.dataNotExists());
     }
 
     @Test
-    public void whenAwxOrganizationDoesNotExistsThenDataNotExistsReturnsTrue() {
+    public void whenAwxOrganizationDoesNotExistsThenDataNotExistsReturnsTrue() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyAwxOrganizationQuery(), ExistsAnyAwxOrganizationResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyAwxOrganizationResponse(false)));
 
         Assertions.assertTrue(awxOrganizationSeedService.dataNotExists());
     }
