@@ -4,10 +4,14 @@ import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwx
 import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectResponse;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameQuery;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameResponse;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 
 public interface IAwxProjectSeedProjectionService {
 
     ExistsAnyAwxProjectResponse existsAny(ExistsAnyAwxProjectQuery query);
 
     FetchAwxCredentialByNameResponse fetchAwxCredentialIdByName(FetchAwxCredentialByNameQuery query);
+
+    FetchAwxOrganizationIdByAwxIdResponse fetchAwxOrganizationIdByAwxId(FetchAwxOrganizationIdByAwxIdQuery query);
 }
