@@ -6,9 +6,17 @@ import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
 import com.example.demo.awx.project.feign.IProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
+import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectResponse;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameResponse;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
+import com.example.demo.framework.seed.awx.project.projection.projection.AwxCredentialProjection;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import com.google.common.collect.ImmutableList;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,6 +27,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
@@ -38,20 +48,23 @@ public class AwxProjectSeedServiceTest {
     @MockBean
     private INotificationFeignService notificationFeignService;
 
+    @MockBean
+    private QueryGateway queryGateway;
+
     @Test
     public void whenAwxProjectExistsThenDataDoesNotExistsReturnFalse() throws ExecutionException, InterruptedException {
 
-        sampleBuilder.builder()
-                .awxOrganization()
-                .awxCredential()
-                .awxProject()
-                .build();
+        Mockito.when(queryGateway.query(new ExistsAnyAwxProjectQuery(), ExistsAnyAwxProjectResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyAwxProjectResponse(true)));
 
         Assertions.assertFalse(awxProjectSeedService.dataNotExists());
     }
 
     @Test
     public void whenAwxProjectDoesNotExistsThenDataDoesNotExistsReturnTrue() throws ExecutionException, InterruptedException {
+
+        Mockito.when(queryGateway.query(new ExistsAnyAwxProjectQuery(), ExistsAnyAwxProjectResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new ExistsAnyAwxProjectResponse(false)));
 
         Assertions.assertTrue(awxProjectSeedService.dataNotExists());
     }
@@ -77,6 +90,13 @@ public class AwxProjectSeedServiceTest {
         clientResponse.setResults(Collections.singletonList(projectApi));
 
         Mockito.when(projectFeignService.getProjects()).thenReturn(clientResponse);
+
+        AwxCredentialProjection awxCredentialProjection = new AwxCredentialProjection(UUID.randomUUID().toString(), 1L);
+        Mockito.when(queryGateway.query(new FetchAwxCredentialByNameQuery(sampleData.getAwxCredential().getName()), FetchAwxCredentialByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxCredentialByNameResponse(awxCredentialProjection)));
+
+        Mockito.when(queryGateway.query(new FetchAwxOrganizationIdByAwxIdQuery(sampleData.getAwxOrganization().getAwxId()), FetchAwxOrganizationIdByAwxIdResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxOrganizationIdByAwxIdResponse(UUID.randomUUID())));
 
         ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 
@@ -129,6 +149,13 @@ public class AwxProjectSeedServiceTest {
         notificationApi.setNotificationConfiguration(configuration);
 
         Mockito.when(notificationFeignService.createSuccessNotificationForProject(Mockito.anyLong(), Mockito.any())).thenReturn(notificationApi);
+
+        AwxCredentialProjection awxCredentialProjection = new AwxCredentialProjection(UUID.randomUUID().toString(), 1L);
+        Mockito.when(queryGateway.query(new FetchAwxCredentialByNameQuery(sampleData.getAwxCredential().getName()), FetchAwxCredentialByNameResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxCredentialByNameResponse(awxCredentialProjection)));
+
+        Mockito.when(queryGateway.query(new FetchAwxOrganizationIdByAwxIdQuery(sampleData.getAwxOrganization().getAwxId()), FetchAwxOrganizationIdByAwxIdResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxOrganizationIdByAwxIdResponse(UUID.randomUUID())));
 
         ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 

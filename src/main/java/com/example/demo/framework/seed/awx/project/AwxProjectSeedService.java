@@ -6,9 +6,6 @@ import com.example.demo.awx.notification.feign.INotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
 import com.example.demo.awx.notification.feign.model.NotificationCreateApi;
-import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
-import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
-import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
 import com.example.demo.awx.project.feign.IProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
@@ -19,6 +16,8 @@ import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwx
 import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectResponse;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameQuery;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameResponse;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.seed.awx.project.projection.projection.AwxCredentialProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,6 @@ public class AwxProjectSeedService implements ISeedService<Object> {
     private final AwxConfig awxConfig;
     private final IProjectFeignService projectFeignService;
     private final INotificationFeignService notificationFeignService;
-    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -175,10 +173,10 @@ public class AwxProjectSeedService implements ISeedService<Object> {
                 .build();
     }
 
-    private UUID getAwxOrganizationId(Long organizationId) {
+    private UUID getAwxOrganizationId(Long organizationId) throws ExecutionException, InterruptedException {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(organizationId);
-        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
+        FetchAwxOrganizationIdByAwxIdResponse response = queryGateway.query(query, FetchAwxOrganizationIdByAwxIdResponse.class).get();
 
         return response.getId();
     }
