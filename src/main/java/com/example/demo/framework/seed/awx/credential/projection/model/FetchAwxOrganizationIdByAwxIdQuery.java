@@ -1,4 +1,4 @@
-package com.example.demo.awx.organization.projection.model;
+package com.example.demo.framework.seed.awx.credential.projection.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

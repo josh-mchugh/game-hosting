@@ -4,13 +4,12 @@ import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateComm
 import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
 import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.example.demo.awx.credential.feign.model.AwxCredentialCreateApi;
-import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
-import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
-import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialQuery;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialResponse;
+import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -29,7 +28,6 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
     private final IAwxCredentialFeignService credentialFeignService;
-    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 
@@ -43,7 +41,7 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
     }
 
     @Override
-    public ImmutableList<Object> initializeData() {
+    public ImmutableList<Object> initializeData() throws ExecutionException, InterruptedException {
 
         List<Object> awxCredentials = new ArrayList<>();
 
@@ -120,10 +118,10 @@ public class AwxCredentialSeedService implements ISeedService<Object> {
         return commandGateway.sendAndWait(command);
     }
 
-    private UUID getOrganizationId() {
+    private UUID getOrganizationId() throws ExecutionException, InterruptedException {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxConfig.getOrganization().getId());
-        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
+        FetchAwxOrganizationIdByAwxIdResponse response = queryGateway.query(query, FetchAwxOrganizationIdByAwxIdResponse.class).get();
 
         return response.getId();
     }

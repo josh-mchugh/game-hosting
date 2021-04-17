@@ -62,7 +62,7 @@ public class AwxCredentialSeedServiceTest {
     }
 
     @Test
-    public void whenApiDoesNotContainCredentialThenCreateNewAwxCredentialReturnList() {
+    public void whenApiDoesNotContainCredentialThenCreateNewAwxCredentialReturnList() throws ExecutionException, InterruptedException {
 
         AwxOrganization awxOrganization = sampleBuilder.builder()
                 .awxOrganization()
@@ -96,7 +96,7 @@ public class AwxCredentialSeedServiceTest {
     }
 
     @Test
-    public void whenApiContainsCredentialThenCreateNewCredentialReturnList() {
+    public void whenApiContainsCredentialThenCreateNewCredentialReturnList() throws ExecutionException, InterruptedException {
 
         AwxOrganization awxOrganization = sampleBuilder.builder()
                 .awxOrganization()
