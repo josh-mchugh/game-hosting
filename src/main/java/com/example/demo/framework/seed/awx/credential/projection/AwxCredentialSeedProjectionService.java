@@ -1,12 +1,17 @@
 package com.example.demo.framework.seed.awx.credential.projection;
 
 import com.example.demo.awx.credential.entity.QAwxCredentialEntity;
+import com.example.demo.awx.organization.entity.QAwxOrganizationEntity;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialQuery;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialResponse;
+import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -25,5 +30,19 @@ public class AwxCredentialSeedProjectionService implements IAwxCredentialSeedPro
                 .fetchCount();
 
         return new ExistsAnyAwxCredentialResponse(count >= 1);
+    }
+
+    @Override
+    @QueryHandler
+    public FetchAwxOrganizationIdByAwxIdResponse fetchAwxOrganizationIdByAwxId(FetchAwxOrganizationIdByAwxIdQuery query) {
+
+        QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;
+
+        String id = queryFactory.select(qAwxOrganization.id)
+                .from(qAwxOrganization)
+                .where(qAwxOrganization.awxId.eq(query.getAwxId()))
+                .fetchOne();
+
+        return new FetchAwxOrganizationIdByAwxIdResponse(id != null ? UUID.fromString(id) : null);
     }
 }
