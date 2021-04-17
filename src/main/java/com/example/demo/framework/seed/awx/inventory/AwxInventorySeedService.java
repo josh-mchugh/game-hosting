@@ -5,13 +5,12 @@ import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateComman
 import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.awx.inventory.feign.model.InventoryCreateApi;
-import com.example.demo.awx.organization.projection.IAwxOrganizationProjection;
-import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
-import com.example.demo.awx.organization.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.ISeedService;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryQuery;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryResponse;
+import com.example.demo.framework.seed.awx.inventory.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.inventory.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -27,7 +26,6 @@ import java.util.concurrent.ExecutionException;
 public class AwxInventorySeedService implements ISeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxOrganizationProjection awxOrganizationProjection;
     private final IInventoryFeignService inventoryFeignService;
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
@@ -42,7 +40,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
     }
 
     @Override
-    public ImmutableList<Object> initializeData() {
+    public ImmutableList<Object> initializeData() throws ExecutionException, InterruptedException {
 
         ListResponse<InventoryApi> inventoryApiListResponse = inventoryFeignService.getInventories();
 
@@ -71,7 +69,7 @@ public class AwxInventorySeedService implements ISeedService<Object> {
         return 10;
     }
 
-    private Object createNewAwxInventory() {
+    private Object createNewAwxInventory() throws ExecutionException, InterruptedException {
 
         InventoryApi inventoryApi = createInventoryApi();
 
@@ -89,19 +87,26 @@ public class AwxInventorySeedService implements ISeedService<Object> {
         return inventoryFeignService.createInventory(inventoryCreateApi);
     }
 
-    private Object createAwxInventory(InventoryApi inventoryApi) {
+    private Object createAwxInventory(InventoryApi inventoryApi) throws ExecutionException, InterruptedException {
 
-        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(inventoryApi.getOrganizationId());
-        FetchAwxOrganizationIdByAwxIdResponse response = awxOrganizationProjection.fetchAwxOrganizationIdByAwxId(query);
+        UUID awxOrganizationId = fetchAwxOrganizationIdByAwxId(inventoryApi.getOrganizationId());
 
         AwxInventoryCreateCommand event = AwxInventoryCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId(response.getId())
+                .awxOrganizationId(awxOrganizationId)
                 .awxId(inventoryApi.getId())
                 .name(inventoryApi.getName())
                 .description(inventoryApi.getDescription())
                 .build();
 
         return commandGateway.sendAndWait(event);
+    }
+
+    private UUID fetchAwxOrganizationIdByAwxId(Long awxId) throws ExecutionException, InterruptedException {
+
+        FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxId);
+        FetchAwxOrganizationIdByAwxIdResponse response = queryGateway.query(query, FetchAwxOrganizationIdByAwxIdResponse.class).get();
+
+        return response.getId();
     }
 }

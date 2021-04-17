@@ -5,6 +5,8 @@ import com.example.demo.awx.inventory.feign.IInventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryQuery;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryResponse;
+import com.example.demo.framework.seed.awx.inventory.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
+import com.example.demo.framework.seed.awx.inventory.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import feign.FeignException;
@@ -19,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -58,7 +61,7 @@ public class AwxInventorySeedServiceTest {
     }
 
     @Test
-    public void whenInventoryApiReturnsEmptyListThenCreateNewAwxInventory() {
+    public void whenInventoryApiReturnsEmptyListThenCreateNewAwxInventory() throws ExecutionException, InterruptedException {
 
         sampleBuilder.builder()
                 .awxOrganization()
@@ -73,6 +76,9 @@ public class AwxInventorySeedServiceTest {
         inventoryApi.setDescription("Default Inventory");
 
         Mockito.when(inventoryFeignService.createInventory(Mockito.any())).thenReturn(inventoryApi);
+
+        Mockito.when(queryGateway.query(new FetchAwxOrganizationIdByAwxIdQuery(inventoryApi.getOrganizationId()), FetchAwxOrganizationIdByAwxIdResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxOrganizationIdByAwxIdResponse(UUID.randomUUID())));
 
         ImmutableList<Object> awxInventories = awxInventorySeedService.initializeData();
 
@@ -98,7 +104,7 @@ public class AwxInventorySeedServiceTest {
     }
 
     @Test
-    public void whenInventoryApiListReturnsMatchingInventoryThenOnlyCreateDatabaseRecord() {
+    public void whenInventoryApiListReturnsMatchingInventoryThenOnlyCreateDatabaseRecord() throws ExecutionException, InterruptedException {
 
         sampleBuilder.builder()
                 .awxOrganization()
@@ -114,6 +120,9 @@ public class AwxInventorySeedServiceTest {
         listResponse.setResults(Collections.singletonList(inventoryApi));
 
         Mockito.when(inventoryFeignService.getInventories()).thenReturn(listResponse);
+
+        Mockito.when(queryGateway.query(new FetchAwxOrganizationIdByAwxIdQuery(inventoryApi.getOrganizationId()), FetchAwxOrganizationIdByAwxIdResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxOrganizationIdByAwxIdResponse(UUID.randomUUID())));
 
         ImmutableList<Object> awxInventories = awxInventorySeedService.initializeData();
 
