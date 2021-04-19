@@ -128,7 +128,7 @@ public class FlavorProjectionTest {
 
         FlavorProjection model = model();
 
-        Assertions.assertEquals(-1813506663, model.hashCode());
+        Assertions.assertEquals(1237414043, model.hashCode());
     }
 
     @Test

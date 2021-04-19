@@ -74,7 +74,7 @@ public class AwxHostTest {
 
         AwxHost model = model();
 
-        Assertions.assertEquals(-1647991766, model.hashCode());
+        Assertions.assertEquals(-539916140, model.hashCode());
     }
 
     @Test

@@ -33,7 +33,7 @@ public class FetchProjectByAwxIdResponseTest {
 
         FetchProjectByAwxIdResponse model = model();
 
-        Assertions.assertEquals(549512111, model.hashCode());
+        Assertions.assertEquals(1392442365, model.hashCode());
     }
 
     @Test

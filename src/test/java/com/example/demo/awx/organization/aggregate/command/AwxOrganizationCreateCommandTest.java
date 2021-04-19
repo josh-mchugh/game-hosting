@@ -64,7 +64,7 @@ public class AwxOrganizationCreateCommandTest {
 
         AwxOrganizationCreateCommand command = command();
 
-        Assertions.assertEquals(-1303275087, command.hashCode());
+        Assertions.assertEquals(19103615, command.hashCode());
     }
 
     @Test

@@ -118,7 +118,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = command();
 
-        Assertions.assertEquals(1157848245, command.hashCode());
+        Assertions.assertEquals(1415803311, command.hashCode());
     }
 
     @Test

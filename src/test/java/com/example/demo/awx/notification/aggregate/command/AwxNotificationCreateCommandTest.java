@@ -96,7 +96,7 @@ public class AwxNotificationCreateCommandTest {
 
         AwxNotificationCreateCommand command = command();
 
-        Assertions.assertEquals(-1308545156, command.hashCode());
+        Assertions.assertEquals(-835238384, command.hashCode());
     }
 
     @Test

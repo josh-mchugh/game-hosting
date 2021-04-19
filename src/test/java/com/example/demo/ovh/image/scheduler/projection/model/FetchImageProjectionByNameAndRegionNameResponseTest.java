@@ -34,7 +34,7 @@ public class FetchImageProjectionByNameAndRegionNameResponseTest {
 
         FetchImageProjectionByNameAndRegionNameResponse model = model();
 
-        Assertions.assertEquals(1069469041, model.hashCode());
+        Assertions.assertEquals(-64261985, model.hashCode());
     }
 
     @Test

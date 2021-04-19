@@ -77,7 +77,7 @@ public class AdminGameServerTableProjectionTest {
 
         AdminGameServerTableProjection model = new AdminGameServerTableProjection("id", "name", null, "regionName", 1, 2, "imageName");;
 
-        Assertions.assertEquals(1801933612, model.hashCode());
+        Assertions.assertEquals(-735748260, model.hashCode());
     }
 
     @Test

@@ -64,7 +64,7 @@ public class AwxInventoryTest {
 
         AwxInventory model = model();
 
-        Assertions.assertEquals(1076931361, model.hashCode());
+        Assertions.assertEquals(1224182991, model.hashCode());
     }
 
     @Test

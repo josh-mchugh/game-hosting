@@ -76,7 +76,7 @@ public class AwxInventoryCreatedEventTest {
 
         AwxInventoryCreatedEvent event = event();
 
-        Assertions.assertEquals(-554457585, event.hashCode());
+        Assertions.assertEquals(-1376483245, event.hashCode());
     }
 
     @Test

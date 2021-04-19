@@ -118,7 +118,7 @@ public class AwxProjectCreatedEventTest {
 
         AwxProjectCreatedEvent event = event();
 
-        Assertions.assertEquals(-1566225615, event.hashCode());
+        Assertions.assertEquals(-1897675081, event.hashCode());
     }
 
     @Test

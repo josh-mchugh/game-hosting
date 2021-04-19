@@ -110,7 +110,7 @@ public class TemplateApiTest {
         model.setInventoryId(1L);
         model.setProjectId(1L);
 
-        Assertions.assertEquals(754622243, model.hashCode());
+        Assertions.assertEquals(247227259, model.hashCode());
     }
 
     @Test

@@ -33,7 +33,7 @@ public class FetchAuthSuccessByEmailResponseTest {
 
         FetchAuthSuccessByEmailResponse model = model();
 
-        Assertions.assertEquals(1793946915, model.hashCode());
+        Assertions.assertEquals(1413539081, model.hashCode());
     }
 
     @Test

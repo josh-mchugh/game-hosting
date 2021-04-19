@@ -140,7 +140,7 @@ public class FlavorApiTest {
 
         FlavorApi model = model();
 
-        Assertions.assertEquals(-1340207818, model.hashCode());
+        Assertions.assertEquals(-1971396128, model.hashCode());
     }
 
     @Test

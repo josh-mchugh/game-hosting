@@ -76,7 +76,7 @@ public class AwxInventoryCreateCommandTest {
 
         AwxInventoryCreateCommand command = command();
 
-        Assertions.assertEquals(540850100, command.hashCode());
+        Assertions.assertEquals(-265977870, command.hashCode());
     }
 
     @Test

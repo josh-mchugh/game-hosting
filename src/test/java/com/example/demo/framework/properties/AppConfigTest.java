@@ -65,7 +65,7 @@ public class AppConfigTest {
 
         AppConfig config = config();
 
-        Assertions.assertEquals(-987655840, config.hashCode());
+        Assertions.assertEquals(201901472, config.hashCode());
     }
 
     @Test
@@ -198,7 +198,7 @@ public class AppConfigTest {
 
         AppConfig.Email email = email();
 
-        Assertions.assertEquals(1088083324, email.hashCode());
+        Assertions.assertEquals(1388530892, email.hashCode());
     }
 
     @Test
@@ -261,7 +261,7 @@ public class AppConfigTest {
 
         AppConfig.Password password = password();
 
-        Assertions.assertEquals(-1853700800, password.hashCode());
+        Assertions.assertEquals(696747280, password.hashCode());
     }
 
     @Test

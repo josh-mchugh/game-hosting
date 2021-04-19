@@ -38,7 +38,7 @@ public class IpAddressApiTest {
 
         IpAddressApi model = model();
 
-        Assertions.assertEquals(202135, model.hashCode());
+        Assertions.assertEquals(6907, model.hashCode());
     }
 
     @Test

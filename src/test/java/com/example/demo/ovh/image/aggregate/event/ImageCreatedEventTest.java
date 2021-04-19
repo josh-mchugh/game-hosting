@@ -179,7 +179,7 @@ public class ImageCreatedEventTest {
 
         ImageCreatedEvent event = event();
 
-        Assertions.assertEquals(-57256589, event.hashCode());
+        Assertions.assertEquals(1314303079, event.hashCode());
     }
 
     @Test

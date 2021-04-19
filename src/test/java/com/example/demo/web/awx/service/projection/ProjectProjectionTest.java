@@ -40,7 +40,7 @@ public class ProjectProjectionTest {
 
         ProjectProjection model = model();
 
-        Assertions.assertEquals(1749538337, model.hashCode());
+        Assertions.assertEquals(102452729, model.hashCode());
     }
 
     @Test

@@ -96,7 +96,7 @@ public class AwxNotificationCreatedEventTest {
 
         AwxNotificationCreatedEvent event = event();
 
-        Assertions.assertEquals(41090225, event.hashCode());
+        Assertions.assertEquals(-302790817, event.hashCode());
     }
 
     @Test

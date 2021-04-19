@@ -60,7 +60,7 @@ public class HostCreateApiTest {
 
         HostCreateApi model = model();
 
-        Assertions.assertEquals(202294186, model.hashCode());
+        Assertions.assertEquals(-1508889488, model.hashCode());
     }
 
     @Test

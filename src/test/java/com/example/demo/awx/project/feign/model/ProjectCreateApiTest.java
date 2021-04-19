@@ -80,7 +80,7 @@ public class ProjectCreateApiTest {
 
         ProjectCreateApi model = model();
 
-        Assertions.assertEquals(249751883, model.hashCode());
+        Assertions.assertEquals(1782955719, model.hashCode());
     }
 
     @Test

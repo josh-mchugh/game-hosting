@@ -157,7 +157,7 @@ public class ImageUpdatedEventTest {
 
         ImageUpdatedEvent event = imageUpdatedEvent();
 
-        Assertions.assertEquals(-1450703594, event.hashCode());
+        Assertions.assertEquals(-466620200, event.hashCode());
     }
 
     @Test

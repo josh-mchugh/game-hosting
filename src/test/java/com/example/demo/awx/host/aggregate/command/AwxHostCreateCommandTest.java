@@ -98,7 +98,7 @@ public class AwxHostCreateCommandTest {
 
         AwxHostCreateCommand command = command();
 
-        Assertions.assertEquals(-803063922, command.hashCode());
+        Assertions.assertEquals(1658697768, command.hashCode());
     }
 
     @Test

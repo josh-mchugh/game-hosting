@@ -109,7 +109,7 @@ public class TemplateCreateApiTest {
                 .verbosity(1)
                 .build();
 
-        Assertions.assertEquals(1884901602, model.hashCode());
+        Assertions.assertEquals(-631047820, model.hashCode());
     }
 
     @Test

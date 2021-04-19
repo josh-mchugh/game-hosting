@@ -98,7 +98,7 @@ public class AwxHostCreatedEventTest {
 
         AwxHostCreatedEvent event = event();
 
-        Assertions.assertEquals(-1151672736, event.hashCode());
+        Assertions.assertEquals(-652368694, event.hashCode());
     }
 
     @Test

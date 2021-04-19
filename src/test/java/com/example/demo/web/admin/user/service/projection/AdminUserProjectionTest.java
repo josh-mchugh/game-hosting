@@ -70,7 +70,7 @@ public class AdminUserProjectionTest {
 
         AdminUserProjection model = new AdminUserProjection("email", null, null, 1L);
 
-        Assertions.assertEquals(863222242, model.hashCode());
+        Assertions.assertEquals(1337077252, model.hashCode());
     }
 
     @Test

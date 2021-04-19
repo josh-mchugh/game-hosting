@@ -179,7 +179,7 @@ public class ImageCreateCommandTest {
 
         ImageCreateCommand imageCreateCommand = command();
 
-        Assertions.assertEquals(145994591, imageCreateCommand.hashCode());
+        Assertions.assertEquals(1952642475, imageCreateCommand.hashCode());
     }
 
     @Test

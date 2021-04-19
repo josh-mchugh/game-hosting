@@ -90,7 +90,7 @@ public class InstanceCreateApiTest {
 
         InstanceCreateApi model = model();
 
-        Assertions.assertEquals(-641009730, model.hashCode());
+        Assertions.assertEquals(2016327598, model.hashCode());
     }
 
     @Test

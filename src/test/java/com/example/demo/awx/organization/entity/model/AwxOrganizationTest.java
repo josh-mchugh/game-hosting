@@ -64,7 +64,7 @@ public class AwxOrganizationTest {
 
         AwxOrganization model = model();
 
-        Assertions.assertEquals(-1430484512, model.hashCode());
+        Assertions.assertEquals(-492624868, model.hashCode());
     }
 
     @Test

@@ -176,7 +176,7 @@ public class FlavorCreateCommandTest {
 
         FlavorCreateCommand command = command();
 
-        Assertions.assertEquals(-1648216295, command.hashCode());
+        Assertions.assertEquals(-211574637, command.hashCode());
     }
 
     @Test

@@ -92,7 +92,7 @@ public class ProjectApiTest {
 
         ProjectApi model = model();
 
-        Assertions.assertEquals(241115179, model.hashCode());
+        Assertions.assertEquals(2039032123, model.hashCode());
     }
 
     @Test

@@ -31,7 +31,7 @@ public class FetchFlavorByOvhIdResponseTest {
 
         FetchFlavorByOvhIdResponse model = model();
 
-        Assertions.assertEquals(-1813506604, model.hashCode());
+        Assertions.assertEquals(1237414102, model.hashCode());
     }
 
     @Test

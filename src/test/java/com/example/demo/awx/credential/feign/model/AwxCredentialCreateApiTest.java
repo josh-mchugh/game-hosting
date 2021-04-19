@@ -125,7 +125,7 @@ public class AwxCredentialCreateApiTest {
 
         AwxCredentialCreateApi model = model();
 
-        Assertions.assertEquals(1771128284, model.hashCode());
+        Assertions.assertEquals(1352465490, model.hashCode());
     }
 
     @Test

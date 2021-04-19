@@ -94,7 +94,7 @@ public class AwxProjectTest {
 
         AwxProject model = model();
 
-        Assertions.assertEquals(-823449315, model.hashCode());
+        Assertions.assertEquals(879128435, model.hashCode());
     }
 
     @Test
