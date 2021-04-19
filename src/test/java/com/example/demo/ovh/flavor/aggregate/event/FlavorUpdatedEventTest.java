@@ -154,7 +154,7 @@ public class FlavorUpdatedEventTest {
 
         FlavorUpdatedEvent event = event();
 
-        Assertions.assertEquals(-2019563462, event.hashCode());
+        Assertions.assertEquals(30316310, event.hashCode());
     }
 
     @Test

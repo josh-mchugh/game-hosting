@@ -164,7 +164,7 @@ public class FlavorTest {
 
         Flavor model = model();
 
-        Assertions.assertEquals(-587707376, model.hashCode());
+        Assertions.assertEquals(1764163050, model.hashCode());
     }
 
     @Test

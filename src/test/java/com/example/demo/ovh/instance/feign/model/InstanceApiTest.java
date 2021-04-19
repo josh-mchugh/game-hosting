@@ -171,7 +171,7 @@ public class InstanceApiTest {
         model.setFlavor(new FlavorApi());
         model.setImage(new ImageApi());
 
-        Assertions.assertEquals(106907680, model.hashCode());
+        Assertions.assertEquals(-1326514096, model.hashCode());
     }
 
     @Test

@@ -139,7 +139,7 @@ public class ImageProjectionTest {
 
         ImageProjection model = model();
 
-        Assertions.assertEquals(1069468982, model.hashCode());
+        Assertions.assertEquals(-64262044, model.hashCode());
     }
 
     @Test

@@ -167,7 +167,7 @@ public class ImageTest {
 
         Image image = image();
 
-        Assertions.assertEquals(947312371, image.hashCode());
+        Assertions.assertEquals(-1604397981, image.hashCode());
     }
 
     @Test

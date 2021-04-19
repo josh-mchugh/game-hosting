@@ -176,7 +176,7 @@ public class FlavorCreatedEventTest {
 
         FlavorCreatedEvent event = event();
 
-        Assertions.assertEquals(1341504840, event.hashCode());
+        Assertions.assertEquals(-861900792, event.hashCode());
     }
 
     @Test

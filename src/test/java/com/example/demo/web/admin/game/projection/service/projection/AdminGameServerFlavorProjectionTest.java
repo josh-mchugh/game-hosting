@@ -52,7 +52,7 @@ public class AdminGameServerFlavorProjectionTest {
 
         AdminGameServerFlavorProjection model = model();
 
-        Assertions.assertEquals(-439863855, model.hashCode());
+        Assertions.assertEquals(15897873, model.hashCode());
     }
 
     @Test

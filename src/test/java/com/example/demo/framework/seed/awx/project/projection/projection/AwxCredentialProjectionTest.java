@@ -40,7 +40,7 @@ public class AwxCredentialProjectionTest {
 
         AwxCredentialProjection model = model();
 
-        Assertions.assertEquals(-1985874273, model.hashCode());
+        Assertions.assertEquals(-33655405, model.hashCode());
     }
 
     @Test

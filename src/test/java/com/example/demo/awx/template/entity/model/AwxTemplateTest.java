@@ -91,7 +91,7 @@ public class AwxTemplateTest {
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(1970595353, model.hashCode());
+        Assertions.assertEquals(891639023, model.hashCode());
     }
 
     @Test

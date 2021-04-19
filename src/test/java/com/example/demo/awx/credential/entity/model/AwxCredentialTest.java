@@ -102,7 +102,7 @@ public class AwxCredentialTest {
                 .passphrase("passPhrase")
                 .build();
 
-        Assertions.assertEquals(-1669212525, model.hashCode());
+        Assertions.assertEquals(43024803, model.hashCode());
     }
 
     @Test

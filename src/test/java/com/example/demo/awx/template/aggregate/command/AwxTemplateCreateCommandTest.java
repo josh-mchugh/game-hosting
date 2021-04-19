@@ -130,7 +130,7 @@ public class AwxTemplateCreateCommandTest {
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(1708757280, command.hashCode());
+        Assertions.assertEquals(-116005914, command.hashCode());
     }
 
     @Test

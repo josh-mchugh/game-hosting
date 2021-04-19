@@ -72,7 +72,7 @@ public class NotificationCreateApiTest {
 
         NotificationCreateApi model = model();
 
-        Assertions.assertEquals(787249619, model.hashCode());
+        Assertions.assertEquals(-738650535, model.hashCode());
     }
 
     @Test

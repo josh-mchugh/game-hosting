@@ -115,7 +115,7 @@ public class AwxCredentialCreatedEventTest {
                 .passphrase("passPhrase")
                 .build();
 
-        Assertions.assertEquals(-1961888190, event.hashCode());
+        Assertions.assertEquals(57510414, event.hashCode());
     }
 
     @Test

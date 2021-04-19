@@ -84,7 +84,7 @@ public class AwxNotificationTest {
 
         AwxNotification model = model();
 
-        Assertions.assertEquals(62697201, model.hashCode());
+        Assertions.assertEquals(-825898731, model.hashCode());
     }
 
     @Test

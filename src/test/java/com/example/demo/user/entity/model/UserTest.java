@@ -119,7 +119,7 @@ public class UserTest {
                 .verification(Verification.builder().build())
                 .build();
 
-        Assertions.assertEquals(704882475, user.hashCode());
+        Assertions.assertEquals(337694457, user.hashCode());
     }
 
     @Test

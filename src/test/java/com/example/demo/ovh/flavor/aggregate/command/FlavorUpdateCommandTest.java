@@ -154,7 +154,7 @@ public class FlavorUpdateCommandTest {
 
         FlavorUpdateCommand command = command();
 
-        Assertions.assertEquals(-2019563462, command.hashCode());
+        Assertions.assertEquals(30316310, command.hashCode());
     }
 
     @Test

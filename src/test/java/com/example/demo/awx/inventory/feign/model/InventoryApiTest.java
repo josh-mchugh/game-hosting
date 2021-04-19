@@ -56,7 +56,7 @@ public class InventoryApiTest {
 
         InventoryApi model = model();
 
-        Assertions.assertEquals(202292956, model.hashCode());
+        Assertions.assertEquals(-1513171118, model.hashCode());
     }
 
     @Test

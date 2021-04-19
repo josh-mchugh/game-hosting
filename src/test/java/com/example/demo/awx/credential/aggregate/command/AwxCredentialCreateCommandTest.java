@@ -115,7 +115,7 @@ public class AwxCredentialCreateCommandTest {
                 .passphrase("passPhrase")
                 .build();
 
-        Assertions.assertEquals(-594549358, command.hashCode());
+        Assertions.assertEquals(1391014654, command.hashCode());
     }
 
     @Test

@@ -64,7 +64,7 @@ public class AwxOrganizationCreatedEventTest {
 
         AwxOrganizationCreatedEvent event = event();
 
-        Assertions.assertEquals(-1372245711, event.hashCode());
+        Assertions.assertEquals(-855618049, event.hashCode());
     }
 
     @Test

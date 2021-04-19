@@ -130,7 +130,7 @@ public class AwxTemplateCreatedEventTest {
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(-1172961555, event.hashCode());
+        Assertions.assertEquals(-1839157891, event.hashCode());
     }
 
     @Test

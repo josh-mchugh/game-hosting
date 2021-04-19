@@ -40,7 +40,7 @@ public class AwxHostProjectionTest {
 
         AwxHostProjection model = model();
 
-        Assertions.assertEquals(1683995242, model.hashCode());
+        Assertions.assertEquals(683710276, model.hashCode());
     }
 
     @Test

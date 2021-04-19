@@ -60,7 +60,7 @@ public class HostPatchApiTest {
 
         HostPatchApi model = model();
 
-        Assertions.assertEquals(202294186, model.hashCode());
+        Assertions.assertEquals(-1508889488, model.hashCode());
     }
 
     @Test

@@ -34,7 +34,7 @@ public class FetchAwxCredentialIdByNameResponseTest {
 
         FetchAwxCredentialByNameResponse model = model();
 
-        Assertions.assertEquals(-1423331483, model.hashCode());
+        Assertions.assertEquals(-1334449729, model.hashCode());
     }
 
     @Test

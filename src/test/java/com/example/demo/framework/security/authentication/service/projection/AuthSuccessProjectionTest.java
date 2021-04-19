@@ -40,7 +40,7 @@ public class AuthSuccessProjectionTest {
 
         AuthSuccessProjection model = model();
 
-        Assertions.assertEquals(-1800442198, model.hashCode());
+        Assertions.assertEquals(-2068797452, model.hashCode());
     }
 
     @Test

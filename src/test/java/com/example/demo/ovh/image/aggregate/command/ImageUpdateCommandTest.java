@@ -157,7 +157,7 @@ public class ImageUpdateCommandTest {
 
         ImageUpdateCommand command = imageUpdateCommand();
 
-        Assertions.assertEquals(-773337834, command.hashCode());
+        Assertions.assertEquals(2072545496, command.hashCode());
     }
 
     @Test

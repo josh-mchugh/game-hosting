@@ -146,7 +146,7 @@ public class ImageApiTest {
 
         ImageApi model = model();
 
-        Assertions.assertEquals(-1753056216, model.hashCode());
+        Assertions.assertEquals(236778564, model.hashCode());
     }
 
     @Test
