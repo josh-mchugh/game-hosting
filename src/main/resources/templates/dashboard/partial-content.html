@@ -26,20 +26,20 @@
                     You currently do not have any game servers
                 </div>
                 <div class="notification__btn">
-                    <button class="btn btn-lg btn-primary" th:data-modal-url="@{/dashboard/project/create}">
+                    <a class="btn btn-lg btn-primary" th:href="@{/project/create}">
                         <i class="fas fa-plus"></i>
                         Create Server
-                    </button>
+                    </a>
                 </div>
             </div>
         </th:block>
         <th:block th:if="${details.displayProjectList()}">
             <div class="projects">
                 <div class="projects__actions">
-                    <button class="btn btn-primary" th:data-modal-url="@{/dashboard/project/create}">
+                    <a class="btn btn-primary" th:href="@{/project/create}">
                         <i class="fas fa-plus"></i>
                         Create Server
-                    </button>
+                    </a>
                 </div>
                 <div class="projects__list">
                     <div class="row">

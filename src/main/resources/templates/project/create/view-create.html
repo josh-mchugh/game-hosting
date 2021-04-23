@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
+    <head>
+        <title>Create Project</title>
+        <style>
+            .step-content {
+                display: flex;
+                flex-direction: column;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body layout:fragment="content">
+        <div>
+            <h1>Create Project</h1>
+        </div>
+        <ul class="wizard">
+            <li class="wizard__step">
+                <a href="#1" class="wizard__step-link">
+                    Game
+                </a>
+            </li>
+            <li class="wizard__step">
+                <a href="#2" class="wizard__step-link">
+                    Region
+                </a>
+            </li>
+            <li class="wizard__step">
+                <a href="#3" class="wizard__step-link">
+                    Server
+                </a>
+            </li>
+            <li class="wizard__step">
+                <a href="#4" class="wizard__step-link">
+                    Billing
+                </a>
+            </li>
+        </ul>
+        <div class="step-content">
+            <form method="post" th:action="@{/project/create}" th:object="${form}">
+                <div class="col-sm-12">
+                    <div class="col-sm-4 mx-auto">
+                        <div class="form-group">
+                            <label class="required">Project Name</label>
+                            <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{projectName}" th:placeholder="'Project Name'"/>
+                            <div th:if="${#fields.hasErrors('projectName')}" class="invalid-feedback" th:errors="*{projectName}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mx-auto">
+                        <div class="form-group">
+                            <label>Game</label>
+                            <select class="form-control" th:field="*{selectedGameId}">
+                                <option value="JAVA">Minecraft - Java</option>
+                                <option value="BEDROCK">Minecraft - Bedrock</option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('selectedGameId')}" class="invalid-feedback" th:errors="*{selectedGameId}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mx-auto">
+                        <button class="btn btn-primary btn-block">Select</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

@@ -39,6 +39,7 @@ public class DashboardProjectionController {
         return "dashboard/partial-content";
     }
 
+    //TODO: Delete once create wizard is completed
     @GetMapping("/project/create")
     public String getProjectCreateModal(@ModelAttribute("form") DashboardProjectCreateForm form) {
 
