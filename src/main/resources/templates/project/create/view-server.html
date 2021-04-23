@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout-app}">
+    <head>
+        <title>Select Server</title>
+        <style>
+            .step-content {
+                display: flex;
+                flex-direction: column;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body layout:fragment="content">
+        <div>
+            <h1>Create Project</h1>
+        </div>
+        <ul class="wizard">
+            <li class="wizard__step">
+                <a href="#1" class="wizard__step-link">
+                    Game
+                </a>
+            </li>
+            <li class="wizard__step">
+                <a href="#2" class="wizard__step-link">
+                    Region
+                </a>
+            </li>
+            <li class="wizard__step">
+                <a href="#3" class="wizard__step-link">
+                    Server
+                </a>
+            </li>
+            <li class="wizard__step">
+                <a href="#4" class="wizard__step-link">
+                    Billing
+                </a>
+            </li>
+        </ul>
+        <div class="step-content">
+            <form method="post" th:action="@{/project/__${id}__/create/server}" th:object="${form}">
+                <div class="col-sm-12">
+                    <div class="col-sm-4 mx-auto">
+                        <div class="form-group">
+                            <label class="required">Server</label>
+                            <select class="form-control" th:errorclass="is-invalid" th:field="*{selectedServerId}">
+                                <option value="1cpu2gb">1cpu - 2gb ram</option>
+                                <option value="2cpu4gb">1cpu - 4gb ram</option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('selectedServerId')}" class="invalid-feedback" th:errors="*{selectedServerId}"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mx-auto">
+                        <button class="btn btn-primary btn-block">Select</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
