@@ -26,7 +26,7 @@
                 $("#instanceStart").on("click", function(event) {
                    event.preventDefault();
 
-                   $.post("/project/[(${id})]/instance/[(${details.instanceId})]/start")
+                   $.post("/project/dashboard/[(${id})]/instance/[(${details.instanceId})]/start")
                         .done(function() {
                             console.log("start called");
                         });
@@ -37,7 +37,7 @@
                 $("#instanceStop").on("click", function(event) {
                    event.preventDefault();
 
-                   $.post("/project/[(${id})]/instance/[(${details.instanceId})]/stop")
+                   $.post("/project/dashboard/[(${id})]/instance/[(${details.instanceId})]/stop")
                         .done(function() {
                             console.log("stop called");
                         });
