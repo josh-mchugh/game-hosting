@@ -6,7 +6,7 @@
             .step-content {
                 display: flex;
                 flex-direction: column;
-                margin-top: 10px;
+                margin-top: 30px;
             }
         </style>
     </head>
@@ -14,28 +14,28 @@
         <div>
             <h1>Create Project</h1>
         </div>
-        <ul class="wizard">
-            <li class="wizard__step">
-                <a href="#1" class="wizard__step-link">
-                    Game
-                </a>
-            </li>
-            <li class="wizard__step">
-                <a href="#2" class="wizard__step-link">
-                    Region
-                </a>
-            </li>
-            <li class="wizard__step">
-                <a href="#3" class="wizard__step-link">
-                    Server
-                </a>
-            </li>
-            <li class="wizard__step">
-                <a href="#4" class="wizard__step-link">
-                    Billing
-                </a>
-            </li>
-        </ul>
+        <div class="stepper">
+            <div class="step active">
+                <div class="indicator"></div>
+                <a class="title">Step 1</a>
+                <div class="subtitle">Select a game</div>
+            </div>
+            <div class="step active">
+                <div class="indicator"></div>
+                <a class="title">Step 2</a>
+                <div class="subtitle">Select a region</div>
+            </div>
+            <div class="step active">
+                <div class="indicator"></div>
+                <a class="title">Step 3</a>
+                <div class="subtitle">Select a server</div>
+            </div>
+            <div class="step">
+                <div class="indicator"></div>
+                <a class="title">Step 4</a>
+                <div class="subtitle">Select a billing</div>
+            </div>
+        </div>
         <div class="step-content">
             <form method="post" th:action="@{/project/create/__${id}__/billing}" th:object="${form}">
                 <div class="col-sm-12">
