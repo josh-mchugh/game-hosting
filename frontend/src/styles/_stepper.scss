@@ -1,0 +1,32 @@
+.stepper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 3.14rem;
+}
+.stepper .step {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+}
+.stepper .step .title {
+    text-align: left;
+    color: #818CF8;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.stepper .step .subtitle {
+    text-align: left;
+    color: #6B7280;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+.stepper .step .indicator {
+    margin: .5rem 0;
+    border-bottom-color: #9CA3AF;
+    border-bottom-width: .27rem;
+    border-bottom-style: solid;
+}
+.stepper .step.active .indicator {
+    border-bottom-color: #4f46E5;
+}
