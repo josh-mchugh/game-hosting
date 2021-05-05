@@ -54,7 +54,9 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .state(ProjectState.ACTIVE)
+                .status(ProjectStatus.ACTIVE)
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Project project = projectService.handleCreated(event);
@@ -71,7 +73,9 @@ public class ProjectServiceHandleCreatedTest {
                 .id(id)
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .state(ProjectState.ACTIVE)
+                .status(ProjectStatus.ACTIVE)
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Project project = projectService.handleCreated(event);
@@ -86,7 +90,7 @@ public class ProjectServiceHandleCreatedTest {
                 .id(null)
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> projectService.handleCreated(event));
@@ -99,7 +103,9 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .state(ProjectState.ACTIVE)
+                .status(ProjectStatus.ACTIVE)
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Project project = projectService.handleCreated(event);
@@ -114,7 +120,7 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name(null)
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> projectService.handleCreated(event));
@@ -127,7 +133,7 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(null))
+                .member(ProjectCreatedEvent.createOwner(null))
                 .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> projectService.handleCreated(event));
@@ -140,7 +146,7 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(UUID.randomUUID()))
+                .member(ProjectCreatedEvent.createOwner(UUID.randomUUID()))
                 .build();
 
         Assertions.assertThrows(PersistenceException.class, () -> projectService.handleCreated(event));
@@ -153,7 +159,7 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(null)
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Assertions.assertThrows(NullPointerException.class, () -> projectService.handleCreated(event));
@@ -166,7 +172,9 @@ public class ProjectServiceHandleCreatedTest {
                 .id(UUID.randomUUID())
                 .name("name")
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .state(ProjectState.ACTIVE)
+                .status(ProjectStatus.ACTIVE)
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Project project = projectService.handleCreated(event);
@@ -180,8 +188,10 @@ public class ProjectServiceHandleCreatedTest {
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .name("name")
+                .state(ProjectState.BUILD)
+                .status(ProjectStatus.ACTIVE)
                 .gameId(data.getGame().getId())
-                .member(ProjectCreatedEvent.createMember(data.getUser().getId()))
+                .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
                 .build();
 
         Project project = projectService.handleCreated(event);

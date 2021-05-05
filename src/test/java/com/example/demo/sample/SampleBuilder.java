@@ -58,6 +58,9 @@ import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.entity.ProjectMembershipRole;
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.project.entity.model.Project;
 import com.example.demo.project.entity.service.IProjectService;
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
@@ -486,8 +489,10 @@ public class SampleBuilder {
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .name("project name")
+                .status(ProjectStatus.ACTIVE)
+                .state(ProjectState.ACTIVE)
                 .gameId(game.getId())
-                .member(ProjectCreatedEvent.createMember(user.getId()))
+                .member(ProjectCreatedEvent.createMember(user.getId(), ProjectMembershipRole.OWNER))
                 .build();
 
         return projectService.handleCreated(event);

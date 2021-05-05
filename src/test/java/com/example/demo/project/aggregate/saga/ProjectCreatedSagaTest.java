@@ -134,7 +134,7 @@ public class ProjectCreatedSagaTest {
                 .id(id)
                 .name("name")
                 .gameId(UUID.randomUUID())
-                .member(ProjectCreatedEvent.createMember(UUID.randomUUID()))
+                .member(ProjectCreatedEvent.createOwner(UUID.randomUUID()))
                 .build();
     }
 
