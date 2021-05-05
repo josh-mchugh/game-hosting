@@ -1,10 +1,17 @@
 package com.example.demo.web.project.create;
 
+import com.example.demo.game.entity.GameType;
+import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
+import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
 import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
 import com.example.demo.web.project.create.form.ProjectCreateForm;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.form.ProjectCreateServerForm;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapResponse;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,18 +23,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/project/create")
 @RequiredArgsConstructor
 public class ProjectCreateController {
 
+    private final IProjectCreateCommandService commandService;
+    private final QueryGateway queryGateway;
+
     @GetMapping("")
-    public String getCreate(Model model) {
+    public String getCreate(Model model) throws ExecutionException, InterruptedException {
 
         if (!model.containsAttribute("form")) {
 
-            model.addAttribute("form", new ProjectCreateForm());
+            ProjectCreateForm form = new ProjectCreateForm();
+            form.setAvailableGames(fetchAvailableGameMap());
+
+            model.addAttribute("form", form);
+
+        } else {
+
+            ProjectCreateForm form = (ProjectCreateForm) model.getAttribute("form");
+            form.setAvailableGames(fetchAvailableGameMap());
         }
 
         return "project/create/view-create";
@@ -44,7 +64,14 @@ public class ProjectCreateController {
             return "redirect:/project/create";
         }
 
-        return "redirect:/project/create/1/region";
+        ProjectCreateRequest request = ProjectCreateRequest.builder()
+                .projectName(form.getProjectName())
+                .gameId(form.getSelectedGameId())
+                .build();
+
+        ProjectCreateResponse response = commandService.handleProjectCreate(request);
+
+        return String.format("redirect:/project/create/%s/region", response.getId());
     }
 
     @GetMapping("/{id}/region")
@@ -120,5 +147,13 @@ public class ProjectCreateController {
         }
 
         return String.format("redirect:/project/dashboard/%s", id);
+    }
+
+    private Map<String, GameType> fetchAvailableGameMap() throws ExecutionException, InterruptedException {
+
+        FetchProjectAvailableGameMapQuery request = new FetchProjectAvailableGameMapQuery();
+        FetchProjectAvailableGameMapResponse response = queryGateway.query(request, FetchProjectAvailableGameMapResponse.class).get();
+
+        return response.getAvailableGames();
     }
 }

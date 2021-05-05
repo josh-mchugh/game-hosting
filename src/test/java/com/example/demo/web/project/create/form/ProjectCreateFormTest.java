@@ -3,6 +3,8 @@ package com.example.demo.web.project.create.form;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
 public class ProjectCreateFormTest {
 
     @Test
@@ -24,11 +26,20 @@ public class ProjectCreateFormTest {
     }
 
     @Test
+    public void whenModelHasAvailableGamesThenReturnAvailableGames() {
+
+        ProjectCreateForm model = new ProjectCreateForm();
+        model.setAvailableGames(new HashMap<>());
+
+        Assertions.assertEquals(new HashMap<>(), model.getAvailableGames());
+    }
+
+    @Test
     public void whenModelToString() {
 
         ProjectCreateForm model = model();
 
-        String expected = "ProjectCreateForm(projectName=projectName, selectedGameId=selectedGameId)";
+        String expected = "ProjectCreateForm(projectName=projectName, selectedGameId=selectedGameId, availableGames={})";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -38,7 +49,7 @@ public class ProjectCreateFormTest {
 
         ProjectCreateForm model = model();
 
-        Assertions.assertEquals(1871291245, model.hashCode());
+        Assertions.assertEquals(-1262966241, model.hashCode());
     }
 
     @Test
@@ -63,6 +74,7 @@ public class ProjectCreateFormTest {
         ProjectCreateForm model = new ProjectCreateForm();
         model.setProjectName("projectName");
         model.setSelectedGameId("selectedGameId");
+        model.setAvailableGames(new HashMap<>());
 
         return model;
     }

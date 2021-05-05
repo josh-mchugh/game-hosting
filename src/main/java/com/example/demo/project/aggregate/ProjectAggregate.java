@@ -25,7 +25,6 @@ public class ProjectAggregate {
     @AggregateIdentifier
     private UUID id;
     private UUID gameId;
-    private String instanceGroupId;
     private String name;
     private ProjectStatus status;
     private ProjectState state;
@@ -46,8 +45,10 @@ public class ProjectAggregate {
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
                 .id(command.getId())
                 .name(command.getName())
+                .status(ProjectStatus.CONFIG)
+                .state(ProjectState.CONFIG_REGION)
                 .gameId(command.getGameId())
-                .member(ProjectCreatedEvent.createMember(command.getUserId()))
+                .member(ProjectCreatedEvent.createOwner(command.getUserId()))
                 .build();
 
         AggregateLifecycle.apply(event);
@@ -58,14 +59,14 @@ public class ProjectAggregate {
 
         this.id = event.getId();
         this.name = event.getName();
+        this.status = event.getStatus();
+        this.state = event.getState();
         this.gameId = event.getGameId();
-        this.state = ProjectState.BUILD;
-        this.status = ProjectStatus.ACTIVE;
 
         Member member = Member.builder()
                 .id(event.getMember().getId())
                 .userId(event.getMember().getUserId())
-                .role(ProjectMembershipRole.OWNER)
+                .role(event.getMember().getRole())
                 .build();
 
         this.members = Lists.newArrayList(member);

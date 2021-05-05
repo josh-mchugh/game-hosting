@@ -5,9 +5,6 @@ import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.entity.ProjectEntity;
 import com.example.demo.project.entity.ProjectMembershipEntity;
-import com.example.demo.project.entity.ProjectMembershipRole;
-import com.example.demo.project.entity.ProjectState;
-import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.project.entity.mapper.ProjectMapper;
 import com.example.demo.project.entity.model.Project;
 import com.example.demo.user.entity.QUserEntity;
@@ -48,15 +45,15 @@ public class ProjectService implements IProjectService {
         ProjectEntity entity = new ProjectEntity();
         entity.setId(event.getId());
         entity.setName(event.getName());
-        entity.setStatus(ProjectStatus.ACTIVE);
-        entity.setState(ProjectState.BUILD);
+        entity.setStatus(event.getStatus());
+        entity.setState(event.getState());
         entity.setGameEntity(gameEntity);
 
         ProjectMembershipEntity projectMembershipEntity = new ProjectMembershipEntity();
         projectMembershipEntity.setId(event.getMember().getId());
         projectMembershipEntity.setProjectEntity(entity);
         projectMembershipEntity.setUserEntity(userEntity);
-        projectMembershipEntity.setRole(ProjectMembershipRole.OWNER);
+        projectMembershipEntity.setRole(event.getMember().getRole());
 
         entity.setProjectMembershipsEntities(Lists.newArrayList(projectMembershipEntity));
 

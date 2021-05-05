@@ -1,5 +1,8 @@
 package com.example.demo.project.aggregate.event;
 
+import com.example.demo.project.entity.ProjectMembershipRole;
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +33,26 @@ public class ProjectCreatedEventTest {
     }
 
     @Test
+    public void whenEventHasStatusThenReturnStatus() {
+
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .status(ProjectStatus.ACTIVE)
+                .build();
+
+        Assertions.assertEquals(ProjectStatus.ACTIVE, event.getStatus());
+    }
+
+    @Test
+    public void whenEventHasStateThenReturnState() {
+
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .state(ProjectState.ACTIVE)
+                .build();
+
+        Assertions.assertEquals(ProjectState.ACTIVE, event.getState());
+    }
+
+    @Test
     public void whenEventHasGameIdThenReturnGameId() {
 
         UUID gameId = UUID.randomUUID();
@@ -42,10 +65,20 @@ public class ProjectCreatedEventTest {
     }
 
     @Test
+    public void whenEventHasOwnerThenReturnNotNull() {
+
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .member(ProjectCreatedEvent.createOwner(UUID.randomUUID()))
+                .build();
+
+        Assertions.assertNotNull(event.getMember());
+    }
+
+    @Test
     public void whenEventHasMemberThenReturnNotNull() {
 
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
-                .member(ProjectCreatedEvent.createMember(UUID.randomUUID()))
+                .member(ProjectCreatedEvent.createMember(UUID.randomUUID(), ProjectMembershipRole.OWNER))
                 .build();
 
         Assertions.assertNotNull(event.getMember());
@@ -80,7 +113,7 @@ public class ProjectCreatedEventTest {
 
         ProjectCreatedEvent.Member member = member();
 
-        String expected = "ProjectCreatedEvent.Member(id=26fe10e0-dce0-4293-943e-67541bd1159d, userId=682fdeb3-325b-403d-aca2-0a132f27ad56)";
+        String expected = "ProjectCreatedEvent.Member(id=26fe10e0-dce0-4293-943e-67541bd1159d, userId=682fdeb3-325b-403d-aca2-0a132f27ad56, role=OWNER)";
 
         Assertions.assertEquals(expected, member.toString());
     }
@@ -88,9 +121,12 @@ public class ProjectCreatedEventTest {
     @Test
     public void whenMemberHashCode() {
 
-        ProjectCreatedEvent.Member member = member();
+        ProjectCreatedEvent.Member member =ProjectCreatedEvent.Member.builder()
+                .id(UUID.fromString("26fe10e0-dce0-4293-943e-67541bd1159d"))
+                .userId(UUID.fromString("682fdeb3-325b-403d-aca2-0a132f27ad56"))
+                .build();
 
-        Assertions.assertEquals(142856770, member.hashCode());
+        Assertions.assertEquals(-161385119, member.hashCode());
     }
 
     @Test
@@ -111,11 +147,29 @@ public class ProjectCreatedEventTest {
     }
 
     @Test
-    public void whenCreatedMemberThenExpectRandomUUID() {
+    public void whenCreateOwnerThenExpectRandomUUID() {
 
-        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createMember(UUID.randomUUID());
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createOwner(UUID.randomUUID());
 
         Assertions.assertNotNull(member.getId());
+    }
+
+    @Test
+    public void whenCreateMemberThenExpectRandomUUID() {
+
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createMember(UUID.randomUUID(), ProjectMembershipRole.OWNER);
+
+        Assertions.assertNotNull(member.getId());
+    }
+
+    @Test
+    public void whenCreateOwnerThenExpectUserId() {
+
+        UUID userId = UUID.randomUUID();
+
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createOwner(userId);
+
+        Assertions.assertEquals(userId, member.getUserId());
     }
 
     @Test
@@ -123,9 +177,25 @@ public class ProjectCreatedEventTest {
 
         UUID userId = UUID.randomUUID();
 
-        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createMember(userId);
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createMember(userId, ProjectMembershipRole.OWNER);
 
         Assertions.assertEquals(userId, member.getUserId());
+    }
+
+    @Test
+    public void whenCreateOwnerThenExpectRole() {
+
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createOwner(UUID.randomUUID());
+
+        Assertions.assertEquals(ProjectMembershipRole.OWNER, member.getRole());
+    }
+
+    @Test
+    public void whenCreateMemberWithRoleThenExpectRole() {
+
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.createMember(null, ProjectMembershipRole.OWNER);
+
+        Assertions.assertEquals(ProjectMembershipRole.OWNER, member.getRole());
     }
 
     @Test
@@ -133,7 +203,7 @@ public class ProjectCreatedEventTest {
 
         ProjectCreatedEvent event = event();
 
-        String expected = "ProjectCreatedEvent(id=28245910-9ea6-4d67-8849-65d982e4af78, name=name, gameId=a5bc7b4e-f252-49e6-9311-da3311f1e466, member=ProjectCreatedEvent.Member(id=26fe10e0-dce0-4293-943e-67541bd1159d, userId=682fdeb3-325b-403d-aca2-0a132f27ad56))";
+        String expected = "ProjectCreatedEvent(id=28245910-9ea6-4d67-8849-65d982e4af78, name=name, status=CONFIG, state=CONFIG_REGION, gameId=a5bc7b4e-f252-49e6-9311-da3311f1e466, member=ProjectCreatedEvent.Member(id=26fe10e0-dce0-4293-943e-67541bd1159d, userId=682fdeb3-325b-403d-aca2-0a132f27ad56, role=OWNER))";
 
         Assertions.assertEquals(expected, event.toString());
     }
@@ -141,9 +211,19 @@ public class ProjectCreatedEventTest {
     @Test
     public void whenEventHashCode() {
 
-        ProjectCreatedEvent event = event();
+        ProjectCreatedEvent.Member member = ProjectCreatedEvent.Member.builder()
+                .id(UUID.fromString("26fe10e0-dce0-4293-943e-67541bd1159d"))
+                .userId(UUID.fromString("682fdeb3-325b-403d-aca2-0a132f27ad56"))
+                .build();
 
-        Assertions.assertEquals(404275223, event.hashCode());
+        ProjectCreatedEvent event = ProjectCreatedEvent.builder()
+                .id(UUID.fromString("28245910-9ea6-4d67-8849-65d982e4af78"))
+                .gameId(UUID.fromString("a5bc7b4e-f252-49e6-9311-da3311f1e466"))
+                .name("name")
+                .member(member)
+                .build();
+
+        Assertions.assertEquals(702509754, event.hashCode());
     }
 
     @Test
@@ -168,6 +248,8 @@ public class ProjectCreatedEventTest {
         return ProjectCreatedEvent.builder()
                 .id(UUID.fromString("28245910-9ea6-4d67-8849-65d982e4af78"))
                 .gameId(UUID.fromString("a5bc7b4e-f252-49e6-9311-da3311f1e466"))
+                .status(ProjectStatus.CONFIG)
+                .state(ProjectState.CONFIG_REGION)
                 .name("name")
                 .member(member())
                 .build();
@@ -178,6 +260,7 @@ public class ProjectCreatedEventTest {
         return ProjectCreatedEvent.Member.builder()
                 .id(UUID.fromString("26fe10e0-dce0-4293-943e-67541bd1159d"))
                 .userId(UUID.fromString("682fdeb3-325b-403d-aca2-0a132f27ad56"))
+                .role(ProjectMembershipRole.OWNER)
                 .build();
     }
 }
