@@ -19,7 +19,7 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class ProjectCreateCommandServiceHandleProjectCreateTest {
+public class ProjectCreateCommandServiceHandleCreateTest {
 
     @Autowired
     private IProjectCreateCommandService service;
@@ -33,7 +33,7 @@ public class ProjectCreateCommandServiceHandleProjectCreateTest {
     @Test
     public void whenParamIsNullThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> service.handleProjectCreate(null));
+        Assertions.assertThrows(NullPointerException.class, () -> service.handleCreate(null));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ProjectCreateCommandServiceHandleProjectCreateTest {
                 .gameId(UUID.randomUUID().toString())
                 .build();
 
-        ProjectCreateResponse response = service.handleProjectCreate(request);
+        ProjectCreateResponse response = service.handleCreate(request);
 
         Assertions.assertEquals(id, response.getId());
     }
@@ -62,7 +62,7 @@ public class ProjectCreateCommandServiceHandleProjectCreateTest {
 
         ProjectCreateRequest request = ProjectCreateRequest.builder().build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> service.handleProjectCreate(request));
+        Assertions.assertThrows(NullPointerException.class, () -> service.handleCreate(request));
     }
 
     @Test
@@ -75,6 +75,6 @@ public class ProjectCreateCommandServiceHandleProjectCreateTest {
                 .gameId("gameId")
                 .build();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.handleProjectCreate(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.handleCreate(request));
     }
 }

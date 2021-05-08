@@ -384,6 +384,7 @@
             <column name="game_id" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="ovh_region_id" type="nvarchar(255)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="project" baseColumnNames="game_id" constraintName="project_game_id__game_id" referencedTableName="game" referencedColumnNames="id"/>
     </changeSet>

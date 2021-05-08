@@ -1,9 +1,8 @@
 package com.example.demo.web.project.create.form;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
 
 public class ProjectCreateFormTest {
 
@@ -29,9 +28,9 @@ public class ProjectCreateFormTest {
     public void whenModelHasAvailableGamesThenReturnAvailableGames() {
 
         ProjectCreateForm model = new ProjectCreateForm();
-        model.setAvailableGames(new HashMap<>());
+        model.setAvailableGames(ImmutableMap.of());
 
-        Assertions.assertEquals(new HashMap<>(), model.getAvailableGames());
+        Assertions.assertEquals(ImmutableMap.of(), model.getAvailableGames());
     }
 
     @Test
@@ -74,7 +73,7 @@ public class ProjectCreateFormTest {
         ProjectCreateForm model = new ProjectCreateForm();
         model.setProjectName("projectName");
         model.setSelectedGameId("selectedGameId");
-        model.setAvailableGames(new HashMap<>());
+        model.setAvailableGames(ImmutableMap.of());
 
         return model;
     }

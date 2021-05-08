@@ -2,6 +2,8 @@ package com.example.demo.web.project.create.command;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
+import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
+import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ public class ProjectCreateCommandService implements IProjectCreateCommandService
     private final ISessionUtil sessionUtil;
 
     @Override
-    public ProjectCreateResponse handleProjectCreate(ProjectCreateRequest request) {
+    public ProjectCreateResponse handleCreate(ProjectCreateRequest request) {
 
         ProjectCreateCommand command = ProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
@@ -28,5 +30,16 @@ public class ProjectCreateCommandService implements IProjectCreateCommandService
                 .build();
 
         return new ProjectCreateResponse(commandGateway.sendAndWait(command));
+    }
+
+    @Override
+    public void handleAddRegion(ProjectAddRegionRequest request) {
+
+        ProjectRegionAddCommand command = ProjectRegionAddCommand.builder()
+                .id(request.getId())
+                .ovhRegionId(UUID.fromString(request.getSelectedRegionId()))
+                .build();
+
+        commandGateway.sendAndWait(command);
     }
 }

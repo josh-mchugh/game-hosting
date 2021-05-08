@@ -2,9 +2,13 @@ package com.example.demo.project.entity.service;
 
 import com.example.demo.game.entity.GameEntity;
 import com.example.demo.game.entity.QGameEntity;
+import com.example.demo.ovh.region.entity.QRegionEntity;
+import com.example.demo.ovh.region.entity.RegionEntity;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectEntity;
 import com.example.demo.project.entity.ProjectMembershipEntity;
+import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.project.entity.mapper.ProjectMapper;
 import com.example.demo.project.entity.model.Project;
 import com.example.demo.user.entity.QUserEntity;
@@ -56,6 +60,31 @@ public class ProjectService implements IProjectService {
         projectMembershipEntity.setRole(event.getMember().getRole());
 
         entity.setProjectMembershipsEntities(Lists.newArrayList(projectMembershipEntity));
+
+        entityManager.persist(entity);
+
+        return ProjectMapper.map(entity);
+    }
+
+    @Override
+    @EventHandler
+    public Project handleRegionAdded(ProjectRegionAddedEvent event) {
+
+        QProjectEntity qProject = QProjectEntity.projectEntity;
+        QRegionEntity qRegion = QRegionEntity.regionEntity;
+
+        RegionEntity regionEntity = queryFactory.select(qRegion)
+                .from(qRegion)
+                .where(qRegion.id.eq(event.getOvhRegionId().toString()))
+                .fetchOne();
+
+        ProjectEntity entity = queryFactory.select(qProject)
+                .from(qProject)
+                .where(qProject.id.eq(event.getId().toString()))
+                .fetchOne();
+
+        entity.setRegionEntity(regionEntity);
+        entity.setState(event.getState());
 
         entityManager.persist(entity);
 

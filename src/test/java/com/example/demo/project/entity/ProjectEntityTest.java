@@ -2,6 +2,7 @@ package com.example.demo.project.entity;
 
 import com.example.demo.game.entity.GameEntity;
 import com.example.demo.ovh.instance.entity.InstanceGroupEntity;
+import com.example.demo.ovh.region.entity.RegionEntity;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -108,6 +109,17 @@ public class ProjectEntityTest {
         entity.setGameEntity(gameEntity);
 
         Assertions.assertEquals(gameEntity, entity.getGameEntity());
+    }
+
+    @Test
+    public void whenEntityHasRegionEntityThenReturnRegionEntity() {
+
+        RegionEntity regionEntity = new RegionEntity();
+
+        ProjectEntity entity = new ProjectEntity();
+        entity.setRegionEntity(regionEntity);
+
+        Assertions.assertEquals(regionEntity, entity.getRegionEntity());
     }
 
     @Test
