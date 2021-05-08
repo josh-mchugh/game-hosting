@@ -1,18 +1,17 @@
 package com.example.demo.web.project.create.projection.model;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
 
 public class FetchProjectAvailableGameMapResponseTest {
 
     @Test
-    public void whenModelHasIdThenReturnId() {
+    public void whenModelHasAvailableGamesThenReturnAvailableGames() {
 
-        FetchProjectAvailableGameMapResponse model = new FetchProjectAvailableGameMapResponse(new HashMap<>());
+        FetchProjectAvailableGameMapResponse model = new FetchProjectAvailableGameMapResponse(ImmutableMap.of());
 
-        Assertions.assertEquals(new HashMap<>(), model.getAvailableGames());
+        Assertions.assertEquals(ImmutableMap.of(), model.getAvailableGames());
     }
 
     @Test
@@ -52,6 +51,6 @@ public class FetchProjectAvailableGameMapResponseTest {
 
     private FetchProjectAvailableGameMapResponse model() {
 
-        return new FetchProjectAvailableGameMapResponse(new HashMap<>());
+        return new FetchProjectAvailableGameMapResponse(ImmutableMap.of());
     }
 }

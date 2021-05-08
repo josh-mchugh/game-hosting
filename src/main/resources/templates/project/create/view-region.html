@@ -43,8 +43,9 @@
                         <div class="form-group">
                             <label class="required">Region</label>
                             <select class="form-control" th:errorclass="is-invalid" th:field="*{selectedRegionId}">
-                                <option value="US-EAST">US-EAST</option>
-                                <option value="US-WEST">US-WEST</option>
+                                <th:block th:each="region : ${form.availableRegions}">
+                                    <option th:value="${region.key}">[[${region.value}]]</option>
+                                </th:block>
                             </select>
                             <div th:if="${#fields.hasErrors('selectedRegionId')}" class="invalid-feedback" th:errors="*{selectedRegionId}"></div>
                         </div>

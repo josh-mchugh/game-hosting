@@ -2,6 +2,7 @@ package com.example.demo.web.project.create;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
 import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
@@ -10,6 +11,9 @@ import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.form.ProjectCreateServerForm;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
@@ -23,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Controller
@@ -69,24 +73,32 @@ public class ProjectCreateController {
                 .gameId(form.getSelectedGameId())
                 .build();
 
-        ProjectCreateResponse response = commandService.handleProjectCreate(request);
+        ProjectCreateResponse response = commandService.handleCreate(request);
 
         return String.format("redirect:/project/create/%s/region", response.getId());
     }
 
     @GetMapping("/{id}/region")
-    public String getCreateRegion(Model model, @PathVariable("id") String id) {
+    public String getCreateRegion(Model model, @PathVariable("id") UUID id) throws ExecutionException, InterruptedException {
 
         if (!model.containsAttribute("form")) {
 
-            model.addAttribute("form", new ProjectCreateRegionForm());
+            ProjectCreateRegionForm form = new ProjectCreateRegionForm();
+            form.setAvailableRegions(fetchAvailableRegionsMap(id));
+
+            model.addAttribute("form", form);
+
+        } else {
+
+            ProjectCreateRegionForm form = (ProjectCreateRegionForm) model.getAttribute("form");
+            form.setAvailableRegions(fetchAvailableRegionsMap(id));
         }
 
         return "project/create/view-region";
     }
 
     @PostMapping("/{id}/region")
-    public String getPostRegion(Model model, @PathVariable("id") String id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form") ProjectCreateRegionForm form, BindingResult results) {
+    public String getPostRegion(Model model, @PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form") ProjectCreateRegionForm form, BindingResult results) {
 
         if(results.hasErrors()) {
 
@@ -95,6 +107,9 @@ public class ProjectCreateController {
 
             return String.format("redirect:/project/create/%s/region", id);
         }
+
+        ProjectAddRegionRequest request = new ProjectAddRegionRequest(id, form.getSelectedRegionId());
+        commandService.handleAddRegion(request);
 
         return String.format("redirect:/project/create/%s/server", id);
     }
@@ -149,11 +164,19 @@ public class ProjectCreateController {
         return String.format("redirect:/project/dashboard/%s", id);
     }
 
-    private Map<String, GameType> fetchAvailableGameMap() throws ExecutionException, InterruptedException {
+    private ImmutableMap<String, GameType> fetchAvailableGameMap() throws ExecutionException, InterruptedException {
 
-        FetchProjectAvailableGameMapQuery request = new FetchProjectAvailableGameMapQuery();
-        FetchProjectAvailableGameMapResponse response = queryGateway.query(request, FetchProjectAvailableGameMapResponse.class).get();
+        FetchProjectAvailableGameMapQuery query = new FetchProjectAvailableGameMapQuery();
+        FetchProjectAvailableGameMapResponse response = queryGateway.query(query, FetchProjectAvailableGameMapResponse.class).get();
 
         return response.getAvailableGames();
+    }
+
+    private ImmutableMap<String, String> fetchAvailableRegionsMap(UUID id) throws ExecutionException, InterruptedException {
+
+        FetchProjectAvailableRegionsMapQuery query = new FetchProjectAvailableRegionsMapQuery(id);
+        FetchProjectAvailableRegionsMapResponse response = queryGateway.query(query, FetchProjectAvailableRegionsMapResponse.class).get();
+
+        return response.getAvailableRegions();
     }
 }

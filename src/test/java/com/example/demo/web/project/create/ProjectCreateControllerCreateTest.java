@@ -6,6 +6,7 @@ import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
 import com.example.demo.web.project.create.form.ProjectCreateForm;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapResponse;
+import com.google.common.collect.ImmutableMap;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,7 +23,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -67,7 +67,7 @@ public class ProjectCreateControllerCreateTest {
     public void whenRequestIsUserThenExpectOk() throws Exception {
 
         Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(new HashMap<>())));
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -81,7 +81,7 @@ public class ProjectCreateControllerCreateTest {
     public void whenRequestIsValidThenExpectView() throws Exception {
 
         Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(new HashMap<>())));
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -95,13 +95,13 @@ public class ProjectCreateControllerCreateTest {
     public void whenRequestIsValidThenExpectModel() throws Exception {
 
         Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(new HashMap<>())));
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
 
         ProjectCreateForm expected = new ProjectCreateForm();
-        expected.setAvailableGames(new HashMap<>());
+        expected.setAvailableGames(ImmutableMap.of());
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
@@ -112,7 +112,7 @@ public class ProjectCreateControllerCreateTest {
     public void whenRequestHasFlashAttrThenExpectModel() throws Exception {
 
         Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(new HashMap<>())));
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
 
         ProjectCreateForm flashAttr = new ProjectCreateForm();
         flashAttr.setProjectName("projectName");
@@ -125,7 +125,7 @@ public class ProjectCreateControllerCreateTest {
         ProjectCreateForm expected = new ProjectCreateForm();
         expected.setProjectName("projectName");
         expected.setSelectedGameId("selectedGameId");
-        expected.setAvailableGames(new HashMap<>());
+        expected.setAvailableGames(ImmutableMap.of());
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
@@ -162,7 +162,7 @@ public class ProjectCreateControllerCreateTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(commandService.handleProjectCreate(Mockito.any(ProjectCreateRequest.class)))
+        Mockito.when(commandService.handleCreate(Mockito.any(ProjectCreateRequest.class)))
                 .thenReturn(new ProjectCreateResponse(id));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/project/create")

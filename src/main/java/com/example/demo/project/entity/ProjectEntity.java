@@ -3,6 +3,7 @@ package com.example.demo.project.entity;
 import com.example.demo.framework.database.AbstractAggregateEntity;
 import com.example.demo.game.entity.GameEntity;
 import com.example.demo.ovh.instance.entity.InstanceGroupEntity;
+import com.example.demo.ovh.region.entity.RegionEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,8 +38,12 @@ public class ProjectEntity extends AbstractAggregateEntity {
     private ProjectState state;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     private GameEntity gameEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ovh_region_id")
+    private RegionEntity regionEntity;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEntity")
     private InstanceGroupEntity instanceGroupEntity;

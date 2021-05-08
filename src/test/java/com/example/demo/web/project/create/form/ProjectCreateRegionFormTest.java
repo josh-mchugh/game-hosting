@@ -1,5 +1,6 @@
 package com.example.demo.web.project.create.form;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +16,20 @@ public class ProjectCreateRegionFormTest {
     }
 
     @Test
+    public void whenModelHasAvailableRegionsThenReturnAvailableRegions() {
+
+        ProjectCreateRegionForm model = new ProjectCreateRegionForm();
+        model.setAvailableRegions(ImmutableMap.of());
+
+        Assertions.assertEquals(ImmutableMap.of(), model.getAvailableRegions());
+    }
+
+    @Test
     public void whenModelToString() {
 
         ProjectCreateRegionForm model = model();
 
-        String expected = "ProjectCreateRegionForm(selectedRegionId=selectedRegionId)";
+        String expected = "ProjectCreateRegionForm(selectedRegionId=selectedRegionId, availableRegions={})";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -29,7 +39,7 @@ public class ProjectCreateRegionFormTest {
 
         ProjectCreateRegionForm model = model();
 
-        Assertions.assertEquals(-1021849819, model.hashCode());
+        Assertions.assertEquals(-159597177, model.hashCode());
     }
 
     @Test
@@ -46,13 +56,14 @@ public class ProjectCreateRegionFormTest {
 
         ProjectCreateRegionForm model = model();
 
-        Assertions.assertNotEquals(new ProjectCreateForm(), model);
+        Assertions.assertNotEquals(model, new ProjectCreateRegionForm());
     }
 
     private ProjectCreateRegionForm model() {
 
         ProjectCreateRegionForm model = new ProjectCreateRegionForm();
         model.setSelectedRegionId("selectedRegionId");
+        model.setAvailableRegions(ImmutableMap.of());
 
         return model;
     }

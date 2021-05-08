@@ -1,10 +1,10 @@
 package com.example.demo.web.project.create.form;
 
 import com.example.demo.game.entity.GameType;
+import com.google.common.collect.ImmutableMap;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Map;
 
 @Data
 public class ProjectCreateForm {
@@ -15,5 +15,5 @@ public class ProjectCreateForm {
     @NotBlank(message = "{error.not.blank}")
     private String selectedGameId;
 
-    private Map<String, GameType> availableGames;
+    private ImmutableMap<String, GameType> availableGames;
 }

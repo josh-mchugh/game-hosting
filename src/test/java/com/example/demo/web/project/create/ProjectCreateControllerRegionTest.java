@@ -1,10 +1,17 @@
 package com.example.demo.web.project.create;
 
+import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
+import com.google.common.collect.ImmutableMap;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -14,6 +21,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -23,6 +32,12 @@ public class ProjectCreateControllerRegionTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private IProjectCreateCommandService commandService;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
@@ -49,7 +64,12 @@ public class ProjectCreateControllerRegionTest {
     @Test
     public void whenRequestIsUserThenExpectOk() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create/1/region")
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
 
         this.mockMvc.perform(request)
@@ -60,7 +80,12 @@ public class ProjectCreateControllerRegionTest {
     @Test
     public void whenRequestIsValidThenExpectView() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create/1/region")
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
 
         this.mockMvc.perform(request)
@@ -71,30 +96,66 @@ public class ProjectCreateControllerRegionTest {
     @Test
     public void whenRequestIsValidThenExpectModel() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create/1/region")
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
+
+        ProjectCreateRegionForm expected = new ProjectCreateRegionForm();
+        expected.setAvailableRegions(ImmutableMap.of());
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.model().attribute("form", new ProjectCreateRegionForm()));
+                .andExpect(MockMvcResultMatchers.model().attribute("form", expected));
+    }
+
+    @Test
+    public void whenRequestHasFlashAttributesThenExpectModel() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        ProjectCreateRegionForm flashAttr = new ProjectCreateRegionForm();
+        flashAttr.setSelectedRegionId("selectedRegionId");
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
+                .flashAttr("form", flashAttr)
+                .with(SecurityMockMvcRequestPostProcessors.user("user"));
+
+        ProjectCreateRegionForm expected = new ProjectCreateRegionForm();
+        expected.setSelectedRegionId("selectedRegionId");
+        expected.setAvailableRegions(ImmutableMap.of());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.model().attribute("form", expected));
     }
 
     @Test
     public void whenPostHasErrorsThenExpectRedirect() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/project/create/1/region")
+        UUID id = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"))
                 .with(SecurityMockMvcRequestPostProcessors.csrf());
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/project/create/1/region"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl(String.format("/project/create/%s/region", id)));
     }
 
     @Test
     public void whenPostHasErrorsThenExpectErrors() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/project/create/1/region")
+        UUID id = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"))
                 .with(SecurityMockMvcRequestPostProcessors.csrf());
 
@@ -106,13 +167,15 @@ public class ProjectCreateControllerRegionTest {
     @Test
     public void whenPostIsValidThenExpectRedirect() throws Exception {
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/project/create/1/region")
+        UUID id = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(String.format("/project/create/%s/region", id))
                 .param("selectedRegionId", "regionId")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"))
                 .with(SecurityMockMvcRequestPostProcessors.csrf());
 
         this.mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.log())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/project/create/1/server"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl(String.format("/project/create/%s/server", id)));
     }
 }

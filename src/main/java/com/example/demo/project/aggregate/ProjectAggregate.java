@@ -1,7 +1,9 @@
 package com.example.demo.project.aggregate;
 
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
+import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
@@ -24,11 +26,12 @@ public class ProjectAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private UUID gameId;
     private String name;
     private ProjectStatus status;
     private ProjectState state;
     private List<Member> members;
+    private UUID gameId;
+    private UUID ovhRegionId;
 
     @Data
     @Builder(builderClassName = "Builder")
@@ -70,5 +73,25 @@ public class ProjectAggregate {
                 .build();
 
         this.members = Lists.newArrayList(member);
+    }
+
+    @CommandHandler
+    public void on(ProjectRegionAddCommand command) {
+
+        ProjectRegionAddedEvent event = ProjectRegionAddedEvent.builder()
+                .id(command.getId())
+                .ovhRegionId(command.getOvhRegionId())
+                .state(ProjectState.CONFIG_SERVER)
+                .build();
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(ProjectRegionAddedEvent event) {
+
+        this.id = event.getId();
+        this.ovhRegionId = event.getOvhRegionId();
+        this.state = event.getState();
     }
 }

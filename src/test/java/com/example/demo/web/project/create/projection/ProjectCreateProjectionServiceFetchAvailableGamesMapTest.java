@@ -29,7 +29,7 @@ public class ProjectCreateProjectionServiceFetchAvailableGamesMapTest {
     }
 
     @Test
-    public void whenGameExistsThenExpectResults() {
+    public void whenGameIsAvailableThenExpectResults() {
 
         sampleBuilder.builder()
                 .region()
@@ -46,7 +46,7 @@ public class ProjectCreateProjectionServiceFetchAvailableGamesMapTest {
     }
 
     @Test
-    public void whenGameDoesNotExistsThenExpectNoResults() {
+    public void whenGameIsNotAvailableThenExpectNoResults() {
 
         FetchProjectAvailableGameMapQuery query = new FetchProjectAvailableGameMapQuery();
         FetchProjectAvailableGameMapResponse response = service.fetchAvailableGameMap(query);
