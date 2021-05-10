@@ -89,6 +89,24 @@ public class ProjectServiceHandleRegionAddedTest {
     }
 
     @Test
+    public void whenParamIsValidRegionIdThenDoNotExpectException() {
+
+        SampleData data = sampleBuilder.builder()
+                .region()
+                .game()
+                .user()
+                .project()
+                .build();
+
+        ProjectRegionAddedEvent event = ProjectRegionAddedEvent.builder()
+                .id(data.getProject().getId())
+                .ovhRegionId(data.getRegion().getId())
+                .build();
+
+        Assertions.assertDoesNotThrow(() -> service.handleRegionAdded(event));
+    }
+
+    @Test
     public void whenParamHasStateThenReturnState() {
 
         SampleData data = sampleBuilder.builder()

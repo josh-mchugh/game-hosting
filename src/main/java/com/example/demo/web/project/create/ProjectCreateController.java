@@ -2,6 +2,7 @@ package com.example.demo.web.project.create;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
@@ -13,6 +14,8 @@ import com.example.demo.web.project.create.projection.model.FetchProjectAvailabl
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryGateway;
@@ -115,18 +118,26 @@ public class ProjectCreateController {
     }
 
     @GetMapping("/{id}/server")
-    public String getCreateServer(Model model, @PathVariable("id") String id) {
+    public String getCreateServer(Model model, @PathVariable("id") UUID id) throws ExecutionException, InterruptedException {
 
         if (!model.containsAttribute("form")) {
 
-            model.addAttribute("form", new ProjectCreateServerForm());
+            ProjectCreateServerForm form = new ProjectCreateServerForm();
+            form.setAvailableServers(fetchAvailableServersMap(id));
+
+            model.addAttribute("form", form);
+
+        } else {
+
+            ProjectCreateServerForm form = (ProjectCreateServerForm) model.getAttribute("form");
+            form.setAvailableServers(fetchAvailableServersMap(id));
         }
 
         return "project/create/view-server";
     }
 
     @PostMapping("/{id}/server")
-    public String postCreateServer(Model model, @PathVariable("id") String id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form") ProjectCreateServerForm form, BindingResult results) {
+    public String postCreateServer(Model model, @PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form") ProjectCreateServerForm form, BindingResult results) {
 
         if(results.hasErrors()) {
 
@@ -135,6 +146,9 @@ public class ProjectCreateController {
 
             return String.format("redirect:/project/create/%s/server", id);
         }
+
+        ProjectAddFlavorRequest request = new ProjectAddFlavorRequest(id, form.getSelectedServerId());
+        commandService.handleAddFlavor(request);
 
         return String.format("redirect:/project/create/%s/billing", id);
     }
@@ -178,5 +192,13 @@ public class ProjectCreateController {
         FetchProjectAvailableRegionsMapResponse response = queryGateway.query(query, FetchProjectAvailableRegionsMapResponse.class).get();
 
         return response.getAvailableRegions();
+    }
+
+    private ImmutableMap<String, String> fetchAvailableServersMap(UUID id) throws ExecutionException, InterruptedException {
+
+        FetchProjectAvailableServersMapQuery query = new FetchProjectAvailableServersMapQuery(id);
+        FetchProjectAvailableServersMapResponse response = queryGateway.query(query, FetchProjectAvailableServersMapResponse.class).get();
+
+        return response.getAvailableServers();
     }
 }

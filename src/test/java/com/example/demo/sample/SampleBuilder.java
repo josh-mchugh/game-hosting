@@ -58,6 +58,7 @@ import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
@@ -242,6 +243,13 @@ public class SampleBuilder {
         public Builder project() {
 
             project = createDefaultProject();
+
+            return this;
+        }
+
+        public Builder configProjectRegion() {
+
+            project = SampleBuilder.this.configProjectRegion();
 
             return this;
         }
@@ -496,6 +504,20 @@ public class SampleBuilder {
                 .build();
 
         return projectService.handleCreated(event);
+    }
+
+    private Project configProjectRegion() {
+
+        if (project == null) project = createDefaultProject();
+        if (region == null) region = createDefaultRegion();
+
+        ProjectRegionAddedEvent event = ProjectRegionAddedEvent.builder()
+                .id(project.getId())
+                .ovhRegionId(region.getId())
+                .state(ProjectState.CONFIG_SERVER)
+                .build();
+
+        return projectService.handleRegionAdded(event);
     }
 
     private InstanceGroup createDefaultInstanceGroup() {

@@ -1,8 +1,10 @@
 package com.example.demo.project.aggregate;
 
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
+import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
@@ -32,6 +34,7 @@ public class ProjectAggregate {
     private List<Member> members;
     private UUID gameId;
     private UUID ovhRegionId;
+    private UUID ovhFlavorId;
 
     @Data
     @Builder(builderClassName = "Builder")
@@ -92,6 +95,26 @@ public class ProjectAggregate {
 
         this.id = event.getId();
         this.ovhRegionId = event.getOvhRegionId();
+        this.state = event.getState();
+    }
+
+    @CommandHandler
+    public void on(ProjectFlavorAddCommand command) {
+
+        ProjectFlavorAddedEvent event = ProjectFlavorAddedEvent.builder()
+                .id(command.getId())
+                .ovhFlavorId(command.getOvhFlavorId())
+                .state(ProjectState.CONFIG_BILLING)
+                .build();
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(ProjectFlavorAddedEvent event) {
+
+        this.id = event.getId();
+        this.ovhFlavorId = event.getOvhFlavorId();
         this.state = event.getState();
     }
 }

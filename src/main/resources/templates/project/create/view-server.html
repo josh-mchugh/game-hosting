@@ -25,7 +25,7 @@
                 <a class="title">Step 2</a>
                 <div class="subtitle">Select a region</div>
             </div>
-            <div class="step">
+            <div class="step active">
                 <div class="indicator"></div>
                 <a class="title">Step 3</a>
                 <div class="subtitle">Select a server</div>
@@ -43,8 +43,9 @@
                         <div class="form-group">
                             <label class="required">Server</label>
                             <select class="form-control" th:errorclass="is-invalid" th:field="*{selectedServerId}">
-                                <option value="1cpu2gb">1cpu - 2gb ram</option>
-                                <option value="2cpu4gb">1cpu - 4gb ram</option>
+                                <th:block th:each="server : ${form.availableServers}">
+                                    <option th:value="${server.key}">[[${server.value}]]</option>
+                                </th:block>
                             </select>
                             <div th:if="${#fields.hasErrors('selectedServerId')}" class="invalid-feedback" th:errors="*{selectedServerId}"></div>
                         </div>

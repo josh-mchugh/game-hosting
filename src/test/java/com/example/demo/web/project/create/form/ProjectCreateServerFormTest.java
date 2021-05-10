@@ -1,5 +1,6 @@
 package com.example.demo.web.project.create.form;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +16,20 @@ public class ProjectCreateServerFormTest {
     }
 
     @Test
+    public void whenModelHasAvailableServersThenReturnAvailableServers() {
+
+        ProjectCreateServerForm form = new ProjectCreateServerForm();
+        form.setAvailableServers(ImmutableMap.of());
+
+        Assertions.assertEquals(ImmutableMap.of(), form.getAvailableServers());
+    }
+
+    @Test
     public void whenModelToString() {
 
         ProjectCreateServerForm model = model();
 
-        String expected = "ProjectCreateServerForm(selectedServerId=selectedServerId)";
+        String expected = "ProjectCreateServerForm(selectedServerId=selectedServerId, availableServers={})";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -29,7 +39,7 @@ public class ProjectCreateServerFormTest {
 
         ProjectCreateServerForm model = model();
 
-        Assertions.assertEquals(1047592884, model.hashCode());
+        Assertions.assertEquals(1678438012, model.hashCode());
     }
 
     @Test
@@ -53,6 +63,7 @@ public class ProjectCreateServerFormTest {
 
         ProjectCreateServerForm model = new ProjectCreateServerForm();
         model.setSelectedServerId("selectedServerId");
+        model.setAvailableServers(ImmutableMap.of());
 
         return model;
     }
