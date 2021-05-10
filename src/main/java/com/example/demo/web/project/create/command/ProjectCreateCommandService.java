@@ -2,7 +2,9 @@ package com.example.demo.web.project.create.command;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
+import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
+import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
@@ -38,6 +40,17 @@ public class ProjectCreateCommandService implements IProjectCreateCommandService
         ProjectRegionAddCommand command = ProjectRegionAddCommand.builder()
                 .id(request.getId())
                 .ovhRegionId(UUID.fromString(request.getSelectedRegionId()))
+                .build();
+
+        commandGateway.sendAndWait(command);
+    }
+
+    @Override
+    public void handleAddFlavor(ProjectAddFlavorRequest request) {
+
+        ProjectFlavorAddCommand command = ProjectFlavorAddCommand.builder()
+                .id(request.getId())
+                .ovhFlavorId(UUID.fromString(request.getSelectedFlavorId()))
                 .build();
 
         commandGateway.sendAndWait(command);

@@ -2,9 +2,12 @@ package com.example.demo.project.entity.service;
 
 import com.example.demo.game.entity.GameEntity;
 import com.example.demo.game.entity.QGameEntity;
+import com.example.demo.ovh.flavor.entity.FlavorEntity;
+import com.example.demo.ovh.flavor.entity.QFlavorEntity;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
+import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectEntity;
 import com.example.demo.project.entity.ProjectMembershipEntity;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Component
 @Transactional
@@ -70,7 +74,6 @@ public class ProjectService implements IProjectService {
     @EventHandler
     public Project handleRegionAdded(ProjectRegionAddedEvent event) {
 
-        QProjectEntity qProject = QProjectEntity.projectEntity;
         QRegionEntity qRegion = QRegionEntity.regionEntity;
 
         RegionEntity regionEntity = queryFactory.select(qRegion)
@@ -78,16 +81,42 @@ public class ProjectService implements IProjectService {
                 .where(qRegion.id.eq(event.getOvhRegionId().toString()))
                 .fetchOne();
 
-        ProjectEntity entity = queryFactory.select(qProject)
-                .from(qProject)
-                .where(qProject.id.eq(event.getId().toString()))
-                .fetchOne();
-
+        ProjectEntity entity = getProjectById(event.getId());
         entity.setRegionEntity(regionEntity);
         entity.setState(event.getState());
 
         entityManager.persist(entity);
 
         return ProjectMapper.map(entity);
+    }
+
+    @Override
+    @EventHandler
+    public Project handleFlavorAdded(ProjectFlavorAddedEvent event) {
+
+        QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
+
+        FlavorEntity flavorEntity = queryFactory.select(qFlavor)
+                .from(qFlavor)
+                .where(qFlavor.id.eq(event.getOvhFlavorId().toString()))
+                .fetchOne();
+
+        ProjectEntity entity = getProjectById(event.getId());
+        entity.setFlavorEntity(flavorEntity);
+        entity.setState(event.getState());
+
+        entityManager.persist(entity);
+
+        return ProjectMapper.map(entity);
+    }
+
+    private ProjectEntity getProjectById(UUID id) {
+
+        QProjectEntity qProject = QProjectEntity.projectEntity;
+
+        return queryFactory.select(qProject)
+                .from(qProject)
+                .where(qProject.id.eq(id.toString()))
+                .fetchOne();
     }
 }
