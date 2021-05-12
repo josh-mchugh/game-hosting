@@ -86,11 +86,11 @@ public class ProjectMapperTest {
     public void whenEntityHasStateThenReturnState() {
 
         ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setState(ProjectState.BUILD);
+        projectEntity.setState(ProjectState.BUILD_CREATE_INSTANCE_GROUP);
 
         Project project = ProjectMapper.map(projectEntity);
 
-        Assertions.assertEquals(ProjectState.BUILD, project.getState());
+        Assertions.assertEquals(ProjectState.BUILD_CREATE_INSTANCE_GROUP, project.getState());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.example.demo.project.entity.service;
 
+import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
@@ -12,4 +13,6 @@ public interface IProjectService {
     Project handleRegionAdded(ProjectRegionAddedEvent event);
 
     Project handleFlavorAdded(ProjectFlavorAddedEvent event);
+
+    Project handleBillingAdded(ProjectBillingAddedEvent event);
 }

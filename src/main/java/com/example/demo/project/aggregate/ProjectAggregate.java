@@ -1,8 +1,10 @@
 package com.example.demo.project.aggregate;
 
+import com.example.demo.project.aggregate.command.ProjectBillingAddCommand;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
+import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
@@ -115,6 +117,26 @@ public class ProjectAggregate {
 
         this.id = event.getId();
         this.ovhFlavorId = event.getOvhFlavorId();
+        this.state = event.getState();
+    }
+
+    @CommandHandler
+    public void on(ProjectBillingAddCommand command) {
+
+        ProjectBillingAddedEvent event = ProjectBillingAddedEvent.builder()
+                .id(command.getId())
+                .status(ProjectStatus.BUILD)
+                .state(ProjectState.BUILD_CREATE_INSTANCE_GROUP)
+                .build();
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(ProjectBillingAddedEvent event) {
+
+        this.id = event.getId();
+        this.status = event.getStatus();
         this.state = event.getState();
     }
 }

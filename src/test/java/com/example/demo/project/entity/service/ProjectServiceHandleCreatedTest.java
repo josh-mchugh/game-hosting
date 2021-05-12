@@ -188,7 +188,7 @@ public class ProjectServiceHandleCreatedTest {
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .name("name")
-                .state(ProjectState.BUILD)
+                .state(ProjectState.BUILD_CREATE_INSTANCE_GROUP)
                 .status(ProjectStatus.ACTIVE)
                 .gameId(data.getGame().getId())
                 .member(ProjectCreatedEvent.createOwner(data.getUser().getId()))
@@ -196,7 +196,7 @@ public class ProjectServiceHandleCreatedTest {
 
         Project project = projectService.handleCreated(event);
 
-        Assertions.assertEquals(ProjectState.BUILD, project.getState());
+        Assertions.assertEquals(ProjectState.BUILD_CREATE_INSTANCE_GROUP, project.getState());
     }
 
     @Test
