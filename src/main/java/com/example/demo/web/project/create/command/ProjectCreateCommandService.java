@@ -1,9 +1,11 @@
 package com.example.demo.web.project.create.command;
 
 import com.example.demo.framework.security.session.ISessionUtil;
+import com.example.demo.project.aggregate.command.ProjectBillingAddCommand;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
+import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
@@ -54,5 +56,11 @@ public class ProjectCreateCommandService implements IProjectCreateCommandService
                 .build();
 
         commandGateway.sendAndWait(command);
+    }
+
+    @Override
+    public void handleAddBilling(ProjectAddBillingRequest request) {
+
+        commandGateway.sendAndWait(new ProjectBillingAddCommand(request.getId()));
     }
 }

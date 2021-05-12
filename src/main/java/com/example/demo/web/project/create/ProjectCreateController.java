@@ -2,6 +2,7 @@ package com.example.demo.web.project.create;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
@@ -154,7 +155,7 @@ public class ProjectCreateController {
     }
 
     @GetMapping("/{id}/billing")
-    public String getCreateBilling(Model model, @PathVariable("id") String id) {
+    public String getCreateBilling(Model model, @PathVariable("id") UUID id) {
 
         if (!model.containsAttribute("form")) {
 
@@ -165,7 +166,7 @@ public class ProjectCreateController {
     }
 
     @PostMapping("/{id}/billing")
-    public String postCreateBilling(Model model, @PathVariable("id") String id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form")ProjectCreateBillingForm form, BindingResult results) {
+    public String postCreateBilling(Model model, @PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form")ProjectCreateBillingForm form, BindingResult results) {
 
         if(results.hasErrors()) {
 
@@ -174,6 +175,9 @@ public class ProjectCreateController {
 
             return String.format("redirect:/project/create/%s/billing", id);
         }
+
+        ProjectAddBillingRequest request = new ProjectAddBillingRequest(id);
+        commandService.handleAddBilling(request);
 
         return String.format("redirect:/project/dashboard/%s", id);
     }

@@ -1,5 +1,6 @@
 package com.example.demo.web.project.create.command;
 
+import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
@@ -12,4 +13,6 @@ public interface IProjectCreateCommandService {
     void handleAddRegion(ProjectAddRegionRequest request);
 
     void handleAddFlavor(ProjectAddFlavorRequest request);
+
+    void handleAddBilling(ProjectAddBillingRequest request);
 }

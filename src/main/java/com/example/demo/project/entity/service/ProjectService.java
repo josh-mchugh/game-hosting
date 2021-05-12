@@ -6,6 +6,7 @@ import com.example.demo.ovh.flavor.entity.FlavorEntity;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
+import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
@@ -106,6 +107,17 @@ public class ProjectService implements IProjectService {
         entity.setState(event.getState());
 
         entityManager.persist(entity);
+
+        return ProjectMapper.map(entity);
+    }
+
+    @Override
+    @EventHandler
+    public Project handleBillingAdded(ProjectBillingAddedEvent event) {
+
+        ProjectEntity entity = getProjectById(event.getId());
+        entity.setStatus(event.getStatus());
+        entity.setState(event.getState());
 
         return ProjectMapper.map(entity);
     }
