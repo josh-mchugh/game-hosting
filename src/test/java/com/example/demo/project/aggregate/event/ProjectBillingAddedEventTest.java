@@ -46,7 +46,7 @@ public class ProjectBillingAddedEventTest {
 
         ProjectBillingAddedEvent model = model();
 
-        String expected = "ProjectBillingAddedEvent(id=83770cd0-723d-499f-9d11-ba1952062c50, status=BUILD, state=BUILD_CREATE_INSTANCE)";
+        String expected = "ProjectBillingAddedEvent(id=83770cd0-723d-499f-9d11-ba1952062c50, status=BUILD, state=BUILD_CREATE_INSTANCE_GROUP)";
 
         Assertions.assertEquals(expected, model.toString());
     }
