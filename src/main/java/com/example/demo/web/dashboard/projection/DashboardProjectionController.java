@@ -1,7 +1,6 @@
 package com.example.demo.web.dashboard.projection;
 
 import com.example.demo.framework.security.session.ISessionUtil;
-import com.example.demo.web.dashboard.form.DashboardProjectCreateForm;
 import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsQuery;
 import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.concurrent.ExecutionException;
@@ -37,12 +35,5 @@ public class DashboardProjectionController {
         model.addAttribute("details", response);
 
         return "dashboard/partial-content";
-    }
-
-    //TODO: Delete once create wizard is completed
-    @GetMapping("/project/create")
-    public String getProjectCreateModal(@ModelAttribute("form") DashboardProjectCreateForm form) {
-
-        return "dashboard/modal-project-create";
     }
 }
