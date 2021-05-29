@@ -1,6 +1,7 @@
 package com.example.demo.web.dashboard.service.projection;
 
 import com.example.demo.game.entity.GameType;
+import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class ProjectDashboardProjectionTest {
 
         UUID id = UUID.randomUUID();
 
-        ProjectDashboardProjection model = new ProjectDashboardProjection(id.toString(), null, null, null);
+        ProjectDashboardProjection model = new ProjectDashboardProjection(id.toString(), null, null, null, null);
 
         Assertions.assertEquals(id, model.getId());
     }
@@ -22,7 +23,7 @@ public class ProjectDashboardProjectionTest {
     @Test
     public void whenModelHasNameThenReturnName() {
 
-        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", null, null);
+        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", null, null, null);
 
         Assertions.assertEquals("name", model.getName());
     }
@@ -30,7 +31,7 @@ public class ProjectDashboardProjectionTest {
     @Test
     public void whenModelHasGameTypeThenReturnGameType() {
 
-        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), null, GameType.MINECRAFT_JAVA, null);
+        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), null, GameType.MINECRAFT_JAVA, null, null);
 
         Assertions.assertEquals(GameType.MINECRAFT_JAVA, model.getGameType());
     }
@@ -38,9 +39,17 @@ public class ProjectDashboardProjectionTest {
     @Test
     public void whenModelHasProjectStatusThenReturnProjectStatus() {
 
-        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), null, null, ProjectStatus.CONFIG);
+        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), null, null, ProjectStatus.CONFIG, null);
 
         Assertions.assertEquals(ProjectStatus.CONFIG, model.getStatus());
+    }
+
+    @Test
+    public void whenModelHasProjectStateThenReturnProjectState() {
+
+        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.randomUUID().toString(), null, null, null, ProjectState.CONFIG_REGION);
+
+        Assertions.assertEquals(ProjectState.CONFIG_REGION, model.getState());
     }
 
     @Test
@@ -48,7 +57,7 @@ public class ProjectDashboardProjectionTest {
 
         ProjectDashboardProjection model = model();
 
-        String expected = "ProjectDashboardProjection(id=0a36c490-065e-46f1-9dd1-022a8dc05032, name=name, gameType=MINECRAFT_JAVA, status=CONFIG)";
+        String expected = "ProjectDashboardProjection(id=0a36c490-065e-46f1-9dd1-022a8dc05032, name=name, gameType=MINECRAFT_JAVA, status=CONFIG, state=CONFIG_REGION)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -56,9 +65,9 @@ public class ProjectDashboardProjectionTest {
     @Test
     public void whenModelHashCode() {
 
-        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.fromString("0a36c490-065e-46f1-9dd1-022a8dc05032").toString(), "name", null, null);
+        ProjectDashboardProjection model = new ProjectDashboardProjection(UUID.fromString("0a36c490-065e-46f1-9dd1-022a8dc05032").toString(), "name", null, null, null);
 
-        Assertions.assertEquals(-810361533, model.hashCode());
+        Assertions.assertEquals(-566690148, model.hashCode());
     }
 
     @Test
@@ -75,11 +84,11 @@ public class ProjectDashboardProjectionTest {
 
         ProjectDashboardProjection model = model();
 
-        Assertions.assertNotEquals(model, new ProjectDashboardProjection(UUID.randomUUID().toString(), null, null, null));
+        Assertions.assertNotEquals(model, new ProjectDashboardProjection(UUID.randomUUID().toString(), null, null, null, null));
     }
 
     private ProjectDashboardProjection model() {
 
-        return new ProjectDashboardProjection(UUID.fromString("0a36c490-065e-46f1-9dd1-022a8dc05032").toString(), "name", GameType.MINECRAFT_JAVA, ProjectStatus.CONFIG);
+        return new ProjectDashboardProjection(UUID.fromString("0a36c490-065e-46f1-9dd1-022a8dc05032").toString(), "name", GameType.MINECRAFT_JAVA, ProjectStatus.CONFIG, ProjectState.CONFIG_REGION);
     }
 }

@@ -89,7 +89,8 @@ public class DashboardProjectionService implements IDashboardProjectionService {
                     qProject.id,
                     qProject.name,
                     qProject.gameEntity.type,
-                    qProject.status
+                    qProject.status,
+                    qProject.state
                 ))
                 .from(qProject)
                 .innerJoin(qProject.projectMembershipsEntities, qProjectMembership)

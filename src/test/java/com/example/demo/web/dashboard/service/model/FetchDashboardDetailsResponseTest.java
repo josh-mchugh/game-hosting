@@ -1,6 +1,7 @@
 package com.example.demo.web.dashboard.service.model;
 
 import com.example.demo.game.entity.GameType;
+import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.dashboard.service.projection.ProjectDashboardProjection;
 import com.google.common.collect.ImmutableList;
@@ -34,7 +35,7 @@ public class FetchDashboardDetailsResponseTest {
     @Test
     public void whenModelHasProjectsThenReturnProjects() {
 
-        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", GameType.MINECRAFT_JAVA, ProjectStatus.CONFIG));
+        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.randomUUID().toString(), "name", GameType.MINECRAFT_JAVA, ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         FetchDashboardDetailsResponse model = FetchDashboardDetailsResponse.builder()
                 .projects(projects)
@@ -112,7 +113,7 @@ public class FetchDashboardDetailsResponseTest {
 
         FetchDashboardDetailsResponse model = model();
 
-        String expected = "FetchDashboardDetailsResponse(emailVerified=true, hasProjects=true, projects=[ProjectDashboardProjection(id=8bd3a4b5-b822-40d7-9dca-e3943fc0274b, name=name, gameType=MINECRAFT_JAVA)])";
+        String expected = "FetchDashboardDetailsResponse(emailVerified=true, hasProjects=true, projects=[ProjectDashboardProjection(id=8bd3a4b5-b822-40d7-9dca-e3943fc0274b, name=name, gameType=MINECRAFT_JAVA, status=CONFIG, state=CONFIG_REGION)])";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -148,7 +149,7 @@ public class FetchDashboardDetailsResponseTest {
 
     private FetchDashboardDetailsResponse model() {
 
-        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.fromString("8bd3a4b5-b822-40d7-9dca-e3943fc0274b").toString(), "name", GameType.MINECRAFT_JAVA, ProjectStatus.CONFIG));
+        ImmutableList<ProjectDashboardProjection> projects = ImmutableList.of(new ProjectDashboardProjection(UUID.fromString("8bd3a4b5-b822-40d7-9dca-e3943fc0274b").toString(), "name", GameType.MINECRAFT_JAVA, ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         return FetchDashboardDetailsResponse.builder()
                 .emailVerified(true)

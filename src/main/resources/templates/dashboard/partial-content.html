@@ -56,8 +56,8 @@
                                         <p class="text-muted">
                                             [[${project.status}]]
                                         </p>
-                                        <a class="btn btn-primary btn-block" th:href="@{/project/dashboard/__${project.id}__}">
-                                            View Details
+                                        <a class="btn btn-primary btn-block" th:href="${@projectUrlUtil.getProjectUrl(project.id, project.status, project.state)}">
+                                            [[${project.status.name() == 'CONFIG' ? 'Configure' : 'Details' }]]
                                             <i class="fas fa-arrow-circle-right"></i>
                                         </a>
                                     </div>
