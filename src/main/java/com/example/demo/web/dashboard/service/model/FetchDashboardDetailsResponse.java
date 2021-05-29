@@ -1,6 +1,6 @@
-package com.example.demo.web.dashboard.projection.service.model;
+package com.example.demo.web.dashboard.service.model;
 
-import com.example.demo.web.dashboard.projection.service.projection.ProjectDashboardProjection;
+import com.example.demo.web.dashboard.service.projection.ProjectDashboardProjection;
 import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Value;

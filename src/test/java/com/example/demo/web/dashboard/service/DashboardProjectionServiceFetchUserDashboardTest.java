@@ -1,11 +1,11 @@
-package com.example.demo.web.dashboard.projection.service;
+package com.example.demo.web.dashboard.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.event.UserVerifiedEvent;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.user.entity.service.IUserService;
-import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsQuery;
-import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsResponse;
+import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsQuery;
+import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsResponse;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

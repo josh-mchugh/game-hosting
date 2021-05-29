@@ -1,4 +1,4 @@
-package com.example.demo.web.dashboard.projection.service.projection;
+package com.example.demo.web.dashboard.service.projection;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Value;

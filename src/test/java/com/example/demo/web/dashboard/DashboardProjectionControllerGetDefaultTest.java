@@ -1,4 +1,4 @@
-package com.example.demo.web.dashboard.projection;
+package com.example.demo.web.dashboard;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

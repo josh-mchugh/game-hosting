@@ -1,4 +1,4 @@
-package com.example.demo.web.dashboard.projection.service.projection;
+package com.example.demo.web.dashboard.service.projection;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
