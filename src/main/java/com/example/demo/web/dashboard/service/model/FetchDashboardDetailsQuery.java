@@ -1,4 +1,4 @@
-package com.example.demo.web.dashboard.projection.service.model;
+package com.example.demo.web.dashboard.service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

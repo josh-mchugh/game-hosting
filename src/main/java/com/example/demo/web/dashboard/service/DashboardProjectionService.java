@@ -1,13 +1,13 @@
-package com.example.demo.web.dashboard.projection.service;
+package com.example.demo.web.dashboard.service;
 
 import com.example.demo.project.entity.QProjectEntity;
 import com.example.demo.project.entity.QProjectMembershipEntity;
 import com.example.demo.user.entity.QUserEntity;
 import com.example.demo.user.entity.VerificationStatus;
-import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsQuery;
-import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsResponse;
-import com.example.demo.web.dashboard.projection.service.projection.ProjectDashboardProjection;
-import com.example.demo.web.dashboard.projection.service.projection.UserDashboardProjection;
+import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsQuery;
+import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsResponse;
+import com.example.demo.web.dashboard.service.projection.ProjectDashboardProjection;
+import com.example.demo.web.dashboard.service.projection.UserDashboardProjection;
 import com.google.common.collect.ImmutableList;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -88,7 +88,8 @@ public class DashboardProjectionService implements IDashboardProjectionService {
                     ProjectDashboardProjection.class,
                     qProject.id,
                     qProject.name,
-                    qProject.gameEntity.type
+                    qProject.gameEntity.type,
+                    qProject.status
                 ))
                 .from(qProject)
                 .innerJoin(qProject.projectMembershipsEntities, qProjectMembership)

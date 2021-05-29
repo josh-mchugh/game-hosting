@@ -1,8 +1,8 @@
-package com.example.demo.web.dashboard.projection;
+package com.example.demo.web.dashboard;
 
 import com.example.demo.framework.security.session.ISessionUtil;
-import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsQuery;
-import com.example.demo.web.dashboard.projection.service.model.FetchDashboardDetailsResponse;
+import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsQuery;
+import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsResponse;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
