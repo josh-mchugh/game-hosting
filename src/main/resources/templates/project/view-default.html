@@ -8,17 +8,21 @@
             <h1>[[${details.name}]]</h1>
         </div>
         <ul>
+            <li>Status: [[${details.status.name()}]]</li>
+            <li>State: [[${details.state.name()}]]</li>
             <li>Game: [[${details.gameType}]]</li>
-            <li>Ip Address: [[${details.ip4Address}]]</li>
-            <li>Status: [[${details.instanceStatus}]]</li>
-            <li>CPU usage</li>
-            <li>Memory usage</li>
-            <li>
-                <a class="btn btn-success" id="instanceStart">Start</a>
-            </li>
-            <li>
-                <a class="btn btn-danger" id="instanceStop">Stop</a>
-            </li>
+            <th:block th:if="${instance != null}">
+                <li>Ip Address: [[${details.ip4Address}]]</li>
+                <li>Status: [[${details.instanceStatus}]]</li>
+                <li>CPU usage</li>
+                <li>Memory usage</li>
+                <li>
+                    <a class="btn btn-success" id="instanceStart">Start</a>
+                </li>
+                <li>
+                    <a class="btn btn-danger" id="instanceStop">Stop</a>
+                </li>
+            </th:block>
         </ul>
         <script type="text/javascript">
             $(function() {
