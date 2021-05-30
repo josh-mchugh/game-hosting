@@ -2,6 +2,8 @@ package com.example.demo.web.project.dashboard.projection.model;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +27,26 @@ public class FetchProjectDetailsResponseTest {
                 .build();
 
         Assertions.assertEquals(GameType.MINECRAFT_JAVA, model.getGameType());
+    }
+
+    @Test
+    public void whenModelHasStatusThenReturnStatus() {
+
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
+                .status(ProjectStatus.ACTIVE)
+                .build();
+
+        Assertions.assertEquals(ProjectStatus.ACTIVE, model.getStatus());
+    }
+
+    @Test
+    public void whenModelHasStateThenReturnState() {
+
+        FetchProjectDetailsResponse model = FetchProjectDetailsResponse.builder()
+                .state(ProjectState.ACTIVE)
+                .build();
+
+        Assertions.assertEquals(ProjectState.ACTIVE, model.getState());
     }
 
     @Test
@@ -62,7 +84,7 @@ public class FetchProjectDetailsResponseTest {
 
         FetchProjectDetailsResponse model = model();
 
-        String expected = "FetchProjectDetailsResponse(name=name, gameType=MINECRAFT_JAVA, instanceId=instanceId, instanceStatus=ACTIVE, ip4Address=ip4Address)";
+        String expected = "FetchProjectDetailsResponse(name=name, gameType=MINECRAFT_JAVA, status=ACTIVE, state=ACTIVE, instanceId=instanceId, instanceStatus=ACTIVE, ip4Address=ip4Address)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -76,7 +98,7 @@ public class FetchProjectDetailsResponseTest {
                 .ip4Address("ip4Address")
                 .build();
 
-        Assertions.assertEquals(-1100418073, model.hashCode());
+        Assertions.assertEquals(1353227595, model.hashCode());
     }
 
     @Test
@@ -101,6 +123,8 @@ public class FetchProjectDetailsResponseTest {
         return FetchProjectDetailsResponse.builder()
                 .name("name")
                 .gameType(GameType.MINECRAFT_JAVA)
+                .status(ProjectStatus.ACTIVE)
+                .state(ProjectState.ACTIVE)
                 .instanceId("instanceId")
                 .instanceStatus(InstanceStatus.ACTIVE)
                 .ip4Address("ip4Address")

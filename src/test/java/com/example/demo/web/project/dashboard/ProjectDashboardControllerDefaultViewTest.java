@@ -2,6 +2,8 @@ package com.example.demo.web.project.dashboard;
 
 import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsQuery;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsResponse;
 import org.axonframework.queryhandling.QueryGateway;
@@ -37,8 +39,15 @@ public class ProjectDashboardControllerDefaultViewTest {
     @Test
     public void whenRequestIsValidThenExpectOk() throws Exception {
 
+        FetchProjectDetailsResponse response = FetchProjectDetailsResponse.builder()
+                .name("project")
+                .gameType(GameType.MINECRAFT_JAVA)
+                .status(ProjectStatus.ACTIVE)
+                .state(ProjectState.ACTIVE)
+                .build();
+
         Mockito.when(queryGateway.query(new FetchProjectDetailsQuery("id"), FetchProjectDetailsResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(FetchProjectDetailsResponse.builder().build()));
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/dashboard/id")
                 .with(SecurityMockMvcRequestPostProcessors.user("test@test"));
@@ -51,8 +60,15 @@ public class ProjectDashboardControllerDefaultViewTest {
     @Test
     public void whenRequestIsValidThenExpectView() throws Exception {
 
+        FetchProjectDetailsResponse response = FetchProjectDetailsResponse.builder()
+                .name("project")
+                .gameType(GameType.MINECRAFT_JAVA)
+                .status(ProjectStatus.ACTIVE)
+                .state(ProjectState.ACTIVE)
+                .build();
+
         Mockito.when(queryGateway.query(new FetchProjectDetailsQuery("id"), FetchProjectDetailsResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(FetchProjectDetailsResponse.builder().build()));
+                .thenReturn(CompletableFuture.completedFuture(response));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/dashboard/id")
                 .with(SecurityMockMvcRequestPostProcessors.user("test@test"));
@@ -69,6 +85,8 @@ public class ProjectDashboardControllerDefaultViewTest {
         FetchProjectDetailsResponse response = FetchProjectDetailsResponse.builder()
                 .name("project-name")
                 .gameType(GameType.MINECRAFT_JAVA)
+                .status(ProjectStatus.ACTIVE)
+                .state(ProjectState.ACTIVE)
                 .instanceId("instance-id")
                 .instanceStatus(InstanceStatus.BUILD)
                 .ip4Address("0.0.0.0.0")

@@ -26,16 +26,23 @@ public class ProjectProjectorService implements IProjectProjectorService {
     @QueryHandler
     public FetchProjectDetailsResponse getProjectDetails(FetchProjectDetailsQuery query) {
 
-        ProjectDetailsProjection projectDetails = fetchProjectDetails(query.getId());
-        InstanceDetailsByIdProjection instance = fetchInstanceDetails(query.getId());
+        FetchProjectDetailsResponse.Builder builder = FetchProjectDetailsResponse.builder();
 
-        return FetchProjectDetailsResponse.builder()
-                .name(projectDetails.getName())
-                .gameType(projectDetails.getGameType())
-                .instanceId(instance.getOvhId())
-                .instanceStatus(instance.getInstanceStatus())
-                .ip4Address(instance.getIpAddress())
-                .build();
+        ProjectDetailsProjection projectDetails = fetchProjectDetails(query.getId());
+        builder.name(projectDetails.getName());
+        builder.gameType(projectDetails.getGameType());
+        builder.status(projectDetails.getStatus());
+        builder.state(projectDetails.getState());
+
+        InstanceDetailsByIdProjection instance = fetchInstanceDetails(query.getId());
+        if(instance != null) {
+
+             builder.instanceId(instance.getOvhId());
+             builder.instanceStatus(instance.getInstanceStatus());
+             builder.ip4Address(instance.getIpAddress());
+        }
+
+        return builder.build();
     }
 
     private ProjectDetailsProjection fetchProjectDetails(String projectId) {
@@ -46,7 +53,9 @@ public class ProjectProjectorService implements IProjectProjectorService {
                 Projections.constructor(
                     ProjectDetailsProjection.class,
                     qProject.name,
-                    qProject.gameEntity.type
+                    qProject.gameEntity.type,
+                    qProject.status,
+                    qProject.state
                 ))
                 .from(qProject)
                 .where(qProject.id.eq(projectId))
