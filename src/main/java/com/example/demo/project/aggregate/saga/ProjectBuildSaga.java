@@ -5,9 +5,12 @@ import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupCreateApi;
+import com.example.demo.project.aggregate.command.ProjectStateCreateInstanceUpdateCommand;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.aggregate.saga.projection.model.FetchProjectRegionNameByIdQuery;
 import com.example.demo.project.aggregate.saga.projection.model.FetchProjectRegionNameByIdResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
@@ -18,10 +21,12 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Saga
+@Slf4j
 public class ProjectBuildSaga {
 
     @Autowired
@@ -65,11 +70,19 @@ public class ProjectBuildSaga {
         commandGateway.send(command);
     }
 
-    @EndSaga
     @SagaEventHandler(associationProperty = "id")
     public void handle(InstanceGroupCreatedEvent event) {
 
+        SagaLifecycle.associateWith("id", event.getProjectId().toString());
 
+        commandGateway.send(new ProjectStateCreateInstanceUpdateCommand(event.getProjectId()));
+    }
+
+    @EndSaga
+    @SagaEventHandler(associationProperty = "id")
+    public void handle(ProjectStateCreateInstanceUpdatedEvent event) {
+
+        log.info("Saga complete: {}s", ChronoUnit.SECONDS.between(startTime, LocalDateTime.now()));
     }
 
     private String fetchRegionNameById(UUID id) throws ExecutionException, InterruptedException {

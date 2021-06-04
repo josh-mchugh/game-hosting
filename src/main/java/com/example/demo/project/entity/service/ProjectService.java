@@ -10,6 +10,7 @@ import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.entity.ProjectEntity;
 import com.example.demo.project.entity.ProjectMembershipEntity;
 import com.example.demo.project.entity.QProjectEntity;
@@ -118,6 +119,21 @@ public class ProjectService implements IProjectService {
         ProjectEntity entity = getProjectById(event.getId());
         entity.setStatus(event.getStatus());
         entity.setState(event.getState());
+
+        entityManager.persist(entity);
+
+        return ProjectMapper.map(entity);
+    }
+
+    @Override
+    @EventHandler
+    public Project handleStateInstanceBuildUpdated(ProjectStateCreateInstanceUpdatedEvent event) {
+
+        ProjectEntity entity = getProjectById(event.getId());
+        entity.setStatus(event.getStatus());
+        entity.setState(event.getState());
+
+        entityManager.persist(entity);
 
         return ProjectMapper.map(entity);
     }

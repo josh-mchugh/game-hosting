@@ -5,7 +5,9 @@ import com.example.demo.ovh.instance.aggregate.command.InstanceGroupCreateComman
 import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
+import com.example.demo.project.aggregate.command.ProjectStateCreateInstanceUpdateCommand;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.aggregate.saga.projection.model.FetchProjectRegionNameByIdQuery;
 import com.example.demo.project.aggregate.saga.projection.model.FetchProjectRegionNameByIdResponse;
 import com.example.demo.project.entity.ProjectState;
@@ -79,6 +81,40 @@ public class ProjectBuildSagaTest {
 
         fixture.whenAggregate(projectId.toString())
                 .publishes(instanceGroupCreatedEvent)
+                .expectActiveSagas(1)
+                .expectDispatchedCommandsMatching(
+                        Matchers.exactSequenceOf(
+                                Matchers.predicate(payload -> payload.getCommandName().equals(ProjectStateCreateInstanceUpdateCommand.class.getCanonicalName()))
+                        )
+                );
+    }
+
+    @Test
+    public void whenProjectStateCreateInstanceUpdated() {
+
+        UUID projectId = UUID.randomUUID();
+        ProjectBillingAddedEvent projectCreatedEvent = projectBillingAddedEvent(projectId);
+
+        mockFetchProjectRegionNameBId(projectId);
+        mockInstanceGroupCreateApi();
+
+        fixture.givenAggregate(projectId.toString())
+                .published(projectCreatedEvent);
+
+        InstanceGroupCreateCommand instanceGroupCreateCommand = getInstanceGroupCreateCommand();
+        InstanceGroupCreatedEvent instanceGroupCreatedEvent = instanceGroupCreatedEvent(instanceGroupCreateCommand.getId(), projectId);
+
+        fixture.givenAggregate(projectId.toString())
+                .published(instanceGroupCreatedEvent);
+
+        ProjectStateCreateInstanceUpdatedEvent event = ProjectStateCreateInstanceUpdatedEvent.builder()
+                .id(projectId)
+                .status(ProjectStatus.BUILD)
+                .state(ProjectState.BUILD_CREATE_INSTANCE)
+                .build();
+
+        fixture.whenAggregate(projectId.toString())
+                .publishes(event)
                 .expectActiveSagas(0);
     }
 

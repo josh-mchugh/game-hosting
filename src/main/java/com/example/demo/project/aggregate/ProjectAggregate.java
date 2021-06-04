@@ -1,10 +1,12 @@
 package com.example.demo.project.aggregate;
 
 import com.example.demo.project.aggregate.command.ProjectBillingAddCommand;
+import com.example.demo.project.aggregate.command.ProjectStateCreateInstanceUpdateCommand;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
 import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
@@ -134,6 +136,26 @@ public class ProjectAggregate {
 
     @EventSourcingHandler
     public void on(ProjectBillingAddedEvent event) {
+
+        this.id = event.getId();
+        this.status = event.getStatus();
+        this.state = event.getState();
+    }
+
+    @CommandHandler
+    public void on(ProjectStateCreateInstanceUpdateCommand command) {
+
+        ProjectStateCreateInstanceUpdatedEvent event = ProjectStateCreateInstanceUpdatedEvent.builder()
+                .id(command.getId())
+                .status(ProjectStatus.BUILD)
+                .state(ProjectState.BUILD_CREATE_INSTANCE)
+                .build();
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(ProjectStateCreateInstanceUpdatedEvent event) {
 
         this.id = event.getId();
         this.status = event.getStatus();
