@@ -4,6 +4,7 @@ import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.entity.model.Project;
 
 public interface IProjectService {
@@ -15,4 +16,6 @@ public interface IProjectService {
     Project handleFlavorAdded(ProjectFlavorAddedEvent event);
 
     Project handleBillingAdded(ProjectBillingAddedEvent event);
+
+    Project handleStateInstanceBuildUpdated(ProjectStateCreateInstanceUpdatedEvent event);
 }

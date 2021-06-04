@@ -5,5 +5,6 @@ public enum  ProjectState {
     CONFIG_SERVER,
     CONFIG_BILLING,
     BUILD_CREATE_INSTANCE_GROUP,
+    BUILD_CREATE_INSTANCE,
     ACTIVE
 }
