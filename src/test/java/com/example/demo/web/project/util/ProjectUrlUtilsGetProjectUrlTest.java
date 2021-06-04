@@ -5,12 +5,12 @@ import com.example.demo.project.entity.ProjectStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ProjectUrlUtilTest {
+public class ProjectUrlUtilsGetProjectUrlTest {
 
     @Test
     public void whenParamHasNullIdThenExpectNullInUrl() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         String url = util.getProjectUrl(null, ProjectStatus.ACTIVE, ProjectState.ACTIVE);
 
@@ -20,7 +20,7 @@ public class ProjectUrlUtilTest {
     @Test
     public void whenParamHasNullStatusThenExpectDashboardUrl() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         String url = util.getProjectUrl(null, ProjectStatus.ACTIVE, ProjectState.ACTIVE);
 
@@ -30,7 +30,7 @@ public class ProjectUrlUtilTest {
     @Test
     public void whenParamHasConfigStatusAndNullStateThenExpectException() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         Assertions.assertThrows(NullPointerException.class, () -> util.getProjectUrl("id", ProjectStatus.CONFIG, null));
     }
@@ -38,7 +38,7 @@ public class ProjectUrlUtilTest {
     @Test
     public void whenProjectHasStatusNotConfigThenExpectDashboardUrl() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         String url = util.getProjectUrl("id", ProjectStatus.ACTIVE, ProjectState.ACTIVE);
 
@@ -48,7 +48,7 @@ public class ProjectUrlUtilTest {
     @Test
     public void whenProjectHasStatusConfigAndStateConfigRegionThenExpectConfigRegionUrl() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         String url = util.getProjectUrl("id", ProjectStatus.CONFIG, ProjectState.CONFIG_REGION);
 
@@ -58,7 +58,7 @@ public class ProjectUrlUtilTest {
     @Test
     public void whenProjectHasStatusConfigAndStateConfigServerThenExpectConfigServerUrl() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         String url = util.getProjectUrl("id", ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER);
 
@@ -68,7 +68,7 @@ public class ProjectUrlUtilTest {
     @Test
     public void whenProjectHasStatusConfigAndStateConfigBillingThenExpectConfigBillingUrl() {
 
-        ProjectUrlUtil util = new ProjectUrlUtil();
+        ProjectUrlUtils util = new ProjectUrlUtils();
 
         String url = util.getProjectUrl("id", ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING);
 

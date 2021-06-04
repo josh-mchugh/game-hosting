@@ -1,8 +1,15 @@
 package com.example.demo.web.project.create;
 
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
+import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
+import com.google.common.collect.ImmutableMap;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -31,6 +39,9 @@ public class ProjectCreateControllerBillingTest {
 
     @MockBean
     private IProjectCreateCommandService commandService;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
@@ -59,6 +70,9 @@ public class ProjectCreateControllerBillingTest {
 
         UUID id = UUID.randomUUID();
 
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
 
@@ -68,9 +82,50 @@ public class ProjectCreateControllerBillingTest {
     }
 
     @Test
+    public void whenProjectStatusIsNotEqualToConfigThenExpectRedirect() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP)));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
+                .with(SecurityMockMvcRequestPostProcessors.user("user"));
+
+        ProjectCreateRegionForm expected = new ProjectCreateRegionForm();
+        expected.setAvailableRegions(ImmutableMap.of());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.redirectedUrl(String.format("/project/dashboard/%s", id)));
+    }
+
+    @Test
+    public void whenProjectStateIsLesserThanServerToConfigThenExpectOk() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
+                .with(SecurityMockMvcRequestPostProcessors.user("user"));
+
+        ProjectCreateRegionForm expected = new ProjectCreateRegionForm();
+        expected.setAvailableRegions(ImmutableMap.of());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.redirectedUrl(String.format("/project/create/%s/server", id)));
+    }
+
+    @Test
     public void whenRequestIsValidThenExpectView() throws Exception {
 
         UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -84,6 +139,9 @@ public class ProjectCreateControllerBillingTest {
     public void whenRequestIsValidThenExpectModel() throws Exception {
 
         UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));

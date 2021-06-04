@@ -6,6 +6,8 @@ import com.example.demo.web.project.create.projection.model.FetchProjectAvailabl
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
 
 public interface IProjectCreateProjectionService {
 
@@ -14,4 +16,6 @@ public interface IProjectCreateProjectionService {
     FetchProjectAvailableRegionsMapResponse fetchAvailableRegionsMap(FetchProjectAvailableRegionsMapQuery query);
 
     FetchProjectAvailableServersMapResponse fetchAvailableServersMap(FetchProjectAvailableServersMapQuery query);
+
+    FetchProjectStatusAndStateResponse fetchStatusAndState(FetchProjectStatusAndStateQuery query);
 }

@@ -1,6 +1,8 @@
 package com.example.demo.web.project.create;
 
 import com.example.demo.game.entity.GameType;
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
@@ -17,6 +19,11 @@ import com.example.demo.web.project.create.projection.model.FetchProjectAvailabl
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
+import com.example.demo.web.project.util.ProjectUrlUtils;
+import com.example.demo.web.project.util.model.ProjectStateValidationRequest;
+import com.example.demo.web.project.util.model.ProjectStateValidationResponse;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryGateway;
@@ -41,6 +48,7 @@ public class ProjectCreateController {
 
     private final IProjectCreateCommandService commandService;
     private final QueryGateway queryGateway;
+    private final ProjectUrlUtils projectUrlUtils;
 
     @GetMapping("")
     public String getCreate(Model model) throws ExecutionException, InterruptedException {
@@ -85,6 +93,12 @@ public class ProjectCreateController {
     @GetMapping("/{id}/region")
     public String getCreateRegion(Model model, @PathVariable("id") UUID id) throws ExecutionException, InterruptedException {
 
+        ProjectStateValidationResponse validationResponse = getProjectStateValidation(id, ProjectState.CONFIG_REGION);
+        if(!validationResponse.isValid()) {
+
+            return String.format("redirect:%s", validationResponse.getRedirectUrl());
+        }
+
         if (!model.containsAttribute("form")) {
 
             ProjectCreateRegionForm form = new ProjectCreateRegionForm();
@@ -121,6 +135,12 @@ public class ProjectCreateController {
     @GetMapping("/{id}/server")
     public String getCreateServer(Model model, @PathVariable("id") UUID id) throws ExecutionException, InterruptedException {
 
+        ProjectStateValidationResponse validationResponse = getProjectStateValidation(id, ProjectState.CONFIG_SERVER);
+        if(!validationResponse.isValid()) {
+
+            return String.format("redirect:%s", validationResponse.getRedirectUrl());
+        }
+
         if (!model.containsAttribute("form")) {
 
             ProjectCreateServerForm form = new ProjectCreateServerForm();
@@ -155,7 +175,13 @@ public class ProjectCreateController {
     }
 
     @GetMapping("/{id}/billing")
-    public String getCreateBilling(Model model, @PathVariable("id") UUID id) {
+    public String getCreateBilling(Model model, @PathVariable("id") UUID id) throws ExecutionException, InterruptedException {
+
+        ProjectStateValidationResponse validationResponse = getProjectStateValidation(id, ProjectState.CONFIG_BILLING);
+        if(!validationResponse.isValid()) {
+
+            return String.format("redirect:%s", validationResponse.getRedirectUrl());
+        }
 
         if (!model.containsAttribute("form")) {
 
@@ -180,6 +206,22 @@ public class ProjectCreateController {
         commandService.handleAddBilling(request);
 
         return String.format("redirect:/project/dashboard/%s", id);
+    }
+
+    private ProjectStateValidationResponse getProjectStateValidation(UUID id, ProjectState state) throws ExecutionException, InterruptedException {
+
+        FetchProjectStatusAndStateQuery query = new FetchProjectStatusAndStateQuery(id);
+        FetchProjectStatusAndStateResponse response = queryGateway.query(query, FetchProjectStatusAndStateResponse.class).get();
+
+        ProjectStateValidationRequest request = ProjectStateValidationRequest.builder()
+                .id(id)
+                .currentStatus(response.getStatus())
+                .currentState(response.getState())
+                .expectedStatus(ProjectStatus.CONFIG)
+                .expectedState(state)
+                .build();
+
+        return projectUrlUtils.isValidStatusAndState(request);
     }
 
     private ImmutableMap<String, GameType> fetchAvailableGameMap() throws ExecutionException, InterruptedException {
