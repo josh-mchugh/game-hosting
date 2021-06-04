@@ -1,9 +1,13 @@
 package com.example.demo.web.project.create;
 
+import com.example.demo.project.entity.ProjectState;
+import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
 import com.google.common.collect.ImmutableMap;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
@@ -69,6 +73,9 @@ public class ProjectCreateControllerRegionTest {
         Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
 
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
 
@@ -84,6 +91,9 @@ public class ProjectCreateControllerRegionTest {
 
         Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -101,6 +111,9 @@ public class ProjectCreateControllerRegionTest {
         Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
 
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
 
@@ -113,12 +126,59 @@ public class ProjectCreateControllerRegionTest {
     }
 
     @Test
+    public void whenProjectStatusIsNotEqualToConfigThenExpectRedirect() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP)));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
+                .with(SecurityMockMvcRequestPostProcessors.user("user"));
+
+        ProjectCreateRegionForm expected = new ProjectCreateRegionForm();
+        expected.setAvailableRegions(ImmutableMap.of());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.redirectedUrl(String.format("/project/dashboard/%s", id)));
+    }
+
+    @Test
+    public void whenProjectStateIsGreaterThanRegionToConfigThenExpectOk() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
+                .with(SecurityMockMvcRequestPostProcessors.user("user"));
+
+        ProjectCreateRegionForm expected = new ProjectCreateRegionForm();
+        expected.setAvailableRegions(ImmutableMap.of());
+
+        this.mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.log())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
     public void whenRequestHasFlashAttributesThenExpectModel() throws Exception {
 
         UUID id = UUID.randomUUID();
 
         Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
                 .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+
+        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
+                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
 
         ProjectCreateRegionForm flashAttr = new ProjectCreateRegionForm();
         flashAttr.setSelectedRegionId("selectedRegionId");

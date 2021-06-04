@@ -505,8 +505,8 @@ public class SampleBuilder {
         ProjectCreatedEvent event = ProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .name("project name")
-                .status(ProjectStatus.ACTIVE)
-                .state(ProjectState.ACTIVE)
+                .status(ProjectStatus.CONFIG)
+                .state(ProjectState.CONFIG_REGION)
                 .gameId(game.getId())
                 .member(ProjectCreatedEvent.createMember(user.getId(), ProjectMembershipRole.OWNER))
                 .build();

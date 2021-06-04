@@ -14,9 +14,13 @@ import com.example.demo.web.project.create.projection.model.FetchProjectAvailabl
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
+import com.example.demo.web.project.create.projection.projection.ProjectStatusAndStateProjection;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.group.GroupBy;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
@@ -95,5 +99,24 @@ public class ProjectCreateProjectionService implements IProjectCreateProjectionS
                 .transform(GroupBy.groupBy(qFlavor.id).as(qFlavor.name));
 
         return new FetchProjectAvailableServersMapResponse(ImmutableMap.copyOf(results));
+    }
+
+    @Override
+    @QueryHandler
+    public FetchProjectStatusAndStateResponse fetchStatusAndState(FetchProjectStatusAndStateQuery query) {
+
+        QProjectEntity qProject = QProjectEntity.projectEntity;
+
+        ProjectStatusAndStateProjection projection = queryFactory.select(
+                    Projections.constructor(
+                        ProjectStatusAndStateProjection.class,
+                        qProject.status,
+                        qProject.state
+                ))
+                .from(qProject)
+                .where(qProject.id.eq(query.getId().toString()))
+                .fetchOne();
+
+        return new FetchProjectStatusAndStateResponse(projection != null ? projection.getStatus() : null, projection != null ? projection.getState() : null);
     }
 }
