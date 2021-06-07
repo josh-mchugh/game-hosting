@@ -2,6 +2,7 @@ package com.example.demo.project.entity;
 
 import com.example.demo.game.entity.GameEntity;
 import com.example.demo.ovh.flavor.entity.FlavorEntity;
+import com.example.demo.ovh.image.entity.ImageEntity;
 import com.example.demo.ovh.instance.entity.InstanceGroupEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
 import com.google.common.collect.Lists;
@@ -132,6 +133,17 @@ public class ProjectEntityTest {
         entity.setFlavorEntity(flavorEntity);
 
         Assertions.assertEquals(flavorEntity, entity.getFlavorEntity());
+    }
+
+    @Test
+    public void whenEntityHasImageEntityThenReturnImageEntity() {
+
+        ImageEntity imageEntity = new ImageEntity();
+
+        ProjectEntity entity = new ProjectEntity();
+        entity.setImageEntity(imageEntity);
+
+        Assertions.assertEquals(imageEntity, entity.getImageEntity());
     }
 
     @Test

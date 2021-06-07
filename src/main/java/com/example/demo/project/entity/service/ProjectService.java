@@ -4,11 +4,13 @@ import com.example.demo.game.entity.GameEntity;
 import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.ovh.flavor.entity.FlavorEntity;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
+import com.example.demo.ovh.image.entity.ImageEntity;
+import com.example.demo.ovh.image.entity.QImageEntity;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
-import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.entity.ProjectEntity;
@@ -94,17 +96,24 @@ public class ProjectService implements IProjectService {
 
     @Override
     @EventHandler
-    public Project handleFlavorAdded(ProjectFlavorAddedEvent event) {
+    public Project handleServerAdded(ProjectServerAddedEvent event) {
 
         QFlavorEntity qFlavor = QFlavorEntity.flavorEntity;
+        QImageEntity qImage = QImageEntity.imageEntity;
 
         FlavorEntity flavorEntity = queryFactory.select(qFlavor)
                 .from(qFlavor)
                 .where(qFlavor.id.eq(event.getOvhFlavorId().toString()))
                 .fetchOne();
 
+        ImageEntity imageEntity = queryFactory.select(qImage)
+                .from(qImage)
+                .where(qImage.id.eq(event.getOvhImageId().toString()))
+                .fetchOne();
+
         ProjectEntity entity = getProjectById(event.getId());
         entity.setFlavorEntity(flavorEntity);
+        entity.setImageEntity(imageEntity);
         entity.setState(event.getState());
 
         entityManager.persist(entity);

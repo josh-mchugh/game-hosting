@@ -59,7 +59,7 @@ import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.IRegionService;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
-import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
@@ -256,9 +256,9 @@ public class SampleBuilder {
             return this;
         }
 
-        public Builder configProjectFlavor() {
+        public Builder configProjectServer() {
 
-            project = SampleBuilder.this.configProjectFlavor();
+            project = SampleBuilder.this.configProjectServer();
 
             return this;
         }
@@ -536,26 +536,28 @@ public class SampleBuilder {
         return projectService.handleRegionAdded(event);
     }
 
-    private Project configProjectFlavor() {
+    private Project configProjectServer() {
 
         if (project == null) project = createDefaultProject();
         if (region == null) configProjectRegion();
         if (flavor == null) flavor = createDefaultFlavor();
+        if (image == null) image = createDefaultImage();
 
-        ProjectFlavorAddedEvent event = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent event = ProjectServerAddedEvent.builder()
                 .id(project.getId())
                 .ovhFlavorId(flavor.getId())
+                .ovhImageId(image.getId())
                 .state(ProjectState.CONFIG_BILLING)
                 .build();
 
-        return projectService.handleFlavorAdded(event);
+        return projectService.handleServerAdded(event);
     }
 
     private Project configProjectBilling() {
 
         if (project == null) project = createDefaultProject();
         if (region == null) configProjectRegion();
-        if (flavor == null) configProjectFlavor();
+        if (flavor == null) configProjectServer();
 
         ProjectBillingAddedEvent event = ProjectBillingAddedEvent.builder()
                 .id(project.getId())

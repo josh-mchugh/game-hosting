@@ -1,6 +1,6 @@
 package com.example.demo.web.project.create.command;
 
-import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
+import com.example.demo.project.aggregate.command.ProjectServerAddCommand;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Assertions;
@@ -42,7 +42,7 @@ public class ProjectCreateCommandServiceHandleAddBillingTest {
     @Test
     public void whenParamIsValidThenDoNotExpectException() {
 
-        Mockito.when(commandGateway.sendAndWait(Mockito.any(ProjectFlavorAddCommand.class))).thenReturn(UUID.randomUUID());
+        Mockito.when(commandGateway.sendAndWait(Mockito.any(ProjectServerAddCommand.class))).thenReturn(UUID.randomUUID());
 
         ProjectAddBillingRequest request = new ProjectAddBillingRequest(UUID.randomUUID());
 

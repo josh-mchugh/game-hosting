@@ -1,10 +1,12 @@
 package com.example.demo.web.project.create.command;
 
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
-import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
+import com.example.demo.web.project.create.command.model.ProjectAddServerRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
+
+import java.util.concurrent.ExecutionException;
 
 public interface IProjectCreateCommandService {
 
@@ -12,7 +14,7 @@ public interface IProjectCreateCommandService {
 
     void handleAddRegion(ProjectAddRegionRequest request);
 
-    void handleAddFlavor(ProjectAddFlavorRequest request);
+    void handleAddServer(ProjectAddServerRequest request) throws ExecutionException, InterruptedException;
 
     void handleAddBilling(ProjectAddBillingRequest request);
 }

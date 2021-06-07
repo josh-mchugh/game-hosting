@@ -17,7 +17,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class ProjectBuildProjectServiceFetchProjectRegionNameByIdTest {
+public class ProjectBuildSagaServiceFetchProjectRegionNameByIdTest {
 
     @Autowired
     private IProjectBuildProjectionService service;

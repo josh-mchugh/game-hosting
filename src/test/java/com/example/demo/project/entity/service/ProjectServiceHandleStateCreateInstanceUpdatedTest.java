@@ -58,7 +58,7 @@ public class ProjectServiceHandleStateCreateInstanceUpdatedTest {
         SampleData data = sampleBuilder.builder()
                 .project()
                 .configProjectRegion()
-                .configProjectFlavor()
+                .configProjectServer()
                 .build();
 
         ProjectStateCreateInstanceUpdatedEvent event = ProjectStateCreateInstanceUpdatedEvent.builder()
@@ -78,7 +78,7 @@ public class ProjectServiceHandleStateCreateInstanceUpdatedTest {
         SampleData data = sampleBuilder.builder()
                 .project()
                 .configProjectRegion()
-                .configProjectFlavor()
+                .configProjectServer()
                 .configProjectBilling()
                 .build();
 
