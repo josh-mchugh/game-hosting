@@ -5,7 +5,7 @@ import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
-import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
+import com.example.demo.web.project.create.command.model.ProjectAddServerRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
@@ -158,7 +158,7 @@ public class ProjectCreateController {
     }
 
     @PostMapping("/{id}/server")
-    public String postCreateServer(Model model, @PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form") ProjectCreateServerForm form, BindingResult results) {
+    public String postCreateServer(Model model, @PathVariable("id") UUID id, RedirectAttributes redirectAttributes, @Valid @ModelAttribute("form") ProjectCreateServerForm form, BindingResult results) throws ExecutionException, InterruptedException {
 
         if(results.hasErrors()) {
 
@@ -168,8 +168,8 @@ public class ProjectCreateController {
             return String.format("redirect:/project/create/%s/server", id);
         }
 
-        ProjectAddFlavorRequest request = new ProjectAddFlavorRequest(id, form.getSelectedServerId());
-        commandService.handleAddFlavor(request);
+        ProjectAddServerRequest request = new ProjectAddServerRequest(id, form.getSelectedServerId());
+        commandService.handleAddServer(request);
 
         return String.format("redirect:/project/create/%s/billing", id);
     }

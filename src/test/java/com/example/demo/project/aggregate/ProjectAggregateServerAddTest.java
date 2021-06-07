@@ -1,8 +1,8 @@
 package com.example.demo.project.aggregate;
 
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
-import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
-import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
+import com.example.demo.project.aggregate.command.ProjectServerAddCommand;
+import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.entity.ProjectState;
 import org.axonframework.messaging.interceptors.BeanValidationInterceptor;
 import org.axonframework.messaging.interceptors.JSR303ViolationException;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-public class ProjectAggregateFlavorAddTest {
+public class ProjectAggregateServerAddTest {
 
     private FixtureConfiguration<ProjectAggregate> fixture;
 
@@ -29,15 +29,18 @@ public class ProjectAggregateFlavorAddTest {
 
         UUID id = UUID.randomUUID();
         UUID flavorId = UUID.randomUUID();
+        UUID imageId = UUID.randomUUID();
 
-        ProjectFlavorAddCommand command = ProjectFlavorAddCommand.builder()
+        ProjectServerAddCommand command = ProjectServerAddCommand.builder()
                 .id(id)
                 .ovhFlavorId(flavorId)
+                .ovhImageId(imageId)
                 .build();
 
-        ProjectFlavorAddedEvent event = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent event = ProjectServerAddedEvent.builder()
                 .id(id)
                 .ovhFlavorId(flavorId)
+                .ovhImageId(imageId)
                 .state(ProjectState.CONFIG_BILLING)
                 .build();
 
@@ -52,10 +55,12 @@ public class ProjectAggregateFlavorAddTest {
 
         UUID id = UUID.randomUUID();
         UUID flavorId = UUID.randomUUID();
+        UUID imageId = UUID.randomUUID();
 
-        ProjectFlavorAddCommand command = ProjectFlavorAddCommand.builder()
+        ProjectServerAddCommand command = ProjectServerAddCommand.builder()
                 .id(null)
                 .ovhFlavorId(flavorId)
+                .ovhImageId(imageId)
                 .build();
 
         fixture.givenCommands(projectCreateCommand(id))
@@ -67,10 +72,29 @@ public class ProjectAggregateFlavorAddTest {
     public void whenCommandHasHasNullFlavorIdThenExpectException() {
 
         UUID id = UUID.randomUUID();
+        UUID imageId = UUID.randomUUID();
 
-        ProjectFlavorAddCommand command = ProjectFlavorAddCommand.builder()
-                .id(null)
+        ProjectServerAddCommand command = ProjectServerAddCommand.builder()
+                .id(id)
                 .ovhFlavorId(null)
+                .ovhImageId(imageId)
+                .build();
+
+        fixture.givenCommands(projectCreateCommand(id))
+                .when(command)
+                .expectException(JSR303ViolationException.class);
+    }
+
+    @Test
+    public void whenCommandHasHasNullImageIdThenExpectException() {
+
+        UUID id = UUID.randomUUID();
+        UUID flavorId = UUID.randomUUID();
+
+        ProjectServerAddCommand command = ProjectServerAddCommand.builder()
+                .id(id)
+                .ovhFlavorId(flavorId)
+                .ovhImageId(null)
                 .build();
 
         fixture.givenCommands(projectCreateCommand(id))

@@ -8,9 +8,10 @@ import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class ProjectFlavorAddedEvent {
+public class ProjectServerAddedEvent {
 
     UUID id;
     UUID ovhFlavorId;
+    UUID ovhImageId;
     ProjectState state;
 }

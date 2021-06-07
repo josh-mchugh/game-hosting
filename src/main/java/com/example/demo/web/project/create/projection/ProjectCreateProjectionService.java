@@ -5,6 +5,7 @@ import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.QGameEntity;
 import com.example.demo.game.entity.QGameServerEntity;
 import com.example.demo.ovh.flavor.entity.QFlavorEntity;
+import com.example.demo.ovh.image.entity.QImageEntity;
 import com.example.demo.ovh.region.entity.QRegionEntity;
 import com.example.demo.ovh.region.entity.RegionEntity;
 import com.example.demo.project.entity.QProjectEntity;
@@ -14,6 +15,8 @@ import com.example.demo.web.project.create.projection.model.FetchProjectAvailabl
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectImageIdQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectImageIdResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
 import com.example.demo.web.project.create.projection.projection.ProjectStatusAndStateProjection;
@@ -29,6 +32,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -118,5 +122,35 @@ public class ProjectCreateProjectionService implements IProjectCreateProjectionS
                 .fetchOne();
 
         return new FetchProjectStatusAndStateResponse(projection != null ? projection.getStatus() : null, projection != null ? projection.getState() : null);
+    }
+
+    @Override
+    @QueryHandler
+    public FetchProjectImageIdResponse fetchProjectImageId(FetchProjectImageIdQuery query) {
+
+        QProjectEntity qProject = QProjectEntity.projectEntity;
+        QImageEntity qImage = QImageEntity.imageEntity;
+        QGameServerEntity qGameServer = QGameServerEntity.gameServerEntity;
+
+        JPQLQuery<GameEntity> gameSubQuery = JPAExpressions.select(qProject.gameEntity)
+                .from(qProject)
+                .where(qProject.id.eq(query.getId().toString()));
+
+        JPQLQuery<RegionEntity> regionSubQuery = JPAExpressions.select(qProject.regionEntity)
+                .from(qProject)
+                .where(qProject.id.eq(query.getId().toString()));
+
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(qGameServer.gameEntity.eq(gameSubQuery));
+        predicate.and(qGameServer.regionEntity.eq(regionSubQuery));
+        predicate.and(qGameServer.flavorEntity.id.eq(query.getFlavorId()));
+
+        String imageId = queryFactory.select(qImage.id)
+                .from(qGameServer)
+                .innerJoin(qGameServer.imageEntity, qImage)
+                .where(predicate)
+                .fetchOne();
+
+        return new FetchProjectImageIdResponse(imageId != null ? UUID.fromString(imageId) : null);
     }
 }

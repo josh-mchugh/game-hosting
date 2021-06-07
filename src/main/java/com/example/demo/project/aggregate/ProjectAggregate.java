@@ -3,12 +3,12 @@ package com.example.demo.project.aggregate;
 import com.example.demo.project.aggregate.command.ProjectBillingAddCommand;
 import com.example.demo.project.aggregate.command.ProjectStateCreateInstanceUpdateCommand;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
-import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
+import com.example.demo.project.aggregate.command.ProjectServerAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
-import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
@@ -39,6 +39,7 @@ public class ProjectAggregate {
     private UUID gameId;
     private UUID ovhRegionId;
     private UUID ovhFlavorId;
+    private UUID ovhImageId;
 
     @Data
     @Builder(builderClassName = "Builder")
@@ -103,11 +104,12 @@ public class ProjectAggregate {
     }
 
     @CommandHandler
-    public void on(ProjectFlavorAddCommand command) {
+    public void on(ProjectServerAddCommand command) {
 
-        ProjectFlavorAddedEvent event = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent event = ProjectServerAddedEvent.builder()
                 .id(command.getId())
                 .ovhFlavorId(command.getOvhFlavorId())
+                .ovhImageId(command.getOvhImageId())
                 .state(ProjectState.CONFIG_BILLING)
                 .build();
 
@@ -115,10 +117,11 @@ public class ProjectAggregate {
     }
 
     @EventSourcingHandler
-    public void on(ProjectFlavorAddedEvent event) {
+    public void on(ProjectServerAddedEvent event) {
 
         this.id = event.getId();
         this.ovhFlavorId = event.getOvhFlavorId();
+        this.ovhImageId = event.getOvhImageId();
         this.state = event.getState();
     }
 

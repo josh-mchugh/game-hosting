@@ -2,7 +2,7 @@ package com.example.demo.project.entity.service;
 
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
-import com.example.demo.project.aggregate.event.ProjectFlavorAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectStateCreateInstanceUpdatedEvent;
 import com.example.demo.project.entity.model.Project;
@@ -13,7 +13,7 @@ public interface IProjectService {
 
     Project handleRegionAdded(ProjectRegionAddedEvent event);
 
-    Project handleFlavorAdded(ProjectFlavorAddedEvent event);
+    Project handleServerAdded(ProjectServerAddedEvent event);
 
     Project handleBillingAdded(ProjectBillingAddedEvent event);
 

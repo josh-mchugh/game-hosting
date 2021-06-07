@@ -3,24 +3,29 @@ package com.example.demo.web.project.create.command;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.project.aggregate.command.ProjectBillingAddCommand;
 import com.example.demo.project.aggregate.command.ProjectCreateCommand;
-import com.example.demo.project.aggregate.command.ProjectFlavorAddCommand;
+import com.example.demo.project.aggregate.command.ProjectServerAddCommand;
 import com.example.demo.project.aggregate.command.ProjectRegionAddCommand;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
-import com.example.demo.web.project.create.command.model.ProjectAddFlavorRequest;
+import com.example.demo.web.project.create.command.model.ProjectAddServerRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
+import com.example.demo.web.project.create.projection.model.FetchProjectImageIdQuery;
+import com.example.demo.web.project.create.projection.model.FetchProjectImageIdResponse;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
 public class ProjectCreateCommandService implements IProjectCreateCommandService {
 
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
     private final ISessionUtil sessionUtil;
 
     @Override
@@ -48,11 +53,15 @@ public class ProjectCreateCommandService implements IProjectCreateCommandService
     }
 
     @Override
-    public void handleAddFlavor(ProjectAddFlavorRequest request) {
+    public void handleAddServer(ProjectAddServerRequest request) throws ExecutionException, InterruptedException {
 
-        ProjectFlavorAddCommand command = ProjectFlavorAddCommand.builder()
+        FetchProjectImageIdQuery query = new FetchProjectImageIdQuery(request.getId(), request.getSelectedFlavorId());
+        FetchProjectImageIdResponse response = queryGateway.query(query, FetchProjectImageIdResponse.class).get();
+
+        ProjectServerAddCommand command = ProjectServerAddCommand.builder()
                 .id(request.getId())
                 .ovhFlavorId(UUID.fromString(request.getSelectedFlavorId()))
+                .ovhImageId(response.getImageId())
                 .build();
 
         commandGateway.sendAndWait(command);

@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-public class ProjectFlavorAddedEventTest {
+public class ProjectServerAddedEventTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
         UUID id = UUID.randomUUID();
 
-        ProjectFlavorAddedEvent model = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent model = ProjectServerAddedEvent.builder()
                 .id(id)
                 .build();
 
@@ -25,7 +25,7 @@ public class ProjectFlavorAddedEventTest {
 
         UUID id = UUID.randomUUID();
 
-        ProjectFlavorAddedEvent model = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent model = ProjectServerAddedEvent.builder()
                 .ovhFlavorId(id)
                 .build();
 
@@ -33,9 +33,21 @@ public class ProjectFlavorAddedEventTest {
     }
 
     @Test
+    public void whenModelHasOvhImageIdThenReturnOvhImageId() {
+
+        UUID id = UUID.randomUUID();
+
+        ProjectServerAddedEvent model = ProjectServerAddedEvent.builder()
+                .ovhImageId(id)
+                .build();
+
+        Assertions.assertEquals(id, model.getOvhImageId());
+    }
+
+    @Test
     public void whenModelHasStateThenReturnState() {
 
-        ProjectFlavorAddedEvent model = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent model = ProjectServerAddedEvent.builder()
                 .state(ProjectState.CONFIG_BILLING)
                 .build();
 
@@ -45,9 +57,9 @@ public class ProjectFlavorAddedEventTest {
     @Test
     public void whenModelToString() {
 
-        ProjectFlavorAddedEvent model = model();
+        ProjectServerAddedEvent model = model();
 
-        String expected = "ProjectFlavorAddedEvent(id=83770cd0-723d-499f-9d11-ba1952062c50, ovhFlavorId=571a69ce-f2d5-465c-8685-f7417c96145d, state=CONFIG_BILLING)";
+        String expected = "ProjectServerAddedEvent(id=83770cd0-723d-499f-9d11-ba1952062c50, ovhFlavorId=571a69ce-f2d5-465c-8685-f7417c96145d, ovhImageId=571a69ce-f2d5-465c-8685-f7417c96145d, state=CONFIG_BILLING)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -55,19 +67,19 @@ public class ProjectFlavorAddedEventTest {
     @Test
     public void whenModelHashCode() {
 
-        ProjectFlavorAddedEvent model = ProjectFlavorAddedEvent.builder()
+        ProjectServerAddedEvent model = ProjectServerAddedEvent.builder()
                 .id(UUID.fromString("83770cd0-723d-499f-9d11-ba1952062c50"))
                 .ovhFlavorId(UUID.fromString("571a69ce-f2d5-465c-8685-f7417c96145d"))
                 .build();
 
-        Assertions.assertEquals(565228478, model.hashCode());
+        Assertions.assertEquals(-1011258123, model.hashCode());
     }
 
     @Test
     public void whenModelEquals() {
 
-        ProjectFlavorAddedEvent model1 = model();
-        ProjectFlavorAddedEvent model2 = model();
+        ProjectServerAddedEvent model1 = model();
+        ProjectServerAddedEvent model2 = model();
 
         Assertions.assertEquals(model1, model2);
     }
@@ -75,16 +87,17 @@ public class ProjectFlavorAddedEventTest {
     @Test
     public void whenModelNotEquals() {
 
-        ProjectFlavorAddedEvent model = model();
+        ProjectServerAddedEvent model = model();
 
-        Assertions.assertNotEquals(model, ProjectFlavorAddedEvent.builder().build());
+        Assertions.assertNotEquals(model, ProjectServerAddedEvent.builder().build());
     }
 
-    private ProjectFlavorAddedEvent model() {
+    private ProjectServerAddedEvent model() {
 
-        return ProjectFlavorAddedEvent.builder()
+        return ProjectServerAddedEvent.builder()
                 .id(UUID.fromString("83770cd0-723d-499f-9d11-ba1952062c50"))
                 .ovhFlavorId(UUID.fromString("571a69ce-f2d5-465c-8685-f7417c96145d"))
+                .ovhImageId(UUID.fromString("571a69ce-f2d5-465c-8685-f7417c96145d"))
                 .state(ProjectState.CONFIG_BILLING)
                 .build();
     }

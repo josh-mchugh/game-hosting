@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Value
 @AllArgsConstructor
-public class ProjectAddFlavorRequest {
+public class ProjectAddServerRequest {
 
     UUID id;
     String selectedFlavorId;

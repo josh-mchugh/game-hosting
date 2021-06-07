@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class ProjectFlavorAddCommand {
+public class ProjectServerAddCommand {
 
     @NotNull
     @TargetAggregateIdentifier
@@ -17,4 +17,7 @@ public class ProjectFlavorAddCommand {
 
     @NotNull
     UUID ovhFlavorId;
+
+    @NotNull
+    UUID ovhImageId;
 }
