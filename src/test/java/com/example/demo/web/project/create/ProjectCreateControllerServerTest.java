@@ -5,6 +5,7 @@ import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.form.ProjectCreateServerForm;
+import com.example.demo.web.project.create.projection.IProjectCreateProjectionService;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
@@ -27,7 +28,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -43,6 +43,9 @@ public class ProjectCreateControllerServerTest {
 
     @MockBean
     private IProjectCreateCommandService commandService;
+
+    @MockBean
+    private IProjectCreateProjectionService projectionService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
@@ -71,11 +74,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -90,11 +93,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -112,11 +115,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -134,11 +137,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -156,11 +159,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -175,11 +178,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -197,11 +200,11 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableServersMapQuery(id), FetchProjectAvailableServersMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableServersMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         ProjectCreateServerForm flashAttr = new ProjectCreateServerForm();
         flashAttr.setSelectedServerId("selectedServerId");
