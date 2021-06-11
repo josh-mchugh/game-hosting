@@ -6,6 +6,7 @@ import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
+import com.example.demo.web.project.create.projection.IProjectCreateProjectionService;
 import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
 import com.google.common.collect.ImmutableMap;
@@ -43,6 +44,9 @@ public class ProjectCreateControllerBillingTest {
     @MockBean
     private QueryGateway queryGateway;
 
+    @MockBean
+    private IProjectCreateProjectionService projectionService;
+
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
 
@@ -70,8 +74,8 @@ public class ProjectCreateControllerBillingTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -86,8 +90,8 @@ public class ProjectCreateControllerBillingTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -105,8 +109,8 @@ public class ProjectCreateControllerBillingTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -124,8 +128,8 @@ public class ProjectCreateControllerBillingTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -140,8 +144,8 @@ public class ProjectCreateControllerBillingTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/billing", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));

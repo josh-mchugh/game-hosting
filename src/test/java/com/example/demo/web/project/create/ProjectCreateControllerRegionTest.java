@@ -4,6 +4,7 @@ import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.IProjectCreateCommandService;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
+import com.example.demo.web.project.create.projection.IProjectCreateProjectionService;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapQuery;
 import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
 import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
@@ -43,6 +44,9 @@ public class ProjectCreateControllerRegionTest {
     @MockBean
     private QueryGateway queryGateway;
 
+    @MockBean
+    private IProjectCreateProjectionService projectionService;
+
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
 
@@ -70,11 +74,11 @@ public class ProjectCreateControllerRegionTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableRegionsMap(new FetchProjectAvailableRegionsMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -89,11 +93,11 @@ public class ProjectCreateControllerRegionTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableRegionsMap(new FetchProjectAvailableRegionsMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -108,11 +112,11 @@ public class ProjectCreateControllerRegionTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableRegionsMap(new FetchProjectAvailableRegionsMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -130,11 +134,11 @@ public class ProjectCreateControllerRegionTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableRegionsMap(new FetchProjectAvailableRegionsMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -152,11 +156,11 @@ public class ProjectCreateControllerRegionTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableRegionsMap(new FetchProjectAvailableRegionsMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/region", id))
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -174,11 +178,11 @@ public class ProjectCreateControllerRegionTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableRegionsMapQuery(id), FetchProjectAvailableRegionsMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of())));
+        Mockito.when(projectionService.fetchAvailableRegionsMap(new FetchProjectAvailableRegionsMapQuery(id)))
+                .thenReturn(new FetchProjectAvailableRegionsMapResponse(ImmutableMap.of()));
 
-        Mockito.when(queryGateway.query(new FetchProjectStatusAndStateQuery(id), FetchProjectStatusAndStateResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION)));
+        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+                .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         ProjectCreateRegionForm flashAttr = new ProjectCreateRegionForm();
         flashAttr.setSelectedRegionId("selectedRegionId");
