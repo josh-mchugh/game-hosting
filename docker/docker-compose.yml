@@ -1,4 +1,4 @@
-# Setting up MSSQL and Axon Server
+# Setting up Postgres and Axon Server
 # Execute: docker-compose -p GAME_HOSTING_SERVICES up -d
 #
 # Setting up AWX
@@ -11,15 +11,24 @@
 # 4. ansible-playbook -i inventory install.yml
 version: '3'
 services:
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: mssql
+  postgres:
+    image: postgres:13.3-alpine
+    container_name: postgres
     restart: always
     ports:
-      - 1433:1433
+      - 5432:5432
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password1!
+      - POSTGRES_PASSWORD=Password1
+      - POSTGRES_DB=GameHosting
+  pgAdmin4:
+    image: dpage/pgadmin4:5.5
+    container_name: pgAdmin4
+    restart: always
+    ports:
+      - 8989:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=Password1
   axon-server:
     image: axoniq/axonserver:4.5
     container_name: axon-server
