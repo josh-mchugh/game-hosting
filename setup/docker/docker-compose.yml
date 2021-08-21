@@ -1,0 +1,44 @@
+# Install Docker
+# https://docs.docker.com/engine/install/ubuntu/
+#
+# Setup docker internal IP in hosts file
+# 172.17.0.1 host.docker.internal
+#
+# Setting up Postgres, pgAdmin, and Axon Server
+# Execute: docker-compose -p GAME_HOSTING_SERVICES up -d
+version: '3'
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    container_name: postgres
+    restart: "no"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=Password1!
+      - POSTGRES_DB=GameHosting
+  pgAdmin4:
+    image: dpage/pgadmin4:5.5
+    container_name: pgAdmin4
+    restart: "no"
+    ports:
+      - 8989:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=Password1!
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: mailhog
+    restart: "no"
+    ports:
+      - 25:1025 # smtp server
+      - 8025:8025 # web ui
+  axon-server:
+    image: axoniq/axonserver:4.5
+    container_name: axon-server
+    restart: "no"
+    ports:
+      - 8024:8024
+      - 8124:8124
+    environment:
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true

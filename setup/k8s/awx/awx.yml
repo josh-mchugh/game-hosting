@@ -1,0 +1,17 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  service_type: clusterip
+  ingress_type: ingress
+  hostname: awx.local
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: awx-admin-password
+  namespace: default
+stringData:
+  password: Password1!

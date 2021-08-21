@@ -6,12 +6,7 @@ import com.example.demo.framework.database.converter.MapConverter;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +28,12 @@ public class EmailEntity extends AbstractAggregateEntity {
     @Column(name = "to_address", nullable = false)
     private String toAddress;
 
+    @Lob
     @Convert(converter = MapConverter.class)
     @Column(name = "body_context")
     private Map<String, Object> bodyContext;
 
+    @Lob
     @Convert(converter = CollectionConverter.class)
     @Column(name = "subject_context")
     private List<Object> subjectContext;
