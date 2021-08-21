@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,6 +34,7 @@ public class AwxCredentialEntity extends AbstractAggregateEntity {
     @Column(name = "description")
     private String description;
 
+    @Lob
     @Column(name = "private_key", nullable = false)
     private String privateKey;
 

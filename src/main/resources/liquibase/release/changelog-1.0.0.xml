@@ -165,8 +165,8 @@
             <column name="to_address" type="nvarchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="body_context" type="nvarchar(MAX)"/>
-            <column name="subject_context" type="nvarchar(MAX)"/>
+            <column name="body_context" type="text"/>
+            <column name="subject_context" type="text"/>
             <column name="sent_date" type="timestamp"/>
         </createTable>
     </changeSet>
@@ -451,7 +451,7 @@
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="name" type="nvarchar(255)"/>
-            <column name="public_key" type="nvarchar(MAX)"/>
+            <column name="public_key" type="text"/>
             <column name="type" type="varchar(255)"/>
         </createTable>
     </changeSet>
@@ -535,7 +535,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="nvarchar(255)"/>
-            <column name="private_key" type="nvarchar(MAX)">
+            <column name="private_key" type="text">
                 <constraints nullable="false"/>
             </column>
             <column name="passphrase" type="nvarchar(255)"/>

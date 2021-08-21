@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Getter
@@ -22,6 +23,7 @@ public class CredentialEntity extends AbstractAggregateEntity {
     @Column(name = "name")
     private String name;
 
+    @Lob
     @Column(name = "public_key")
     private String publicKey;
 
