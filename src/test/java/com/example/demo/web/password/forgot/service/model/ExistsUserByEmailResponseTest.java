@@ -1,4 +1,4 @@
-package com.example.demo.web.password.forgot.command.service.model;
+package com.example.demo.web.password.forgot.service.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,24 +1,23 @@
-package com.example.demo.web.password.forgot.command.service;
+package com.example.demo.web.password.forgot.service;
 
 import com.example.demo.user.entity.QUserEntity;
-import com.example.demo.web.password.forgot.command.service.model.ExistsUserByEmailQuery;
-import com.example.demo.web.password.forgot.command.service.model.ExistsUserByEmailResponse;
-import com.example.demo.web.password.forgot.command.service.model.FetchUserIdByEmailResponse;
+import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailResponse;
+import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailQuery;
+import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailResponse;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ForgotPasswordCommandService implements IForgotPasswordCommandService {
+public class ForgotPasswordQueryServiceImpl implements ForgotPasswordQueryService{
 
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    @QueryHandler
     public ExistsUserByEmailResponse existsByEmail(ExistsUserByEmailQuery query) {
 
         QUserEntity qUser = QUserEntity.userEntity;
@@ -32,8 +31,7 @@ public class ForgotPasswordCommandService implements IForgotPasswordCommandServi
     }
 
     @Override
-    @QueryHandler
-    public FetchUserIdByEmailResponse getUserIdByEmail(com.example.demo.web.password.forgot.command.service.model.FetchUserIdByEmailQuery query) {
+    public FetchUserIdByEmailResponse getUserIdByEmail(FetchUserIdByEmailQuery query) {
 
         QUserEntity qUser = QUserEntity.userEntity;
 
