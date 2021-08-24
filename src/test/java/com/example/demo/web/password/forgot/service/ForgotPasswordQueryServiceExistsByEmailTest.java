@@ -1,9 +1,9 @@
-package com.example.demo.web.password.forgot.command.service;
+package com.example.demo.web.password.forgot.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.web.password.forgot.command.service.model.ExistsUserByEmailQuery;
-import com.example.demo.web.password.forgot.command.service.model.ExistsUserByEmailResponse;
+import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.UndeclaredThrowableException;
 
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class ForgotPasswordCommandServiceExistsByEmailTest {
+public class ForgotPasswordQueryServiceExistsByEmailTest {
 
     @Autowired
-    private IForgotPasswordCommandService service;
+    private ForgotPasswordQueryService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -27,7 +26,7 @@ public class ForgotPasswordCommandServiceExistsByEmailTest {
     @Test
     public void whenParamIsNullThenExpectException() {
 
-        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.existsByEmail(null));
+        Assertions.assertThrows(NullPointerException.class, () -> service.existsByEmail(null));
     }
 
     @Test
@@ -35,7 +34,7 @@ public class ForgotPasswordCommandServiceExistsByEmailTest {
 
         ExistsUserByEmailQuery query = new ExistsUserByEmailQuery(null);
 
-        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.existsByEmail(query));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.existsByEmail(query));
     }
 
     @Test

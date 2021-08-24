@@ -1,10 +1,11 @@
-package com.example.demo.web.password.forgot.command;
+package com.example.demo.web.password.forgot;
 
 import com.example.demo.user.aggregate.command.UserRecoveryTokenCreateCommand;
-import com.example.demo.web.password.forgot.command.service.model.ExistsUserByEmailQuery;
-import com.example.demo.web.password.forgot.command.service.model.ExistsUserByEmailResponse;
-import com.example.demo.web.password.forgot.command.service.model.FetchUserIdByEmailQuery;
-import com.example.demo.web.password.forgot.command.service.model.FetchUserIdByEmailResponse;
+import com.example.demo.web.password.forgot.service.ForgotPasswordQueryService;
+import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailResponse;
+import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailQuery;
+import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailResponse;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
@@ -22,12 +23,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ForgotPasswordCommandControllerForgotPasswordTest {
+public class ForgotPasswordControllerPostForgotPasswordTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,6 +37,9 @@ public class ForgotPasswordCommandControllerForgotPasswordTest {
 
     @MockBean
     private QueryGateway queryGateway;
+
+    @MockBean
+    private ForgotPasswordQueryService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectOk() throws Exception {
@@ -91,8 +94,8 @@ public class ForgotPasswordCommandControllerForgotPasswordTest {
     @Test
     public void whenRequestHasValidFormThenExpectRedirection() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("test@test"), ExistsUserByEmailResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(false)));
+        Mockito.when(queryService.existsByEmail(new ExistsUserByEmailQuery("test@test")))
+                .thenReturn(new ExistsUserByEmailResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/forgot-password")
                 .param("email", "test@test")
@@ -107,8 +110,8 @@ public class ForgotPasswordCommandControllerForgotPasswordTest {
     @Test
     public void whenRequestHasValidFormThenExpectView() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("test@test"), ExistsUserByEmailResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(false)));
+        Mockito.when(queryService.existsByEmail(new ExistsUserByEmailQuery("test@test")))
+                .thenReturn(new ExistsUserByEmailResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/forgot-password")
                 .param("email", "test@test")
@@ -123,8 +126,8 @@ public class ForgotPasswordCommandControllerForgotPasswordTest {
     @Test
     public void whenRequestHasValidFormAndEmailDoesNotExistsExpectCommandNotCalled() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("test@test"), ExistsUserByEmailResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(false)));
+        Mockito.when(queryService.existsByEmail(new ExistsUserByEmailQuery("test@test")))
+                .thenReturn(new ExistsUserByEmailResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/forgot-password")
                 .param("email", "test@test")
@@ -139,11 +142,11 @@ public class ForgotPasswordCommandControllerForgotPasswordTest {
     @Test
     public void whenRequestHasValidFormAndEmailExistsExpectCommandCalled() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery("test@test"), ExistsUserByEmailResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(true)));
+        Mockito.when(queryService.existsByEmail(new ExistsUserByEmailQuery("test@test")))
+                .thenReturn(new ExistsUserByEmailResponse(true));
 
-        Mockito.when(queryGateway.query(new FetchUserIdByEmailQuery("test@test"), FetchUserIdByEmailResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchUserIdByEmailResponse(UUID.randomUUID())));
+        Mockito.when(queryService.getUserIdByEmail(new FetchUserIdByEmailQuery("test@test")))
+                .thenReturn(new FetchUserIdByEmailResponse(UUID.randomUUID()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/forgot-password")
                 .param("email", "test@test")
