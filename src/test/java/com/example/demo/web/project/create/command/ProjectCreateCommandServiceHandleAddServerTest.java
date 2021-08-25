@@ -12,9 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 @Transactional
@@ -22,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class ProjectCreateCommandServiceHandleAddServerTest {
 
     @Autowired
-    private IProjectCreateCommandService service;
+    private ProjectCreateCommandService service;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -38,7 +36,7 @@ public class ProjectCreateCommandServiceHandleAddServerTest {
 
         ProjectAddServerRequest request = new ProjectAddServerRequest(UUID.randomUUID(), null);
 
-        Assertions.assertThrows(UndeclaredThrowableException.class, () -> service.handleAddServer(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.handleAddServer(request));
     }
 
     @Test

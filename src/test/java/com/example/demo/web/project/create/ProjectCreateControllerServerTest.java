@@ -2,16 +2,15 @@ package com.example.demo.web.project.create;
 
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
-import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.ProjectCreateCommandService;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.form.ProjectCreateServerForm;
-import com.example.demo.web.project.create.projection.IProjectCreateProjectionService;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
-import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
+import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableServersMapQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableServersMapResponse;
+import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateResponse;
 import com.google.common.collect.ImmutableMap;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +38,10 @@ public class ProjectCreateControllerServerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private ProjectCreateCommandService commandService;
 
     @MockBean
-    private IProjectCreateCommandService commandService;
-
-    @MockBean
-    private IProjectCreateProjectionService projectionService;
+    private ProjectCreateQueryService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
@@ -74,10 +70,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
@@ -93,10 +89,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.BUILD, ProjectState.BUILD_CREATE_INSTANCE_GROUP));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
@@ -115,10 +111,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_BILLING));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
@@ -137,10 +133,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_REGION));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
@@ -159,10 +155,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
@@ -178,10 +174,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(String.format("/project/create/%s/server", id))
@@ -200,10 +196,10 @@ public class ProjectCreateControllerServerTest {
 
         UUID id = UUID.randomUUID();
 
-        Mockito.when(projectionService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
+        Mockito.when(queryService.fetchAvailableServersMap(new FetchProjectAvailableServersMapQuery(id)))
                 .thenReturn(new FetchProjectAvailableServersMapResponse(ImmutableMap.of()));
 
-        Mockito.when(projectionService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
+        Mockito.when(queryService.fetchStatusAndState(new FetchProjectStatusAndStateQuery(id)))
                 .thenReturn(new FetchProjectStatusAndStateResponse(ProjectStatus.CONFIG, ProjectState.CONFIG_SERVER));
 
         ProjectCreateServerForm flashAttr = new ProjectCreateServerForm();

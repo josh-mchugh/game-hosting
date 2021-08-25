@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ProjectCreateCommandServiceHandleAddBillingTest {
 
     @Autowired
-    private IProjectCreateCommandService service;
+    private ProjectCreateCommandService service;
 
     @MockBean
     private CommandGateway commandGateway;

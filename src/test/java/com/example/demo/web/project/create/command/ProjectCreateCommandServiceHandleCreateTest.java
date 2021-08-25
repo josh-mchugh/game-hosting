@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ProjectCreateCommandServiceHandleCreateTest {
 
     @Autowired
-    private IProjectCreateCommandService service;
+    private ProjectCreateCommandService service;
 
     @MockBean
     private ISessionUtil sessionUtil;
