@@ -1,13 +1,13 @@
 package com.example.demo.web.project.create;
 
-import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.ProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
 import com.example.demo.web.project.create.form.ProjectCreateForm;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapResponse;
+import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapResponse;
 import com.google.common.collect.ImmutableMap;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -36,10 +35,10 @@ public class ProjectCreateControllerCreateTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IProjectCreateCommandService commandService;
+    private ProjectCreateCommandService commandService;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private ProjectCreateQueryService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
@@ -66,8 +65,8 @@ public class ProjectCreateControllerCreateTest {
     @Test
     public void whenRequestIsUserThenExpectOk() throws Exception {
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
+        Mockito.when(queryService.fetchAvailableGameMap(new FetchProjectAvailableGameMapQuery()))
+                .thenReturn(new FetchProjectAvailableGameMapResponse(ImmutableMap.of()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -80,8 +79,8 @@ public class ProjectCreateControllerCreateTest {
     @Test
     public void whenRequestIsValidThenExpectView() throws Exception {
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
+        Mockito.when(queryService.fetchAvailableGameMap(new FetchProjectAvailableGameMapQuery()))
+                .thenReturn(new FetchProjectAvailableGameMapResponse(ImmutableMap.of()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -94,8 +93,8 @@ public class ProjectCreateControllerCreateTest {
     @Test
     public void whenRequestIsValidThenExpectModel() throws Exception {
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
+        Mockito.when(queryService.fetchAvailableGameMap(new FetchProjectAvailableGameMapQuery()))
+                .thenReturn(new FetchProjectAvailableGameMapResponse(ImmutableMap.of()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/create")
                 .with(SecurityMockMvcRequestPostProcessors.user("user"));
@@ -111,8 +110,8 @@ public class ProjectCreateControllerCreateTest {
     @Test
     public void whenRequestHasFlashAttrThenExpectModel() throws Exception {
 
-        Mockito.when(queryGateway.query(new FetchProjectAvailableGameMapQuery(), FetchProjectAvailableGameMapResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchProjectAvailableGameMapResponse(ImmutableMap.of())));
+        Mockito.when(queryService.fetchAvailableGameMap(new FetchProjectAvailableGameMapQuery()))
+                .thenReturn(new FetchProjectAvailableGameMapResponse(ImmutableMap.of()));
 
         ProjectCreateForm flashAttr = new ProjectCreateForm();
         flashAttr.setProjectName("projectName");

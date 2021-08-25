@@ -3,7 +3,7 @@ package com.example.demo.web.project.create;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
-import com.example.demo.web.project.create.command.IProjectCreateCommandService;
+import com.example.demo.web.project.create.command.ProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest;
 import com.example.demo.web.project.create.command.model.ProjectAddServerRequest;
@@ -13,15 +13,15 @@ import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
 import com.example.demo.web.project.create.form.ProjectCreateForm;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.form.ProjectCreateServerForm;
-import com.example.demo.web.project.create.projection.IProjectCreateProjectionService;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableGameMapResponse;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableRegionsMapResponse;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectAvailableServersMapResponse;
-import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateQuery;
-import com.example.demo.web.project.create.projection.model.FetchProjectStatusAndStateResponse;
+import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapResponse;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableRegionsMapQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableRegionsMapResponse;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableServersMapQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectAvailableServersMapResponse;
+import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateQuery;
+import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateResponse;
 import com.example.demo.web.project.util.ProjectUrlUtils;
 import com.example.demo.web.project.util.model.ProjectStateValidationRequest;
 import com.example.demo.web.project.util.model.ProjectStateValidationResponse;
@@ -45,8 +45,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProjectCreateController {
 
-    private final IProjectCreateCommandService commandService;
-    private final IProjectCreateProjectionService projectionService;
+    private final ProjectCreateCommandService commandService;
+    private final ProjectCreateQueryService projectionService;
     private final ProjectUrlUtils projectUrlUtils;
 
     @GetMapping("")
