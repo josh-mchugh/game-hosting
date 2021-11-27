@@ -2,6 +2,7 @@ package com.example.demo.web.awx;
 
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
 import com.example.demo.awx.playbook.feign.IPlaybookFeignService;
+import com.example.demo.web.awx.service.AwxService;
 import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksQuery;
 import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksResponse;
 import com.example.demo.web.awx.service.model.FetchProjectByAwxIdQuery;
@@ -10,7 +11,6 @@ import com.example.demo.web.awx.service.projection.ProjectProjection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/awx")
 @RequiredArgsConstructor
-public class AwxCommandController {
+public class AwxController {
 
-    private final QueryGateway queryGateway;
+    private final AwxService service;
     private final CommandGateway commandGateway;
     private final IPlaybookFeignService playbookFeignService;
 
@@ -58,18 +58,18 @@ public class AwxCommandController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private boolean existsAnyPlaybooks() throws ExecutionException, InterruptedException {
+    private boolean existsAnyPlaybooks() {
 
         ExistsAnyPlaybooksQuery query = new ExistsAnyPlaybooksQuery();
-        ExistsAnyPlaybooksResponse response = queryGateway.query(query, ExistsAnyPlaybooksResponse.class).get();
+        ExistsAnyPlaybooksResponse response = service.existsAnyPlaybooks(query);
 
         return response.exists();
     }
 
-    private ProjectProjection getProject(Long awxId) throws ExecutionException, InterruptedException {
+    private ProjectProjection getProject(Long awxId) {
 
         FetchProjectByAwxIdQuery query = new FetchProjectByAwxIdQuery(awxId);
-        FetchProjectByAwxIdResponse response = queryGateway.query(query, FetchProjectByAwxIdResponse.class).get();
+        FetchProjectByAwxIdResponse response = service.getProjectByAwxId(query);
 
         return response.getProject();
     }
