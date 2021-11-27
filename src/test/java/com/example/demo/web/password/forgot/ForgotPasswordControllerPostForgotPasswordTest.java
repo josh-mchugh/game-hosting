@@ -1,7 +1,7 @@
 package com.example.demo.web.password.forgot;
 
 import com.example.demo.user.aggregate.command.UserRecoveryTokenCreateCommand;
-import com.example.demo.web.password.forgot.service.ForgotPasswordQueryService;
+import com.example.demo.web.password.forgot.service.ForgotPasswordService;
 import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailQuery;
 import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailResponse;
 import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailQuery;
@@ -39,7 +39,7 @@ public class ForgotPasswordControllerPostForgotPasswordTest {
     private QueryGateway queryGateway;
 
     @MockBean
-    private ForgotPasswordQueryService queryService;
+    private ForgotPasswordService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectOk() throws Exception {

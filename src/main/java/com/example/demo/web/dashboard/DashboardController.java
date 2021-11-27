@@ -1,10 +1,10 @@
 package com.example.demo.web.dashboard;
 
 import com.example.demo.framework.security.session.ISessionUtil;
+import com.example.demo.web.dashboard.service.DashboardService;
 import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsQuery;
 import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsResponse;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +15,9 @@ import java.util.concurrent.ExecutionException;
 @Controller
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
-public class DashboardProjectionController {
+public class DashboardController {
 
-    private final QueryGateway queryGateway;
+    private final DashboardService service;
     private final ISessionUtil sessionUtil;
 
     @GetMapping("")
@@ -27,10 +27,10 @@ public class DashboardProjectionController {
     }
 
     @GetMapping("/content")
-    public String getContent(Model model) throws ExecutionException, InterruptedException {
+    public String getContent(Model model) {
 
         FetchDashboardDetailsQuery query = new FetchDashboardDetailsQuery(sessionUtil.getCurrentUserEmail());
-        FetchDashboardDetailsResponse response = queryGateway.query(query, FetchDashboardDetailsResponse.class).get();
+        FetchDashboardDetailsResponse response = service.fetchUserDashboard(query);
 
         model.addAttribute("details", response);
 

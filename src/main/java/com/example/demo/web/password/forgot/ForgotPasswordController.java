@@ -2,7 +2,7 @@ package com.example.demo.web.password.forgot;
 
 import com.example.demo.user.aggregate.command.UserRecoveryTokenCreateCommand;
 import com.example.demo.web.password.forgot.form.ForgotPasswordForm;
-import com.example.demo.web.password.forgot.service.ForgotPasswordQueryService;
+import com.example.demo.web.password.forgot.service.ForgotPasswordService;
 import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailQuery;
 import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailResponse;
 import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailQuery;
@@ -26,7 +26,7 @@ import javax.validation.Valid;
 public class ForgotPasswordController {
 
     private final CommandGateway commandGateway;
-    private final ForgotPasswordQueryService queryService;
+    private final ForgotPasswordService queryService;
 
     @GetMapping("")
     public String getDefault(@RequestParam(name = "email", required = false) String email, @ModelAttribute("form") ForgotPasswordForm form) {

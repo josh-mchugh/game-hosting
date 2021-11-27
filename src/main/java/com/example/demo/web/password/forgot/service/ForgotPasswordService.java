@@ -5,7 +5,7 @@ import com.example.demo.web.password.forgot.service.model.ExistsUserByEmailRespo
 import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailQuery;
 import com.example.demo.web.password.forgot.service.model.FetchUserIdByEmailResponse;
 
-public interface ForgotPasswordQueryService {
+public interface ForgotPasswordService {
 
     ExistsUserByEmailResponse existsByEmail(ExistsUserByEmailQuery query);
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ForgotPasswordQueryServiceImpl implements ForgotPasswordQueryService{
+public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     private final JPQLQueryFactory queryFactory;
 
