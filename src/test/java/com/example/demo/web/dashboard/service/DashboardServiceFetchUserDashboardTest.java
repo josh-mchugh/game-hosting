@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class DashboardProjectionServiceFetchUserDashboardTest {
+public class DashboardServiceFetchUserDashboardTest {
 
     @Autowired
-    private IDashboardProjectionService service;
+    private DashboardService service;
 
     @Autowired
     private IUserService userService;

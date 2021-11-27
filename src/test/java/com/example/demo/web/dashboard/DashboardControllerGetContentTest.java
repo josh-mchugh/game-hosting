@@ -1,9 +1,9 @@
 package com.example.demo.web.dashboard;
 
 import com.example.demo.framework.security.session.ISessionUtil;
+import com.example.demo.web.dashboard.service.DashboardService;
 import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsQuery;
 import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsResponse;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,18 +19,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.concurrent.CompletableFuture;
-
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DashboardProjectionControllerGetContentTest {
+public class DashboardControllerGetContentTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private DashboardService service;
 
     @MockBean
     private ISessionUtil sessionUtil;
@@ -40,8 +38,8 @@ public class DashboardProjectionControllerGetContentTest {
 
         Mockito.when(sessionUtil.getCurrentUserEmail()).thenReturn("test@test");
 
-        Mockito.when(queryGateway.query(new FetchDashboardDetailsQuery("test@test"), FetchDashboardDetailsResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(FetchDashboardDetailsResponse.builder().build()));
+        Mockito.when(service.fetchUserDashboard(new FetchDashboardDetailsQuery("test@test")))
+                .thenReturn(FetchDashboardDetailsResponse.builder().build());
     }
 
     @Test

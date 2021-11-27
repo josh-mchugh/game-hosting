@@ -15,10 +15,10 @@ import javax.transaction.Transactional;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class ForgotPasswordQueryServiceGetUserByEmailTest {
+public class ForgotPasswordServiceGetUserByEmailTest {
 
     @Autowired
-    private ForgotPasswordQueryService service;
+    private ForgotPasswordService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

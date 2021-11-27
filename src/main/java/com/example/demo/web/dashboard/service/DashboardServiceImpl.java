@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DashboardProjectionService implements IDashboardProjectionService {
+public class DashboardServiceImpl implements DashboardService {
 
     private final JPQLQueryFactory queryFactory;
 
