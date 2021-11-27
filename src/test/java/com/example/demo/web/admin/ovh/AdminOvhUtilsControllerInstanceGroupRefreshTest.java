@@ -1,7 +1,7 @@
 package com.example.demo.web.admin.ovh;
 
 import com.example.demo.web.admin.ovh.model.InstanceGroupStatistic;
-import com.example.demo.web.admin.ovh.service.IAdminOvhUtilsProjectorService;
+import com.example.demo.web.admin.ovh.service.AdminOvhUtilsService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class AdminOvhUtilsControllerInstanceGroupRefreshTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IAdminOvhUtilsProjectorService adminOvhUtilsProjectorService;
+    private AdminOvhUtilsService adminOvhUtilsProjectorService;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {

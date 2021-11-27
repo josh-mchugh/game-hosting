@@ -22,7 +22,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
 
         Mockito.doNothing().when(instanceGroupFeignService).deleteInstanceGroupById(Mockito.anyString());
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         Assertions.assertEquals(0, service.handleInstanceGroupDelete().getTotal());
     }
@@ -35,7 +35,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(Collections.singletonList(new InstanceGroupApi()));
         Mockito.doNothing().when(instanceGroupFeignService).deleteInstanceGroupById(Mockito.anyString());
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         service.handleInstanceGroupDelete();
 
@@ -49,7 +49,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(new ArrayList<>());
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         Assertions.assertEquals(0, service.handleInstanceGroupDelete().getTotal());
     }
@@ -65,7 +65,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(Collections.singletonList(instanceGroupApi));
         Mockito.doNothing().when(instanceGroupFeignService).deleteInstanceGroupById(Mockito.anyString());
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         Assertions.assertEquals(0, service.handleInstanceGroupDelete().getTotal());
     }
