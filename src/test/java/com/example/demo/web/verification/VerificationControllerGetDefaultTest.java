@@ -1,13 +1,13 @@
-package com.example.demo.web.verification.projection;
+package com.example.demo.web.verification;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.user.aggregate.command.UserVerifyCommand;
-import com.example.demo.web.verification.projection.service.model.ExistsUserByVerifyTokenQuery;
-import com.example.demo.web.verification.projection.service.model.ExistsUserByVerifyTokenResponse;
-import com.example.demo.web.verification.projection.service.model.FetchUserIdByVerificationTokenQuery;
-import com.example.demo.web.verification.projection.service.model.FetchUserIdByVerificationTokenResponse;
+import com.example.demo.web.verification.service.IVerifyProjectorService;
+import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenQuery;
+import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenResponse;
+import com.example.demo.web.verification.service.model.FetchUserIdByVerificationTokenQuery;
+import com.example.demo.web.verification.service.model.FetchUserIdByVerificationTokenResponse;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class VerifyProjectorControllerGetDefaultTest {
+public class VerificationControllerGetDefaultTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +38,7 @@ public class VerifyProjectorControllerGetDefaultTest {
     private ISessionUtil sessionUtil;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private IVerifyProjectorService verifyProjectorService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -47,8 +46,8 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenUserIsUnauthorizedThenReturnOk() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(false)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/verify/token");
 
@@ -60,8 +59,8 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenUserIsRegularUserThenReturnOk() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(false)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/verify/token")
                 .with(SecurityMockMvcRequestPostProcessors.user("regular").roles("USER"));
@@ -74,8 +73,8 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenRequestIsValidThenReturnView() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(false)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/verify/token")
                 .with(SecurityMockMvcRequestPostProcessors.user("regular").roles("USER"));
@@ -88,8 +87,8 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenRequestHasValidSessionThenExpectAuthenticatedTrueInModel() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(false)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(false));
 
         Mockito.when(sessionUtil.isAuthenticated()).thenReturn(true);
 
@@ -104,8 +103,8 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenRequestHasValidSessionThenExpectAuthenticatedFalseInModel() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(false)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(false));
 
         Mockito.when(sessionUtil.isAuthenticated()).thenReturn(false);
 
@@ -121,11 +120,11 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenRequestHasValidTokenThenExpectValidTokenTrueInModel() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(true)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(true));
 
-        Mockito.when(queryGateway.query(new FetchUserIdByVerificationTokenQuery("token"), FetchUserIdByVerificationTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchUserIdByVerificationTokenResponse(UUID.randomUUID())));
+        Mockito.when(verifyProjectorService.fetchUserIdByVerificationToken(new FetchUserIdByVerificationTokenQuery("token")))
+                .thenReturn(new FetchUserIdByVerificationTokenResponse(UUID.randomUUID()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/verify/token")
                 .with(SecurityMockMvcRequestPostProcessors.user("regular").roles("USER"));
@@ -139,8 +138,8 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenRequestHasInvalidTokenThenExpectValidTokenFalseInModel() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(false)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(false));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/verify/token")
                 .with(SecurityMockMvcRequestPostProcessors.user("regular").roles("USER"));
@@ -153,11 +152,11 @@ public class VerifyProjectorControllerGetDefaultTest {
     @Test
     public void whenRequestHasValidTokenThenExpectCommandCalled() throws Exception {
 
-        Mockito.when(queryGateway.query(new ExistsUserByVerifyTokenQuery("token"), ExistsUserByVerifyTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByVerifyTokenResponse(true)));
+        Mockito.when(verifyProjectorService.existsByToken(new ExistsUserByVerifyTokenQuery("token")))
+                .thenReturn(new ExistsUserByVerifyTokenResponse(true));
 
-        Mockito.when(queryGateway.query(new FetchUserIdByVerificationTokenQuery("token"), FetchUserIdByVerificationTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchUserIdByVerificationTokenResponse(UUID.randomUUID())));
+        Mockito.when(verifyProjectorService.fetchUserIdByVerificationToken(new FetchUserIdByVerificationTokenQuery("token")))
+                .thenReturn(new FetchUserIdByVerificationTokenResponse(UUID.randomUUID()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/verify/token")
                 .with(SecurityMockMvcRequestPostProcessors.user("regular").roles("USER"));

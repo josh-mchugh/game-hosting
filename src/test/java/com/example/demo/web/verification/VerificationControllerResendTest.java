@@ -1,8 +1,7 @@
-package com.example.demo.web.verification.command;
+package com.example.demo.web.verification;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.user.aggregate.command.UserVerifyResetCommand;
-import com.example.demo.user.entity.model.User;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,7 +24,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class VerifyCommandControllerResendTest {
+public class VerificationControllerResendTest {
 
     @Autowired
     private MockMvc mockMvc;

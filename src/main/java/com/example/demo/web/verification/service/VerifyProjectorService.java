@@ -1,10 +1,10 @@
-package com.example.demo.web.verification.projection.service;
+package com.example.demo.web.verification.service;
 
 import com.example.demo.user.entity.QUserEntity;
-import com.example.demo.web.verification.projection.service.model.ExistsUserByVerifyTokenQuery;
-import com.example.demo.web.verification.projection.service.model.ExistsUserByVerifyTokenResponse;
-import com.example.demo.web.verification.projection.service.model.FetchUserIdByVerificationTokenResponse;
-import com.example.demo.web.verification.projection.service.model.FetchUserIdByVerificationTokenQuery;
+import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenQuery;
+import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenResponse;
+import com.example.demo.web.verification.service.model.FetchUserIdByVerificationTokenResponse;
+import com.example.demo.web.verification.service.model.FetchUserIdByVerificationTokenQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;

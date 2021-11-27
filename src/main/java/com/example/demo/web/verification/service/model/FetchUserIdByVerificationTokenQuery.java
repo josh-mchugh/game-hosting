@@ -1,4 +1,4 @@
-package com.example.demo.web.verification.projection.service.model;
+package com.example.demo.web.verification.service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
