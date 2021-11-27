@@ -1,4 +1,4 @@
-package com.example.demo.web.registration.projection.service.model;
+package com.example.demo.web.registration.service.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

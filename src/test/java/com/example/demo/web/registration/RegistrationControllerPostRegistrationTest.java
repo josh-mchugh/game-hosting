@@ -1,8 +1,8 @@
-package com.example.demo.web.registration.command;
+package com.example.demo.web.registration;
 
 import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
-import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailQuery;
-import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailResponse;
+import com.example.demo.web.registration.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.registration.service.model.ExistsUserByEmailResponse;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import java.util.concurrent.CompletableFuture;
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RegistrationProjectorControllerTest {
+public class RegistrationControllerPostRegistrationTest {
 
     @Autowired
     private MockMvc mockMvc;
