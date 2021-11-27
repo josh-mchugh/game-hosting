@@ -21,10 +21,10 @@ import java.util.Collections;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AdminUserProjectorGetTableServiceTest {
+public class AdminUserGetTableServiceTest {
 
     @Autowired
-    private IAdminUserProjectorService service;
+    private AdminUserService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

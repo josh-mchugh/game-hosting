@@ -1,8 +1,8 @@
 package com.example.demo.web.admin.user;
 
+import com.example.demo.web.admin.user.service.AdminUserService;
 import com.example.demo.web.admin.user.service.model.FetchAdminUserTableQuery;
 import com.example.demo.web.admin.user.service.model.FetchAdminUserTableResponse;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AdminUserProjectorControllerTableTest {
+public class AdminUserControllerGetTableTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private AdminUserService service;
 
     @Test
     public void whenUserIsUnauthorizedThenExpectLoginScreen() throws Exception {
@@ -60,8 +59,7 @@ public class AdminUserProjectorControllerTableTest {
         FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder().build();
         FetchAdminUserTableResponse response = new FetchAdminUserTableResponse(new PageImpl<>(new ArrayList<>()));
 
-        Mockito.when(queryGateway.query(query, FetchAdminUserTableResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(response));
+        Mockito.when(service.getTable(query)).thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/users/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -77,8 +75,7 @@ public class AdminUserProjectorControllerTableTest {
         FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder().build();
         FetchAdminUserTableResponse response = new FetchAdminUserTableResponse(new PageImpl<>(new ArrayList<>()));
 
-        Mockito.when(queryGateway.query(query, FetchAdminUserTableResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(response));
+        Mockito.when(service.getTable(query)).thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/users/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
@@ -94,8 +91,7 @@ public class AdminUserProjectorControllerTableTest {
         FetchAdminUserTableQuery query = FetchAdminUserTableQuery.builder().build();
         FetchAdminUserTableResponse response = new FetchAdminUserTableResponse(new PageImpl<>(new ArrayList<>()));
 
-        Mockito.when(queryGateway.query(query, FetchAdminUserTableResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(response));
+        Mockito.when(service.getTable(query)).thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/admin/users/table")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN"));
