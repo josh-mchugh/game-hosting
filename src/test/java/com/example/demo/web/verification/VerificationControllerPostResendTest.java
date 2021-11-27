@@ -24,7 +24,7 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class VerificationControllerResendTest {
+public class VerificationControllerPostResendTest {
 
     @Autowired
     private MockMvc mockMvc;

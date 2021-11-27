@@ -1,6 +1,6 @@
 package com.example.demo.web.project.dashboard;
 
-import com.example.demo.web.project.dashboard.command.IProjectCommandService;
+import com.example.demo.web.project.dashboard.command.ProjectCommandService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,7 +25,7 @@ public class ProjectDashboardControllerStartTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IProjectCommandService projectCommandService;
+    private ProjectCommandService projectCommandService;
 
     @Test
     public void whenDefaultPostStartInstanceThenReturnOk() throws Exception {

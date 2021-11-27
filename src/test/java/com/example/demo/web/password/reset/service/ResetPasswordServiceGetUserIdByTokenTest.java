@@ -24,7 +24,7 @@ public class ResetPasswordServiceGetUserIdByTokenTest {
     private IUserService userService;
 
     @Autowired
-    private IResetPasswordService service;
+    private ResetPasswordService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

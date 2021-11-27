@@ -7,7 +7,7 @@ import com.example.demo.util.password.model.ValidatePasswordResponse;
 import com.example.demo.web.password.reset.service.model.FetchUserIdByRecoveryTokenQuery;
 import com.example.demo.web.password.reset.service.model.FetchUserIdByRecoveryTokenResponse;
 import com.example.demo.web.password.reset.form.ResetPasswordForm;
-import com.example.demo.web.password.reset.service.IResetPasswordService;
+import com.example.demo.web.password.reset.service.ResetPasswordService;
 import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenQuery;
 import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class ResetPasswordController {
 
-    private final IResetPasswordService resetPasswordProjectorService;
+    private final ResetPasswordService resetPasswordProjectorService;
     private final CommandGateway commandGateway;
 
     @GetMapping("/{token}")

@@ -1,6 +1,6 @@
 package com.example.demo.web.project.dashboard;
 
-import com.example.demo.web.project.dashboard.command.IProjectCommandService;
+import com.example.demo.web.project.dashboard.command.ProjectCommandService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsQuery;
@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class ProjectDashboardController {
 
-    private final IProjectCommandService commandService;
+    private final ProjectCommandService commandService;
     private final QueryGateway queryGateway;
 
     @GetMapping("/{id}")

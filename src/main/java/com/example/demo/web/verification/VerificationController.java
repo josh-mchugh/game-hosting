@@ -3,7 +3,7 @@ package com.example.demo.web.verification;
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.user.aggregate.command.UserVerifyCommand;
 import com.example.demo.user.aggregate.command.UserVerifyResetCommand;
-import com.example.demo.web.verification.service.IVerifyProjectorService;
+import com.example.demo.web.verification.service.VerifyProjectorService;
 import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenQuery;
 import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenResponse;
 import com.example.demo.web.verification.service.model.FetchUserIdByVerificationTokenQuery;
@@ -30,7 +30,7 @@ public class VerificationController {
 
     private final ISessionUtil sessionUtil;
     private final CommandGateway commandGateway;
-    private final IVerifyProjectorService verifyProjectorService;
+    private final VerifyProjectorService verifyProjectorService;
 
     @GetMapping("/{id}")
     public String getDefault(@PathVariable("id") String token, Model model) throws ExecutionException, InterruptedException {

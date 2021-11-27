@@ -16,10 +16,10 @@ import java.lang.reflect.UndeclaredThrowableException;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class RegistrationProjectorServiceExistsByEmailTest {
+public class RegistrationServiceExistsByEmailTest {
 
     @Autowired
-    private IRegistrationProjectorService service;
+    private RegistrationProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

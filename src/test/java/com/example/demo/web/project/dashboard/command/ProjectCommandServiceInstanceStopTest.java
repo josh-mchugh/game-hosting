@@ -33,7 +33,7 @@ public class ProjectCommandServiceInstanceStopTest {
     private IHostFeignService hostFeignService;
 
     @Autowired
-    private IProjectCommandService projectCommandService;
+    private ProjectCommandService projectCommandService;
 
     @MockBean
     private QueryGateway queryGateway;

@@ -16,10 +16,10 @@ import java.lang.reflect.UndeclaredThrowableException;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class VerifyProjectorServiceFetchUserIdByVerificationTokenTest {
+public class VerificationServiceFetchUserIdByVerificationTokenTest {
 
     @Autowired
-    private IVerifyProjectorService service;
+    private VerifyProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
