@@ -1,7 +1,7 @@
 package com.example.demo.web.admin.ovh;
 
 import com.example.demo.web.admin.ovh.model.InstanceGroupStatistic;
-import com.example.demo.web.admin.ovh.service.IAdminOvhUtilsProjectorService;
+import com.example.demo.web.admin.ovh.service.AdminOvhUtilsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class AdminOvhUtilsController {
 
-    private final IAdminOvhUtilsProjectorService service;
+    private final AdminOvhUtilsService service;
 
     @GetMapping("")
     public String getDefault() {

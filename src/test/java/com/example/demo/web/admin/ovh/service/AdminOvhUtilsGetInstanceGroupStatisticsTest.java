@@ -20,7 +20,7 @@ public class AdminOvhUtilsGetInstanceGroupStatisticsTest {
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(Collections.singletonList(instanceGroupApi));
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         Assertions.assertEquals(1, service.getInstanceGroupStatistics().getTotal());
     }
@@ -32,7 +32,7 @@ public class AdminOvhUtilsGetInstanceGroupStatisticsTest {
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(new ArrayList<>());
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         Assertions.assertEquals(0, service.getInstanceGroupStatistics().getTotal());
     }
@@ -47,7 +47,7 @@ public class AdminOvhUtilsGetInstanceGroupStatisticsTest {
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(Collections.singletonList(instanceGroupApi));
 
-        AdminOvhUtilsService service = new AdminOvhUtilsService(instanceGroupFeignService);
+        AdminOvhUtilsServiceImpl service = new AdminOvhUtilsServiceImpl(instanceGroupFeignService);
 
         Assertions.assertEquals(0, service.getInstanceGroupStatistics().getTotal());
     }
