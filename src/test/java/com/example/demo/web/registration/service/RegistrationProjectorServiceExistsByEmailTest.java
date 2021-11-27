@@ -1,9 +1,9 @@
-package com.example.demo.web.registration.projection.service;
+package com.example.demo.web.registration.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailQuery;
-import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailResponse;
+import com.example.demo.web.registration.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.registration.service.model.ExistsUserByEmailResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

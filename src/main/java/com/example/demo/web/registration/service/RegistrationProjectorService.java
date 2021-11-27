@@ -1,8 +1,8 @@
-package com.example.demo.web.registration.projection.service;
+package com.example.demo.web.registration.service;
 
 import com.example.demo.user.entity.QUserEntity;
-import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailQuery;
-import com.example.demo.web.registration.projection.service.model.ExistsUserByEmailResponse;
+import com.example.demo.web.registration.service.model.ExistsUserByEmailQuery;
+import com.example.demo.web.registration.service.model.ExistsUserByEmailResponse;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
