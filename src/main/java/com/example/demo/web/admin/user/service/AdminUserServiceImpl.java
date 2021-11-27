@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AdminUserProjectorService implements IAdminUserProjectorService {
+public class AdminUserServiceImpl implements AdminUserService {
 
     private final JPQLQueryFactory queryFactory;
 
