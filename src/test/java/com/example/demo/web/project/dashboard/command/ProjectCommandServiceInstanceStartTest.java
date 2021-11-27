@@ -30,7 +30,7 @@ public class ProjectCommandServiceInstanceStartTest {
     private IHostFeignService hostFeignService;
 
     @Autowired
-    private IProjectCommandService projectCommandService;
+    private ProjectCommandService projectCommandService;
 
     @MockBean
     private IInstanceFeignService instanceFeignService;

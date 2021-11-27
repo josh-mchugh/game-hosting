@@ -20,7 +20,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class ProjectProjectorServiceFetchAwxHostByInstanceIdTest {
 
     @Autowired
-    private IProjectProjectorService service;
+    private ProjectProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

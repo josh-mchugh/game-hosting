@@ -2,7 +2,7 @@ package com.example.demo.web.verification;
 
 import com.example.demo.framework.security.session.ISessionUtil;
 import com.example.demo.user.aggregate.command.UserVerifyCommand;
-import com.example.demo.web.verification.service.IVerifyProjectorService;
+import com.example.demo.web.verification.service.VerifyProjectorService;
 import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenQuery;
 import com.example.demo.web.verification.service.model.ExistsUserByVerifyTokenResponse;
 import com.example.demo.web.verification.service.model.FetchUserIdByVerificationTokenQuery;
@@ -38,7 +38,7 @@ public class VerificationControllerGetDefaultTest {
     private ISessionUtil sessionUtil;
 
     @MockBean
-    private IVerifyProjectorService verifyProjectorService;
+    private VerifyProjectorService verifyProjectorService;
 
     @MockBean
     private CommandGateway commandGateway;

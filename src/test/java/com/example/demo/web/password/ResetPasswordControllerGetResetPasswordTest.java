@@ -1,9 +1,9 @@
 package com.example.demo.web.password;
 
 import com.example.demo.web.password.reset.form.ResetPasswordForm;
+import com.example.demo.web.password.reset.service.ResetPasswordService;
 import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenQuery;
 import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenResponse;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.concurrent.CompletableFuture;
-
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,7 +26,7 @@ public class ResetPasswordControllerGetResetPasswordTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private ResetPasswordService service;
 
     @Test
     public void whenRequestDoesNotHaveTokenThenExpectNotFound() throws Exception {
@@ -43,7 +41,7 @@ public class ResetPasswordControllerGetResetPasswordTest {
     @Test
     public void whenRequestHasTokenThenExpectOk() throws Exception {
 
-        defaultMockTokenExists();
+        mockTokenExists(true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/token");
 
@@ -55,7 +53,7 @@ public class ResetPasswordControllerGetResetPasswordTest {
     @Test
     public void whenRequestHasTokenThenExpectView() throws Exception {
 
-        defaultMockTokenExists();
+        mockTokenExists(true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/token");
 
@@ -67,7 +65,7 @@ public class ResetPasswordControllerGetResetPasswordTest {
     @Test
     public void whenRequestHasValidTokenThenExpectHasValidTokenBeFalse() throws Exception {
 
-        mockTokenExists("token", false);
+        mockTokenExists(false);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/token");
 
@@ -79,7 +77,7 @@ public class ResetPasswordControllerGetResetPasswordTest {
     @Test
     public void whenRequestHasValidTokenThenExpectHasValidTokenBeTrue() throws Exception {
 
-        defaultMockTokenExists();
+        mockTokenExists(true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/token");
 
@@ -91,7 +89,7 @@ public class ResetPasswordControllerGetResetPasswordTest {
     @Test
     public void whenRequestHasValidTokenThenExpectResetPasswordForm() throws Exception {
 
-        defaultMockTokenExists();
+        mockTokenExists(true);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/reset-password/token");
 
@@ -100,14 +98,9 @@ public class ResetPasswordControllerGetResetPasswordTest {
                 .andExpect(MockMvcResultMatchers.model().attribute("form", new ResetPasswordForm()));
     }
 
-    private void defaultMockTokenExists() {
+    private void mockTokenExists(boolean exists) {
 
-        mockTokenExists("token", true);
-    }
-
-    private void mockTokenExists(String token, boolean exists) {
-
-        Mockito.when(queryGateway.query(new ExistsByRecoveryTokenQuery(token), ExistsByRecoveryTokenResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsByRecoveryTokenResponse(exists)));
+        Mockito.when(service.existsByRecoveryToken(new ExistsByRecoveryTokenQuery("token")))
+                .thenReturn(new ExistsByRecoveryTokenResponse(exists));
     }
 }
