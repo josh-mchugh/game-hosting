@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AwxProjectorService implements IAwxProjectorService {
+public class AwxServiceImpl implements AwxService {
 
     private final JPQLQueryFactory queryFactory;
 

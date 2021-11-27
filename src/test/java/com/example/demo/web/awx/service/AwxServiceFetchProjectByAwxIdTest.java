@@ -16,10 +16,10 @@ import java.lang.reflect.UndeclaredThrowableException;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxProjectorServiceFetchProjectByAwxIdTest {
+public class AwxServiceFetchProjectByAwxIdTest {
 
     @Autowired
-    private IAwxProjectorService service;
+    private AwxService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

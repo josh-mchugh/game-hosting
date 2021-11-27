@@ -14,10 +14,10 @@ import javax.transaction.Transactional;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxProjectorServiceExistsAnyPlaybooksTest {
+public class AwxServiceExistsAnyPlaybooksTest {
 
     @Autowired
-    private IAwxProjectorService service;
+    private AwxService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

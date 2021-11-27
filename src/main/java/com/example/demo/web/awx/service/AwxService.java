@@ -5,7 +5,7 @@ import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksResponse;
 import com.example.demo.web.awx.service.model.FetchProjectByAwxIdQuery;
 import com.example.demo.web.awx.service.model.FetchProjectByAwxIdResponse;
 
-public interface IAwxProjectorService {
+public interface AwxService {
 
     ExistsAnyPlaybooksResponse existsAnyPlaybooks(ExistsAnyPlaybooksQuery query);
 
