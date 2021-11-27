@@ -1,4 +1,4 @@
-package com.example.demo.web.password.reset.projection;
+package com.example.demo.web.password;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ResetPasswordProjectorGetSuccessTest {
+public class ResetPasswordControllerGetSuccessTest {
 
     @Autowired
     private MockMvc mockMvc;

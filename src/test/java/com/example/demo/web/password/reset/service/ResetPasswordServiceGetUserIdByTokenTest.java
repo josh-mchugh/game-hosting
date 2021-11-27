@@ -1,11 +1,11 @@
-package com.example.demo.web.password.reset.command.service;
+package com.example.demo.web.password.reset.service;
 
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
 import com.example.demo.user.entity.model.User;
 import com.example.demo.user.entity.service.IUserService;
-import com.example.demo.web.password.reset.command.service.model.FetchUserIdByRecoveryTokenQuery;
-import com.example.demo.web.password.reset.command.service.model.FetchUserIdByRecoveryTokenResponse;
+import com.example.demo.web.password.reset.service.model.FetchUserIdByRecoveryTokenQuery;
+import com.example.demo.web.password.reset.service.model.FetchUserIdByRecoveryTokenResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import java.lang.reflect.UndeclaredThrowableException;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class ResetPasswordCommandServiceGetUserIdByTokenTest {
+public class ResetPasswordServiceGetUserIdByTokenTest {
 
     @Autowired
     private IUserService userService;
 
     @Autowired
-    private IResetPasswordCommandService service;
+    private IResetPasswordService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
