@@ -1,8 +1,8 @@
-package com.example.demo.web.password.reset.projection;
+package com.example.demo.web.password;
 
 import com.example.demo.web.password.reset.form.ResetPasswordForm;
-import com.example.demo.web.password.reset.projection.service.model.ExistsByRecoveryTokenQuery;
-import com.example.demo.web.password.reset.projection.service.model.ExistsByRecoveryTokenResponse;
+import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenQuery;
+import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenResponse;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ResetPasswordProjectorGetResetPasswordTest {
+public class ResetPasswordControllerGetResetPasswordTest {
 
     @Autowired
     private MockMvc mockMvc;

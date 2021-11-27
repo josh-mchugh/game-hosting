@@ -1,8 +1,8 @@
-package com.example.demo.web.password.reset.command;
+package com.example.demo.web.password;
 
 import com.example.demo.user.aggregate.command.UserPasswordChangeCommand;
-import com.example.demo.web.password.reset.command.service.model.FetchUserIdByRecoveryTokenQuery;
-import com.example.demo.web.password.reset.command.service.model.FetchUserIdByRecoveryTokenResponse;
+import com.example.demo.web.password.reset.service.model.FetchUserIdByRecoveryTokenQuery;
+import com.example.demo.web.password.reset.service.model.FetchUserIdByRecoveryTokenResponse;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ResetPasswordCommandControllerResetPasswordTest {
+public class ResetPasswordControllerPostResetPasswordTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -1,4 +1,4 @@
-package com.example.demo.web.password.reset.projection.service.model;
+package com.example.demo.web.password.reset.service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
