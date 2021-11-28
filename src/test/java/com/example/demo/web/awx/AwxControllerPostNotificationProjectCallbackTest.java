@@ -1,7 +1,7 @@
 package com.example.demo.web.awx;
 
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
-import com.example.demo.awx.playbook.feign.IPlaybookFeignService;
+import com.example.demo.awx.playbook.feign.PlaybookFeignService;
 import com.example.demo.web.awx.service.AwxService;
 import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksQuery;
 import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksResponse;
@@ -41,7 +41,7 @@ public class AwxControllerPostNotificationProjectCallbackTest {
     private CommandGateway commandGateway;
 
     @MockBean
-    private IPlaybookFeignService playbookFeignService;
+    private PlaybookFeignService playbookFeignService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectOk() throws Exception {

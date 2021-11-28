@@ -21,7 +21,7 @@ import java.util.UUID;
 public class FlavorServiceCreatedTest {
 
     @Autowired
-    private IFlavorService flavorService;
+    private FlavorService flavorService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

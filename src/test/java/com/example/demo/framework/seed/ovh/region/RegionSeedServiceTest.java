@@ -3,7 +3,7 @@ package com.example.demo.framework.seed.ovh.region;
 import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionQuery;
 import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionResponse;
 import com.example.demo.ovh.region.entity.RegionStatus;
-import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.RegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -35,7 +35,7 @@ public class RegionSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    public IRegionFeignService regionFeignService;
+    public RegionFeignService regionFeignService;
 
     @MockBean
     private QueryGateway queryGateway;

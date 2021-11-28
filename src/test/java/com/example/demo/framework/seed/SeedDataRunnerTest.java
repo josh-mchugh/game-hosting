@@ -35,7 +35,7 @@ public class SeedDataRunnerTest {
 
         ApplicationContext applicationContext = Mockito.mock(ApplicationContext.class);
 
-        SeedDataRunner runner = new SeedDataRunner(config);
+        SeedDataRunnerImpl runner = new SeedDataRunnerImpl(config);
         runner.seedServices = ImmutableMap.of(GameSeedService.class.getCanonicalName(), new GameSeedService(queryGateway, commandGateway));
 
         runner.onContextRefreshedEvent(new ContextRefreshedEvent(applicationContext));

@@ -1,7 +1,7 @@
 package com.example.demo.email.entity.model;
 
 import com.example.demo.email.entity.EmailStatus;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -41,10 +41,10 @@ public class EmailTest {
     public void whenEmailHasTemplateThenReturnTemplate() {
 
         Email email = Email.builder()
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .build();
 
-        Assertions.assertEquals(EmailTemplate.WELCOME, email.getTemplate());
+        Assertions.assertEquals(EmailTemplateType.WELCOME, email.getTemplate());
     }
 
     @Test
@@ -160,7 +160,7 @@ public class EmailTest {
         return Email.builder()
                 .id(UUID.fromString("24af9f86-21a8-45e2-b72c-d2cb8ffbd7c9"))
                 .createdDate(LocalDateTime.of(2020, 11, 12, 12, 46))
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .status(EmailStatus.SENT)
                 .toAddress("toAddress")
                 .bodyContext(bodyContext)

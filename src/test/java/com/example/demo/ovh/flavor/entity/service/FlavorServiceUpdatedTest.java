@@ -19,7 +19,7 @@ import java.util.UUID;
 public class FlavorServiceUpdatedTest {
 
     @Autowired
-    private IFlavorService flavorService;
+    private FlavorService flavorService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

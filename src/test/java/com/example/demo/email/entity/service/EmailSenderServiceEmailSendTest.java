@@ -3,7 +3,7 @@ package com.example.demo.email.entity.service;
 import com.example.demo.email.aggregate.command.EmailFailCommand;
 import com.example.demo.email.aggregate.command.EmailSentCommand;
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
@@ -29,7 +29,7 @@ import java.util.UUID;
 public class EmailSenderServiceEmailSendTest {
 
     @Autowired
-    private IEmailSenderService emailSenderService;
+    private EmailSenderService emailSenderService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -55,7 +55,7 @@ public class EmailSenderServiceEmailSendTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("email-send@email-sender.com")
                 .build();
 
@@ -69,7 +69,7 @@ public class EmailSenderServiceEmailSendTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("email-send@email-sender.com")
                 .build();
 
@@ -83,7 +83,7 @@ public class EmailSenderServiceEmailSendTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("email-send@email-sender.com")
                 .build();
 
@@ -124,7 +124,7 @@ public class EmailSenderServiceEmailSendTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .build();
 
         emailSenderService.handleEmailSend(event);

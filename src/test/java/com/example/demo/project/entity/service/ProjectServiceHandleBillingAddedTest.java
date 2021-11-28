@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ProjectServiceHandleBillingAddedTest {
 
     @Autowired
-    private IProjectService service;
+    private ProjectService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

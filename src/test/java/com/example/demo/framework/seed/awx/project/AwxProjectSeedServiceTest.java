@@ -1,10 +1,10 @@
 package com.example.demo.framework.seed.awx.project;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.notification.feign.INotificationFeignService;
+import com.example.demo.awx.notification.feign.NotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
-import com.example.demo.awx.project.feign.IProjectFeignService;
+import com.example.demo.awx.project.feign.ProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
 import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectQuery;
 import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectResponse;
@@ -43,10 +43,10 @@ public class AwxProjectSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IProjectFeignService projectFeignService;
+    private ProjectFeignService projectFeignService;
 
     @MockBean
-    private INotificationFeignService notificationFeignService;
+    private NotificationFeignService notificationFeignService;
 
     @MockBean
     private QueryGateway queryGateway;

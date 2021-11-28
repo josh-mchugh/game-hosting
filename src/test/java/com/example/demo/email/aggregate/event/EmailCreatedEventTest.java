@@ -1,6 +1,6 @@
 package com.example.demo.email.aggregate.event;
 
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +29,10 @@ public class EmailCreatedEventTest {
     public void whenEventHasTemplateThenReturnTemplate() {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .build();
 
-        Assertions.assertEquals(EmailTemplate.WELCOME, event.getTemplate());
+        Assertions.assertEquals(EmailTemplateType.WELCOME, event.getTemplate());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class EmailCreatedEventTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.fromString("265faca8-3a36-4bf3-af37-182be79b92b8"))
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .bodyContext("test1", "test1")
                 .bodyContext("test2", "test2")

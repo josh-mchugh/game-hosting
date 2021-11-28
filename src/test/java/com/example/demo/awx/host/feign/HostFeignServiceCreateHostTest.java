@@ -9,12 +9,12 @@ import org.mockito.Mockito;
 
 public class HostFeignServiceCreateHostTest {
 
-    private IHostClient hostClient;
+    private HostClient hostClient;
 
     @BeforeEach
     public void setup() {
 
-        hostClient = Mockito.mock(IHostClient.class);
+        hostClient = Mockito.mock(HostClient.class);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class HostFeignServiceCreateHostTest {
 
         Mockito.when(hostClient.createHost(Mockito.any())).thenReturn(hostApi);
 
-        HostFeignService hostFeignService = new HostFeignService(hostClient);
+        HostFeignServiceImpl hostFeignService = new HostFeignServiceImpl(hostClient);
 
         Assertions.assertEquals(hostApi, hostFeignService.createHost( null));
     }
@@ -36,7 +36,7 @@ public class HostFeignServiceCreateHostTest {
 
         Mockito.when(hostClient.createHost(Mockito.any())).thenReturn(hostApi);
 
-        HostFeignService hostFeignService = new HostFeignService(hostClient);
+        HostFeignServiceImpl hostFeignService = new HostFeignServiceImpl(hostClient);
 
         Assertions.assertEquals(hostApi, hostFeignService.createHost(HostCreateApi.builder().build()));
     }

@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class UserDetailsProjectorServiceExistsByEmailTest {
 
     @Autowired
-    private IUserDetailsProjectorService service;
+    private UserDetailsProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

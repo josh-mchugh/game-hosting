@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.awx.inventory;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.inventory.feign.IInventoryFeignService;
+import com.example.demo.awx.inventory.feign.InventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryQuery;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryResponse;
@@ -37,7 +37,7 @@ public class AwxInventorySeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IInventoryFeignService inventoryFeignService;
+    private InventoryFeignService inventoryFeignService;
 
     @MockBean
     private QueryGateway queryGateway;

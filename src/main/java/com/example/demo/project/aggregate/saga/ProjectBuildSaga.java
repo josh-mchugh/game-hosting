@@ -9,8 +9,8 @@ import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
 import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
-import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
+import com.example.demo.ovh.instance.feign.InstanceFeignService;
+import com.example.demo.ovh.instance.feign.InstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.InstanceCreateApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
@@ -45,10 +45,10 @@ import java.util.concurrent.TimeUnit;
 public class ProjectBuildSaga {
 
     @Autowired
-    private transient IInstanceGroupFeignService instanceGroupFeignService;
+    private transient InstanceGroupFeignService instanceGroupFeignService;
 
     @Autowired
-    private transient IInstanceFeignService instanceFeignService;
+    private transient InstanceFeignService instanceFeignService;
 
     @Autowired
     private transient CommandGateway commandGateway;

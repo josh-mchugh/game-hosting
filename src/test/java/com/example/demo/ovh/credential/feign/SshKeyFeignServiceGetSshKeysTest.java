@@ -13,7 +13,7 @@ import java.util.List;
 public class SshKeyFeignServiceGetSshKeysTest {
 
     private OvhConfig ovhConfig;
-    private ISshKeyClient sshKeyClient;
+    private SshKeyClient sshKeyClient;
 
     @BeforeEach
     public void setup() {
@@ -21,7 +21,7 @@ public class SshKeyFeignServiceGetSshKeysTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        sshKeyClient = Mockito.mock(ISshKeyClient.class);
+        sshKeyClient = Mockito.mock(SshKeyClient.class);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class SshKeyFeignServiceGetSshKeysTest {
 
         Mockito.when(sshKeyClient.getSshKeys(Mockito.anyString())).thenReturn(expected);
 
-        SshKeyFeignService service = new SshKeyFeignService(ovhConfig, sshKeyClient);
+        SshKeyFeignServiceImpl service = new SshKeyFeignServiceImpl(ovhConfig, sshKeyClient);
 
         Assertions.assertEquals(expected, service.getSshKeys());
     }

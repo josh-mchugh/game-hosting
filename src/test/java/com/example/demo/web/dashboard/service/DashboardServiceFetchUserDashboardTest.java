@@ -3,7 +3,7 @@ package com.example.demo.web.dashboard.service;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.event.UserVerifiedEvent;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.entity.service.UserService;
 import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsQuery;
 import com.example.demo.web.dashboard.service.model.FetchDashboardDetailsResponse;
 import org.apache.commons.collections4.CollectionUtils;
@@ -26,7 +26,7 @@ public class DashboardServiceFetchUserDashboardTest {
     private DashboardService service;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

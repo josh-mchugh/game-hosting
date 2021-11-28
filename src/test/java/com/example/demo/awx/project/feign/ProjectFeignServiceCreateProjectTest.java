@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 public class ProjectFeignServiceCreateProjectTest {
 
     private AwxConfig awxConfig;
-    private IProjectClient projectClient;
+    private ProjectClient projectClient;
 
     @BeforeEach
     public void setup() {
@@ -22,7 +22,7 @@ public class ProjectFeignServiceCreateProjectTest {
         awxConfig = new AwxConfig();
         awxConfig.setOrganization(organization);
 
-        projectClient = Mockito.mock(IProjectClient.class);
+        projectClient = Mockito.mock(ProjectClient.class);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ProjectFeignServiceCreateProjectTest {
 
         Mockito.when(projectClient.createProject(Mockito.anyLong(), Mockito.any())).thenReturn(expected);
 
-        ProjectFeignService projectFeignService = new ProjectFeignService(awxConfig, projectClient);
+        ProjectFeignServiceImpl projectFeignService = new ProjectFeignServiceImpl(awxConfig, projectClient);
 
         ProjectApi response = projectFeignService.createProject(ProjectCreateApi.builder().build());
 

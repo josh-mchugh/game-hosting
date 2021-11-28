@@ -22,7 +22,7 @@ import java.util.UUID;
 public class AwxCredentialServiceCreatedTest {
 
     @Autowired
-    private IAwxCredentialService awxCredentialService;
+    private AwxCredentialService awxCredentialService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

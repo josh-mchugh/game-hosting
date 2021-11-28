@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class RegionSchedulerProjectionServiceFetchRegionByNameTest {
 
     @Autowired
-    private IRegionSchedulerProjectionService service;
+    private RegionSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

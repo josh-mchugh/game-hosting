@@ -13,7 +13,7 @@ import java.util.List;
 public class ImageFeignServiceGetImagesTest {
 
     private OvhConfig ovhConfig;
-    private IImageClient imageClient;
+    private ImageClient imageClient;
 
     @BeforeEach
     public void setup() {
@@ -21,7 +21,7 @@ public class ImageFeignServiceGetImagesTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        imageClient = Mockito.mock(IImageClient.class);
+        imageClient = Mockito.mock(ImageClient.class);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ImageFeignServiceGetImagesTest {
 
         Mockito.when(imageClient.getImages(Mockito.anyString())).thenReturn(expected);
 
-        ImageFeignService service = new ImageFeignService(ovhConfig, imageClient);
+        ImageFeignServiceImpl service = new ImageFeignServiceImpl(ovhConfig, imageClient);
 
         Assertions.assertEquals(expected, service.getImages());
     }

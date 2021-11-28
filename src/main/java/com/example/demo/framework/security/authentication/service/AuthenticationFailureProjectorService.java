@@ -4,45 +4,10 @@ import com.example.demo.framework.security.authentication.service.model.ExistsUs
 import com.example.demo.framework.security.authentication.service.model.ExistsUserByEmailResponse;
 import com.example.demo.framework.security.authentication.service.model.FetchAuthFailureByEmailQuery;
 import com.example.demo.framework.security.authentication.service.model.FetchAuthFailureByEmailResponse;
-import com.example.demo.user.entity.QUserEntity;
-import com.querydsl.jpa.JPQLQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+public interface AuthenticationFailureProjectorService {
 
-@Component
-@RequiredArgsConstructor
-public class AuthenticationFailureProjectorService implements IAuthenticationFailureProjectorService {
+    ExistsUserByEmailResponse existsByEmail(ExistsUserByEmailQuery query);
 
-    private final JPQLQueryFactory queryFactory;
-
-    @Override
-    @QueryHandler
-    public ExistsUserByEmailResponse existsByEmail(ExistsUserByEmailQuery query) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        long count = queryFactory.select(qUser.id)
-                .from(qUser)
-                .where(qUser.email.eq(query.getEmail()))
-                .fetchCount();
-
-        return new ExistsUserByEmailResponse(count >= 1);
-    }
-
-    @Override
-    @QueryHandler
-    public FetchAuthFailureByEmailResponse fetchAuthFailureByEmail(FetchAuthFailureByEmailQuery query) {
-
-        QUserEntity qUser = QUserEntity.userEntity;
-
-        String id = queryFactory.select(qUser.id)
-                .from(qUser)
-                .where(qUser.email.eq(query.getEmail()))
-                .fetchOne();
-
-        return new FetchAuthFailureByEmailResponse(id != null ? UUID.fromString(id) : null);
-    }
+    FetchAuthFailureByEmailResponse fetchAuthFailureByEmail(FetchAuthFailureByEmailQuery query);
 }

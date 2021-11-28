@@ -1,6 +1,6 @@
 package com.example.demo.ovh.instance.scheduler.service;
 
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
@@ -20,10 +20,10 @@ import java.util.Arrays;
 public class InstanceSchedulerServiceGetInstanceApisTest {
 
     @Autowired
-    private IInstanceSchedulerService instanceSchedulerService;
+    private InstanceSchedulerService instanceSchedulerService;
 
     @MockBean
-    private IInstanceFeignService instanceFeignService;
+    private InstanceFeignService instanceFeignService;
 
     @Test
     public void whenServiceIsValidThenReturnList() {

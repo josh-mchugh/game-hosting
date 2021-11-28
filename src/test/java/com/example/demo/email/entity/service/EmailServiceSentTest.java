@@ -3,7 +3,7 @@ package com.example.demo.email.entity.service;
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
 import com.example.demo.email.aggregate.event.EmailSentEvent;
 import com.example.demo.email.entity.EmailStatus;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.example.demo.email.entity.model.Email;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public class EmailServiceSentTest {
 
     @Autowired
-    private IEmailService emailService;
+    private EmailService emailService;
 
     private Email email;
 
@@ -31,7 +31,7 @@ public class EmailServiceSentTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 

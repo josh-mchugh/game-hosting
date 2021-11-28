@@ -20,7 +20,7 @@ import java.util.UUID;
 public class UserServiceRecoveryTokenDeletedTest {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Test
     public void whenRecoveryTokenDeletedHasNullParamThenThrowException() {

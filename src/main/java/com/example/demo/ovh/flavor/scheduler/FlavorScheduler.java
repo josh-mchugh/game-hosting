@@ -1,7 +1,7 @@
 package com.example.demo.ovh.flavor.scheduler;
 
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
-import com.example.demo.ovh.flavor.scheduler.service.IFlavorSchedulerService;
+import com.example.demo.ovh.flavor.scheduler.service.FlavorSchedulerService;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class FlavorScheduler {
 
-    private final IFlavorSchedulerService flavorSchedulerService;
+    private final FlavorSchedulerService flavorSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.flavor-scheduler-delay}", initialDelayString = "${ovh.flavor-scheduler-initial-delay}")
     public void scheduledFlavorUpdater() throws ExecutionException, InterruptedException {

@@ -14,7 +14,7 @@ import java.util.List;
 public class AwxCredentialFeignServiceGetCredentialsTest {
 
     private AwxConfig awxConfig;
-    private IAwxCredentialClient awxCredentialClient;
+    private AwxCredentialClient awxCredentialClient;
 
     @BeforeEach
     public void setup() {
@@ -25,7 +25,7 @@ public class AwxCredentialFeignServiceGetCredentialsTest {
         awxConfig = new AwxConfig();
         awxConfig.setOrganization(organization);
 
-        awxCredentialClient = Mockito.mock(IAwxCredentialClient.class);
+        awxCredentialClient = Mockito.mock(AwxCredentialClient.class);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class AwxCredentialFeignServiceGetCredentialsTest {
 
         Mockito.when(awxCredentialClient.getCredentials(Mockito.anyLong())).thenReturn(mockResponse);
 
-        AwxCredentialFeignService awxCredentialFeignService = new AwxCredentialFeignService(awxConfig, awxCredentialClient);
+        AwxCredentialFeignServiceImpl awxCredentialFeignService = new AwxCredentialFeignServiceImpl(awxConfig, awxCredentialClient);
 
         ListResponse<AwxCredentialApi> response = awxCredentialFeignService.getCredentials();
 

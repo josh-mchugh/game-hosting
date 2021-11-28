@@ -9,12 +9,12 @@ import org.mockito.Mockito;
 
 public class NotificationFeignServiceCreateSuccessForProjectTest {
 
-    private INotificationClient notificationClient;
+    private NotificationClient notificationClient;
 
     @BeforeEach
     public void setup() {
 
-        notificationClient = Mockito.mock(INotificationClient.class);
+        notificationClient = Mockito.mock(NotificationClient.class);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class NotificationFeignServiceCreateSuccessForProjectTest {
 
         Mockito.when(notificationClient.createSuccessNotificationForProject(Mockito.anyLong(), Mockito.any())).thenReturn(expected);
 
-        NotificationFeignService notificationFeignService = new NotificationFeignService(notificationClient);
+        NotificationFeignServiceImpl notificationFeignService = new NotificationFeignServiceImpl(notificationClient);
 
         NotificationApi response = notificationFeignService.createSuccessNotificationForProject(1L, NotificationCreateApi.builder().build());
 

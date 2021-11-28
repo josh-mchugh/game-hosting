@@ -12,12 +12,12 @@ import java.util.List;
 
 public class OrganizationFeignServiceTest {
 
-    private IOrganizationClient organizationClient;
+    private OrganizationClient organizationClient;
 
     @BeforeEach
     public void setup() {
 
-        organizationClient = Mockito.mock(IOrganizationClient.class);
+        organizationClient = Mockito.mock(OrganizationClient.class);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class OrganizationFeignServiceTest {
 
         Mockito.when(organizationClient.getOrganizations()).thenReturn(listResponse);
 
-        OrganizationFeignService feignService = new OrganizationFeignService(organizationClient);
+        OrganizationFeignServiceImpl feignService = new OrganizationFeignServiceImpl(organizationClient);
 
         Assertions.assertEquals(expectedApis, feignService.getOrganizations().getResults());
     }

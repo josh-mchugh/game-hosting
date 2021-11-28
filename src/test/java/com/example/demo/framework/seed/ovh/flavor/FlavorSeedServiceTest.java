@@ -4,7 +4,7 @@ import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlav
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorResponse;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameQuery;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameResponse;
-import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
+import com.example.demo.ovh.flavor.feign.FlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -37,7 +37,7 @@ public class FlavorSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    public IFlavorFeignService flavorFeignService;
+    public FlavorFeignService flavorFeignService;
 
     @MockBean
     public QueryGateway queryGateway;

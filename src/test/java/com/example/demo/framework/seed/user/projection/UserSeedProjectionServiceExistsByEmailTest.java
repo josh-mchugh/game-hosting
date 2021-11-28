@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class UserSeedProjectionServiceExistsByEmailTest {
 
     @Autowired
-    private IUserSeedProjectionService service;
+    private UserSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

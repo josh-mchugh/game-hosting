@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ProjectServiceHandleRegionAddedTest {
 
     @Autowired
-    private IProjectService service;
+    private ProjectService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

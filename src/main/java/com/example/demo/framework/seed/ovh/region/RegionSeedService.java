@@ -1,10 +1,10 @@
 package com.example.demo.framework.seed.ovh.region;
 
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionQuery;
 import com.example.demo.framework.seed.ovh.region.projection.model.ExistsAnyRegionResponse;
 import com.example.demo.ovh.region.aggregate.command.RegionCreateCommand;
-import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.RegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -20,9 +20,9 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class RegionSeedService implements ISeedService<Object> {
+public class RegionSeedService implements SeedService<Object> {
 
-    private final IRegionFeignService regionFeignService;
+    private final RegionFeignService regionFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 

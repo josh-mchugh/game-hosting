@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 public class FlavorSchedulerProjectionServiceFetchRegionIdsGroupedByNameTest {
 
     @Autowired
-    private IFlavorSchedulerProjectionService service;
+    private FlavorSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

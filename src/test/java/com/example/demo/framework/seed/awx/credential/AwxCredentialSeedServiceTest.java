@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.awx.credential;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
-import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
+import com.example.demo.awx.credential.feign.AwxCredentialFeignService;
 import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
@@ -42,7 +42,7 @@ public class AwxCredentialSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IAwxCredentialFeignService credentialClient;
+    private AwxCredentialFeignService credentialClient;
 
     @Test
     public void whenAwxCredentialsExistsThenDataNotExistsReturnFalse() throws ExecutionException, InterruptedException {

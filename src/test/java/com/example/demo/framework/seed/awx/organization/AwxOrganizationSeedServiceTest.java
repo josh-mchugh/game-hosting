@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.awx.organization;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.organization.feign.IOrganizationFeignService;
+import com.example.demo.awx.organization.feign.OrganizationFeignService;
 import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationQuery;
 import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationResponse;
@@ -33,7 +33,7 @@ public class AwxOrganizationSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IOrganizationFeignService organizationFeignService;
+    private OrganizationFeignService organizationFeignService;
 
     @MockBean
     private QueryGateway queryGateway;

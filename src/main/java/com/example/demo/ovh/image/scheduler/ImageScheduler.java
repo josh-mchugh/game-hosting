@@ -1,7 +1,7 @@
 package com.example.demo.ovh.image.scheduler;
 
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.image.scheduler.service.IImageSchedulerService;
+import com.example.demo.ovh.image.scheduler.service.ImageSchedulerService;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class ImageScheduler {
 
-    private final IImageSchedulerService imageSchedulerService;
+    private final ImageSchedulerService imageSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.image-scheduler-delay}", initialDelayString = "${ovh.image-scheduler-initial-delay}")
     public void scheduledImageUpdater() throws ExecutionException, InterruptedException {

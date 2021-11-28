@@ -20,7 +20,7 @@ import java.util.UUID;
 public class UserServicePasswordChangedTest {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Test
     public void whenPasswordChangedHasNullParamThenThrowException() {

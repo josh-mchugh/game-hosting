@@ -3,7 +3,7 @@ package com.example.demo.web.password.reset.service;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.entity.service.UserService;
 import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenQuery;
 import com.example.demo.web.password.reset.service.model.ExistsByRecoveryTokenResponse;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +21,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class ResetPasswordServiceExistsByTokenTest {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
     private ResetPasswordService service;

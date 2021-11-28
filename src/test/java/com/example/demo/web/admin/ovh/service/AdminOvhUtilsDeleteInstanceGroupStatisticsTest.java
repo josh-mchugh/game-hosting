@@ -1,6 +1,6 @@
 package com.example.demo.web.admin.ovh.service;
 
-import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
+import com.example.demo.ovh.instance.feign.InstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
     @Test
     public void whenOneInstanceGroupExistsAndDoesNotHaveInstanceIdsThenReturnZero() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups())
                 .thenReturn(Collections.singletonList(new InstanceGroupApi()))
@@ -30,7 +30,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
     @Test
     public void whenOneInstanceGroupExistsAndDoesNotHaveInstanceIdsThenExpectDeleteCalled() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(Collections.singletonList(new InstanceGroupApi()));
         Mockito.doNothing().when(instanceGroupFeignService).deleteInstanceGroupById(Mockito.anyString());
@@ -45,7 +45,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
     @Test
     public void whenInstanceGroupsDoNotExistsThenExpectZeroTotal() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(new ArrayList<>());
 
@@ -57,7 +57,7 @@ public class AdminOvhUtilsDeleteInstanceGroupStatisticsTest {
     @Test
     public void whenInstanceGroupsExistAndDoHaveInstanceIdsThenReturnZero() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         InstanceGroupApi instanceGroupApi = new InstanceGroupApi();
         instanceGroupApi.setInstanceIds(Collections.singletonList("id"));

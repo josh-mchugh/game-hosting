@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ProjectBuildSagaServiceFetchProjectRegionNameByIdTest {
 
     @Autowired
-    private IProjectBuildProjectionService service;
+    private ProjectBuildProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

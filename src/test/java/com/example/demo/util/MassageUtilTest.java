@@ -11,12 +11,12 @@ import org.springframework.test.context.ActiveProfiles;
 public class MassageUtilTest {
 
     @Autowired
-    private IMessageUtil messageUtil;
+    private MessageService messageService;
 
     @Test
     public void whenMessageWithKeyReturnMessage() {
 
-        Assertions.assertEquals("Logout", messageUtil.getMessage("message.logout"));
+        Assertions.assertEquals("Logout", messageService.getMessage("message.logout"));
     }
 
     @Test
@@ -24,6 +24,6 @@ public class MassageUtilTest {
 
         String expected = "Your password reset is complete for test@test. You may sign in into your account with your new password.";
 
-        Assertions.assertEquals(expected, messageUtil.getMessage("email.password.reset.body.content", "test@test"));
+        Assertions.assertEquals(expected, messageService.getMessage("email.password.reset.body.content", "test@test"));
     }
 }

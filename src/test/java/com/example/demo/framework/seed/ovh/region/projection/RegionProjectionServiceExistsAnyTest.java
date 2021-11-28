@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class RegionProjectionServiceExistsAnyTest {
 
     @Autowired
-    private IRegionSeedProjectionService service;
+    private RegionSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

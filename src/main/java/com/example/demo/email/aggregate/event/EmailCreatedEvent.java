@@ -1,6 +1,6 @@
 package com.example.demo.email.aggregate.event;
 
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class EmailCreatedEvent {
 
     UUID id;
-    EmailTemplate template;
+    EmailTemplateType template;
     String toAddress;
 
     @Singular("bodyContext")

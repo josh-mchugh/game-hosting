@@ -1,7 +1,7 @@
 package com.example.demo.framework.config;
 
-import com.example.demo.email.entity.EmailTemplate;
-import com.example.demo.email.templates.IEmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
+import com.example.demo.email.templates.EmailTemplate;
 import com.example.demo.framework.properties.AppConfig;
 import com.example.demo.util.AppUrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class BeanUtilConfig {
     private final AppConfig appConfig;
 
     @Autowired(required = false)
-    private Map<String, IEmailTemplate> templates;
+    private Map<String, EmailTemplate> templates;
 
     public BeanUtilConfig(AppConfig appConfig) {
 
@@ -34,16 +34,16 @@ public class BeanUtilConfig {
     }
 
     @Bean
-    public Map<EmailTemplate, IEmailTemplate> emailTemplates() {
+    public Map<EmailTemplateType, EmailTemplate> emailTemplates() {
 
         return templates.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> entry.getValue().template(),
+                        entry -> entry.getValue().type(),
                         Map.Entry::getValue,
                         (l, r) -> {
                             throw new IllegalArgumentException(String.format("Duplicate keys %s and %s", l, r));
                         },
-                        () -> new EnumMap<>(EmailTemplate.class)
+                        () -> new EnumMap<>(EmailTemplateType.class)
                     ));
 
     }

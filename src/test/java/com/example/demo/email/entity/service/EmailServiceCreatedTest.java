@@ -2,7 +2,7 @@ package com.example.demo.email.entity.service;
 
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
 import com.example.demo.email.entity.EmailStatus;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.example.demo.email.entity.model.Email;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,14 +24,14 @@ import java.util.UUID;
 public class EmailServiceCreatedTest {
 
     @Autowired
-    private IEmailService emailService;
+    private EmailService emailService;
 
     @Test
     public void whenCreatedIsValidThenReturnNotNull() {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -53,7 +53,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(id)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -67,7 +67,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(null)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -79,13 +79,13 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
         Email email = emailService.handleCreated(event);
 
-        Assertions.assertEquals(EmailTemplate.WELCOME, email.getTemplate());
+        Assertions.assertEquals(EmailTemplateType.WELCOME, email.getTemplate());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -119,7 +119,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -133,7 +133,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress(null)
                 .build();
 
@@ -145,7 +145,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .bodyContext("test", "test")
                 .build();
@@ -163,7 +163,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -177,7 +177,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .subjectContext(Arrays.asList("test1", "test2"))
                 .build();
@@ -192,7 +192,7 @@ public class EmailServiceCreatedTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 

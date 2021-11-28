@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 public class InventoryFeignServiceCreateInventoryTest {
 
     private AwxConfig awxConfig;
-    private IInventoryClient inventoryClient;
+    private InventoryClient inventoryClient;
 
     @BeforeEach
     public void setup() {
@@ -22,7 +22,7 @@ public class InventoryFeignServiceCreateInventoryTest {
         awxConfig = new AwxConfig();
         awxConfig.setOrganization(organization);
 
-        inventoryClient = Mockito.mock(IInventoryClient.class);
+        inventoryClient = Mockito.mock(InventoryClient.class);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class InventoryFeignServiceCreateInventoryTest {
 
         Mockito.when(inventoryClient.createInventory(Mockito.any())).thenReturn(expectedResponse);
 
-        InventoryFeignService inventoryFeignService = new InventoryFeignService(awxConfig, inventoryClient);
+        InventoryFeignServiceImpl inventoryFeignService = new InventoryFeignServiceImpl(awxConfig, inventoryClient);
 
        InventoryApi response = inventoryFeignService.createInventory(InventoryCreateApi.builder().build());
 

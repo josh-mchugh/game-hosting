@@ -22,7 +22,7 @@ import java.util.UUID;
 public class InstanceServiceUpdatedTest {
 
     @Autowired
-    private IInstanceService instanceService;
+    private InstanceService instanceService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

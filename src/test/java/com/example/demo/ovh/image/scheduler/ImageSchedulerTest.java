@@ -1,7 +1,7 @@
 package com.example.demo.ovh.image.scheduler;
 
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.image.scheduler.service.IImageSchedulerService;
+import com.example.demo.ovh.image.scheduler.service.ImageSchedulerService;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +15,7 @@ public class ImageSchedulerTest {
     @Test
     public void whenImageSchedulerHasNoApiResponseThrowNoExceptions() throws ExecutionException, InterruptedException {
 
-        IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
+        ImageSchedulerService imageSchedulerService = Mockito.mock(ImageSchedulerService.class);
         ProcessedImagesResponse response = ProcessedImagesResponse.builder().build();
 
         Mockito.when(imageSchedulerService.getImageResponses()).thenReturn(ImmutableList.of());
@@ -29,7 +29,7 @@ public class ImageSchedulerTest {
     @Test
     public void whenImageSchedulerHasApiResponseThenThrowNoExceptions() throws ExecutionException, InterruptedException {
 
-        IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
+        ImageSchedulerService imageSchedulerService = Mockito.mock(ImageSchedulerService.class);
         ProcessedImagesResponse response = ProcessedImagesResponse.builder()
                 .createdImage("id")
                 .updatedImage("id")
@@ -46,7 +46,7 @@ public class ImageSchedulerTest {
     @Test
     public void whenImageSchedulerHasNullApiThenThrowNoExceptions() throws ExecutionException, InterruptedException {
 
-        IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
+        ImageSchedulerService imageSchedulerService = Mockito.mock(ImageSchedulerService.class);
         ProcessedImagesResponse response = ProcessedImagesResponse.builder().build();
 
         Mockito.when(imageSchedulerService.getImageResponses()).thenReturn(null);
@@ -60,7 +60,7 @@ public class ImageSchedulerTest {
     @Test
     public void whenImageSchedulerHasNullResponseThenThrowException() throws ExecutionException, InterruptedException {
 
-        IImageSchedulerService imageSchedulerService = Mockito.mock(IImageSchedulerService.class);
+        ImageSchedulerService imageSchedulerService = Mockito.mock(ImageSchedulerService.class);
 
         Mockito.when(imageSchedulerService.getImageResponses()).thenReturn(ImmutableList.of(new ImageApi()));
         Mockito.when(imageSchedulerService.processScheduledImages(Mockito.any())).thenReturn(null);

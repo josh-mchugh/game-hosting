@@ -2,7 +2,7 @@ package com.example.demo.email.entity.mapper;
 
 import com.example.demo.email.entity.EmailEntity;
 import com.example.demo.email.entity.EmailStatus;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.example.demo.email.entity.model.Email;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -57,11 +57,11 @@ public class EmailMapperTest {
     public void whenEntityHasTemplateThenReturnTemplate() {
 
         EmailEntity entity = new EmailEntity();;
-        entity.setTemplate(EmailTemplate.WELCOME);
+        entity.setTemplate(EmailTemplateType.WELCOME);
 
         Email email = EmailMapper.map(entity);
 
-        Assertions.assertEquals(EmailTemplate.WELCOME, email.getTemplate());
+        Assertions.assertEquals(EmailTemplateType.WELCOME, email.getTemplate());
     }
 
     @Test

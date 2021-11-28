@@ -1,14 +1,14 @@
 package com.example.demo.email.templates.model;
 
-import com.example.demo.email.entity.EmailTemplate;
-import com.example.demo.email.templates.IEmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
+import com.example.demo.email.templates.EmailTemplate;
 import com.example.demo.framework.properties.AppConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserVerificationTemplate implements IEmailTemplate {
+public class UserVerificationTemplate implements EmailTemplate {
 
     private final AppConfig appConfig;
 
@@ -31,8 +31,8 @@ public class UserVerificationTemplate implements IEmailTemplate {
     }
 
     @Override
-    public EmailTemplate template() {
+    public EmailTemplateType type() {
 
-        return EmailTemplate.USER_VERIFICATION;
+        return EmailTemplateType.USER_VERIFICATION;
     }
 }

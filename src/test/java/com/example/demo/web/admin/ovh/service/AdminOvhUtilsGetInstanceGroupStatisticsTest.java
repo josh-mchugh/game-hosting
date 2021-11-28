@@ -1,6 +1,6 @@
 package com.example.demo.web.admin.ovh.service;
 
-import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
+import com.example.demo.ovh.instance.feign.InstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ public class AdminOvhUtilsGetInstanceGroupStatisticsTest {
     @Test
     public void whenInstanceGroupsExistsAndDoNotHaveInstanceIdsThenReturnTotal() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         InstanceGroupApi instanceGroupApi = new InstanceGroupApi();
 
@@ -28,7 +28,7 @@ public class AdminOvhUtilsGetInstanceGroupStatisticsTest {
     @Test
     public void whenInstanceGroupsDoNotExistsThenExpectZeroTotal() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         Mockito.when(instanceGroupFeignService.getInstanceGroups()).thenReturn(new ArrayList<>());
 
@@ -40,7 +40,7 @@ public class AdminOvhUtilsGetInstanceGroupStatisticsTest {
     @Test
     public void whenInstanceGroupsExistAndDoHaveInstanceIdsThenReturnZero() {
 
-        IInstanceGroupFeignService instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
+        InstanceGroupFeignService instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
 
         InstanceGroupApi instanceGroupApi = new InstanceGroupApi();
         instanceGroupApi.setInstanceIds(Collections.singletonList("id"));

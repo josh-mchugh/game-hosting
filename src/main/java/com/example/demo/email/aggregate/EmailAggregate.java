@@ -7,7 +7,7 @@ import com.example.demo.email.aggregate.event.EmailCreatedEvent;
 import com.example.demo.email.aggregate.event.EmailFailedEvent;
 import com.example.demo.email.aggregate.event.EmailSentEvent;
 import com.example.demo.email.entity.EmailStatus;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -26,7 +26,7 @@ public class EmailAggregate {
 
     @AggregateIdentifier
     private UUID id;
-    private EmailTemplate template;
+    private EmailTemplateType template;
     private EmailStatus status;
     private String toAddress;
     private Map<String, Object> bodyContext;

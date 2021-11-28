@@ -3,7 +3,7 @@ package com.example.demo.email.aggregate;
 import com.example.demo.email.aggregate.command.EmailCreateCommand;
 import com.example.demo.email.aggregate.command.EmailSentCommand;
 import com.example.demo.email.aggregate.event.EmailSentEvent;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import org.axonframework.messaging.interceptors.BeanValidationInterceptor;
 import org.axonframework.messaging.interceptors.JSR303ViolationException;
 import org.axonframework.test.aggregate.AggregateTestFixture;
@@ -78,7 +78,7 @@ public class EmailAggregateSentTest {
 
         return EmailCreateCommand.builder()
                 .id(id)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
     }

@@ -1,8 +1,8 @@
 package com.example.demo.email.template.service;
 
 import com.example.demo.email.aggregate.command.EmailCreateCommand;
+import com.example.demo.email.templates.service.EmailTemplateServiceImpl;
 import com.example.demo.email.templates.service.EmailTemplateService;
-import com.example.demo.email.templates.service.IEmailTemplateService;
 import com.example.demo.user.aggregate.event.UserVerificationEmailEvent;
 import com.example.demo.util.AppUrlUtil;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -26,7 +26,7 @@ public class EmailTemplateUserVerificationTest {
     @Test
     public void whenParamIsNullThenExpectException() {
 
-        IEmailTemplateService service = new EmailTemplateService(appUrlUtil, commandGateway);
+        EmailTemplateService service = new EmailTemplateServiceImpl(appUrlUtil, commandGateway);
 
         Assertions.assertThrows(NullPointerException.class, () -> service.handleUserVerificationEmail(null));
     }
@@ -34,7 +34,7 @@ public class EmailTemplateUserVerificationTest {
     @Test
     public void whenUserVerificationEmailThenExpectCommandSent() {
 
-        IEmailTemplateService service = new EmailTemplateService(appUrlUtil, commandGateway);
+        EmailTemplateService service = new EmailTemplateServiceImpl(appUrlUtil, commandGateway);
 
         UserVerificationEmailEvent event = UserVerificationEmailEvent.builder()
                 .email("test@test")

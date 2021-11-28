@@ -13,7 +13,7 @@ import java.util.List;
 public class InstanceFeignServiceGetInstancesTest {
 
     private OvhConfig ovhConfig;
-    private IInstanceClient instanceClient;
+    private InstanceClient instanceClient;
 
     @BeforeEach
     public void setup() {
@@ -21,7 +21,7 @@ public class InstanceFeignServiceGetInstancesTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        instanceClient = Mockito.mock(IInstanceClient.class);
+        instanceClient = Mockito.mock(InstanceClient.class);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class InstanceFeignServiceGetInstancesTest {
         List<InstanceApi> mockResults = Arrays.asList(new InstanceApi(), new InstanceApi());
         Mockito.when(instanceClient.getInstances(Mockito.anyString())).thenReturn(mockResults);
 
-        InstanceFeignService service = new InstanceFeignService(ovhConfig, instanceClient);
+        InstanceFeignServiceImpl service = new InstanceFeignServiceImpl(ovhConfig, instanceClient);
 
         Assertions.assertEquals(Arrays.asList(new InstanceApi(), new InstanceApi()), service.getInstances());
     }

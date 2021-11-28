@@ -75,9 +75,9 @@ public class EmailEntityTest {
     public void whenEntityHasTemplateThenReturnTemplate() {
 
         EmailEntity entity = new EmailEntity();
-        entity.setTemplate(EmailTemplate.WELCOME);
+        entity.setTemplate(EmailTemplateType.WELCOME);
 
-        Assertions.assertEquals(EmailTemplate.WELCOME, entity.getTemplate());
+        Assertions.assertEquals(EmailTemplateType.WELCOME, entity.getTemplate());
     }
 
     @Test

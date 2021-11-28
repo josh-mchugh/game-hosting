@@ -2,7 +2,7 @@ package com.example.demo.email.aggregate;
 
 import com.example.demo.email.aggregate.command.EmailCreateCommand;
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import org.axonframework.messaging.interceptors.BeanValidationInterceptor;
 import org.axonframework.messaging.interceptors.JSR303ViolationException;
 import org.axonframework.test.aggregate.AggregateTestFixture;
@@ -30,7 +30,7 @@ public class EmailAggregateCreateTest {
 
         EmailCreateCommand command = EmailCreateCommand.builder()
                 .id(id)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .bodyContext("body", "context")
                 .subjectContext("test")
@@ -38,7 +38,7 @@ public class EmailAggregateCreateTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(id)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .bodyContext("body", "context")
                 .subjectContext("test")
@@ -57,13 +57,13 @@ public class EmailAggregateCreateTest {
 
         EmailCreateCommand command = EmailCreateCommand.builder()
                 .id(id)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(id)
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .build();
 
@@ -103,7 +103,7 @@ public class EmailAggregateCreateTest {
 
         EmailCreateCommand command = EmailCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress(null)
                 .build();
 
@@ -117,7 +117,7 @@ public class EmailAggregateCreateTest {
 
         EmailCreateCommand command = EmailCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("")
                 .build();
 

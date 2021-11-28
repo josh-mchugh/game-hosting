@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class AwxInventorySeedProjectionServiceExistsAnyTest {
 
     @Autowired
-    private IAwxInventorySeedProjectionService service;
+    private AwxInventorySeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

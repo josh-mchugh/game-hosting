@@ -22,7 +22,7 @@ import java.util.UUID;
 public class UserServiceRecoveryTokenCreatedTest {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Test
     public void whenRecoveryTokenCreatedHasNullParamThenThrowException() {

@@ -3,7 +3,7 @@ package com.example.demo.web.admin.game;
 import com.example.demo.framework.web.ModalResponse;
 import com.example.demo.framework.web.Select2Response;
 import com.example.demo.game.aggregate.command.GameServerCreateCommand;
-import com.example.demo.util.IMessageUtil;
+import com.example.demo.util.MessageService;
 import com.example.demo.web.admin.game.form.AdminGameServerCreateForm;
 import com.example.demo.web.admin.game.form.AdminGameServerSelect2Request;
 import com.example.demo.web.admin.game.service.AdminGameServerService;
@@ -49,7 +49,7 @@ import java.util.concurrent.ExecutionException;
 public class AdminGameServerProjectorController {
 
     private final AdminGameServerService service;
-    private final IMessageUtil messageUtil;
+    private final MessageService messageService;
     private final CommandGateway commandGateway;
 
     @GetMapping("")
@@ -148,7 +148,7 @@ public class AdminGameServerProjectorController {
         commandGateway.send(command);
 
         return new ModalResponse(model)
-                .toast(ModalResponse.Type.SUCCESS, messageUtil.getMessage("message.admin.game.server.create.modal.success"))
+                .toast(ModalResponse.Type.SUCCESS, messageService.getMessage("message.admin.game.server.create.modal.success"))
                 .event(ModalResponse.RELOAD, "gameServersTable")
                 .build();
     }

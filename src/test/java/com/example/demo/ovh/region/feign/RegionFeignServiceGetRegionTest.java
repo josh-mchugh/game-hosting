@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 public class RegionFeignServiceGetRegionTest {
 
     private OvhConfig ovhConfig;
-    private IRegionClient regionClient;
+    private RegionClient regionClient;
 
     @BeforeEach
     public void setup() {
@@ -18,7 +18,7 @@ public class RegionFeignServiceGetRegionTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        regionClient = Mockito.mock(IRegionClient.class);
+        regionClient = Mockito.mock(RegionClient.class);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class RegionFeignServiceGetRegionTest {
 
         Mockito.when(regionClient.getRegion(Mockito.anyString(), Mockito.anyString())).thenReturn(new RegionApi());
 
-        RegionFeignService service = new RegionFeignService(ovhConfig, regionClient);
+        RegionFeignServiceImpl service = new RegionFeignServiceImpl(ovhConfig, regionClient);
 
         Assertions.assertEquals(new RegionApi(), service.getRegion("regionName"));
     }

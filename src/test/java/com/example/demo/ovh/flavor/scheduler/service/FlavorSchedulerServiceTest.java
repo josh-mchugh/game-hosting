@@ -3,8 +3,8 @@ package com.example.demo.ovh.flavor.scheduler.service;
 import com.example.demo.ovh.feign.PlanCodeApi;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
-import com.example.demo.ovh.flavor.entity.service.IFlavorService;
-import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
+import com.example.demo.ovh.flavor.entity.service.FlavorService;
+import com.example.demo.ovh.flavor.feign.FlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import com.example.demo.ovh.region.entity.model.Region;
@@ -32,10 +32,10 @@ import java.util.concurrent.ExecutionException;
 public class FlavorSchedulerServiceTest {
 
     @Autowired
-    private IFlavorService flavorService;
+    private FlavorService flavorService;
 
     @Autowired
-    private IFlavorSchedulerService flavorSchedulerService;
+    private FlavorSchedulerService flavorSchedulerService;
 
     @Autowired
     private SampleBuilder sampleBuilder;
@@ -44,7 +44,7 @@ public class FlavorSchedulerServiceTest {
     private CommandGateway commandGateway;
 
     @MockBean
-    private IFlavorFeignService flavorFeignService;
+    private FlavorFeignService flavorFeignService;
 
     private Region region;
 

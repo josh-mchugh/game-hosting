@@ -1,7 +1,7 @@
 package com.example.demo.ovh.region.scheduler.service;
 
 import com.example.demo.ovh.region.entity.RegionStatus;
-import com.example.demo.ovh.region.feign.IRegionFeignService;
+import com.example.demo.ovh.region.feign.RegionFeignService;
 import com.example.demo.ovh.region.feign.model.RegionApi;
 import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameQuery;
 import com.example.demo.ovh.region.scheduler.projection.model.ExistsRegionByNameResponse;
@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 public class RegionSchedulerServiceTest {
 
     @Autowired
-    private IRegionSchedulerService regionSchedulerService;
+    private RegionSchedulerService regionSchedulerService;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -42,7 +42,7 @@ public class RegionSchedulerServiceTest {
     private QueryGateway queryGateway;
 
     @MockBean
-    private IRegionFeignService regionFeignService;
+    private RegionFeignService regionFeignService;
 
     @Test
     public void testGetRegionNames() {

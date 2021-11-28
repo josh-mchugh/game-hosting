@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class ProjectBuildSagaServiceFetchProjectCreateInstanceDetailsTest {
 
     @Autowired
-    private IProjectBuildProjectionService service;
+    private ProjectBuildProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

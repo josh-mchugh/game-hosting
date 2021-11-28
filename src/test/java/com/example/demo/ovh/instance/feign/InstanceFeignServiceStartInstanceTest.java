@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 public class InstanceFeignServiceStartInstanceTest {
 
     private OvhConfig ovhConfig;
-    private IInstanceClient instanceClient;
+    private InstanceClient instanceClient;
 
     @BeforeEach
     public void setup() {
@@ -17,7 +17,7 @@ public class InstanceFeignServiceStartInstanceTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        instanceClient = Mockito.mock(IInstanceClient.class);
+        instanceClient = Mockito.mock(InstanceClient.class);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class InstanceFeignServiceStartInstanceTest {
 
         Mockito.doNothing().when(instanceClient).startInstance(Mockito.anyString(), Mockito.anyString());
 
-        InstanceFeignService service = new InstanceFeignService(ovhConfig, instanceClient);
+        InstanceFeignServiceImpl service = new InstanceFeignServiceImpl(ovhConfig, instanceClient);
 
         Assertions.assertDoesNotThrow(() -> service.startInstance("instanceId"));
     }

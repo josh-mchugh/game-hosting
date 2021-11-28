@@ -2,9 +2,9 @@ package com.example.demo.web.project.dashboard.command;
 
 import com.example.demo.awx.host.aggregate.command.AwxHostDisableCommand;
 import com.example.demo.awx.host.aggregate.command.AwxHostEnableCommand;
-import com.example.demo.awx.host.feign.IHostFeignService;
+import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostPatchApi;
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
 import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
@@ -19,8 +19,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProjectCommandServiceImpl implements ProjectCommandService {
 
-    private final IInstanceFeignService instanceFeignService;
-    private final IHostFeignService hostFeignService;
+    private final InstanceFeignService instanceFeignService;
+    private final HostFeignService hostFeignService;
     private final ProjectDashboardService projectDashboardService;
     private final CommandGateway commandGateway;
 

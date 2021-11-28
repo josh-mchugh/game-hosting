@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 public class RecoveryTokenSchedulerServiceTest {
 
     @Autowired
-    private IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
+    private RecoveryTokenSchedulerService recoveryTokenSchedulerService;
 
     @MockBean
     private QueryGateway queryGateway;

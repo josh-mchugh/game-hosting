@@ -20,7 +20,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class UserDetailsProjectorServiceFetchUserDetailsTest {
 
     @Autowired
-    private IUserDetailsProjectorService service;
+    private UserDetailsProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

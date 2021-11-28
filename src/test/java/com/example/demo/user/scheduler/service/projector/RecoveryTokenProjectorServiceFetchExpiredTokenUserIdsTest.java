@@ -6,7 +6,7 @@ import com.example.demo.user.aggregate.event.UserRecoveryTokenCreatedEvent;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.entity.service.UserService;
 import com.example.demo.user.scheduler.service.projector.model.FetchExpiredRecoveryTokenUserIdsQuery;
 import com.example.demo.user.scheduler.service.projector.model.FetchExpiredRecoveryTokenUserIdsResponse;
 import org.junit.jupiter.api.Assertions;
@@ -26,13 +26,13 @@ import java.util.UUID;
 public class RecoveryTokenProjectorServiceFetchExpiredTokenUserIdsTest {
 
     @Autowired
-    private IRecoveryTokenProjectorService service;
+    private RecoveryTokenProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Test
     public void whenParamIsNullThenExpectException() {

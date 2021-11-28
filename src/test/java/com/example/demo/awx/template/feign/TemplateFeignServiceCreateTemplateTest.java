@@ -11,13 +11,13 @@ public class TemplateFeignServiceCreateTemplateTest {
     @Test
     public void whenCreateTemplateThenReturnTemplateApi() {
 
-        ITemplateClient templateClient = Mockito.mock(ITemplateClient.class);
+        TemplateClient templateClient = Mockito.mock(TemplateClient.class);
 
         TemplateApi expected = new TemplateApi();
 
         Mockito.when(templateClient.createTemplate(Mockito.any())).thenReturn(expected);
 
-        TemplateFeignService service = new TemplateFeignService(templateClient);
+        TemplateFeignServiceImpl service = new TemplateFeignServiceImpl(templateClient);
 
         Assertions.assertEquals(expected, service.createTemplate(TemplateCreateApi.builder().build()));
     }
