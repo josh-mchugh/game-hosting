@@ -14,10 +14,10 @@ import javax.transaction.Transactional;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-public class ProjectCreateProjectionServiceFetchAvailableGamesMapTest {
+public class ProjectCreateServiceFetchAvailableGamesMapTest {
 
     @Autowired
-    private ProjectCreateQueryService service;
+    private ProjectCreateService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

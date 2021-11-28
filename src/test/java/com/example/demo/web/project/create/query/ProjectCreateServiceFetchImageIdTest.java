@@ -17,10 +17,10 @@ import java.util.UUID;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class ProjectCreateProjectionServiceFetchImageIdTest {
+public class ProjectCreateServiceFetchImageIdTest {
 
     @Autowired
-    private ProjectCreateQueryService service;
+    private ProjectCreateService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

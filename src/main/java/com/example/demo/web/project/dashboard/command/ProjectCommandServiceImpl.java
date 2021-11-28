@@ -7,15 +7,13 @@ import com.example.demo.awx.host.feign.model.HostPatchApi;
 import com.example.demo.ovh.instance.feign.IInstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
+import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
 import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByInstanceOvhIdQuery;
 import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByInstanceOvhIdResponse;
 import com.example.demo.web.project.dashboard.projection.projection.AwxHostProjection;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
@@ -23,11 +21,11 @@ public class ProjectCommandServiceImpl implements ProjectCommandService {
 
     private final IInstanceFeignService instanceFeignService;
     private final IHostFeignService hostFeignService;
-    private final QueryGateway queryGateway;
+    private final ProjectDashboardService projectDashboardService;
     private final CommandGateway commandGateway;
 
     @Override
-    public void handleProjectInstanceStart(ProjectInstanceStartRequest request) throws ExecutionException, InterruptedException {
+    public void handleProjectInstanceStart(ProjectInstanceStartRequest request) {
 
         // Call OVH to start instance
         instanceFeignService.startInstance(request.getInstanceId());
@@ -47,7 +45,7 @@ public class ProjectCommandServiceImpl implements ProjectCommandService {
     }
 
     @Override
-    public void handleProjectInstanceStop(ProjectInstanceStopRequest request) throws ExecutionException, InterruptedException {
+    public void handleProjectInstanceStop(ProjectInstanceStopRequest request) {
 
         // Call OVH to stop instance
         instanceFeignService.stopInstance(request.getInstanceId());
@@ -66,10 +64,10 @@ public class ProjectCommandServiceImpl implements ProjectCommandService {
         commandGateway.send(command);
     }
 
-    private AwxHostProjection fetchAwxHostByInstanceId(String instanceOvhId) throws ExecutionException, InterruptedException {
+    private AwxHostProjection fetchAwxHostByInstanceId(String instanceOvhId) {
 
         FetchAwxHostByInstanceOvhIdQuery query = new FetchAwxHostByInstanceOvhIdQuery(instanceOvhId);
-        FetchAwxHostByInstanceOvhIdResponse response = queryGateway.query(query, FetchAwxHostByInstanceOvhIdResponse.class).get();
+        FetchAwxHostByInstanceOvhIdResponse response = projectDashboardService.fetchAwxHostByInstanceId(query);
 
         return response.getAwxHost();
     }

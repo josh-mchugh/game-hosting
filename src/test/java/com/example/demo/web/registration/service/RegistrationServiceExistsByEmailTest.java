@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class RegistrationServiceExistsByEmailTest {
 
     @Autowired
-    private RegistrationProjectorService service;
+    private RegistrationService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

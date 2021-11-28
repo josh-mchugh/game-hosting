@@ -4,7 +4,7 @@ import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.web.project.create.command.ProjectCreateCommandService;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
-import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.ProjectCreateService;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableRegionsMapQuery;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableRegionsMapResponse;
 import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateQuery;
@@ -40,7 +40,7 @@ public class ProjectCreateControllerRegionTest {
     private ProjectCreateCommandService commandService;
 
     @MockBean
-    private ProjectCreateQueryService queryService;
+    private ProjectCreateService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {

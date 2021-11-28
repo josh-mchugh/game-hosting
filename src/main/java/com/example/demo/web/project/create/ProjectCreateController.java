@@ -13,7 +13,7 @@ import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
 import com.example.demo.web.project.create.form.ProjectCreateForm;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
 import com.example.demo.web.project.create.form.ProjectCreateServerForm;
-import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.ProjectCreateService;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapQuery;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapResponse;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableRegionsMapQuery;
@@ -46,7 +46,7 @@ import java.util.UUID;
 public class ProjectCreateController {
 
     private final ProjectCreateCommandService commandService;
-    private final ProjectCreateQueryService projectionService;
+    private final ProjectCreateService projectionService;
     private final ProjectUrlUtils projectUrlUtils;
 
     @GetMapping("")

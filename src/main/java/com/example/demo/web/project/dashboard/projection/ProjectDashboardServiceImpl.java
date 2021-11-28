@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ProjectProjectorServiceImpl implements ProjectProjectorService {
+public class ProjectDashboardServiceImpl implements ProjectDashboardService {
 
     private final JPQLQueryFactory queryFactory;
 

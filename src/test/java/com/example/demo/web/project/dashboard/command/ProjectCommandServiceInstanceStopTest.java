@@ -4,11 +4,11 @@ import com.example.demo.awx.host.feign.IHostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.ovh.instance.feign.IInstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
+import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
 import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByInstanceOvhIdQuery;
 import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByInstanceOvhIdResponse;
 import com.example.demo.web.project.dashboard.projection.projection.AwxHostProjection;
 import feign.FeignException;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,7 +19,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @Transactional
@@ -36,7 +35,7 @@ public class ProjectCommandServiceInstanceStopTest {
     private ProjectCommandService projectCommandService;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private ProjectDashboardService projectProjectionService;
 
     @Test
     public void whenHandleProjectInstanceStopHasValidIdThenThrowNoException() {
@@ -46,8 +45,8 @@ public class ProjectCommandServiceInstanceStopTest {
 
         FetchAwxHostByInstanceOvhIdQuery query = new FetchAwxHostByInstanceOvhIdQuery(instanceOvhId);
         AwxHostProjection awxHostProjection = new AwxHostProjection(instanceOvhId, 1L);
-        Mockito.when(queryGateway.query(query, FetchAwxHostByInstanceOvhIdResponse.class))
-            .thenReturn(CompletableFuture.completedFuture(new FetchAwxHostByInstanceOvhIdResponse(awxHostProjection)));
+        Mockito.when(projectProjectionService.fetchAwxHostByInstanceId(query))
+            .thenReturn(new FetchAwxHostByInstanceOvhIdResponse(awxHostProjection));
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);

@@ -10,7 +10,7 @@ import com.example.demo.web.project.create.command.model.ProjectAddRegionRequest
 import com.example.demo.web.project.create.command.model.ProjectAddServerRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
-import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.ProjectCreateService;
 import com.example.demo.web.project.create.query.model.FetchProjectImageIdQuery;
 import com.example.demo.web.project.create.query.model.FetchProjectImageIdResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class ProjectCreateCommandServiceImpl implements ProjectCreateCommandService {
 
     private final CommandGateway commandGateway;
-    private final ProjectCreateQueryService projectionService;
+    private final ProjectCreateService projectionService;
     private final ISessionUtil sessionUtil;
 
     @Override

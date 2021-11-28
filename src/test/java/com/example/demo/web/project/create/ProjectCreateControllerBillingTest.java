@@ -6,7 +6,7 @@ import com.example.demo.web.project.create.command.ProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectAddBillingRequest;
 import com.example.demo.web.project.create.form.ProjectCreateBillingForm;
 import com.example.demo.web.project.create.form.ProjectCreateRegionForm;
-import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.ProjectCreateService;
 import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateQuery;
 import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateResponse;
 import com.google.common.collect.ImmutableMap;
@@ -40,7 +40,7 @@ public class ProjectCreateControllerBillingTest {
     private ProjectCreateCommandService commandService;
 
     @MockBean
-    private ProjectCreateQueryService queryService;
+    private ProjectCreateService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {
