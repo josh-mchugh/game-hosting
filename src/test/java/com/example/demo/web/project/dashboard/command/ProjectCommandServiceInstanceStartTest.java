@@ -1,8 +1,8 @@
 package com.example.demo.web.project.dashboard.command;
 
-import com.example.demo.awx.host.feign.IHostFeignService;
+import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
 import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByInstanceOvhIdQuery;
@@ -26,13 +26,13 @@ import java.util.UUID;
 public class ProjectCommandServiceInstanceStartTest {
 
     @MockBean
-    private IHostFeignService hostFeignService;
+    private HostFeignService hostFeignService;
 
     @Autowired
     private ProjectCommandService projectCommandService;
 
     @MockBean
-    private IInstanceFeignService instanceFeignService;
+    private InstanceFeignService instanceFeignService;
 
     @MockBean
     private ProjectDashboardService projectProjectionService;

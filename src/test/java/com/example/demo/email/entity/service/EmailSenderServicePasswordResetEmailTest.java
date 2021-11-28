@@ -1,7 +1,7 @@
 package com.example.demo.email.entity.service;
 
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class EmailSenderServicePasswordResetEmailTest {
 
     @Autowired
-    private IEmailSenderService emailSenderService;
+    private EmailSenderService emailSenderService;
 
     private GreenMail smtpServer;
 
@@ -49,7 +49,7 @@ public class EmailSenderServicePasswordResetEmailTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.PASSWORD_RESET)
+                .template(EmailTemplateType.PASSWORD_RESET)
                 .toAddress("password-reset@email-sender.com")
                 .bodyContext("email", "password-reset@email-sender.com")
                 .bodyContext("loginUrl", "http://localhost:8080/login")
@@ -69,7 +69,7 @@ public class EmailSenderServicePasswordResetEmailTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.PASSWORD_RESET)
+                .template(EmailTemplateType.PASSWORD_RESET)
                 .toAddress("password-reset@email-sender.com")
                 .bodyContext("email", "password-reset@email-sender.com")
                 .bodyContext("loginUrl", "http://localhost:8080/login")

@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class InstanceGroupFeignServiceGetInstanceGroupsTest {
 
     private OvhConfig ovhConfig;
-    private IInstanceGroupClient instanceGroupClient;
+    private InstanceGroupClient instanceGroupClient;
 
     @BeforeEach
     public void setup() {
@@ -20,7 +20,7 @@ public class InstanceGroupFeignServiceGetInstanceGroupsTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        instanceGroupClient = Mockito.mock(IInstanceGroupClient.class);
+        instanceGroupClient = Mockito.mock(InstanceGroupClient.class);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class InstanceGroupFeignServiceGetInstanceGroupsTest {
 
         Mockito.when(instanceGroupClient.getInstanceGroups(Mockito.anyString())).thenReturn(Arrays.asList(new InstanceGroupApi(), new InstanceGroupApi()));
 
-        InstanceGroupFeignService service = new InstanceGroupFeignService(ovhConfig, instanceGroupClient);
+        InstanceGroupFeignServiceImpl service = new InstanceGroupFeignServiceImpl(ovhConfig, instanceGroupClient);
 
         Assertions.assertEquals(Arrays.asList(new InstanceGroupApi(), new InstanceGroupApi()), service.getInstanceGroups());
     }

@@ -1,7 +1,7 @@
 package com.example.demo.email.entity.model;
 
 import com.example.demo.email.entity.EmailStatus;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import lombok.Builder;
 import lombok.Value;
 
@@ -16,7 +16,7 @@ public class Email {
 
     UUID id;
     LocalDateTime createdDate;
-    EmailTemplate template;
+    EmailTemplateType template;
     EmailStatus status;
     String toAddress;
     Map<String, Object> bodyContext;

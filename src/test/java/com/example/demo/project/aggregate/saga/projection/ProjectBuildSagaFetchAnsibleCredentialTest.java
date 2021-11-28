@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 public class ProjectBuildSagaFetchAnsibleCredentialTest {
 
     @Autowired
-    private IProjectBuildProjectionService service;
+    private ProjectBuildProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

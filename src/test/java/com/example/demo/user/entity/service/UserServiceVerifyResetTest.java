@@ -23,7 +23,7 @@ import java.util.UUID;
 public class UserServiceVerifyResetTest {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Test
     public void whenVerifyResetHasNullParamThenThrowException() {

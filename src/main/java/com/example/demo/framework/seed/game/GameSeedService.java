@@ -1,6 +1,6 @@
 package com.example.demo.framework.seed.game;
 
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.game.projection.model.ExistsAnyGamesQuery;
 import com.example.demo.framework.seed.game.projection.model.ExistsAnyGamesResponse;
 import com.example.demo.game.aggregate.command.GameCreateCommand;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class GameSeedService implements ISeedService<Object> {
+public class GameSeedService implements SeedService<Object> {
 
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;

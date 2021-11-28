@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ImageServiceCreatedTest {
 
     @Autowired
-    private IImageService imageService;
+    private ImageService imageService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

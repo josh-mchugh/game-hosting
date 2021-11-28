@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 public class ImageSeedProjectionServiceFetchRegionIdsGroupedByNameTest {
 
     @Autowired
-    private IImageSeedProjectionService service;
+    private ImageSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

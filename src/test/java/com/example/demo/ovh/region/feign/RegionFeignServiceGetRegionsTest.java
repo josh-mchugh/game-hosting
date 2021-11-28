@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class RegionFeignServiceGetRegionsTest {
 
     private OvhConfig ovhConfig;
-    private IRegionClient regionClient;
+    private RegionClient regionClient;
 
     @BeforeEach
     public void setup() {
@@ -19,7 +19,7 @@ public class RegionFeignServiceGetRegionsTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        regionClient = Mockito.mock(IRegionClient.class);
+        regionClient = Mockito.mock(RegionClient.class);
     }
 
     @Test
@@ -27,7 +27,7 @@ public class RegionFeignServiceGetRegionsTest {
 
         Mockito.when(regionClient.getRegions(Mockito.anyString())).thenReturn(Arrays.asList("region1", "region2"));
 
-        RegionFeignService service = new RegionFeignService(ovhConfig, regionClient);
+        RegionFeignServiceImpl service = new RegionFeignServiceImpl(ovhConfig, regionClient);
 
         Assertions.assertEquals(Arrays.asList("region1", "region2"), service.getRegions());
     }

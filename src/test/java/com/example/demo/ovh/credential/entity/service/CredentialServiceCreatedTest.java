@@ -19,7 +19,7 @@ import java.util.UUID;
 public class CredentialServiceCreatedTest {
 
     @Autowired
-    private ICredentialService credentialService;
+    private CredentialService credentialService;
 
     @Test
     public void whenCreatedIsValidThenReturnNotNull() {

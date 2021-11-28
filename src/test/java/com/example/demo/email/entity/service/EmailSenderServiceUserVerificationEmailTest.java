@@ -1,7 +1,7 @@
 package com.example.demo.email.entity.service;
 
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class EmailSenderServiceUserVerificationEmailTest {
 
     @Autowired
-    private IEmailSenderService emailSenderService;
+    private EmailSenderService emailSenderService;
 
     private GreenMail smtpServer;
 
@@ -49,7 +49,7 @@ public class EmailSenderServiceUserVerificationEmailTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.USER_VERIFICATION)
+                .template(EmailTemplateType.USER_VERIFICATION)
                 .toAddress("user-verification@email-sender.com")
                 .bodyContext("verificationUrl", "http://localhost:8080/verify/asdfasdfasdf")
                 .build();
@@ -67,7 +67,7 @@ public class EmailSenderServiceUserVerificationEmailTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.USER_VERIFICATION)
+                .template(EmailTemplateType.USER_VERIFICATION)
                 .toAddress("user-verification@email-sender.com")
                 .bodyContext("verificationUrl", "http://localhost:8080/verify/asdfasdfasdf")
                 .build();

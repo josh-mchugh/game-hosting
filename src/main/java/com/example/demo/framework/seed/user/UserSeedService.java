@@ -1,7 +1,7 @@
 package com.example.demo.framework.seed.user;
 
 import com.example.demo.framework.properties.AppConfig;
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.user.projection.model.ExistsUserByEmailQuery;
 import com.example.demo.framework.seed.user.projection.model.ExistsUserByEmailResponse;
 import com.example.demo.user.aggregate.command.UserCreateAdminCommand;
@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
-public class UserSeedService implements ISeedService<Object> {
+public class UserSeedService implements SeedService<Object> {
 
     private final AppConfig appConfig;
     private final QueryGateway queryGateway;

@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class AwxCredentialSeedProjectionServiceFetchAwxOrganizationIdByAwxIdTest {
 
     @Autowired
-    private IAwxCredentialSeedProjectionService service;
+    private AwxCredentialSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

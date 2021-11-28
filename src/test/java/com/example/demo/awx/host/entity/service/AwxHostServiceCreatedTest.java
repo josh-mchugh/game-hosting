@@ -2,7 +2,6 @@ package com.example.demo.awx.host.entity.service;
 
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
-import com.example.demo.awx.host.entity.service.IAwxHostService;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +21,7 @@ import java.util.UUID;
 public class AwxHostServiceCreatedTest {
 
     @Autowired
-    private IAwxHostService awxHostService;
+    private AwxHostService awxHostService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

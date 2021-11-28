@@ -23,7 +23,7 @@ import java.util.UUID;
 public class ProjectServiceHandleCreatedTest {
 
     @Autowired
-    private IProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

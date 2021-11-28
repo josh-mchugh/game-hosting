@@ -1,7 +1,7 @@
 package com.example.demo.ovh.instance.scheduler;
 
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
-import com.example.demo.ovh.instance.scheduler.service.IInstanceSchedulerService;
+import com.example.demo.ovh.instance.scheduler.service.InstanceSchedulerService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class InstanceUpdateScheduler {
 
-    private final IInstanceSchedulerService instanceSchedulerService;
+    private final InstanceSchedulerService instanceSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.instance-scheduler-delay}", initialDelayString = "${ovh.instance-scheduler-initial-delay}")
     public void instanceUpdateScheduler() throws ExecutionException, InterruptedException {

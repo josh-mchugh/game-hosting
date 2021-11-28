@@ -2,7 +2,7 @@ package com.example.demo.framework.seed.ovh.credential;
 
 import com.example.demo.framework.seed.ovh.credential.projection.model.ExistsAnyCredentialQuery;
 import com.example.demo.framework.seed.ovh.credential.projection.model.ExistsAnyCredentialResponse;
-import com.example.demo.ovh.credential.feign.ISshKeyFeignService;
+import com.example.demo.ovh.credential.feign.SshKeyFeignService;
 import com.example.demo.ovh.credential.feign.model.SshKeyApi;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
@@ -37,7 +37,7 @@ public class CredentialSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private ISshKeyFeignService sshKeyFeignService;
+    private SshKeyFeignService sshKeyFeignService;
 
     @MockBean
     private QueryGateway queryGateway;

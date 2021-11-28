@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class ImageSeedProjectionServiceExistsAnyTest {
 
     @Autowired
-    private IImageSeedProjectionService service;
+    private ImageSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

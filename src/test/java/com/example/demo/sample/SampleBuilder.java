@@ -3,60 +3,60 @@ package com.example.demo.sample;
 import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
-import com.example.demo.awx.credential.entity.service.IAwxCredentialService;
+import com.example.demo.awx.credential.entity.service.AwxCredentialService;
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
-import com.example.demo.awx.host.entity.service.IAwxHostService;
+import com.example.demo.awx.host.entity.service.AwxHostService;
 import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
-import com.example.demo.awx.inventory.entity.service.IAwxInventoryService;
+import com.example.demo.awx.inventory.entity.service.AwxInventoryService;
 import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
-import com.example.demo.awx.notification.entity.service.IAwxNotificationService;
+import com.example.demo.awx.notification.entity.service.AwxNotificationService;
 import com.example.demo.awx.organization.aggregate.event.AwxOrganizationCreatedEvent;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
-import com.example.demo.awx.organization.entity.service.IAwxOrganizationService;
+import com.example.demo.awx.organization.entity.service.AwxOrganizationService;
 import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
 import com.example.demo.awx.playbook.entity.PlaybookType;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
-import com.example.demo.awx.playbook.entity.service.IAwxPlaybookService;
+import com.example.demo.awx.playbook.entity.service.AwxPlaybookService;
 import com.example.demo.awx.project.aggregate.event.AwxProjectCreatedEvent;
 import com.example.demo.awx.project.entity.model.AwxProject;
-import com.example.demo.awx.project.entity.service.IAwxProjectService;
+import com.example.demo.awx.project.entity.service.AwxProjectService;
 import com.example.demo.awx.template.aggregate.event.AwxTemplateCreatedEvent;
 import com.example.demo.awx.template.entity.TemplateJobType;
 import com.example.demo.awx.template.entity.TemplateVerbosity;
 import com.example.demo.awx.template.entity.model.AwxTemplate;
-import com.example.demo.awx.template.entity.service.IAwxTemplateService;
+import com.example.demo.awx.template.entity.service.AwxTemplateService;
 import com.example.demo.game.aggregate.event.GameCreatedEvent;
 import com.example.demo.game.aggregate.event.GameServerCreatedEvent;
 import com.example.demo.game.entity.GameServerStatus;
 import com.example.demo.game.entity.GameType;
 import com.example.demo.game.entity.model.Game;
 import com.example.demo.game.entity.model.GameServer;
-import com.example.demo.game.entity.service.IGameServerService;
-import com.example.demo.game.entity.service.IGameService;
+import com.example.demo.game.entity.service.GameServerService;
+import com.example.demo.game.entity.service.GameService;
 import com.example.demo.ovh.credential.aggregate.event.CredentialCreatedEvent;
 import com.example.demo.ovh.credential.entity.CredentialType;
 import com.example.demo.ovh.credential.entity.model.Credential;
-import com.example.demo.ovh.credential.entity.service.ICredentialService;
+import com.example.demo.ovh.credential.entity.service.CredentialService;
 import com.example.demo.ovh.flavor.aggregate.event.FlavorCreatedEvent;
 import com.example.demo.ovh.flavor.entity.model.Flavor;
-import com.example.demo.ovh.flavor.entity.service.IFlavorService;
+import com.example.demo.ovh.flavor.entity.service.FlavorService;
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
 import com.example.demo.ovh.image.entity.model.Image;
-import com.example.demo.ovh.image.entity.service.IImageService;
+import com.example.demo.ovh.image.entity.service.ImageService;
 import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
 import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.ovh.instance.entity.model.Instance;
 import com.example.demo.ovh.instance.entity.model.InstanceGroup;
-import com.example.demo.ovh.instance.entity.service.IInstanceGroupService;
-import com.example.demo.ovh.instance.entity.service.IInstanceService;
+import com.example.demo.ovh.instance.entity.service.InstanceGroupService;
+import com.example.demo.ovh.instance.entity.service.InstanceService;
 import com.example.demo.ovh.region.aggregate.event.RegionCreatedEvent;
 import com.example.demo.ovh.region.entity.RegionStatus;
 import com.example.demo.ovh.region.entity.model.Region;
-import com.example.demo.ovh.region.entity.service.IRegionService;
+import com.example.demo.ovh.region.entity.service.RegionService;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
 import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
@@ -65,12 +65,12 @@ import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
 import com.example.demo.project.entity.model.Project;
-import com.example.demo.project.entity.service.IProjectService;
+import com.example.demo.project.entity.service.ProjectService;
 import com.example.demo.user.aggregate.event.UserCreatedEvent;
 import com.example.demo.user.entity.UserState;
 import com.example.demo.user.entity.UserType;
 import com.example.demo.user.entity.model.User;
-import com.example.demo.user.entity.service.IUserService;
+import com.example.demo.user.entity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -84,58 +84,58 @@ import java.util.UUID;
 public class SampleBuilder {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
-    private IGameService gameService;
+    private GameService gameService;
 
     @Autowired
-    private IRegionService regionService;
+    private RegionService regionService;
 
     @Autowired
-    private IFlavorService flavorService;
+    private FlavorService flavorService;
 
     @Autowired
-    private IImageService imageService;
+    private ImageService imageService;
 
     @Autowired
-    private IGameServerService gameServerService;
+    private GameServerService gameServerService;
 
     @Autowired
-    private ICredentialService credentialService;
+    private CredentialService credentialService;
 
     @Autowired
-    private IProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
-    private IInstanceGroupService instanceGroupService;
+    private InstanceGroupService instanceGroupService;
 
     @Autowired
-    private IInstanceService instanceService;
+    private InstanceService instanceService;
 
     @Autowired
-    private IAwxOrganizationService awxOrganizationService;
+    private AwxOrganizationService awxOrganizationService;
 
     @Autowired
-    private IAwxCredentialService awxCredentialService;
+    private AwxCredentialService awxCredentialService;
 
     @Autowired
-    private IAwxProjectService awxProjectService;
+    private AwxProjectService awxProjectService;
 
     @Autowired
-    private IAwxPlaybookService awxPlaybookService;
+    private AwxPlaybookService awxPlaybookService;
 
     @Autowired
-    private IAwxInventoryService awxInventoryService;
+    private AwxInventoryService awxInventoryService;
 
     @Autowired
-    private IAwxHostService awxHostService;
+    private AwxHostService awxHostService;
 
     @Autowired
-    private IAwxTemplateService awxTemplateService;
+    private AwxTemplateService awxTemplateService;
 
     @Autowired
-    private IAwxNotificationService awxNotificationService;
+    private AwxNotificationService awxNotificationService;
 
     private User user;
     private Game game;

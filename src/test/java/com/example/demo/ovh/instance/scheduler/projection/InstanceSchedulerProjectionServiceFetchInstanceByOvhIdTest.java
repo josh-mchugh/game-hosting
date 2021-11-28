@@ -20,7 +20,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class InstanceSchedulerProjectionServiceFetchInstanceByOvhIdTest {
 
     @Autowired
-    private IInstanceSchedulerProjectionService service;
+    private InstanceSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

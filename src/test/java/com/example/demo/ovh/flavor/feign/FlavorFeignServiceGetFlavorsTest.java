@@ -13,7 +13,7 @@ import java.util.List;
 public class FlavorFeignServiceGetFlavorsTest {
 
     private OvhConfig ovhConfig;
-    private IFlavorClient flavorClient;
+    private FlavorClient flavorClient;
 
     @BeforeEach
     public void setup() {
@@ -21,7 +21,7 @@ public class FlavorFeignServiceGetFlavorsTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        flavorClient = Mockito.mock(IFlavorClient.class);
+        flavorClient = Mockito.mock(FlavorClient.class);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class FlavorFeignServiceGetFlavorsTest {
 
         Mockito.when(flavorClient.getFlavors(Mockito.anyString())).thenReturn(expected);
 
-        IFlavorFeignService flavorFeignService = new FlavorFeignService(ovhConfig, flavorClient);
+        FlavorFeignService flavorFeignService = new FlavorFeignServiceImpl(ovhConfig, flavorClient);
 
         Assertions.assertEquals(expected, flavorFeignService.getFlavors());
     }

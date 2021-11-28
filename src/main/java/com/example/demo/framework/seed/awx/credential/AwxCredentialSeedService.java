@@ -1,11 +1,11 @@
 package com.example.demo.framework.seed.awx.credential;
 
 import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateCommand;
-import com.example.demo.awx.credential.feign.IAwxCredentialFeignService;
+import com.example.demo.awx.credential.feign.AwxCredentialFeignService;
 import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.example.demo.awx.credential.feign.model.AwxCredentialCreateApi;
 import com.example.demo.framework.properties.AwxConfig;
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialQuery;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialResponse;
 import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
@@ -24,10 +24,10 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class AwxCredentialSeedService implements ISeedService<Object> {
+public class AwxCredentialSeedService implements SeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IAwxCredentialFeignService credentialFeignService;
+    private final AwxCredentialFeignService credentialFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 

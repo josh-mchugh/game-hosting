@@ -10,12 +10,12 @@ import java.util.List;
 
 public class AwxPlaybookFeignServiceGetPlaybooksTest {
 
-    private IPlaybookClient playbookClient;
+    private PlaybookClient playbookClient;
 
     @BeforeEach
     public void setup() {
 
-        playbookClient = Mockito.mock(IPlaybookClient.class);
+        playbookClient = Mockito.mock(PlaybookClient.class);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class AwxPlaybookFeignServiceGetPlaybooksTest {
 
         Mockito.when(playbookClient.getPlaybooks(Mockito.anyLong())).thenReturn(expected);
 
-        PlaybookFeignService service = new PlaybookFeignService(playbookClient);
+        PlaybookFeignServiceImpl service = new PlaybookFeignServiceImpl(playbookClient);
 
         Assertions.assertEquals(expected, service.getPlaybooks(1L));
     }

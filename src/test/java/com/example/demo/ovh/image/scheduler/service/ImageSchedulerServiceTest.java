@@ -1,8 +1,8 @@
 package com.example.demo.ovh.image.scheduler.service;
 
 import com.example.demo.ovh.image.aggregate.event.ImageCreatedEvent;
-import com.example.demo.ovh.image.entity.service.IImageService;
-import com.example.demo.ovh.image.feign.IImageFeignService;
+import com.example.demo.ovh.image.entity.service.ImageService;
+import com.example.demo.ovh.image.feign.ImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.example.demo.ovh.image.scheduler.service.model.ProcessedImagesResponse;
 import com.example.demo.ovh.region.entity.model.Region;
@@ -29,16 +29,16 @@ import java.util.concurrent.ExecutionException;
 public class ImageSchedulerServiceTest {
 
     @Autowired
-    private IImageService imageService;
+    private ImageService imageService;
 
     @Autowired
-    private IImageSchedulerService imageSchedulerService;
+    private ImageSchedulerService imageSchedulerService;
 
     @Autowired
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IImageFeignService imageFeignService;
+    private ImageFeignService imageFeignService;
 
     @MockBean
     private CommandGateway commandGateway;

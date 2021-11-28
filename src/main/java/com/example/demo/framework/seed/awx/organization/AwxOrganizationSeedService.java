@@ -1,10 +1,10 @@
 package com.example.demo.framework.seed.awx.organization;
 
 import com.example.demo.awx.organization.aggregate.command.AwxOrganizationCreateCommand;
-import com.example.demo.awx.organization.feign.IOrganizationFeignService;
+import com.example.demo.awx.organization.feign.OrganizationFeignService;
 import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.framework.properties.AwxConfig;
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationQuery;
 import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationResponse;
 import com.google.common.collect.ImmutableList;
@@ -19,10 +19,10 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class AwxOrganizationSeedService implements ISeedService<Object> {
+public class AwxOrganizationSeedService implements SeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IOrganizationFeignService organizationFeignService;
+    private final OrganizationFeignService organizationFeignService;
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
 

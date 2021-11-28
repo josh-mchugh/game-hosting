@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class AwxCredentialSeedProjectionServiceExistsAnyTest {
 
     @Autowired
-    private IAwxCredentialSeedProjectionService service;
+    private AwxCredentialSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

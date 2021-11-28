@@ -2,16 +2,16 @@ package com.example.demo.framework.seed.awx.project;
 
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
-import com.example.demo.awx.notification.feign.INotificationFeignService;
+import com.example.demo.awx.notification.feign.NotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
 import com.example.demo.awx.notification.feign.model.NotificationCreateApi;
 import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
-import com.example.demo.awx.project.feign.IProjectFeignService;
+import com.example.demo.awx.project.feign.ProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
 import com.example.demo.awx.project.feign.model.ProjectCreateApi;
 import com.example.demo.framework.properties.AwxConfig;
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectQuery;
 import com.example.demo.framework.seed.awx.project.projection.model.ExistsAnyAwxProjectResponse;
 import com.example.demo.framework.seed.awx.project.projection.model.FetchAwxCredentialByNameQuery;
@@ -32,11 +32,11 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class AwxProjectSeedService implements ISeedService<Object> {
+public class AwxProjectSeedService implements SeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IProjectFeignService projectFeignService;
-    private final INotificationFeignService notificationFeignService;
+    private final ProjectFeignService projectFeignService;
+    private final NotificationFeignService notificationFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 

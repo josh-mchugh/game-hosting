@@ -19,7 +19,7 @@ import java.util.UUID;
 public class GameServiceCreatedTest {
 
     @Autowired
-    private IGameService gameService;
+    private GameService gameService;
 
     @Test
     public void whenEventIsNullThenThrowException() {

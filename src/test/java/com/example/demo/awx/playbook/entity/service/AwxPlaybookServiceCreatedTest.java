@@ -22,7 +22,7 @@ import java.util.UUID;
 public class AwxPlaybookServiceCreatedTest {
 
     @Autowired
-    private IAwxPlaybookService awxPlaybookService;
+    private AwxPlaybookService awxPlaybookService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

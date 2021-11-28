@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class FlavorSchedulerProjectionServiceExistsByOvhIdTest {
 
     @Autowired
-    private IFlavorSchedulerProjectionService service;
+    private FlavorSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

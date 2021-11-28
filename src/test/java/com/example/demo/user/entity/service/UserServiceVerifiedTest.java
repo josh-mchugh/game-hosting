@@ -22,7 +22,7 @@ import java.util.UUID;
 public class UserServiceVerifiedTest {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Test
     public void whenVerifiedHasNullParamThenThrowException() {

@@ -1,6 +1,6 @@
 package com.example.demo.user.scheduler;
 
-import com.example.demo.user.scheduler.service.IRecoveryTokenSchedulerService;
+import com.example.demo.user.scheduler.service.RecoveryTokenSchedulerService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class RecoveryTokenScheduler {
 
-    private final IRecoveryTokenSchedulerService recoveryTokenSchedulerService;
+    private final RecoveryTokenSchedulerService recoveryTokenSchedulerService;
 
     @Scheduled(fixedDelayString = "${app.password.recovery-scheduler-delay}", initialDelayString = "${app.password.recovery-scheduler-initial-delay}")
     public void scheduledExpiredRecoveryTokenProcessor() throws ExecutionException, InterruptedException {

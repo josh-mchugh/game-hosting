@@ -1,6 +1,6 @@
 package com.example.demo.ovh.region.scheduler;
 
-import com.example.demo.ovh.region.scheduler.service.IRegionSchedulerService;
+import com.example.demo.ovh.region.scheduler.service.RegionSchedulerService;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
@@ -12,12 +12,12 @@ import java.util.concurrent.ExecutionException;
 
 public class RegionSchedulerTest {
 
-    private IRegionSchedulerService schedulerService;
+    private RegionSchedulerService schedulerService;
 
     @BeforeEach
     public void setup() {
 
-        schedulerService = Mockito.mock(IRegionSchedulerService.class);
+        schedulerService = Mockito.mock(RegionSchedulerService.class);
     }
 
     @Test

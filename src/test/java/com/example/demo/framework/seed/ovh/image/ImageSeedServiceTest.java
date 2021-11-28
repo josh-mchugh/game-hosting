@@ -4,9 +4,8 @@ import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImage
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageResponse;
 import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameQuery;
 import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameResponse;
-import com.example.demo.ovh.image.feign.IImageFeignService;
+import com.example.demo.ovh.image.feign.ImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
-import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.sample.SampleBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -38,7 +37,7 @@ public class ImageSeedServiceTest {
     private SampleBuilder sampleBuilder;
 
     @MockBean
-    private IImageFeignService imageFeignService;
+    private ImageFeignService imageFeignService;
 
     @MockBean
     private QueryGateway queryGateway;

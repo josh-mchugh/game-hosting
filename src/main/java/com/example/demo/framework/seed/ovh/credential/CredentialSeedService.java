@@ -1,11 +1,11 @@
 package com.example.demo.framework.seed.ovh.credential;
 
 import com.example.demo.framework.properties.OvhConfig;
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.ovh.credential.projection.model.ExistsAnyCredentialQuery;
 import com.example.demo.framework.seed.ovh.credential.projection.model.ExistsAnyCredentialResponse;
 import com.example.demo.ovh.credential.aggregate.command.CredentialCreateCommand;
-import com.example.demo.ovh.credential.feign.ISshKeyFeignService;
+import com.example.demo.ovh.credential.feign.SshKeyFeignService;
 import com.example.demo.ovh.credential.feign.model.SshKeyApi;
 import com.example.demo.ovh.credential.feign.model.SshKeyCreateApi;
 import com.google.common.collect.ImmutableList;
@@ -24,10 +24,10 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CredentialSeedService implements ISeedService<Object> {
+public class CredentialSeedService implements SeedService<Object> {
 
     private final OvhConfig ovhConfig;
-    private final ISshKeyFeignService sshKeyFeignService;
+    private final SshKeyFeignService sshKeyFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 

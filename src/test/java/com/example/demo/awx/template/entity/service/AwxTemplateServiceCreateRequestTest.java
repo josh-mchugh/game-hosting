@@ -23,7 +23,7 @@ import java.util.UUID;
 public class AwxTemplateServiceCreateRequestTest {
 
     @Autowired
-    private IAwxTemplateService awxTemplateService;
+    private AwxTemplateService awxTemplateService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

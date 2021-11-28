@@ -20,7 +20,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class AuthenticationSuccessProjectorServiceGetUserAuthByEmailTest {
 
     @Autowired
-    private IAuthenticationSuccessProjectorService service;
+    private AuthenticationSuccessProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

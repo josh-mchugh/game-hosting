@@ -1,7 +1,7 @@
 package com.example.demo.web.awx;
 
 import com.example.demo.awx.playbook.aggregate.command.AwxPlaybookCreateCommand;
-import com.example.demo.awx.playbook.feign.IPlaybookFeignService;
+import com.example.demo.awx.playbook.feign.PlaybookFeignService;
 import com.example.demo.web.awx.service.AwxService;
 import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksQuery;
 import com.example.demo.web.awx.service.model.ExistsAnyPlaybooksResponse;
@@ -31,7 +31,7 @@ public class AwxController {
 
     private final AwxService service;
     private final CommandGateway commandGateway;
-    private final IPlaybookFeignService playbookFeignService;
+    private final PlaybookFeignService playbookFeignService;
 
     @PostMapping("/notification/project/{projectId}/success")
     public ResponseEntity<Void> notificationProjectCallback(@PathVariable("projectId") Long projectId) throws ExecutionException, InterruptedException {

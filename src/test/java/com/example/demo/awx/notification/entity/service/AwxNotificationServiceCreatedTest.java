@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AwxNotificationServiceCreatedTest {
 
     @Autowired
-    private IAwxNotificationService awxNotificationService;
+    private AwxNotificationService awxNotificationService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

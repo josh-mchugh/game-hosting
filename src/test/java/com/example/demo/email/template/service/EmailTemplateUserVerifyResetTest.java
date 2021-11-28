@@ -1,8 +1,8 @@
 package com.example.demo.email.template.service;
 
 import com.example.demo.email.aggregate.command.EmailCreateCommand;
+import com.example.demo.email.templates.service.EmailTemplateServiceImpl;
 import com.example.demo.email.templates.service.EmailTemplateService;
-import com.example.demo.email.templates.service.IEmailTemplateService;
 import com.example.demo.user.aggregate.event.UserVerifyResetEmailEvent;
 import com.example.demo.util.AppUrlUtil;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -26,7 +26,7 @@ public class EmailTemplateUserVerifyResetTest {
     @Test
     public void whenParamIsNullThenExpectException() {
 
-        IEmailTemplateService service = new EmailTemplateService(appUrlUtil, commandGateway);
+        EmailTemplateService service = new EmailTemplateServiceImpl(appUrlUtil, commandGateway);
 
         Assertions.assertThrows(NullPointerException.class, () -> service.handleUserVerifyResetEmail(null));
     }
@@ -34,7 +34,7 @@ public class EmailTemplateUserVerifyResetTest {
     @Test
     public void whenUserVerifyResetPasswordThenExpectCommandSend() {
 
-        IEmailTemplateService service = new EmailTemplateService(appUrlUtil, commandGateway);
+        EmailTemplateService service = new EmailTemplateServiceImpl(appUrlUtil, commandGateway);
 
         UserVerifyResetEmailEvent event = UserVerifyResetEmailEvent.builder()
                 .email("test@test")

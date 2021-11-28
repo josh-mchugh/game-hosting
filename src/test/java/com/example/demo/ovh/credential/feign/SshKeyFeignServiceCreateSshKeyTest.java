@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 public class SshKeyFeignServiceCreateSshKeyTest {
 
     private OvhConfig ovhConfig;
-    private ISshKeyClient sshKeyClient;
+    private SshKeyClient sshKeyClient;
 
     @BeforeEach
     public void setup() {
@@ -19,7 +19,7 @@ public class SshKeyFeignServiceCreateSshKeyTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        sshKeyClient = Mockito.mock(ISshKeyClient.class);
+        sshKeyClient = Mockito.mock(SshKeyClient.class);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class SshKeyFeignServiceCreateSshKeyTest {
 
         Mockito.when(sshKeyClient.createSshKey(Mockito.anyString(), Mockito.any())).thenReturn(expected);
 
-        SshKeyFeignService service = new SshKeyFeignService(ovhConfig, sshKeyClient);
+        SshKeyFeignServiceImpl service = new SshKeyFeignServiceImpl(ovhConfig, sshKeyClient);
 
         Assertions.assertEquals(expected, service.createSshKey(SshKeyCreateApi.builder().build()));
     }

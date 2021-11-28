@@ -20,7 +20,7 @@ import java.util.UUID;
 public class RegionServiceUpdatedTest {
 
     @Autowired
-    private IRegionService regionService;
+    private RegionService regionService;
 
     private Region region;
 

@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class FlavorSeedProjectionServiceExistsAnyTest {
 
     @Autowired
-    private IFlavorSeedProjectionService service;
+    private FlavorSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class CredentialSeedProjectionServiceExistsAnyTest {
 
     @Autowired
-    private ICredentialSeedProjectionService service;
+    private CredentialSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

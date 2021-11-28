@@ -19,7 +19,7 @@ public class EmailEntity extends AbstractAggregateEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "template", nullable = false)
-    private EmailTemplate template;
+    private EmailTemplateType template;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

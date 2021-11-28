@@ -1,6 +1,6 @@
 package com.example.demo.ovh.flavor.scheduler;
 
-import com.example.demo.ovh.flavor.scheduler.service.IFlavorSchedulerService;
+import com.example.demo.ovh.flavor.scheduler.service.FlavorSchedulerService;
 import com.example.demo.ovh.flavor.scheduler.service.model.ProcessedFlavorsResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +11,12 @@ import java.util.concurrent.ExecutionException;
 
 public class FlavorSchedulerTest {
 
-    private IFlavorSchedulerService flavorSchedulerService;
+    private FlavorSchedulerService flavorSchedulerService;
 
     @BeforeEach
     public void setup() {
 
-        flavorSchedulerService = Mockito.mock(IFlavorSchedulerService.class);
+        flavorSchedulerService = Mockito.mock(FlavorSchedulerService.class);
     }
 
     @Test

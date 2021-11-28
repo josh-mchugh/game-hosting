@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 public class ImageSchedulerProjectionServiceFetchRegionIdsGroupedByNameTest {
 
     @Autowired
-    private IImageSchedulerProjectionService service;
+    private ImageSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

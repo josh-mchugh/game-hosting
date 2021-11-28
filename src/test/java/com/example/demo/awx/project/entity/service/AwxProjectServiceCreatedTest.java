@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AwxProjectServiceCreatedTest {
 
     @Autowired
-    private IAwxProjectService awxProjectService;
+    private AwxProjectService awxProjectService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

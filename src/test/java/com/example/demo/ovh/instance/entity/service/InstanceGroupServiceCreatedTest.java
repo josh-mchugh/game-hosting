@@ -21,7 +21,7 @@ import java.util.UUID;
 public class InstanceGroupServiceCreatedTest {
 
     @Autowired
-    private IInstanceGroupService instanceGroupService;
+    private InstanceGroupService instanceGroupService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

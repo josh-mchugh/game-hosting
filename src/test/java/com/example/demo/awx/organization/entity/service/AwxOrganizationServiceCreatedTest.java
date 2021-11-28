@@ -18,7 +18,7 @@ import java.util.UUID;
 public class AwxOrganizationServiceCreatedTest {
 
     @Autowired
-    private IAwxOrganizationService awxOrganizationService;
+    private AwxOrganizationService awxOrganizationService;
 
     @Test
     public void whenEventHasIdThenReturnId() {

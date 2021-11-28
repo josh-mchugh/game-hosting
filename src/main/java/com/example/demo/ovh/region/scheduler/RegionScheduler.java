@@ -1,6 +1,6 @@
 package com.example.demo.ovh.region.scheduler;
 
-import com.example.demo.ovh.region.scheduler.service.IRegionSchedulerService;
+import com.example.demo.ovh.region.scheduler.service.RegionSchedulerService;
 import com.example.demo.ovh.region.scheduler.service.model.ProcessRegionResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class RegionScheduler {
 
-    private final IRegionSchedulerService regionSchedulerService;
+    private final RegionSchedulerService regionSchedulerService;
 
     @Scheduled(fixedDelayString = "${ovh.region-scheduler-delay}", initialDelayString = "${ovh.region-scheduler-initial-delay}")
     public void scheduledRegionUpdater() throws ExecutionException, InterruptedException {

@@ -1,6 +1,6 @@
 package com.example.demo.web.admin.ovh.service;
 
-import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
+import com.example.demo.ovh.instance.feign.InstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
 import com.example.demo.web.admin.ovh.model.InstanceGroupStatistic;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminOvhUtilsServiceImpl implements AdminOvhUtilsService {
 
-    private final IInstanceGroupFeignService instanceGroupFeignService;
+    private final InstanceGroupFeignService instanceGroupFeignService;
 
     @Override
     public InstanceGroupStatistic getInstanceGroupStatistics() {

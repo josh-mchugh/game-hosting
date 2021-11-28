@@ -1,12 +1,12 @@
 package com.example.demo.framework.seed.ovh.flavor;
 
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorQuery;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.ExistsAnyFlavorResponse;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameQuery;
 import com.example.demo.framework.seed.ovh.flavor.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.flavor.aggregate.command.FlavorCreateCommand;
-import com.example.demo.ovh.flavor.feign.IFlavorFeignService;
+import com.example.demo.ovh.flavor.feign.FlavorFeignService;
 import com.example.demo.ovh.flavor.feign.model.FlavorApi;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -20,9 +20,9 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class FlavorSeedService implements ISeedService<Object> {
+public class FlavorSeedService implements SeedService<Object> {
 
-    private final IFlavorFeignService flavorFeignService;
+    private final FlavorFeignService flavorFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 

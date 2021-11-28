@@ -3,24 +3,10 @@ package com.example.demo.awx.host.feign;
 import com.example.demo.awx.host.feign.model.HostApi;
 import com.example.demo.awx.host.feign.model.HostCreateApi;
 import com.example.demo.awx.host.feign.model.HostPatchApi;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class HostFeignService implements IHostFeignService {
+public interface HostFeignService {
 
-    private final IHostClient hostClient;
+    HostApi createHost(HostCreateApi body);
 
-    @Override
-    public HostApi createHost(HostCreateApi body) {
-
-        return hostClient.createHost(body);
-    }
-
-    @Override
-    public HostApi updateHost(Long id, HostPatchApi body) {
-
-        return hostClient.updateHost(id, body);
-    }
+    HostApi updateHost(Long id, HostPatchApi body);
 }

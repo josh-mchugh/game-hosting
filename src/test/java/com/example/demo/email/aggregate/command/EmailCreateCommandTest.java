@@ -1,6 +1,6 @@
 package com.example.demo.email.aggregate.command;
 
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +29,10 @@ public class EmailCreateCommandTest {
     public void whenCommandHasTemplateThenReturnTemplate() {
 
         EmailCreateCommand command = EmailCreateCommand.builder()
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .build();
 
-        Assertions.assertEquals(EmailTemplate.WELCOME, command.getTemplate());
+        Assertions.assertEquals(EmailTemplateType.WELCOME, command.getTemplate());
     }
 
     @Test
@@ -118,7 +118,7 @@ public class EmailCreateCommandTest {
 
         EmailCreateCommand command = EmailCreateCommand.builder()
                 .id(UUID.fromString("a6d2b836-2ee9-4b4e-9547-0b48c7244372"))
-                .template(EmailTemplate.WELCOME)
+                .template(EmailTemplateType.WELCOME)
                 .toAddress("toAddress")
                 .bodyContext("test", "context")
                 .subjectContext("test1")

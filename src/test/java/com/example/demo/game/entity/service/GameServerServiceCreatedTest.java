@@ -22,7 +22,7 @@ import java.util.UUID;
 public class GameServerServiceCreatedTest {
 
     @Autowired
-    private IGameServerService gameServerService;
+    private GameServerService gameServerService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 public class FlavorSeedProjectionServiceFetchRegionIdsGroupedByNameTest {
 
     @Autowired
-    private IFlavorSeedProjectionService service;
+    private FlavorSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

@@ -2,11 +2,11 @@ package com.example.demo.framework.seed.awx.inventory;
 
 import com.example.demo.awx.feign.ListResponse;
 import com.example.demo.awx.inventory.aggregate.command.AwxInventoryCreateCommand;
-import com.example.demo.awx.inventory.feign.IInventoryFeignService;
+import com.example.demo.awx.inventory.feign.InventoryFeignService;
 import com.example.demo.awx.inventory.feign.model.InventoryApi;
 import com.example.demo.awx.inventory.feign.model.InventoryCreateApi;
 import com.example.demo.framework.properties.AwxConfig;
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryQuery;
 import com.example.demo.framework.seed.awx.inventory.projection.model.ExistsAnyAwxInventoryResponse;
 import com.example.demo.framework.seed.awx.inventory.projection.model.FetchAwxOrganizationIdByAwxIdQuery;
@@ -23,10 +23,10 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class AwxInventorySeedService implements ISeedService<Object> {
+public class AwxInventorySeedService implements SeedService<Object> {
 
     private final AwxConfig awxConfig;
-    private final IInventoryFeignService inventoryFeignService;
+    private final InventoryFeignService inventoryFeignService;
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
 

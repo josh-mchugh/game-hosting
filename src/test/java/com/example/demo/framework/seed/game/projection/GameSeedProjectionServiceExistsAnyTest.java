@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class GameSeedProjectionServiceExistsAnyTest {
 
     @Autowired
-    private IGameSeedProjectionService service;
+    private GameSeedProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

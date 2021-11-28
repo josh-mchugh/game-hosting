@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AwxInventoryServiceCreatedTest {
 
     @Autowired
-    private IAwxInventoryService awxInventoryService;
+    private AwxInventoryService awxInventoryService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

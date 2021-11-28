@@ -19,7 +19,7 @@ import java.util.UUID;
 public class RegionServiceCreatedTest {
 
     @Autowired
-    private IRegionService regionService;
+    private RegionService regionService;
 
     @Test
     public void whenCreatedIsValidThenReturnExpected() {

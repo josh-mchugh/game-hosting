@@ -2,8 +2,8 @@ package com.example.demo.ovh.instance.scheduler.service;
 
 import com.example.demo.ovh.instance.aggregate.event.InstanceUpdatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.entity.service.IInstanceService;
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
+import com.example.demo.ovh.instance.entity.service.InstanceService;
+import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.IpAddressApi;
 import com.example.demo.sample.SampleBuilder;
@@ -31,16 +31,16 @@ import java.util.concurrent.ExecutionException;
 public class InstanceSchedulerServiceHandleInstanceUpdatesTest {
 
     @Autowired
-    private IInstanceSchedulerService instanceSchedulerService;
+    private InstanceSchedulerService instanceSchedulerService;
 
     @Autowired
     private SampleBuilder sampleBuilder;
 
     @Autowired
-    private IInstanceService instanceService;
+    private InstanceService instanceService;
 
     @MockBean
-    private IInstanceFeignService instanceFeignService;
+    private InstanceFeignService instanceFeignService;
 
     @MockBean
     private CommandGateway commandGateway;

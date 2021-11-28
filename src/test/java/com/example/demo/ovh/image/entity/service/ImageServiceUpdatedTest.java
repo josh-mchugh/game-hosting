@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -21,7 +20,7 @@ import java.util.UUID;
 public class ImageServiceUpdatedTest {
 
     @Autowired
-    private IImageService imageService;
+    private ImageService imageService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 public class InstanceGroupFeignServiceDeleteInstanceGroupByIdTest {
 
     private OvhConfig ovhConfig;
-    private IInstanceGroupClient instanceGroupClient;
+    private InstanceGroupClient instanceGroupClient;
 
     @BeforeEach
     public void setup() {
@@ -17,7 +17,7 @@ public class InstanceGroupFeignServiceDeleteInstanceGroupByIdTest {
         ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        instanceGroupClient = Mockito.mock(IInstanceGroupClient.class);
+        instanceGroupClient = Mockito.mock(InstanceGroupClient.class);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class InstanceGroupFeignServiceDeleteInstanceGroupByIdTest {
 
         Mockito.doNothing().when(instanceGroupClient).deleteInstanceGroupById(Mockito.anyString(), Mockito.anyString());
 
-        InstanceGroupFeignService service = new InstanceGroupFeignService(ovhConfig, instanceGroupClient);
+        InstanceGroupFeignServiceImpl service = new InstanceGroupFeignServiceImpl(ovhConfig, instanceGroupClient);
 
         Assertions.assertDoesNotThrow(() -> service.deleteInstanceGroupById("groupId"));
     }

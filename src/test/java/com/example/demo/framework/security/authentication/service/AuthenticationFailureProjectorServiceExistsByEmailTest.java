@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class AuthenticationFailureProjectorServiceExistsByEmailTest {
 
     @Autowired
-    private IAuthenticationFailureProjectorService service;
+    private AuthenticationFailureProjectorService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

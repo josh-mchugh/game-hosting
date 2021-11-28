@@ -1,7 +1,7 @@
 package com.example.demo.email.entity.service;
 
 import com.example.demo.email.aggregate.event.EmailCreatedEvent;
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class EmailSenderServicePasswordRecoveryEmailTest {
 
     @Autowired
-    private IEmailSenderService emailSenderService;
+    private EmailSenderService emailSenderService;
 
     private GreenMail smtpServer;
 
@@ -49,7 +49,7 @@ public class EmailSenderServicePasswordRecoveryEmailTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.PASSWORD_RECOVERY)
+                .template(EmailTemplateType.PASSWORD_RECOVERY)
                 .toAddress("password-recovery@email-sender.com")
                 .bodyContext("email", "password-recovery@email-sender.com")
                 .bodyContext("resetPasswordUrl", "http://localhost:8080/password-reset/asdfasdfasdf")
@@ -68,7 +68,7 @@ public class EmailSenderServicePasswordRecoveryEmailTest {
 
         EmailCreatedEvent event = EmailCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .template(EmailTemplate.PASSWORD_RECOVERY)
+                .template(EmailTemplateType.PASSWORD_RECOVERY)
                 .toAddress("password-recovery@email-sender.com")
                 .bodyContext("email", "password-recovery@email-sender.com")
                 .bodyContext("resetPasswordUrl", "http://localhost:8080/password-reset/asdfasdfasdf")

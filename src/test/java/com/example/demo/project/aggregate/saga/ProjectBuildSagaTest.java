@@ -7,8 +7,8 @@ import com.example.demo.ovh.instance.aggregate.command.InstanceUpdateCommand;
 import com.example.demo.ovh.instance.aggregate.event.InstanceCreatedEvent;
 import com.example.demo.ovh.instance.aggregate.event.InstanceGroupCreatedEvent;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
-import com.example.demo.ovh.instance.feign.IInstanceFeignService;
-import com.example.demo.ovh.instance.feign.IInstanceGroupFeignService;
+import com.example.demo.ovh.instance.feign.InstanceFeignService;
+import com.example.demo.ovh.instance.feign.InstanceGroupFeignService;
 import com.example.demo.ovh.instance.feign.model.InstanceApi;
 import com.example.demo.ovh.instance.feign.model.InstanceCreateApi;
 import com.example.demo.ovh.instance.feign.model.InstanceGroupApi;
@@ -37,8 +37,8 @@ import java.util.concurrent.CompletableFuture;
 public class ProjectBuildSagaTest {
 
     private SagaTestFixture<ProjectBuildSaga> fixture;
-    private IInstanceGroupFeignService instanceGroupFeignService;
-    private IInstanceFeignService instanceFeignService;
+    private InstanceGroupFeignService instanceGroupFeignService;
+    private InstanceFeignService instanceFeignService;
     private QueryGateway queryGateway;
 
     @BeforeEach
@@ -47,8 +47,8 @@ public class ProjectBuildSagaTest {
         OvhConfig ovhConfig = new OvhConfig();
         ovhConfig.setProjectId("projectId");
 
-        instanceGroupFeignService = Mockito.mock(IInstanceGroupFeignService.class);
-        instanceFeignService = Mockito.mock(IInstanceFeignService.class);
+        instanceGroupFeignService = Mockito.mock(InstanceGroupFeignService.class);
+        instanceFeignService = Mockito.mock(InstanceFeignService.class);
         queryGateway = Mockito.mock(QueryGateway.class);
 
         fixture = new SagaTestFixture<>(ProjectBuildSaga.class);

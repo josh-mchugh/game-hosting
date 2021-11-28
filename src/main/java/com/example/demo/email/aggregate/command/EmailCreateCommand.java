@@ -1,6 +1,6 @@
 package com.example.demo.email.aggregate.command;
 
-import com.example.demo.email.entity.EmailTemplate;
+import com.example.demo.email.entity.EmailTemplateType;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
@@ -21,7 +21,7 @@ public class EmailCreateCommand {
     UUID id;
 
     @NotNull
-    EmailTemplate template;
+    EmailTemplateType template;
 
     @NotBlank
     String toAddress;

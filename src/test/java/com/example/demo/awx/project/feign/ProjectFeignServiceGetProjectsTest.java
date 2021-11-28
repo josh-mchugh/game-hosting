@@ -14,7 +14,7 @@ import java.util.List;
 public class ProjectFeignServiceGetProjectsTest {
 
     private AwxConfig awxConfig;
-    private IProjectClient projectClient;
+    private ProjectClient projectClient;
 
     @BeforeEach
     public void setup() {
@@ -25,7 +25,7 @@ public class ProjectFeignServiceGetProjectsTest {
         awxConfig = new AwxConfig();
         awxConfig.setOrganization(organization);
 
-        projectClient = Mockito.mock(IProjectClient.class);
+        projectClient = Mockito.mock(ProjectClient.class);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ProjectFeignServiceGetProjectsTest {
 
         Mockito.when(projectClient.getProjects(Mockito.anyLong())).thenReturn(apiListResponse);
 
-        ProjectFeignService projectFeignService = new ProjectFeignService(awxConfig, projectClient);
+        ProjectFeignServiceImpl projectFeignService = new ProjectFeignServiceImpl(awxConfig, projectClient);
 
         List<ProjectApi> response = projectFeignService.getProjects().getResults();
 

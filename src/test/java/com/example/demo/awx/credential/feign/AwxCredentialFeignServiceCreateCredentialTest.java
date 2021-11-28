@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 public class AwxCredentialFeignServiceCreateCredentialTest {
 
     private AwxConfig awxConfig;
-    private IAwxCredentialClient awxCredentialClient;
+    private AwxCredentialClient awxCredentialClient;
 
     @BeforeEach
     public void setup() {
@@ -22,7 +22,7 @@ public class AwxCredentialFeignServiceCreateCredentialTest {
         awxConfig = new AwxConfig();
         awxConfig.setOrganization(organization);
 
-        awxCredentialClient = Mockito.mock(IAwxCredentialClient.class);
+        awxCredentialClient = Mockito.mock(AwxCredentialClient.class);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class AwxCredentialFeignServiceCreateCredentialTest {
                 .name("name")
                 .build();
 
-        AwxCredentialFeignService awxCredentialFeignService = new AwxCredentialFeignService(awxConfig, awxCredentialClient);
+        AwxCredentialFeignServiceImpl awxCredentialFeignService = new AwxCredentialFeignServiceImpl(awxConfig, awxCredentialClient);
 
         AwxCredentialApi response = awxCredentialFeignService.createCredential(awxCredentialCreateApi);
 

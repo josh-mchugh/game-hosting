@@ -1,12 +1,12 @@
 package com.example.demo.framework.seed.ovh.image;
 
-import com.example.demo.framework.seed.ISeedService;
+import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageQuery;
 import com.example.demo.framework.seed.ovh.image.projection.model.ExistsAnyImageResponse;
 import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameQuery;
 import com.example.demo.framework.seed.ovh.image.projection.model.FetchRegionIdsGroupedByNameResponse;
 import com.example.demo.ovh.image.aggregate.command.ImageCreateCommand;
-import com.example.demo.ovh.image.feign.IImageFeignService;
+import com.example.demo.ovh.image.feign.ImageFeignService;
 import com.example.demo.ovh.image.feign.model.ImageApi;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -20,9 +20,9 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class ImageSeedService implements ISeedService<Object> {
+public class ImageSeedService implements SeedService<Object> {
 
-    private final IImageFeignService imageFeignService;
+    private final ImageFeignService imageFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
 

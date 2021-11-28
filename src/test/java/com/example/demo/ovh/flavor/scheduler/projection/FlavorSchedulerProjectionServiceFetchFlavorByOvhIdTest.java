@@ -21,7 +21,7 @@ import java.util.UUID;
 public class FlavorSchedulerProjectionServiceFetchFlavorByOvhIdTest {
 
     @Autowired
-    private IFlavorSchedulerProjectionService service;
+    private FlavorSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;

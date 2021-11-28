@@ -21,7 +21,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class ImageSchedulerProjectionServiceFetchImageByNameAndRegionNameTest {
 
     @Autowired
-    private IImageSchedulerProjectionService service;
+    private ImageSchedulerProjectionService service;
 
     @Autowired
     private SampleBuilder sampleBuilder;
