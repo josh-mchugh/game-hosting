@@ -5,7 +5,7 @@ import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByIns
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsQuery;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsResponse;
 
-public interface ProjectProjectorService {
+public interface ProjectDashboardService {
 
     FetchProjectDetailsResponse getProjectDetails(FetchProjectDetailsQuery query);
 

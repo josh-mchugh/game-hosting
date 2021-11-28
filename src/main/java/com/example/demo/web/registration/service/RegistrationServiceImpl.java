@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrationProjectorServiceImpl implements RegistrationProjectorService {
+public class RegistrationServiceImpl implements RegistrationService {
 
     private final JPQLQueryFactory queryFactory;
 

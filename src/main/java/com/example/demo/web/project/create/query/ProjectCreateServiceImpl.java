@@ -35,7 +35,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class ProjectCreateQueryServiceImpl implements ProjectCreateQueryService {
+public class ProjectCreateServiceImpl implements ProjectCreateService {
 
     private final JPQLQueryFactory queryFactory;
 

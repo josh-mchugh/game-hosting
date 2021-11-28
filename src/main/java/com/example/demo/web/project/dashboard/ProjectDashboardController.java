@@ -3,10 +3,10 @@ package com.example.demo.web.project.dashboard;
 import com.example.demo.web.project.dashboard.command.ProjectCommandService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
+import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsQuery;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsResponse;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,13 +25,13 @@ import java.util.concurrent.ExecutionException;
 public class ProjectDashboardController {
 
     private final ProjectCommandService commandService;
-    private final QueryGateway queryGateway;
+    private final ProjectDashboardService projectionService;
 
     @GetMapping("/{id}")
-    public String getDefault(Model model, @PathVariable("id") String id) throws ExecutionException, InterruptedException {
+    public String getDefault(Model model, @PathVariable("id") String id) {
 
         FetchProjectDetailsQuery query = new FetchProjectDetailsQuery(id);
-        FetchProjectDetailsResponse response = queryGateway.query(query, FetchProjectDetailsResponse.class).get();
+        FetchProjectDetailsResponse response = projectionService.getProjectDetails(query);
 
         model.addAttribute("details", response);
 

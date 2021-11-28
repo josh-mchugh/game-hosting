@@ -19,7 +19,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class ProjectProjectorServiceGetProjectDetailsTest {
 
     @Autowired
-    private ProjectProjectorService projectControllerService;
+    private ProjectDashboardService projectControllerService;
 
     @Autowired
     private SampleBuilder sampleBuilder;

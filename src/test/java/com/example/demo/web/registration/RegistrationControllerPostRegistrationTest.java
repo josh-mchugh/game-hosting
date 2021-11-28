@@ -1,10 +1,10 @@
 package com.example.demo.web.registration;
 
 import com.example.demo.user.aggregate.command.UserCreateRegularCommand;
+import com.example.demo.web.registration.service.RegistrationService;
 import com.example.demo.web.registration.service.model.ExistsUserByEmailQuery;
 import com.example.demo.web.registration.service.model.ExistsUserByEmailResponse;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @Transactional
@@ -32,7 +31,7 @@ public class RegistrationControllerPostRegistrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private RegistrationService service;
 
     @MockBean
     private CommandGateway commandGateway;
@@ -207,7 +206,7 @@ public class RegistrationControllerPostRegistrationTest {
 
     private void mockExistsUserByEmail(String email, boolean exists) {
 
-        Mockito.when(queryGateway.query(new ExistsUserByEmailQuery(email), ExistsUserByEmailResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new ExistsUserByEmailResponse(exists)));
+        Mockito.when(service.existsByEmail(new ExistsUserByEmailQuery(email)))
+                .thenReturn(new ExistsUserByEmailResponse(exists));
     }
 }

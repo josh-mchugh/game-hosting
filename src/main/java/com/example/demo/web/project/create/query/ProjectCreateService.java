@@ -11,7 +11,7 @@ import com.example.demo.web.project.create.query.model.FetchProjectImageIdRespon
 import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateQuery;
 import com.example.demo.web.project.create.query.model.FetchProjectStatusAndStateResponse;
 
-public interface ProjectCreateQueryService {
+public interface ProjectCreateService {
 
     FetchProjectAvailableGameMapResponse fetchAvailableGameMap(FetchProjectAvailableGameMapQuery request);
 

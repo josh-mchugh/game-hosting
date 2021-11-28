@@ -4,7 +4,7 @@ import com.example.demo.web.project.create.command.ProjectCreateCommandService;
 import com.example.demo.web.project.create.command.model.ProjectCreateRequest;
 import com.example.demo.web.project.create.command.model.ProjectCreateResponse;
 import com.example.demo.web.project.create.form.ProjectCreateForm;
-import com.example.demo.web.project.create.query.ProjectCreateQueryService;
+import com.example.demo.web.project.create.query.ProjectCreateService;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapQuery;
 import com.example.demo.web.project.create.query.model.FetchProjectAvailableGameMapResponse;
 import com.google.common.collect.ImmutableMap;
@@ -38,7 +38,7 @@ public class ProjectCreateControllerCreateTest {
     private ProjectCreateCommandService commandService;
 
     @MockBean
-    private ProjectCreateQueryService queryService;
+    private ProjectCreateService queryService;
 
     @Test
     public void whenRequestIsAnonymousThenExpectRedirect() throws Exception {

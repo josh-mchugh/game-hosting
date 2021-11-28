@@ -4,9 +4,9 @@ import com.example.demo.game.entity.GameType;
 import com.example.demo.ovh.instance.entity.InstanceStatus;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
+import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsQuery;
 import com.example.demo.web.project.dashboard.projection.model.FetchProjectDetailsResponse;
-import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
-import java.util.concurrent.CompletableFuture;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -34,7 +33,7 @@ public class ProjectDashboardControllerDefaultViewTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private QueryGateway queryGateway;
+    private ProjectDashboardService service;
 
     @Test
     public void whenRequestIsValidThenExpectOk() throws Exception {
@@ -46,8 +45,8 @@ public class ProjectDashboardControllerDefaultViewTest {
                 .state(ProjectState.ACTIVE)
                 .build();
 
-        Mockito.when(queryGateway.query(new FetchProjectDetailsQuery("id"), FetchProjectDetailsResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(response));
+        Mockito.when(service.getProjectDetails(new FetchProjectDetailsQuery("id")))
+                .thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/dashboard/id")
                 .with(SecurityMockMvcRequestPostProcessors.user("test@test"));
@@ -67,8 +66,8 @@ public class ProjectDashboardControllerDefaultViewTest {
                 .state(ProjectState.ACTIVE)
                 .build();
 
-        Mockito.when(queryGateway.query(new FetchProjectDetailsQuery("id"), FetchProjectDetailsResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(response));
+        Mockito.when(service.getProjectDetails(new FetchProjectDetailsQuery("id")))
+                .thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/dashboard/id")
                 .with(SecurityMockMvcRequestPostProcessors.user("test@test"));
@@ -92,8 +91,8 @@ public class ProjectDashboardControllerDefaultViewTest {
                 .ip4Address("0.0.0.0.0")
                 .build();
 
-        Mockito.when(queryGateway.query(query, FetchProjectDetailsResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(response));
+        Mockito.when(service.getProjectDetails(query))
+                .thenReturn(response);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/project/dashboard/id")
                 .with(SecurityMockMvcRequestPostProcessors.user("test@test"));
