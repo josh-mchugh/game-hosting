@@ -34,13 +34,11 @@ public class AwxProjectCreateCommandTest {
     @Test
     public void whenCommandHasAwxCredentialIdThenReturnAwxCredentialId() {
 
-        UUID awxCredentialId = UUID.randomUUID();
-
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
-                .awxCredentialId(awxCredentialId)
+                .awxCredentialId("awxCredentialId")
                 .build();
 
-        Assertions.assertEquals(awxCredentialId, command.getAwxCredentialId());
+        Assertions.assertEquals("awxCredentialId", command.getAwxCredentialId());
     }
 
     @Test
@@ -118,7 +116,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = command();
 
-        Assertions.assertEquals(1415803311, command.hashCode());
+        Assertions.assertEquals(-1251962899, command.hashCode());
     }
 
     @Test
@@ -143,7 +141,7 @@ public class AwxProjectCreateCommandTest {
         return AwxProjectCreateCommand.builder()
                 .id(UUID.fromString("e55f95e5-a060-4a9e-9026-f95eb7fa5305"))
                 .awxOrganizationId(UUID.fromString("b0697b6f-68c0-40f6-954d-fcb993096611"))
-                .awxCredentialId(UUID.fromString("7b445f93-37ef-4ea8-97dd-12cb882e44d7"))
+                .awxCredentialId("7b445f93-37ef-4ea8-97dd-12cb882e44d7")
                 .awxId(1L)
                 .name("name")
                 .description("description")

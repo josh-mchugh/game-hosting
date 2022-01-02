@@ -10,11 +10,9 @@ public class AwxCredentialProjectionTest {
     @Test
     public void whenModelHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
+        AwxCredentialProjection model = new AwxCredentialProjection("96e0f262-597a-4503-adf3-021b7425d5c7", 1L);
 
-        AwxCredentialProjection model = new AwxCredentialProjection(id.toString(), 1L);
-
-        Assertions.assertEquals(id, model.getId());
+        Assertions.assertEquals("96e0f262-597a-4503-adf3-021b7425d5c7", model.getId());
     }
 
     @Test
@@ -40,7 +38,7 @@ public class AwxCredentialProjectionTest {
 
         AwxCredentialProjection model = model();
 
-        Assertions.assertEquals(-33655405, model.hashCode());
+        Assertions.assertEquals(-2036249605, model.hashCode());
     }
 
     @Test

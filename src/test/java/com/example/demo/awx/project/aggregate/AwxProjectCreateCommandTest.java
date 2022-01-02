@@ -32,7 +32,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -52,7 +52,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(null)
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -72,7 +72,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(null)
                 .awxId(1L)
                 .name("name")
@@ -112,7 +112,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(null)
                 .name("name")
@@ -132,7 +132,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name(null)
@@ -152,7 +152,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("")
@@ -172,7 +172,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -192,7 +192,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -212,7 +212,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -232,7 +232,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -252,7 +252,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -272,7 +272,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -292,7 +292,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -312,7 +312,7 @@ public class AwxProjectCreateCommandTest {
 
         AwxProjectCreateCommand command = AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxCredentialId(UUID.randomUUID())
+                .awxCredentialId("awxCredentialId")
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")

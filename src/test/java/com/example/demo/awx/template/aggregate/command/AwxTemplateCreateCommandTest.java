@@ -24,13 +24,11 @@ public class AwxTemplateCreateCommandTest {
     @Test
     public void whenCommandHasAwxCredentialIdThenAwxCredentialId() {
 
-        UUID awxCredentialId = UUID.randomUUID();
-
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
-                .awxCredentialId(awxCredentialId)
+                .awxCredentialId("awxCredentialId")
                 .build();
 
-        Assertions.assertEquals(awxCredentialId, command.getAwxCredentialId());
+        Assertions.assertEquals("awxCredentialId", command.getAwxCredentialId());
     }
 
     @Test
@@ -122,7 +120,7 @@ public class AwxTemplateCreateCommandTest {
 
         AwxTemplateCreateCommand command = AwxTemplateCreateCommand.builder()
                 .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
-                .awxCredentialId(UUID.fromString("9158639a-8098-45d3-958f-b4458765b9b4"))
+                .awxCredentialId("9158639a-8098-45d3-958f-b4458765b9b4")
                 .awxInventoryId(UUID.fromString("d3879efa-a6f8-405a-b1bb-6f91133e9df9"))
                 .awxPlaybookId(UUID.fromString("30c78820-73e5-4c38-b30c-b58467f2fcc6"))
                 .awxId(1L)
@@ -130,7 +128,7 @@ public class AwxTemplateCreateCommandTest {
                 .description("description")
                 .build();
 
-        Assertions.assertEquals(-116005914, command.hashCode());
+        Assertions.assertEquals(-1765501569, command.hashCode());
     }
 
     @Test
@@ -154,7 +152,7 @@ public class AwxTemplateCreateCommandTest {
 
         return AwxTemplateCreateCommand.builder()
                 .id(UUID.fromString("e0273a31-54c3-424a-b42a-cd2ab4532384"))
-                .awxCredentialId(UUID.fromString("9158639a-8098-45d3-958f-b4458765b9b4"))
+                .awxCredentialId("9158639a-8098-45d3-958f-b4458765b9b4")
                 .awxInventoryId(UUID.fromString("d3879efa-a6f8-405a-b1bb-6f91133e9df9"))
                 .awxPlaybookId(UUID.fromString("30c78820-73e5-4c38-b30c-b58467f2fcc6"))
                 .awxId(1L)

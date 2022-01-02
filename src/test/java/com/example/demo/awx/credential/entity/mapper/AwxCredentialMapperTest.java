@@ -25,14 +25,12 @@ public class AwxCredentialMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxCredentialEntity entity = new AwxCredentialEntity();
-        entity.setId(id);
+        entity.setId("awxCredentialId");
 
         AwxCredential awxCredential = AwxCredentialMapper.map(entity);
 
-        Assertions.assertEquals(id, awxCredential.getId());
+        Assertions.assertEquals("awxCredentialId", awxCredential.getId());
     }
 
     @Test

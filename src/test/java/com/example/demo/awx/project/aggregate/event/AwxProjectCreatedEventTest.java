@@ -34,13 +34,11 @@ public class AwxProjectCreatedEventTest {
     @Test
     public void whenEventHasAwxCredentialIdThenReturnAwxCredentialId() {
 
-        UUID awxCredentialId = UUID.randomUUID();
-
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
-                .awxCredentialId(awxCredentialId)
+                .awxCredentialId("awxCredentialId")
                 .build();
 
-        Assertions.assertEquals(awxCredentialId, event.getAwxCredentialId());
+        Assertions.assertEquals("awxCredentialId", event.getAwxCredentialId());
     }
 
     @Test
@@ -118,7 +116,7 @@ public class AwxProjectCreatedEventTest {
 
         AwxProjectCreatedEvent event = event();
 
-        Assertions.assertEquals(-1897675081, event.hashCode());
+        Assertions.assertEquals(-1618673841, event.hashCode());
     }
 
     @Test
@@ -143,7 +141,7 @@ public class AwxProjectCreatedEventTest {
         return AwxProjectCreatedEvent.builder()
                 .id(UUID.fromString("05d0f4cb-55f7-4e6f-9662-a99874a037f1"))
                 .awxOrganizationId(UUID.fromString("c984578f-1b32-4725-a9ec-32529b183e25"))
-                .awxCredentialId(UUID.fromString("813c883b-a360-425d-bdf7-c9b0210dd432"))
+                .awxCredentialId("813c883b-a360-425d-bdf7-c9b0210dd432")
                 .awxId(1L)
                 .name("name")
                 .description("description")

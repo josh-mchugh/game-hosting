@@ -5,19 +5,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class AwxCredentialEntityTest {
 
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxCredentialEntity entity = new AwxCredentialEntity();
-        entity.setId(id);
+        entity.setId("awxCredentialId");
 
-        Assertions.assertEquals(id, entity.getId());
+        Assertions.assertEquals("awxCredentialId", entity.getId());
     }
 
     @Test
