@@ -1,8 +1,8 @@
-package com.example.demo.awx.host.entity.service;
+package com.example.demo.awx.host.service;
 
-import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
-import com.example.demo.awx.host.aggregate.event.AwxHostEnabledEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
+import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
+import com.example.demo.awx.host.service.model.AwxHostEnableRequest;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -48,10 +47,7 @@ public class AwxHostServiceEnabledTest {
     @Test
     public void whenEntityEnabledIsFalseThenReturnEnabledTrue() {
 
-        UUID id = UUID.randomUUID();
-
-        AwxHostCreatedEvent createdEvent = AwxHostCreatedEvent.builder()
-                .id(id)
+        AwxHostCreateRequest createRequest = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -59,10 +55,10 @@ public class AwxHostServiceEnabledTest {
                 .description("description")
                 .enabled(false)
                 .build();
-        AwxHost awxHost = awxHostService.handleCreated(createdEvent);
+        AwxHost awxHost = awxHostService.handleCreate(createRequest);
 
-        AwxHostEnabledEvent enabledEvent = new AwxHostEnabledEvent(id);
-        AwxHost updatedHost = awxHostService.handleEnabled(enabledEvent);
+        AwxHostEnableRequest enableRequest = new AwxHostEnableRequest(awxHost.getId());
+        AwxHost updatedHost = awxHostService.handleEnable(enableRequest);
 
         Assertions.assertFalse(awxHost.getEnabled());
         Assertions.assertTrue(updatedHost.getEnabled());
@@ -71,10 +67,7 @@ public class AwxHostServiceEnabledTest {
     @Test
     public void whenEntityEnabledIsTrueThenReturnEnabledTrue() {
 
-        UUID id = UUID.randomUUID();
-
-        AwxHostCreatedEvent createdEvent = AwxHostCreatedEvent.builder()
-                .id(id)
+        AwxHostCreateRequest createRequest = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -82,10 +75,10 @@ public class AwxHostServiceEnabledTest {
                 .description("description")
                 .enabled(true)
                 .build();
-        AwxHost awxHost = awxHostService.handleCreated(createdEvent);
+        AwxHost awxHost = awxHostService.handleCreate(createRequest);
 
-        AwxHostEnabledEvent enabledEvent = new AwxHostEnabledEvent(id);
-        AwxHost updatedHost = awxHostService.handleEnabled(enabledEvent);
+        AwxHostEnableRequest enableRequest = new AwxHostEnableRequest(awxHost.getId());
+        AwxHost updatedHost = awxHostService.handleEnable(enableRequest);
 
         Assertions.assertTrue(awxHost.getEnabled());
         Assertions.assertTrue(updatedHost.getEnabled());
@@ -94,14 +87,14 @@ public class AwxHostServiceEnabledTest {
     @Test
     public void whenHandleEnableHasNullParamThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleEnabled(null));
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleEnable(null));
     }
 
     @Test
     public void whenHandleEnableHasInvalidHostIdThenThrowException() {
 
-        AwxHostEnabledEvent event = new AwxHostEnabledEvent(UUID.randomUUID());
+        AwxHostEnableRequest request = new AwxHostEnableRequest("invalidId");
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleEnabled(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleEnable(request));
     }
 }

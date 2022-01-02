@@ -1,4 +1,4 @@
-package com.example.demo.awx.host.aggregate.event;
+package com.example.demo.awx.host.service.model;
 
 import lombok.Builder;
 import lombok.Value;
@@ -7,9 +7,8 @@ import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class AwxHostCreatedEvent {
+public class AwxHostCreateRequest {
 
-    UUID id;
     UUID awxInventoryId;
     UUID instanceId;
     Long awxId;

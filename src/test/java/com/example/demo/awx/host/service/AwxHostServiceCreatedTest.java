@@ -1,7 +1,7 @@
-package com.example.demo.awx.host.entity.service;
+package com.example.demo.awx.host.service;
 
-import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
+import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
 import com.example.demo.sample.SampleBuilder;
 import com.example.demo.sample.SampleData;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -49,14 +48,13 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasNullParamThenThrowException () {
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreated(null));
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreate(null));
     }
 
     @Test
     public void whenCreatedIsValidThenReturnNotNull() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -65,7 +63,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertNotNull(awxHost);
     }
@@ -73,10 +71,7 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedIsValidThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(id)
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -85,39 +80,36 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
-        Assertions.assertEquals(id.toString(), awxHost.getId().toString());
+        Assertions.assertNotNull(awxHost.getId());
     }
 
     @Test
     public void whenCreatedHasNullInventoryIdThrowException() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(null)
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasNullInstanceIdThenThrowException() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(null)
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasAwxIdThenReturnAwxId() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -126,7 +118,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertEquals(1L, awxHost.getAwxId());
     }
@@ -134,21 +126,19 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasNullHostIdThenReturnThrowException() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(null)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasHostnameThenReturnHostName() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -157,7 +147,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertEquals("hostname", awxHost.getHostname());
     }
@@ -165,22 +155,20 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasNullHostnameThenThrowException() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname(null)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasDescriptionThenReturnDescription() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -189,7 +177,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertEquals("description", awxHost.getDescription());
     }
@@ -197,8 +185,7 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasNullDescriptionThenReturnNull() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -207,7 +194,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertNull(awxHost.getDescription());
     }
@@ -215,8 +202,7 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasEnabledTrueThenReturnTrue() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -225,7 +211,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(true)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertTrue(awxHost.getEnabled());
     }
@@ -233,8 +219,7 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasEnabledFalseThenReturnFalse() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -243,7 +228,7 @@ public class AwxHostServiceCreatedTest {
                 .enabled(false)
                 .build();
 
-        AwxHost awxHost = awxHostService.handleCreated(event);
+        AwxHost awxHost = awxHostService.handleCreate(request);
 
         Assertions.assertFalse(awxHost.getEnabled());
     }
@@ -251,8 +236,7 @@ public class AwxHostServiceCreatedTest {
     @Test
     public void whenCreatedHasNullEnabledThenThrowException() {
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
@@ -261,6 +245,6 @@ public class AwxHostServiceCreatedTest {
                 .enabled(null)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxHostService.handleCreate(request));
     }
 }

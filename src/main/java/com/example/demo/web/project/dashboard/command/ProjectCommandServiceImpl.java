@@ -1,9 +1,10 @@
 package com.example.demo.web.project.dashboard.command;
 
-import com.example.demo.awx.host.aggregate.command.AwxHostDisableCommand;
-import com.example.demo.awx.host.aggregate.command.AwxHostEnableCommand;
 import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostPatchApi;
+import com.example.demo.awx.host.service.AwxHostService;
+import com.example.demo.awx.host.service.model.AwxHostDisableRequest;
+import com.example.demo.awx.host.service.model.AwxHostEnableRequest;
 import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
@@ -12,7 +13,6 @@ import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByIns
 import com.example.demo.web.project.dashboard.projection.model.FetchAwxHostByInstanceOvhIdResponse;
 import com.example.demo.web.project.dashboard.projection.projection.AwxHostProjection;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +22,7 @@ public class ProjectCommandServiceImpl implements ProjectCommandService {
     private final InstanceFeignService instanceFeignService;
     private final HostFeignService hostFeignService;
     private final ProjectDashboardService projectDashboardService;
-    private final CommandGateway commandGateway;
+    private final AwxHostService awxHostService;
 
     @Override
     public void handleProjectInstanceStart(ProjectInstanceStartRequest request) {
@@ -40,8 +40,8 @@ public class ProjectCommandServiceImpl implements ProjectCommandService {
         hostFeignService.updateHost(awxHost.getAwxId(), updateBody);
 
         // Send command to enable AwxHost
-        AwxHostEnableCommand command = new AwxHostEnableCommand(awxHost.getId());
-        commandGateway.send(command);
+        AwxHostEnableRequest enableRequest = new AwxHostEnableRequest(awxHost.getId());
+        awxHostService.handleEnable(enableRequest);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class ProjectCommandServiceImpl implements ProjectCommandService {
         hostFeignService.updateHost(awxHost.getAwxId(), updateBody);
 
         // Send command to disable AwxHost
-        AwxHostDisableCommand command = new AwxHostDisableCommand(awxHost.getId());
-        commandGateway.send(command);
+        AwxHostDisableRequest disableRequest = new AwxHostDisableRequest(awxHost.getId());
+        awxHostService.handleDisable(disableRequest);
     }
 
     private AwxHostProjection fetchAwxHostByInstanceId(String instanceOvhId) {

@@ -4,9 +4,9 @@ import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
 import com.example.demo.awx.credential.service.AwxCredentialService;
 import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
-import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
-import com.example.demo.awx.host.entity.service.AwxHostService;
+import com.example.demo.awx.host.service.AwxHostService;
+import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
 import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.awx.inventory.entity.service.AwxInventoryService;
@@ -699,8 +699,7 @@ public class SampleBuilder {
         if(awxInventory == null) awxInventory = createDefaultAwxInventory();
         if(instance == null) instance = createDefaultInstance();
 
-        AwxHostCreatedEvent event = AwxHostCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxHostCreateRequest request = AwxHostCreateRequest.builder()
                 .awxInventoryId(awxInventory.getId())
                 .instanceId(instance.getId())
                 .awxId(1L)
@@ -709,7 +708,7 @@ public class SampleBuilder {
                 .enabled(true)
                 .build();
 
-        return awxHostService.handleCreated(event);
+        return awxHostService.handleCreate(request);
     }
 
     private AwxTemplate createDefaultAwxTemplate() {
