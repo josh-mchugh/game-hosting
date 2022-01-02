@@ -11,13 +11,11 @@ public class AwxCredentialTest {
     @Test
     public void whenModelHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxCredential model = AwxCredential.builder()
-                .id(id)
+                .id("awxCredentialId")
                 .build();
 
-        Assertions.assertEquals(id, model.getId());
+        Assertions.assertEquals("awxCredentialId", model.getId());
     }
 
     @Test
@@ -94,7 +92,7 @@ public class AwxCredentialTest {
     public void whenModelHashCode() {
 
         AwxCredential model = AwxCredential.builder()
-                .id(UUID.fromString("e0746f72-a03f-4f1e-9b34-902602d197c3"))
+                .id("e0746f72-a03f-4f1e-9b34-902602d197c3")
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -102,7 +100,7 @@ public class AwxCredentialTest {
                 .passphrase("passPhrase")
                 .build();
 
-        Assertions.assertEquals(43024803, model.hashCode());
+        Assertions.assertEquals(-838476585, model.hashCode());
     }
 
     @Test
@@ -125,7 +123,7 @@ public class AwxCredentialTest {
     private AwxCredential model() {
 
         return AwxCredential.builder()
-                .id(UUID.fromString("e0746f72-a03f-4f1e-9b34-902602d197c3"))
+                .id("e0746f72-a03f-4f1e-9b34-902602d197c3")
                 .awxId(1L)
                 .name("name")
                 .description("description")

@@ -1,8 +1,9 @@
 package com.example.demo.awx.credential.entity.service;
 
-import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
+import com.example.demo.awx.credential.service.AwxCredentialService;
+import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -41,8 +41,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestIsValidThenReturnNotNull() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -52,7 +51,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertNotNull(awxCredential);
     }
@@ -60,8 +59,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestIsValidThenReturnId() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -71,7 +69,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals(awxCredential.getId(), awxCredential.getId());
     }
@@ -79,8 +77,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasAwxIdThenReturnAwxId() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -90,7 +87,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals(1L, awxCredential.getAwxId());
     }
@@ -98,8 +95,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullAwxIdThenThrowException() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(null)
                 .name("name")
@@ -109,14 +105,13 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasOrganizationIdThenReturnNonNull() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -126,7 +121,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertNotNull(awxCredential);
     }
@@ -134,8 +129,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullOrganizationIdThenThrowException() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(null)
                 .awxId(1L)
                 .name("name")
@@ -145,14 +139,13 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxCredentialService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxCredentialService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasNameThenReturnName() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -162,7 +155,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals("name", awxCredential.getName());
     }
@@ -170,8 +163,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullNameThenThrowException() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name(null)
@@ -181,14 +173,13 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasDescriptionThenReturnDescription() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -198,7 +189,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals("description", awxCredential.getDescription());
     }
@@ -206,8 +197,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullDescriptionThenReturnNull() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -217,7 +207,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertNull(awxCredential.getDescription());
     }
@@ -225,8 +215,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasPrivateKeyThenReturnPrivateKey() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -236,7 +225,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals("private key", awxCredential.getPrivateKey());
     }
@@ -244,8 +233,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullPrivateKeyThenThrowException() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -255,14 +243,13 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasPassphraseThenReturnPassphrase() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -272,7 +259,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals("passphrase", awxCredential.getPassphrase());
     }
@@ -280,8 +267,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullPassphraseThenReturnNull() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -291,7 +277,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertNull(awxCredential.getPassphrase());
     }
@@ -299,8 +285,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasTypeThenReturnType() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -310,7 +295,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        AwxCredential awxCredential = awxCredentialService.handleCreated(event);
+        AwxCredential awxCredential = awxCredentialService.handleCreated(request);
 
         Assertions.assertEquals(AwxCredentialType.MACHINE, awxCredential.getType());
     }
@@ -318,8 +303,7 @@ public class AwxCredentialServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullTypeThenReturnNull() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -329,6 +313,6 @@ public class AwxCredentialServiceCreatedTest {
                 .type(null)
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxCredentialService.handleCreated(request));
     }
 }

@@ -4,13 +4,11 @@ import com.example.demo.awx.credential.entity.AwxCredentialType;
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.UUID;
-
 @Value
 @Builder(builderClassName = "Builder")
 public class AwxCredential {
 
-    UUID id;
+    String id;
     Long awxId;
     String name;
     String description;

@@ -1,9 +1,9 @@
 package com.example.demo.sample;
 
-import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
-import com.example.demo.awx.credential.entity.service.AwxCredentialService;
+import com.example.demo.awx.credential.service.AwxCredentialService;
+import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.awx.host.aggregate.event.AwxHostCreatedEvent;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.entity.service.AwxHostService;
@@ -619,8 +619,7 @@ public class SampleBuilder {
 
     private AwxCredential createDefaultAwxCredential() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("Ansible")
@@ -630,13 +629,12 @@ public class SampleBuilder {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        return awxCredentialService.handleCreated(event);
+        return awxCredentialService.handleCreated(request);
     }
 
     private AwxCredential createGitlabCredential() {
 
-        AwxCredentialCreatedEvent event = AwxCredentialCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("Gitlab SCM")
@@ -646,7 +644,7 @@ public class SampleBuilder {
                 .type(AwxCredentialType.SOURCE_CONTROL)
                 .build();
 
-        return awxCredentialService.handleCreated(event);
+        return awxCredentialService.handleCreated(request);
     }
 
     private AwxProject createDefaultAwxProject() {

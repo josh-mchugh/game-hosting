@@ -1,9 +1,10 @@
 package com.example.demo.framework.seed.awx.credential;
 
-import com.example.demo.awx.credential.aggregate.command.AwxCredentialCreateCommand;
 import com.example.demo.awx.credential.feign.AwxCredentialFeignService;
 import com.example.demo.awx.credential.feign.model.AwxCredentialApi;
 import com.example.demo.awx.credential.feign.model.AwxCredentialCreateApi;
+import com.example.demo.awx.credential.service.AwxCredentialService;
+import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.framework.properties.AwxConfig;
 import com.example.demo.framework.seed.SeedService;
 import com.example.demo.framework.seed.awx.credential.projection.model.ExistsAnyAwxCredentialQuery;
@@ -12,11 +13,9 @@ import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxO
 import com.example.demo.framework.seed.awx.credential.projection.model.FetchAwxOrganizationIdByAwxIdResponse;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,7 +28,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
     private final AwxConfig awxConfig;
     private final AwxCredentialFeignService credentialFeignService;
     private final QueryGateway queryGateway;
-    private final CommandGateway commandGateway;
+    private final AwxCredentialService awxCredentialService;
 
     @Override
     public boolean dataNotExists() throws ExecutionException, InterruptedException {
@@ -43,7 +42,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
     @Override
     public ImmutableList<Object> initializeData() throws ExecutionException, InterruptedException {
 
-        List<Object> awxCredentials = new ArrayList<>();
+        ImmutableList.Builder<Object> awxCredentials = ImmutableList.builder();
 
         List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
         List<AwxCredentialApi> credentialApis = credentialFeignService.getCredentials().getResults();
@@ -65,7 +64,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
             }
         }
 
-        return ImmutableList.copyOf(awxCredentials);
+        return awxCredentials.build();
     }
 
     @Override
@@ -104,8 +103,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
 
     private Object createAwxCredential(AwxCredentialApi credentialApi, AwxConfig.Credential credential, UUID organizationId) {
 
-        AwxCredentialCreateCommand command = AwxCredentialCreateCommand.builder()
-                .id(UUID.randomUUID())
+        AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(organizationId)
                 .awxId(credentialApi.getId())
                 .name(credentialApi.getName())
@@ -115,7 +113,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
                 .type(credential.getType())
                 .build();
 
-        return commandGateway.sendAndWait(command);
+        return awxCredentialService.handleCreated(request);
     }
 
     private UUID getOrganizationId() throws ExecutionException, InterruptedException {

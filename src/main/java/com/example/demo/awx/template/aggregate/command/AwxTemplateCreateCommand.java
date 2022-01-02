@@ -19,7 +19,7 @@ public class AwxTemplateCreateCommand {
     UUID id;
 
     @NotNull
-    UUID awxCredentialId;
+    String awxCredentialId;
 
     @NotNull
     UUID awxInventoryId;

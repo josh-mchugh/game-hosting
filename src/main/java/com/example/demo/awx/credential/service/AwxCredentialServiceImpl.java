@@ -1,9 +1,9 @@
-package com.example.demo.awx.credential.entity.service;
+package com.example.demo.awx.credential.service;
 
-import com.example.demo.awx.credential.aggregate.event.AwxCredentialCreatedEvent;
 import com.example.demo.awx.credential.entity.AwxCredentialEntity;
 import com.example.demo.awx.credential.entity.mapper.AwxCredentialMapper;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
+import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
 import com.example.demo.awx.organization.entity.QAwxOrganizationEntity;
 import com.querydsl.jpa.JPQLQueryFactory;
@@ -24,24 +24,23 @@ public class AwxCredentialServiceImpl implements AwxCredentialService {
 
     @Override
     @EventHandler
-    public AwxCredential handleCreated(AwxCredentialCreatedEvent event) {
+    public AwxCredential handleCreated(AwxCredentialCreateRequest request) {
 
         QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;
 
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId().toString()))
+                .where(qAwxOrganization.id.eq(request.getAwxOrganizationId().toString()))
                 .fetchOne();
 
         AwxCredentialEntity entity = new AwxCredentialEntity();
-        entity.setId(event.getId());
         entity.setAwxOrganizationEntity(awxOrganizationEntity);
-        entity.setAwxId(event.getAwxId());
-        entity.setName(event.getName());
-        entity.setDescription(event.getDescription());
-        entity.setPrivateKey(event.getPrivateKey());
-        entity.setPassphrase(event.getPassphrase());
-        entity.setType(event.getType());
+        entity.setAwxId(request.getAwxId());
+        entity.setName(request.getName());
+        entity.setDescription(request.getDescription());
+        entity.setPrivateKey(request.getPrivateKey());
+        entity.setPassphrase(request.getPassphrase());
+        entity.setType(request.getType());
 
         entityManager.persist(entity);
 

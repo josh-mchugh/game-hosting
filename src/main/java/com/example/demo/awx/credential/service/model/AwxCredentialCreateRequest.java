@@ -1,4 +1,4 @@
-package com.example.demo.awx.credential.aggregate.event;
+package com.example.demo.awx.credential.service.model;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import lombok.Builder;
@@ -8,9 +8,8 @@ import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class AwxCredentialCreatedEvent {
+public class AwxCredentialCreateRequest {
 
-    UUID id;
     UUID awxOrganizationId;
     Long awxId;
     String name;

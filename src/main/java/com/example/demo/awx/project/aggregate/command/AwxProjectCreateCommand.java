@@ -20,7 +20,7 @@ public class AwxProjectCreateCommand {
     UUID awxOrganizationId;
 
     @NotNull
-    UUID awxCredentialId;
+    String awxCredentialId;
 
     @NotNull
     Long awxId;

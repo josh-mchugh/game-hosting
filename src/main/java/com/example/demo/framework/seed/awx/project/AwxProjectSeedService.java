@@ -139,7 +139,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
         return response.getProjection();
     }
 
-    private AwxProjectCreateCommand createAwxProjectRequest(UUID awxCredentialId, ProjectApi projectApi, UUID awxOrganizationId) {
+    private AwxProjectCreateCommand createAwxProjectRequest(String awxCredentialId, ProjectApi projectApi, UUID awxOrganizationId) {
 
         return AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
