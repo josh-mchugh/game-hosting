@@ -1,8 +1,7 @@
-package com.example.demo.awx.credential.entity.service;
+package com.example.demo.awx.credential.service;
 
 import com.example.demo.awx.credential.entity.AwxCredentialType;
 import com.example.demo.awx.credential.entity.model.AwxCredential;
-import com.example.demo.awx.credential.service.AwxCredentialService;
 import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
