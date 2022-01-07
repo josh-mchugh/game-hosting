@@ -10,13 +10,11 @@ public class AwxInventoryTest {
     @Test
     public void whenModelHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxInventory model = AwxInventory.builder()
-                .id(id)
+                .id("id")
                 .build();
 
-        Assertions.assertEquals(id, model.getId());
+        Assertions.assertEquals("id", model.getId());
     }
 
     @Test
@@ -54,7 +52,7 @@ public class AwxInventoryTest {
 
         AwxInventory model = model();
 
-        String expected = "AwxInventory(id=6e17af83-95d3-443a-b095-cdf4b892cbcb, awxId=1, name=name, description=description)";
+        String expected = "AwxInventory(id=id, awxId=1, name=name, description=description)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -64,7 +62,7 @@ public class AwxInventoryTest {
 
         AwxInventory model = model();
 
-        Assertions.assertEquals(1224182991, model.hashCode());
+        Assertions.assertEquals(-1501495844, model.hashCode());
     }
 
     @Test
@@ -87,7 +85,7 @@ public class AwxInventoryTest {
     private AwxInventory model() {
 
         return AwxInventory.builder()
-                .id(UUID.fromString("6e17af83-95d3-443a-b095-cdf4b892cbcb"))
+                .id("id")
                 .awxId(1L)
                 .name("name")
                 .description("description")

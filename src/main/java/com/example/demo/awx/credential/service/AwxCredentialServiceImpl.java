@@ -23,11 +23,11 @@ public class AwxCredentialServiceImpl implements AwxCredentialService {
     private final EntityManager entityManager;
 
     @Override
-    @EventHandler
     public AwxCredential handleCreated(AwxCredentialCreateRequest request) {
 
         QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;
 
+        //TODO: replace with service / repository call
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
                 .where(qAwxOrganization.id.eq(request.getAwxOrganizationId().toString()))

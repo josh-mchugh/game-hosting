@@ -7,9 +7,9 @@ import com.example.demo.awx.credential.service.model.AwxCredentialCreateRequest;
 import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.service.AwxHostService;
 import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
-import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
-import com.example.demo.awx.inventory.entity.service.AwxInventoryService;
+import com.example.demo.awx.inventory.service.AwxInventoryService;
+import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
 import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.notification.entity.service.AwxNotificationService;
@@ -683,15 +683,14 @@ public class SampleBuilder {
 
         if(awxOrganization == null) awxOrganization = createDefaultAwxOrganization();
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("Default")
                 .description("Default Inventory")
                 .build();
 
-        return awxInventoryService.handleCreated(event);
+        return awxInventoryService.handleCreate(request);
     }
 
     private AwxHost createDefaultAwxHost() {
@@ -700,7 +699,7 @@ public class SampleBuilder {
         if(instance == null) instance = createDefaultInstance();
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(awxInventory.getId())
+                .awxInventoryId(UUID.fromString(awxInventory.getId()))
                 .instanceId(instance.getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -716,7 +715,7 @@ public class SampleBuilder {
         AwxTemplateCreatedEvent event = AwxTemplateCreatedEvent.builder()
                 .id(UUID.randomUUID())
                 .awxCredentialId(awxCredential.getId())
-                .awxInventoryId(awxInventory.getId())
+                .awxInventoryId(UUID.fromString(awxInventory.getId()))
                 .awxPlaybookId(awxPlaybook.getId())
                 .awxId(1L)
                 .name("run job")

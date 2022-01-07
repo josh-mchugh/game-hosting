@@ -1,7 +1,10 @@
 package com.example.demo.web.project.dashboard.command;
 
+import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
+import com.example.demo.awx.host.service.AwxHostService;
+import com.example.demo.awx.host.service.model.AwxHostEnableRequest;
 import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStartRequest;
 import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
@@ -35,7 +38,10 @@ public class ProjectCommandServiceInstanceStartTest {
     private InstanceFeignService instanceFeignService;
 
     @MockBean
-    private ProjectDashboardService projectProjectionService;
+    private ProjectDashboardService projectDashboardService;
+
+    @MockBean
+    private AwxHostService awxHostService;
 
     @Test
     public void whenHandleProjectInstanceStartHasValidIdThenThrowNoException() {
@@ -45,7 +51,7 @@ public class ProjectCommandServiceInstanceStartTest {
 
         FetchAwxHostByInstanceOvhIdQuery query = new FetchAwxHostByInstanceOvhIdQuery(instanceOvhId);
         AwxHostProjection awxHostProjection = new AwxHostProjection(instanceOvhId, 1L);
-        Mockito.when(projectProjectionService.fetchAwxHostByInstanceId(query))
+        Mockito.when(projectDashboardService.fetchAwxHostByInstanceId(query))
                 .thenReturn(new FetchAwxHostByInstanceOvhIdResponse(awxHostProjection));
 
         HostApi hostApi = new HostApi();
@@ -56,6 +62,7 @@ public class ProjectCommandServiceInstanceStartTest {
         hostApi.setEnabled(true);
 
         Mockito.when(hostFeignService.updateHost(Mockito.anyLong(), Mockito.any())).thenReturn(hostApi);
+        Mockito.when(awxHostService.handleEnable(Mockito.any(AwxHostEnableRequest.class))).thenReturn(AwxHost.builder().build());
 
         ProjectInstanceStartRequest request = ProjectInstanceStartRequest.builder()
                 .projectId("projectId")

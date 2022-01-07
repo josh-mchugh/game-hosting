@@ -28,17 +28,18 @@ public class AwxHostServiceImpl implements AwxHostService {
     private final EntityManager entityManager;
 
     @Override
-    @EventHandler
     public AwxHost handleCreate(AwxHostCreateRequest request) {
 
         QAwxInventoryEntity qAwxInventory = QAwxInventoryEntity.awxInventoryEntity;
         QInstanceEntity qInstance = QInstanceEntity.instanceEntity;
 
+        //TODO: replace with service / repository call
         AwxInventoryEntity awxInventoryEntity = queryFactory.select(qAwxInventory)
                 .from(qAwxInventory)
                 .where(qAwxInventory.id.eq(request.getAwxInventoryId().toString()))
                 .fetchOne();
 
+        //TODO: replace with service / repository call
         InstanceEntity instanceEntity = queryFactory.select(qInstance)
                 .from(qInstance)
                 .where(qInstance.id.eq(request.getInstanceId().toString()))
@@ -58,7 +59,6 @@ public class AwxHostServiceImpl implements AwxHostService {
     }
 
     @Override
-    @EventHandler
     public AwxHost handleEnable(AwxHostEnableRequest request) {
 
         AwxHostEntity entity = findById(request.getId());
@@ -70,7 +70,6 @@ public class AwxHostServiceImpl implements AwxHostService {
     }
 
     @Override
-    @EventHandler
     public AwxHost handleDisable(AwxHostDisableRequest request) {
 
         AwxHostEntity entity = findById(request.getId());
@@ -83,6 +82,7 @@ public class AwxHostServiceImpl implements AwxHostService {
 
     private AwxHostEntity findById(String id) {
 
+        //TODO: replace with service / repository call
         QAwxHostEntity qAwxHost = QAwxHostEntity.awxHostEntity;
 
         return queryFactory.select(qAwxHost)
