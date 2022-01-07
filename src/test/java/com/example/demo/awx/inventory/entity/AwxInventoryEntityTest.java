@@ -8,19 +8,16 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class AwxInventoryEntityTest {
 
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxInventoryEntity entity = new AwxInventoryEntity();
-        entity.setId(id);
+        entity.setId("id");
 
-        Assertions.assertEquals(id, entity.getId());
+        Assertions.assertEquals("id", entity.getId());
     }
 
     @Test

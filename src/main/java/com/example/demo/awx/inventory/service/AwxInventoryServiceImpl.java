@@ -1,14 +1,13 @@
-package com.example.demo.awx.inventory.entity.service;
+package com.example.demo.awx.inventory.service;
 
-import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
 import com.example.demo.awx.inventory.entity.AwxInventoryEntity;
 import com.example.demo.awx.inventory.entity.mapper.AwxInventoryMapper;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
+import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
 import com.example.demo.awx.organization.entity.QAwxOrganizationEntity;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -23,22 +22,21 @@ public class AwxInventoryServiceImpl implements AwxInventoryService {
     private final EntityManager entityManager;
 
     @Override
-    @EventHandler
-    public AwxInventory handleCreated(AwxInventoryCreatedEvent event) {
+    public AwxInventory handleCreate(AwxInventoryCreateRequest request) {
 
         QAwxOrganizationEntity qAwxOrganization = QAwxOrganizationEntity.awxOrganizationEntity;
 
+        //TODO: replace with service / repository call
         AwxOrganizationEntity organizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(event.getAwxOrganizationId().toString()))
+                .where(qAwxOrganization.id.eq(request.getAwxOrganizationId().toString()))
                 .fetchOne();
 
         AwxInventoryEntity entity = new AwxInventoryEntity();
-        entity.setId(event.getId());
         entity.setAwxOrganizationEntity(organizationEntity);
-        entity.setAwxId(event.getAwxId());
-        entity.setName(event.getName());
-        entity.setDescription(event.getDescription());
+        entity.setAwxId(request.getAwxId());
+        entity.setName(request.getName());
+        entity.setDescription(request.getDescription());
 
         entityManager.persist(entity);
 

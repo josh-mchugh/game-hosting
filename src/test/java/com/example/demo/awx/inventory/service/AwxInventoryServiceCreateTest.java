@@ -1,7 +1,7 @@
-package com.example.demo.awx.inventory.entity.service;
+package com.example.demo.awx.inventory.service;
 
-import com.example.demo.awx.inventory.aggregate.event.AwxInventoryCreatedEvent;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
+import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -13,12 +13,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class AwxInventoryServiceCreatedTest {
+public class AwxInventoryServiceCreateTest {
 
     @Autowired
     private AwxInventoryService awxInventoryService;
@@ -40,53 +39,33 @@ public class AwxInventoryServiceCreatedTest {
     @Test
     public void whenCreatedHasNullParamThenThrowException() {
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxInventoryService.handleCreated(null));
+        Assertions.assertThrows(NullPointerException.class, () -> awxInventoryService.handleCreate(null));
     }
 
     @Test
     public void whenCreatedIsValidThenReturnNonNull() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
-        Assertions.assertNotNull(awxInventoryService.handleCreated(event));
-    }
-
-    @Test
-    public void whenCreatedIsValidThenReturnId() {
-
-        UUID id = UUID.randomUUID();
-
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(id)
-                .awxOrganizationId(awxOrganization.getId())
-                .awxId(1L)
-                .name("name")
-                .description("description")
-                .build();
-
-        AwxInventory awxInventory = awxInventoryService.handleCreated(event);
-
-        Assertions.assertEquals(id, awxInventory.getId());
+        Assertions.assertNotNull(awxInventoryService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasAwxOrganizationIdThenReturnNonNull() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
-        AwxInventory awxInventory = awxInventoryService.handleCreated(event);
+        AwxInventory awxInventory = awxInventoryService.handleCreate(request);
 
         Assertions.assertNotNull(awxInventory);
     }
@@ -94,29 +73,27 @@ public class AwxInventoryServiceCreatedTest {
     @Test
     public void whenCreatedHasNullAwxOrganizationThrowException() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(null)
                 .awxId(1L)
                 .name("name")
                 .description("description")
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxInventoryService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxInventoryService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasAwxIdThenReturnAwxId() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(2L)
                 .name("name")
                 .description("description")
                 .build();
 
-        AwxInventory awxInventory = awxInventoryService.handleCreated(event);
+        AwxInventory awxInventory = awxInventoryService.handleCreate(request);
 
         Assertions.assertEquals(2L, awxInventory.getAwxId());
     }
@@ -124,29 +101,27 @@ public class AwxInventoryServiceCreatedTest {
     @Test
     public void whenCreatedHasNullAwxIdThenThrowException() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(null)
                 .name("name")
                 .description("description")
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxInventoryService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxInventoryService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasNameThenReturnName() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("test name")
                 .description("description")
                 .build();
 
-        AwxInventory awxInventory = awxInventoryService.handleCreated(event);
+        AwxInventory awxInventory = awxInventoryService.handleCreate(request);
 
         Assertions.assertEquals("test name", awxInventory.getName());
     }
@@ -154,29 +129,27 @@ public class AwxInventoryServiceCreatedTest {
     @Test
     public void whenCreatedHasNullNameThenThrowException() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name(null)
                 .description("description")
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxInventoryService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxInventoryService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasDescriptionThenReturnDescription() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description("test description")
                 .build();
 
-        AwxInventory awxInventory = awxInventoryService.handleCreated(event);
+        AwxInventory awxInventory = awxInventoryService.handleCreate(request);
 
         Assertions.assertEquals("test description", awxInventory.getDescription());
     }
@@ -184,15 +157,14 @@ public class AwxInventoryServiceCreatedTest {
     @Test
     public void whenCreatedHasNullDescriptionThenReturnNull() {
 
-        AwxInventoryCreatedEvent event = AwxInventoryCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
                 .description(null)
                 .build();
 
-        AwxInventory awxInventory = awxInventoryService.handleCreated(event);
+        AwxInventory awxInventory = awxInventoryService.handleCreate(request);
 
         Assertions.assertNull(awxInventory.getDescription());
     }

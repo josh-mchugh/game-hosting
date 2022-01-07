@@ -24,14 +24,12 @@ public class AwxInventoryMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxInventoryEntity entity = new AwxInventoryEntity();
-        entity.setId(id);
+        entity.setId("id");
 
         AwxInventory awxInventory = AwxInventoryMapper.map(entity);
 
-        Assertions.assertEquals(id, awxInventory.getId());
+        Assertions.assertEquals("id", awxInventory.getId());
     }
 
     @Test

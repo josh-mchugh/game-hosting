@@ -34,7 +34,7 @@ public class FetchAwxHostByInstanceOvhIdResponseTest {
 
         FetchAwxHostByInstanceOvhIdResponse model = model();
 
-        Assertions.assertEquals(683710335, model.hashCode());
+        Assertions.assertEquals(1760198684, model.hashCode());
     }
 
     @Test

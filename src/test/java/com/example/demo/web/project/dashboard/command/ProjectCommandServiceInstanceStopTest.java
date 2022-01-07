@@ -1,7 +1,10 @@
 package com.example.demo.web.project.dashboard.command;
 
+import com.example.demo.awx.host.entity.model.AwxHost;
 import com.example.demo.awx.host.feign.HostFeignService;
 import com.example.demo.awx.host.feign.model.HostApi;
+import com.example.demo.awx.host.service.AwxHostService;
+import com.example.demo.awx.host.service.model.AwxHostDisableRequest;
 import com.example.demo.ovh.instance.feign.InstanceFeignService;
 import com.example.demo.web.project.dashboard.command.model.ProjectInstanceStopRequest;
 import com.example.demo.web.project.dashboard.projection.ProjectDashboardService;
@@ -35,18 +38,21 @@ public class ProjectCommandServiceInstanceStopTest {
     private ProjectCommandService projectCommandService;
 
     @MockBean
-    private ProjectDashboardService projectProjectionService;
+    private ProjectDashboardService projectDashboardService;
+
+    @MockBean
+    private AwxHostService awxHostService;
 
     @Test
     public void whenHandleProjectInstanceStopHasValidIdThenThrowNoException() {
 
         String instanceOvhId = UUID.randomUUID().toString();
-        Mockito.doNothing().when(instanceFeignService).startInstance(instanceOvhId);
+        Mockito.doNothing().when(instanceFeignService).stopInstance(instanceOvhId);
 
         FetchAwxHostByInstanceOvhIdQuery query = new FetchAwxHostByInstanceOvhIdQuery(instanceOvhId);
         AwxHostProjection awxHostProjection = new AwxHostProjection(instanceOvhId, 1L);
-        Mockito.when(projectProjectionService.fetchAwxHostByInstanceId(query))
-            .thenReturn(new FetchAwxHostByInstanceOvhIdResponse(awxHostProjection));
+        Mockito.when(projectDashboardService.fetchAwxHostByInstanceId(query))
+                .thenReturn(new FetchAwxHostByInstanceOvhIdResponse(awxHostProjection));
 
         HostApi hostApi = new HostApi();
         hostApi.setId(1L);
@@ -56,6 +62,7 @@ public class ProjectCommandServiceInstanceStopTest {
         hostApi.setEnabled(false);
 
         Mockito.when(hostFeignService.updateHost(Mockito.anyLong(), Mockito.any())).thenReturn(hostApi);
+        Mockito.when(awxHostService.handleDisable(Mockito.any(AwxHostDisableRequest.class))).thenReturn(AwxHost.builder().build());
 
         ProjectInstanceStopRequest request = ProjectInstanceStopRequest.builder()
                 .projectId("projectId")
