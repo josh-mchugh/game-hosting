@@ -5,19 +5,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class AwxNotificationEntityTest {
 
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxNotificationEntity entity = new AwxNotificationEntity();
-        entity.setId(id);
+        entity.setId("id");
 
-        Assertions.assertEquals(id, entity.getId());
+        Assertions.assertEquals("id", entity.getId());
     }
 
     @Test

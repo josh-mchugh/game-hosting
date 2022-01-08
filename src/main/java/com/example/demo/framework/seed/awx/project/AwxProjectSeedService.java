@@ -1,11 +1,12 @@
 package com.example.demo.framework.seed.awx.project;
 
 import com.example.demo.awx.feign.ListResponse;
-import com.example.demo.awx.notification.aggregate.command.AwxNotificationCreateCommand;
+import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.notification.feign.NotificationFeignService;
 import com.example.demo.awx.notification.feign.model.NotificationApi;
 import com.example.demo.awx.notification.feign.model.NotificationConfiguration;
 import com.example.demo.awx.notification.feign.model.NotificationCreateApi;
+import com.example.demo.awx.notification.service.AwxNotificationService;
 import com.example.demo.awx.project.aggregate.command.AwxProjectCreateCommand;
 import com.example.demo.awx.project.feign.ProjectFeignService;
 import com.example.demo.awx.project.feign.model.ProjectApi;
@@ -39,6 +40,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
     private final NotificationFeignService notificationFeignService;
     private final QueryGateway queryGateway;
     private final CommandGateway commandGateway;
+    private final AwxNotificationService awxNotificationService;
 
     @Override
     public boolean dataNotExists() throws ExecutionException, InterruptedException {
@@ -103,8 +105,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
         NotificationApi notificationApi = notificationFeignService.createSuccessNotificationForProject(api.getId(), notificationCreateApi);
 
         // Persist AwxNotification
-        AwxNotificationCreateCommand command = AwxNotificationCreateCommand.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxId(notificationApi.getId())
                 .awxOrganizationId(awxOrganizationId)
                 .name(notificationApi.getName())
@@ -112,7 +113,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
                 .type(notificationApi.getType())
                 .webhookCallBackUrl(notificationApi.getNotificationConfiguration().getUrl())
                 .build();
-        commandGateway.send(command);
+        awxNotificationService.handleCreated(request);
 
         return projectId;
     }
