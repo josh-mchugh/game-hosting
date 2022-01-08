@@ -1,6 +1,6 @@
-package com.example.demo.awx.notification.entity.service;
+package com.example.demo.awx.notification.service;
 
-import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
+import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
@@ -40,8 +40,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestIsValidThenReturnNotNull() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -50,7 +49,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertNotNull(awxNotification);
     }
@@ -62,12 +61,9 @@ public class AwxNotificationServiceCreatedTest {
     }
 
     @Test
-    public void whenCreateRequestIsValidThenReturnId() {
+    public void whenCreateRequestIsValidThenReturnIdIsNotNull() {
 
-        UUID id = UUID.randomUUID();
-
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(id)
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -76,16 +72,15 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
-        Assertions.assertEquals(id, awxNotification.getId());
+        Assertions.assertNotNull(awxNotification.getId());
     }
 
     @Test
     public void whenCreateRequestHasNullAwxOrganizationIdThenThrowException() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(null)
                 .awxId(1L)
                 .name("name")
@@ -94,14 +89,13 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxNotificationService.handleCreated(event));
+        Assertions.assertThrows(NullPointerException.class, () -> awxNotificationService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasInvalidAwxOrganizationIdThenThrowException() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(UUID.randomUUID())
                 .awxId(1L)
                 .name("name")
@@ -110,14 +104,13 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxNotificationService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxNotificationService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasAwxIdThenReturnAwxID() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -126,7 +119,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertEquals(1L, awxNotification.getAwxId());
     }
@@ -134,8 +127,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullAwxIdThenThrowException() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(null)
                 .name("name")
@@ -144,14 +136,13 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxNotificationService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxNotificationService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasNameThenReturnName() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -160,7 +151,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertEquals("name", awxNotification.getName());
     }
@@ -168,8 +159,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateHasNullNameThenThrowException() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name(null)
@@ -178,14 +168,13 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        Assertions.assertThrows(PersistenceException.class, () -> awxNotificationService.handleCreated(event));
+        Assertions.assertThrows(PersistenceException.class, () -> awxNotificationService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasDescriptionThenReturnDescription() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -194,7 +183,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertEquals("description", awxNotification.getDescription());
     }
@@ -202,8 +191,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestNullDescriptionThenReturnNull() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -212,7 +200,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertNull(awxNotification.getDescription());
     }
@@ -220,8 +208,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestHasTypeThenReturnType() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -230,7 +217,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertEquals("slack", awxNotification.getType());
     }
@@ -238,8 +225,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullTypeThenReturnNull() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -248,7 +234,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertNull(awxNotification.getType());
     }
@@ -256,8 +242,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestHasWebhookCallbackUrlThenReturnWebhookCallbackUrl() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -266,7 +251,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertEquals("callback url", awxNotification.getWebhookCallbackUrl());
     }
@@ -274,8 +259,7 @@ public class AwxNotificationServiceCreatedTest {
     @Test
     public void whenCreateRequestHasNullWebhookCallbackUrlThenReturnNull() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -284,7 +268,7 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl(null)
                 .build();
 
-        AwxNotification awxNotification = awxNotificationService.handleCreated(event);
+        AwxNotification awxNotification = awxNotificationService.handleCreated(request);
 
         Assertions.assertNull(awxNotification.getWebhookCallbackUrl());
     }

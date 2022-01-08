@@ -10,9 +10,9 @@ import com.example.demo.awx.host.service.model.AwxHostCreateRequest;
 import com.example.demo.awx.inventory.entity.model.AwxInventory;
 import com.example.demo.awx.inventory.service.AwxInventoryService;
 import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
-import com.example.demo.awx.notification.aggregate.event.AwxNotificationCreatedEvent;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
-import com.example.demo.awx.notification.entity.service.AwxNotificationService;
+import com.example.demo.awx.notification.service.AwxNotificationService;
+import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.organization.aggregate.event.AwxOrganizationCreatedEvent;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.awx.organization.entity.service.AwxOrganizationService;
@@ -59,8 +59,8 @@ import com.example.demo.ovh.region.entity.model.Region;
 import com.example.demo.ovh.region.entity.service.RegionService;
 import com.example.demo.project.aggregate.event.ProjectBillingAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectCreatedEvent;
-import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.aggregate.event.ProjectRegionAddedEvent;
+import com.example.demo.project.aggregate.event.ProjectServerAddedEvent;
 import com.example.demo.project.entity.ProjectMembershipRole;
 import com.example.demo.project.entity.ProjectState;
 import com.example.demo.project.entity.ProjectStatus;
@@ -729,8 +729,7 @@ public class SampleBuilder {
 
     private AwxNotification createDefaultAwxNotification() {
 
-        AwxNotificationCreatedEvent event = AwxNotificationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
                 .awxOrganizationId(awxOrganization.getId())
                 .awxId(1L)
                 .name("name")
@@ -739,6 +738,6 @@ public class SampleBuilder {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        return awxNotificationService.handleCreated(event);
+        return awxNotificationService.handleCreated(request);
     }
 }

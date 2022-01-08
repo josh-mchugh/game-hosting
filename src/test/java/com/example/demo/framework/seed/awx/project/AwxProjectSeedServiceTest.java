@@ -155,7 +155,7 @@ public class AwxProjectSeedServiceTest {
                 .thenReturn(CompletableFuture.completedFuture(new FetchAwxCredentialByNameResponse(awxCredentialProjection)));
 
         Mockito.when(queryGateway.query(new FetchAwxOrganizationIdByAwxIdQuery(sampleData.getAwxOrganization().getAwxId()), FetchAwxOrganizationIdByAwxIdResponse.class))
-                .thenReturn(CompletableFuture.completedFuture(new FetchAwxOrganizationIdByAwxIdResponse(UUID.randomUUID())));
+                .thenReturn(CompletableFuture.completedFuture(new FetchAwxOrganizationIdByAwxIdResponse(sampleData.getAwxOrganization().getId())));
 
         ImmutableList<Object> awxProjects = awxProjectSeedService.initializeData();
 

@@ -1,7 +1,7 @@
 package com.example.demo.awx.notification.entity;
 
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
-import com.example.demo.framework.database.AbstractAggregateEntity;
+import com.example.demo.framework.database.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "awx_notification")
-public class AwxNotificationEntity extends AbstractAggregateEntity {
+public class AwxNotificationEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "awx_organization_id", nullable = false)

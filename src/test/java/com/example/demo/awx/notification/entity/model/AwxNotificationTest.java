@@ -3,20 +3,16 @@ package com.example.demo.awx.notification.entity.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class AwxNotificationTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxNotification model = AwxNotification.builder()
-                .id(id)
+                .id("id")
                 .build();
 
-        Assertions.assertEquals(id, model.getId());
+        Assertions.assertEquals("id", model.getId());
     }
 
     @Test
@@ -74,7 +70,7 @@ public class AwxNotificationTest {
 
         AwxNotification model = model();
 
-        String expected = "AwxNotification(id=d77d385a-e625-42a4-8422-3bca6e8e2193, awxId=1, name=name, description=description, type=type, webhookCallbackUrl=url)";
+        String expected = "AwxNotification(id=id, awxId=1, name=name, description=description, type=type, webhookCallbackUrl=url)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -84,7 +80,7 @@ public class AwxNotificationTest {
 
         AwxNotification model = model();
 
-        Assertions.assertEquals(-825898731, model.hashCode());
+        Assertions.assertEquals(479243337, model.hashCode());
     }
 
     @Test
@@ -107,7 +103,7 @@ public class AwxNotificationTest {
     private AwxNotification model() {
 
         return AwxNotification.builder()
-                .id(UUID.fromString("d77d385a-e625-42a4-8422-3bca6e8e2193"))
+                .id("id")
                 .awxId(1L)
                 .name("name")
                 .description("description")

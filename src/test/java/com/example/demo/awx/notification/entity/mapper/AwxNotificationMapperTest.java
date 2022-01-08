@@ -24,14 +24,12 @@ public class AwxNotificationMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxNotificationEntity entity = new AwxNotificationEntity();
-        entity.setId(id);
+        entity.setId("id");
 
         AwxNotification awxNotification = AwxNotificationMapper.map(entity);
 
-        Assertions.assertEquals(id, awxNotification.getId());
+        Assertions.assertEquals("id", awxNotification.getId());
     }
 
     @Test

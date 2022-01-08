@@ -1,4 +1,4 @@
-package com.example.demo.awx.notification.aggregate.event;
+package com.example.demo.awx.notification.service.model;
 
 import lombok.Builder;
 import lombok.Value;
@@ -7,9 +7,8 @@ import java.util.UUID;
 
 @Value
 @Builder(builderClassName = "Builder")
-public class AwxNotificationCreatedEvent {
+public class AwxNotificationCreateRequest {
 
-    UUID id;
     UUID awxOrganizationId;
     Long awxId;
     String name;
