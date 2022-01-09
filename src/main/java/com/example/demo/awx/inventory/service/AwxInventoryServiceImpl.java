@@ -29,7 +29,7 @@ public class AwxInventoryServiceImpl implements AwxInventoryService {
         //TODO: replace with service / repository call
         AwxOrganizationEntity organizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(request.getAwxOrganizationId().toString()))
+                .where(qAwxOrganization.id.eq(request.getAwxOrganizationId()))
                 .fetchOne();
 
         AwxInventoryEntity entity = new AwxInventoryEntity();

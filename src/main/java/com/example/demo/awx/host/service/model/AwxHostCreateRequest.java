@@ -9,7 +9,7 @@ import java.util.UUID;
 @Builder(builderClassName = "Builder")
 public class AwxHostCreateRequest {
 
-    UUID awxInventoryId;
+    String awxInventoryId;
     UUID instanceId;
     Long awxId;
     String hostname;

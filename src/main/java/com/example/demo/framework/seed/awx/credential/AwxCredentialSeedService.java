@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -46,7 +45,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
 
         List<AwxConfig.Credential> credentials = awxConfig.getCredentials();
         List<AwxCredentialApi> credentialApis = credentialFeignService.getCredentials().getResults();
-        UUID organizationId = getOrganizationId();
+        String organizationId = getOrganizationId();
 
         for(AwxConfig.Credential credential : credentials) {
 
@@ -101,7 +100,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
         return credentialFeignService.createCredential(createCredentialApiRequest(credential));
     }
 
-    private Object createAwxCredential(AwxCredentialApi credentialApi, AwxConfig.Credential credential, UUID organizationId) {
+    private Object createAwxCredential(AwxCredentialApi credentialApi, AwxConfig.Credential credential, String organizationId) {
 
         AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
                 .awxOrganizationId(organizationId)
@@ -116,7 +115,7 @@ public class AwxCredentialSeedService implements SeedService<Object> {
         return awxCredentialService.handleCreated(request);
     }
 
-    private UUID getOrganizationId() throws ExecutionException, InterruptedException {
+    private String getOrganizationId() throws ExecutionException, InterruptedException {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxConfig.getOrganization().getId());
         FetchAwxOrganizationIdByAwxIdResponse response = queryGateway.query(query, FetchAwxOrganizationIdByAwxIdResponse.class).get();

@@ -1,6 +1,7 @@
 package com.example.demo.framework.seed.awx.organization;
 
 import com.example.demo.awx.feign.ListResponse;
+import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.awx.organization.feign.OrganizationFeignService;
 import com.example.demo.awx.organization.feign.model.OrganizationApi;
 import com.example.demo.framework.seed.awx.organization.projection.model.ExistsAnyAwxOrganizationQuery;
@@ -92,7 +93,7 @@ public class AwxOrganizationSeedServiceTest {
 
         Mockito.when(organizationFeignService.getOrganizations()).thenReturn(clientResponse);
 
-        ImmutableList<Object> organizations = awxOrganizationSeedService.initializeData();
+        ImmutableList<AwxOrganization> organizations = awxOrganizationSeedService.initializeData();
 
         Assertions.assertEquals(1, organizations.size());
     }

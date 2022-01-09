@@ -13,9 +13,9 @@ import com.example.demo.awx.inventory.service.model.AwxInventoryCreateRequest;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
 import com.example.demo.awx.notification.service.AwxNotificationService;
 import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
-import com.example.demo.awx.organization.aggregate.event.AwxOrganizationCreatedEvent;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
-import com.example.demo.awx.organization.entity.service.AwxOrganizationService;
+import com.example.demo.awx.organization.service.AwxOrganizationService;
+import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
 import com.example.demo.awx.playbook.aggregate.event.AwxPlaybookCreatedEvent;
 import com.example.demo.awx.playbook.entity.PlaybookType;
 import com.example.demo.awx.playbook.entity.model.AwxPlaybook;
@@ -607,14 +607,13 @@ public class SampleBuilder {
 
     private AwxOrganization createDefaultAwxOrganization() {
 
-        AwxOrganizationCreatedEvent event = AwxOrganizationCreatedEvent.builder()
-                .id(UUID.randomUUID())
+        AwxOrganizationCreateRequest request = AwxOrganizationCreateRequest.builder()
                 .awxId(1L)
                 .name("Game Hosting Service")
                 .description("organization description")
                 .build();
 
-        return awxOrganizationService.handleCreated(event);
+        return awxOrganizationService.handleCreate(request);
     }
 
     private AwxCredential createDefaultAwxCredential() {
@@ -654,7 +653,7 @@ public class SampleBuilder {
 
         AwxProjectCreatedEvent event = AwxProjectCreatedEvent.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId(awxOrganization.getId())
+                .awxOrganizationId(UUID.fromString(awxOrganization.getId()))
                 .awxCredentialId(awxCredential.getId())
                 .awxId(1L)
                 .name("Game Hosting Project")
@@ -699,7 +698,7 @@ public class SampleBuilder {
         if(instance == null) instance = createDefaultInstance();
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(awxInventory.getId()))
+                .awxInventoryId(awxInventory.getId())
                 .instanceId(instance.getId())
                 .awxId(1L)
                 .hostname("hostname")

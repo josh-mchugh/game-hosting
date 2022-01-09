@@ -29,7 +29,7 @@ public class AwxNotificationServiceImpl implements AwxNotificationService {
         //TODO: replace with service / repository call
         AwxOrganizationEntity awxOrganizationEntity = queryFactory.select(qAwxOrganization)
                 .from(qAwxOrganization)
-                .where(qAwxOrganization.id.eq(request.getAwxOrganizationId().toString()))
+                .where(qAwxOrganization.id.eq(request.getAwxOrganizationId()))
                 .fetchOne();
 
         AwxNotificationEntity entity = new AwxNotificationEntity();

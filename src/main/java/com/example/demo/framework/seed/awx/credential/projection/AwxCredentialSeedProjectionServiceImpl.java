@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 @RequiredArgsConstructor
 public class AwxCredentialSeedProjectionServiceImpl implements AwxCredentialSeedProjectionService {
@@ -43,6 +41,6 @@ public class AwxCredentialSeedProjectionServiceImpl implements AwxCredentialSeed
                 .where(qAwxOrganization.awxId.eq(query.getAwxId()))
                 .fetchOne();
 
-        return new FetchAwxOrganizationIdByAwxIdResponse(id != null ? UUID.fromString(id) : null);
+        return new FetchAwxOrganizationIdByAwxIdResponse(id);
     }
 }

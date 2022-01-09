@@ -64,7 +64,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
 
             AwxCredentialProjection awxCredentialProjection = getAwxCredentialProjection(awxConfig.getProject().getCredentialName());
 
-            UUID awxOrganizationId = getAwxOrganizationId(projectApi.get().getOrganizationId());
+            String awxOrganizationId = getAwxOrganizationId(projectApi.get().getOrganizationId());
 
             AwxProjectCreateCommand createCommand = createAwxProjectRequest(awxCredentialProjection.getId(), projectApi.get(), awxOrganizationId);
             UUID awxProjectId = commandGateway.sendAndWait(createCommand);
@@ -94,7 +94,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
         // Create Project in AWX
         ProjectApi api = createProjectApi(awxCredentialProjection.getAwxId());
 
-        UUID awxOrganizationId = getAwxOrganizationId(api.getOrganizationId());
+        String awxOrganizationId = getAwxOrganizationId(api.getOrganizationId());
 
         // Persist AwxProject
         AwxProjectCreateCommand projectCreateCommand = createAwxProjectRequest(awxCredentialProjection.getId(), api, awxOrganizationId);
@@ -140,11 +140,11 @@ public class AwxProjectSeedService implements SeedService<Object> {
         return response.getProjection();
     }
 
-    private AwxProjectCreateCommand createAwxProjectRequest(String awxCredentialId, ProjectApi projectApi, UUID awxOrganizationId) {
+    private AwxProjectCreateCommand createAwxProjectRequest(String awxCredentialId, ProjectApi projectApi, String awxOrganizationId) {
 
         return AwxProjectCreateCommand.builder()
                 .id(UUID.randomUUID())
-                .awxOrganizationId(awxOrganizationId)
+                .awxOrganizationId(UUID.fromString(awxOrganizationId))
                 .awxCredentialId(awxCredentialId)
                 .awxId(projectApi.getId())
                 .name(projectApi.getName())
@@ -174,7 +174,7 @@ public class AwxProjectSeedService implements SeedService<Object> {
                 .build();
     }
 
-    private UUID getAwxOrganizationId(Long organizationId) throws ExecutionException, InterruptedException {
+    private String getAwxOrganizationId(Long organizationId) throws ExecutionException, InterruptedException {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(organizationId);
         FetchAwxOrganizationIdByAwxIdResponse response = queryGateway.query(query, FetchAwxOrganizationIdByAwxIdResponse.class).get();

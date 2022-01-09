@@ -3,18 +3,14 @@ package com.example.demo.framework.seed.awx.inventory.projection.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class FetchAwxOrganizationIdByAwxIdResponseTest {
 
     @Test
     public void whenModelHasAwxIdThenReturnAwxId() {
 
-        UUID id = UUID.randomUUID();
+        FetchAwxOrganizationIdByAwxIdResponse query = new FetchAwxOrganizationIdByAwxIdResponse("id");
 
-        FetchAwxOrganizationIdByAwxIdResponse query = new FetchAwxOrganizationIdByAwxIdResponse(id);
-
-        Assertions.assertEquals(id, query.getId());
+        Assertions.assertEquals("id", query.getId());
     }
 
     @Test
@@ -22,7 +18,7 @@ public class FetchAwxOrganizationIdByAwxIdResponseTest {
 
         FetchAwxOrganizationIdByAwxIdResponse model = model();
 
-        String expected = "FetchAwxOrganizationIdByAwxIdResponse(id=9e2e3a49-de4e-4335-ba5b-89ef7450c7f1)";
+        String expected = "FetchAwxOrganizationIdByAwxIdResponse(id=id)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -32,7 +28,7 @@ public class FetchAwxOrganizationIdByAwxIdResponseTest {
 
         FetchAwxOrganizationIdByAwxIdResponse model = model();
 
-        Assertions.assertEquals(-1905576035, model.hashCode());
+        Assertions.assertEquals(3414, model.hashCode());
     }
 
     @Test
@@ -54,6 +50,6 @@ public class FetchAwxOrganizationIdByAwxIdResponseTest {
 
     private FetchAwxOrganizationIdByAwxIdResponse model() {
 
-        return new FetchAwxOrganizationIdByAwxIdResponse(UUID.fromString("9e2e3a49-de4e-4335-ba5b-89ef7450c7f1"));
+        return new FetchAwxOrganizationIdByAwxIdResponse("id");
     }
 }

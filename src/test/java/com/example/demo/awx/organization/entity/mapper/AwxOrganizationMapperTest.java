@@ -24,14 +24,12 @@ public class AwxOrganizationMapperTest {
     @Test
     public void whenEntityHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxOrganizationEntity entity = new AwxOrganizationEntity();
-        entity.setId(id);
+        entity.setId("id");
 
         AwxOrganization awxOrganization = AwxOrganizationMapper.map(entity);
 
-        Assertions.assertEquals(id, awxOrganization.getId());
+        Assertions.assertEquals("id", awxOrganization.getId());
     }
 
     @Test
