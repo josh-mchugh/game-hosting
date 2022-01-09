@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -49,7 +48,7 @@ public class AwxHostServiceEnabledTest {
     public void whenEntityEnabledIsFalseThenReturnEnabledTrue() {
 
         AwxHostCreateRequest createRequest = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -69,7 +68,7 @@ public class AwxHostServiceEnabledTest {
     public void whenEntityEnabledIsTrueThenReturnEnabledTrue() {
 
         AwxHostCreateRequest createRequest = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")

@@ -3,20 +3,16 @@ package com.example.demo.awx.inventory.service.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class AwxInventoryCreateRequestTest {
 
     @Test
     public void whenModelHasAwxOrganizationIdThenReturnAwxOrganizationId() {
 
-        UUID awxOrganizationId = UUID.randomUUID();
-
         AwxInventoryCreateRequest model = AwxInventoryCreateRequest.builder()
-                .awxOrganizationId(awxOrganizationId)
+                .awxOrganizationId("awxOrganizationId")
                 .build();
 
-        Assertions.assertEquals(awxOrganizationId, model.getAwxOrganizationId());
+        Assertions.assertEquals("awxOrganizationId", model.getAwxOrganizationId());
     }
 
     @Test
@@ -54,7 +50,7 @@ public class AwxInventoryCreateRequestTest {
 
         AwxInventoryCreateRequest model = model();
 
-        String expected = "AwxInventoryCreateRequest(awxOrganizationId=a1c2251e-411e-44f8-a035-7d317a81ca97, awxId=1, name=name, description=description)";
+        String expected = "AwxInventoryCreateRequest(awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -64,7 +60,7 @@ public class AwxInventoryCreateRequestTest {
 
         AwxInventoryCreateRequest model = model();
 
-        Assertions.assertEquals(-514320903, model.hashCode());
+        Assertions.assertEquals(-249924983, model.hashCode());
     }
 
     @Test
@@ -87,7 +83,7 @@ public class AwxInventoryCreateRequestTest {
     private AwxInventoryCreateRequest model() {
 
         return AwxInventoryCreateRequest.builder()
-                .awxOrganizationId(UUID.fromString("a1c2251e-411e-44f8-a035-7d317a81ca97"))
+                .awxOrganizationId("awxOrganizationId")
                 .awxId(1L)
                 .name("name")
                 .description("description")

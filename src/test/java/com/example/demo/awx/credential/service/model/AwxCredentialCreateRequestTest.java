@@ -4,20 +4,16 @@ import com.example.demo.awx.credential.entity.AwxCredentialType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class AwxCredentialCreateRequestTest {
 
     @Test
     public void whenRequestHasOrganizationIdThenReturnOrganizationId() {
 
-        UUID awxOrganizationId = UUID.randomUUID();
-
         AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
-                .awxOrganizationId(awxOrganizationId)
+                .awxOrganizationId("awxOrganizationId")
                 .build();
 
-        Assertions.assertEquals(awxOrganizationId, request.getAwxOrganizationId());
+        Assertions.assertEquals("awxOrganizationId", request.getAwxOrganizationId());
     }
 
     @Test
@@ -85,7 +81,7 @@ public class AwxCredentialCreateRequestTest {
 
         AwxCredentialCreateRequest request = request();
 
-        String expected = "AwxCredentialCreateRequest(awxOrganizationId=4d5d2786-4755-447f-9816-2f5fdb7d557a, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
+        String expected = "AwxCredentialCreateRequest(awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description, privateKey=privateKey, passphrase=passPhrase, type=MACHINE)";
 
         Assertions.assertEquals(expected, request.toString());
     }
@@ -94,7 +90,7 @@ public class AwxCredentialCreateRequestTest {
     public void whenRequestHashCode() {
 
         AwxCredentialCreateRequest request = AwxCredentialCreateRequest.builder()
-                .awxOrganizationId(UUID.fromString("4d5d2786-4755-447f-9816-2f5fdb7d557a"))
+                .awxOrganizationId("awxOrganizationId")
                 .awxId(1L)
                 .name("name")
                 .description("description")
@@ -102,7 +98,7 @@ public class AwxCredentialCreateRequestTest {
                 .passphrase("passPhrase")
                 .build();
 
-        Assertions.assertEquals(551935540, request.hashCode());
+        Assertions.assertEquals(-1048431568, request.hashCode());
     }
 
     @Test
@@ -125,7 +121,7 @@ public class AwxCredentialCreateRequestTest {
     private AwxCredentialCreateRequest request() {
 
         return AwxCredentialCreateRequest.builder()
-                .awxOrganizationId(UUID.fromString("4d5d2786-4755-447f-9816-2f5fdb7d557a"))
+                .awxOrganizationId("awxOrganizationId")
                 .awxId(1L)
                 .name("name")
                 .description("description")

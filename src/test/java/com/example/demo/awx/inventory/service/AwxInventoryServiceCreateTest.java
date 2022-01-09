@@ -80,7 +80,7 @@ public class AwxInventoryServiceCreateTest {
                 .description("description")
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxInventoryService.handleCreate(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> awxInventoryService.handleCreate(request));
     }
 
     @Test

@@ -3,20 +3,16 @@ package com.example.demo.awx.notification.service.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class AwxNotificationCreateRequestTest {
 
     @Test
     public void whenModelHasAwxOrganizationIdThenReturnAwxOrganizationId() {
 
-        UUID awxOrganizationUId = UUID.randomUUID();
-
         AwxNotificationCreateRequest model = AwxNotificationCreateRequest.builder()
-                .awxOrganizationId(awxOrganizationUId)
+                .awxOrganizationId("awxOrganizationId")
                 .build();
 
-        Assertions.assertEquals(awxOrganizationUId, model.getAwxOrganizationId());
+        Assertions.assertEquals("awxOrganizationId", model.getAwxOrganizationId());
     }
 
     @Test
@@ -74,7 +70,7 @@ public class AwxNotificationCreateRequestTest {
 
         AwxNotificationCreateRequest model = model();
 
-        String expected = "AwxNotificationCreateRequest(awxOrganizationId=e8575c27-5368-4782-9b41-e94081471d22, awxId=1, name=name, description=description, type=type, webhookCallBackUrl=url)";
+        String expected = "AwxNotificationCreateRequest(awxOrganizationId=awxOrganizationId, awxId=1, name=name, description=description, type=type, webhookCallBackUrl=url)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -84,7 +80,7 @@ public class AwxNotificationCreateRequestTest {
 
         AwxNotificationCreateRequest model = model();
 
-        Assertions.assertEquals(-92170699, model.hashCode());
+        Assertions.assertEquals(2100572334, model.hashCode());
     }
 
     @Test
@@ -107,7 +103,7 @@ public class AwxNotificationCreateRequestTest {
     private AwxNotificationCreateRequest model() {
 
         return AwxNotificationCreateRequest.builder()
-                .awxOrganizationId(UUID.fromString("e8575c27-5368-4782-9b41-e94081471d22"))
+                .awxOrganizationId("awxOrganizationId")
                 .awxId(1L)
                 .name("name")
                 .description("description")

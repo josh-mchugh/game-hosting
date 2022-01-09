@@ -19,7 +19,6 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -92,7 +91,7 @@ public class AwxInventorySeedService implements SeedService<String> {
 
     private AwxInventory createAwxInventory(InventoryApi inventoryApi) throws ExecutionException, InterruptedException {
 
-        UUID awxOrganizationId = fetchAwxOrganizationIdByAwxId(inventoryApi.getOrganizationId());
+        String awxOrganizationId = fetchAwxOrganizationIdByAwxId(inventoryApi.getOrganizationId());
 
         AwxInventoryCreateRequest request = AwxInventoryCreateRequest.builder()
                 .awxOrganizationId(awxOrganizationId)
@@ -104,7 +103,7 @@ public class AwxInventorySeedService implements SeedService<String> {
         return awxInventoryService.handleCreate(request);
     }
 
-    private UUID fetchAwxOrganizationIdByAwxId(Long awxId) throws ExecutionException, InterruptedException {
+    private String fetchAwxOrganizationIdByAwxId(Long awxId) throws ExecutionException, InterruptedException {
 
         FetchAwxOrganizationIdByAwxIdQuery query = new FetchAwxOrganizationIdByAwxIdQuery(awxId);
         FetchAwxOrganizationIdByAwxIdResponse response = queryGateway.query(query, FetchAwxOrganizationIdByAwxIdResponse.class).get();

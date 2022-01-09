@@ -13,7 +13,6 @@ import com.example.demo.ovh.instance.entity.InstanceEntity;
 import com.example.demo.ovh.instance.entity.QInstanceEntity;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -36,7 +35,7 @@ public class AwxHostServiceImpl implements AwxHostService {
         //TODO: replace with service / repository call
         AwxInventoryEntity awxInventoryEntity = queryFactory.select(qAwxInventory)
                 .from(qAwxInventory)
-                .where(qAwxInventory.id.eq(request.getAwxInventoryId().toString()))
+                .where(qAwxInventory.id.eq(request.getAwxInventoryId()))
                 .fetchOne();
 
         //TODO: replace with service / repository call

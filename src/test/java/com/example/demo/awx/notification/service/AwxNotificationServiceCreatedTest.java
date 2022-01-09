@@ -1,7 +1,7 @@
 package com.example.demo.awx.notification.service;
 
-import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.notification.entity.model.AwxNotification;
+import com.example.demo.awx.notification.service.model.AwxNotificationCreateRequest;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
 import com.example.demo.sample.SampleBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -89,14 +88,14 @@ public class AwxNotificationServiceCreatedTest {
                 .webhookCallBackUrl("callback url")
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxNotificationService.handleCreated(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> awxNotificationService.handleCreated(request));
     }
 
     @Test
     public void whenCreateRequestHasInvalidAwxOrganizationIdThenThrowException() {
 
         AwxNotificationCreateRequest request = AwxNotificationCreateRequest.builder()
-                .awxOrganizationId(UUID.randomUUID())
+                .awxOrganizationId("invalidId")
                 .awxId(1L)
                 .name("name")
                 .description("description")

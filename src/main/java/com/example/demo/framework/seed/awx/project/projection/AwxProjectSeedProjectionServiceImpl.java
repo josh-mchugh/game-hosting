@@ -66,6 +66,6 @@ public class AwxProjectSeedProjectionServiceImpl implements AwxProjectSeedProjec
                 .where(qAwxOrganization.awxId.eq(query.getAwxId()))
                 .fetchOne();
 
-        return new FetchAwxOrganizationIdByAwxIdResponse(id != null ? UUID.fromString(id) : null);
+        return new FetchAwxOrganizationIdByAwxIdResponse(id);
     }
 }

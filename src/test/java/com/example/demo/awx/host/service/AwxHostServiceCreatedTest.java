@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -56,7 +55,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedIsValidThenReturnNotNull() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -73,7 +72,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedIsValidThenReturnId() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -93,14 +92,14 @@ public class AwxHostServiceCreatedTest {
                 .awxInventoryId(null)
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxHostService.handleCreate(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> awxHostService.handleCreate(request));
     }
 
     @Test
     public void whenCreatedHasNullInstanceIdThenThrowException() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(null)
                 .build();
 
@@ -111,7 +110,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasAwxIdThenReturnAwxId() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -128,7 +127,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasNullHostIdThenReturnThrowException() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(null)
                 .build();
@@ -140,7 +139,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasHostnameThenReturnHostName() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -157,7 +156,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasNullHostnameThenThrowException() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname(null)
@@ -170,7 +169,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasDescriptionThenReturnDescription() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -187,7 +186,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasNullDescriptionThenReturnNull() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -204,7 +203,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasEnabledTrueThenReturnTrue() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -221,7 +220,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasEnabledFalseThenReturnFalse() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")
@@ -238,7 +237,7 @@ public class AwxHostServiceCreatedTest {
     public void whenCreatedHasNullEnabledThenThrowException() {
 
         AwxHostCreateRequest request = AwxHostCreateRequest.builder()
-                .awxInventoryId(UUID.fromString(data.getAwxInventory().getId()))
+                .awxInventoryId(data.getAwxInventory().getId())
                 .instanceId(data.getInstance().getId())
                 .awxId(1L)
                 .hostname("hostname")

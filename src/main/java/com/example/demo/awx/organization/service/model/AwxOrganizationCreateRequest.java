@@ -1,15 +1,12 @@
-package com.example.demo.awx.organization.aggregate.event;
+package com.example.demo.awx.organization.service.model;
 
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.UUID;
-
 @Value
 @Builder(builderClassName = "Builder")
-public class AwxOrganizationCreatedEvent {
+public class AwxOrganizationCreateRequest {
 
-    UUID id;
     Long awxId;
     String name;
     String description;

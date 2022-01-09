@@ -138,7 +138,7 @@ public class AwxCredentialServiceCreatedTest {
                 .type(AwxCredentialType.MACHINE)
                 .build();
 
-        Assertions.assertThrows(NullPointerException.class, () -> awxCredentialService.handleCreated(request));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> awxCredentialService.handleCreated(request));
     }
 
     @Test

@@ -1,11 +1,10 @@
-package com.example.demo.awx.organization.entity.service;
+package com.example.demo.awx.organization.service;
 
-import com.example.demo.awx.organization.aggregate.event.AwxOrganizationCreatedEvent;
 import com.example.demo.awx.organization.entity.AwxOrganizationEntity;
 import com.example.demo.awx.organization.entity.mapper.AwxOrganizationMapper;
 import com.example.demo.awx.organization.entity.model.AwxOrganization;
+import com.example.demo.awx.organization.service.model.AwxOrganizationCreateRequest;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -19,14 +18,12 @@ public class AwxOrganizationServiceImpl implements AwxOrganizationService {
     private final EntityManager entityManager;
 
     @Override
-    @EventHandler
-    public AwxOrganization handleCreated(AwxOrganizationCreatedEvent event) {
+    public AwxOrganization handleCreate(AwxOrganizationCreateRequest request) {
 
         AwxOrganizationEntity entity = new AwxOrganizationEntity();
-        entity.setId(event.getId());
-        entity.setAwxId(event.getAwxId());
-        entity.setName(event.getName());
-        entity.setDescription(event.getDescription());
+        entity.setAwxId(request.getAwxId());
+        entity.setName(request.getName());
+        entity.setDescription(request.getDescription());
 
         entityManager.persist(entity);
 

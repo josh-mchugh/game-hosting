@@ -3,20 +3,16 @@ package com.example.demo.awx.organization.entity.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 public class AwxOrganizationTest {
 
     @Test
     public void whenModelHasIdThenReturnId() {
 
-        UUID id = UUID.randomUUID();
-
         AwxOrganization model = AwxOrganization.builder()
-                .id(id)
+                .id("id")
                 .build();
 
-        Assertions.assertEquals(id, model.getId());
+        Assertions.assertEquals("id", model.getId());
     }
 
     @Test
@@ -54,7 +50,7 @@ public class AwxOrganizationTest {
 
         AwxOrganization model = model();
 
-        String expected = "AwxOrganization(id=fd94d538-fd3f-422b-8009-2cba3c6e76f2, awxId=1, name=name, description=description)";
+        String expected = "AwxOrganization(id=id, awxId=1, name=name, description=description)";
 
         Assertions.assertEquals(expected, model.toString());
     }
@@ -64,7 +60,7 @@ public class AwxOrganizationTest {
 
         AwxOrganization model = model();
 
-        Assertions.assertEquals(-492624868, model.hashCode());
+        Assertions.assertEquals(-1501495844, model.hashCode());
     }
 
     @Test
@@ -87,7 +83,7 @@ public class AwxOrganizationTest {
     private AwxOrganization model() {
 
         return AwxOrganization.builder()
-                .id(UUID.fromString("fd94d538-fd3f-422b-8009-2cba3c6e76f2"))
+                .id("id")
                 .awxId(1L)
                 .name("name")
                 .description("description")
